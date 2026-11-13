@@ -724,6 +724,7 @@ const IC={
   shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.7-3.2 8.2-7.5 9.5-4.3-1.3-7.5-4.8-7.5-9.5V6z"/><path d="M9 12l2 2 4-4"/></svg>',
   save:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19h14"/></svg>',
   phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>',
+  share:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1"/></svg>',
   stop:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2.2"/></svg>',
   check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
 };
@@ -2493,35 +2494,36 @@ const AMB_SRC={
   city:['gezortenplotz','https://freesound.org/people/gezortenplotz/sounds/44796/','CC BY']};
 const EVT={y:'Studienlage gemischt',r:'kaum belegt',g:'gut belegt'};
 const AMB={defs:{
-    rain:{g:'nat',kind:'rec',name:'Regen',sub:'gleichmäßiger Regen',v:.95},
-    storm:{g:'nat',kind:'rec',name:'Gewitter',sub:'Regen mit Donner',v:.8},
-    waves:{g:'nat',kind:'rec',name:'Meereswellen',sub:'Brandung am Strand',v:.9},
-    stream:{g:'nat',kind:'rec',name:'Bach',sub:'plätscherndes Wasser',v:.85},
-    wind:{g:'nat',kind:'rec',name:'Wind',sub:'Böen draußen',v:.8},
-    fire:{g:'nat',kind:'rec',name:'Kaminfeuer',sub:'Knistern und Glut',v:1.2},
-    birds:{g:'nat',kind:'rec',name:'Vögel',sub:'Gezwitscher im Grünen',v:.8},
-    crickets:{g:'nat',kind:'rec',name:'Grillen',sub:'Sommernacht',v:.7},
-    purr:{g:'nat',kind:'rec',name:'Katzenschnurren',sub:'ruhig und nah',v:.9},
-    cafe:{g:'nat',kind:'rec',name:'Café',sub:'Stimmengewirr im Lokal',v:.7},
-    train:{g:'nat',kind:'rec',name:'Zug',sub:'gleichmäßiges Rattern',v:.8},
-    boat:{g:'nat',kind:'rec',name:'Boot',sub:'auf dem Wasser',v:.95},
-    city:{g:'nat',kind:'rec',name:'Stadt',sub:'Stadt im Hintergrund',v:.75},
-    white:{g:'noise',kind:'noise',sh:'white',name:'Weißes Rauschen',sub:'zischt wie ein Radio ohne Sender · übertönt Störgeräusche',v:.55},
-    pink:{g:'noise',kind:'noise',sh:'pink',name:'Rosa Rauschen',sub:'weicher, wie gleichmäßiger Regen · beliebt zum Einschlafen',v:.7},
-    brown:{g:'noise',kind:'noise',sh:'brown',name:'Braunes Rauschen',sub:'tief, wie Brandung aus der Ferne · beliebt zum Entspannen',v:.65},
-    grey:{g:'noise',kind:'noise',sh:'grey',name:'Graues Rauschen',sub:'ans Gehör angepasst, klingt in allen Tonlagen gleich laut',v:.7},
-    green:{g:'noise',kind:'noise',sh:'green',name:'Grünes Rauschen',sub:'Schwerpunkt in der Mitte, wie ein Wasserfall · kein Fachbegriff',v:.75},
-    blue:{g:'noise',kind:'noise',sh:'blue',name:'Blaues Rauschen',sub:'hell und spitz · selten zum Entspannen genutzt',v:.4},
-    violet:{g:'noise',kind:'noise',sh:'violet',name:'Violettes Rauschen',sub:'sehr hell und scharf · für die meisten unangenehm',v:.3},
-    bin_d:{g:'tone',kind:'bin',car:200,beat:2.5,ev:'y',name:'Binaural Delta (2,5 Hz)',sub:'Kopfhörer nötig · zum Einschlafen gedacht',v:.8},
-    bin_t:{g:'tone',kind:'bin',car:200,beat:6,ev:'y',name:'Binaural Theta (6 Hz)',sub:'Kopfhörer nötig · für tiefe Entspannung gedacht',v:.8},
-    bin_a:{g:'tone',kind:'bin',car:200,beat:10,ev:'y',name:'Binaural Alpha (10 Hz)',sub:'Kopfhörer nötig · für ruhige Wachheit gedacht',v:.8},
-    d432:{g:'tone',kind:'drone',f0:432,ev:'r',name:'432-Hz-Klangfläche',sub:'sanfter Akkord auf 432 Hz',v:.8},
-    d528:{g:'tone',kind:'drone',f0:528,ev:'r',name:'528-Hz-Klangfläche',sub:'sanfter Akkord auf 528 Hz',v:.8}},
+    rain:{g:'nat',kind:'rec',name:'Regen',sub:'gleichmäßiger Regen',t:1.79},
+    storm:{g:'nat',kind:'rec',name:'Gewitter',sub:'Regen mit Donner',t:0.8},
+    waves:{g:'nat',kind:'rec',name:'Meereswellen',sub:'Brandung am Strand',t:1.7},
+    stream:{g:'nat',kind:'rec',name:'Bach',sub:'plätscherndes Wasser',t:1.53},
+    wind:{g:'nat',kind:'rec',name:'Wind',sub:'Böen draußen',t:1.41},
+    fire:{g:'nat',kind:'rec',name:'Kaminfeuer',sub:'Knistern und Glut',t:3.27},
+    birds:{g:'nat',kind:'rec',name:'Vögel',sub:'Gezwitscher im Grünen',t:3.18},
+    crickets:{g:'nat',kind:'rec',name:'Grillen',sub:'Sommernacht',t:0.99},
+    purr:{g:'nat',kind:'rec',name:'Katzenschnurren',sub:'ruhig und nah',t:1.02},
+    cafe:{g:'nat',kind:'rec',name:'Café',sub:'Stimmengewirr im Lokal',t:0.79},
+    train:{g:'nat',kind:'rec',name:'Zug',sub:'gleichmäßiges Rattern',t:0.93},
+    boat:{g:'nat',kind:'rec',name:'Boot',sub:'auf dem Wasser',t:1.28},
+    city:{g:'nat',kind:'rec',name:'Stadt',sub:'Stadt im Hintergrund',t:0.96},
+    white:{g:'noise',kind:'noise',sh:'white',name:'Weißes Rauschen',sub:'zischt wie ein Radio ohne Sender · übertönt Störgeräusche',t:0.78},
+    pink:{g:'noise',kind:'noise',sh:'pink',name:'Rosa Rauschen',sub:'weicher, wie gleichmäßiger Regen · beliebt zum Einschlafen',t:0.99},
+    brown:{g:'noise',kind:'noise',sh:'brown',name:'Braunes Rauschen',sub:'tief, wie Brandung aus der Ferne · beliebt zum Entspannen',t:1.5},
+    grey:{g:'noise',kind:'noise',sh:'grey',name:'Graues Rauschen',sub:'ans Gehör angepasst, klingt in allen Tonlagen gleich laut',t:0.99},
+    green:{g:'noise',kind:'noise',sh:'green',name:'Grünes Rauschen',sub:'Schwerpunkt in der Mitte, wie ein Wasserfall · kein Fachbegriff',t:1.06},
+    blue:{g:'noise',kind:'noise',sh:'blue',name:'Blaues Rauschen',sub:'hell und spitz · selten zum Entspannen genutzt',t:0.56},
+    violet:{g:'noise',kind:'noise',sh:'violet',name:'Violettes Rauschen',sub:'sehr hell und scharf · für die meisten unangenehm',t:0.42},
+    bin_d:{g:'tone',kind:'bin',car:400,beat:2.5,ev:'y',name:'Binaural Delta (2,5 Hz)',sub:'Kopfhörer nötig · zum Einschlafen gedacht',t:1.32},
+    bin_t:{g:'tone',kind:'bin',car:400,beat:6,ev:'y',name:'Binaural Theta (6 Hz)',sub:'Kopfhörer nötig · für tiefe Entspannung gedacht',t:1.32},
+    bin_a:{g:'tone',kind:'bin',car:400,beat:10,ev:'y',name:'Binaural Alpha (10 Hz)',sub:'Kopfhörer nötig · für ruhige Wachheit gedacht',t:1.32},
+    d432:{g:'tone',kind:'drone',f0:432,ev:'r',name:'432-Hz-Klangfläche',sub:'sanfter Akkord auf 432 Hz',t:2.43},
+    d528:{g:'tone',kind:'drone',f0:528,ev:'r',name:'528-Hz-Klangfläche',sub:'sanfter Akkord auf 528 Hz',t:2.07}},
   sel:{},vol:{},live:{},buf:{},fading:false,
   single(g){return g!=='nat';},
   list(g){return Object.keys(this.defs).filter(k=>this.sel[k]&&(!g||this.defs[k].g===g));},
-  volOf(k){return this.vol[k]!=null?this.vol[k]:this.defs[k].v;},
+  volOf(k){return this.vol[k]!=null?this.vol[k]:1;},
+  gainOf(k){return this.volOf(k)*(this.defs[k].t||1);},
   ensure(){if(!audioInit())return false;const c=AU.ctx;if(!AU.amb){AU.amb=c.createGain();AU.amb.gain.value=0;AU.amb.connect(AU.master);}return true;},
   master(tc=.4){if(AU.amb)AU.amb.gain.setTargetAtTime(this.fading?0:S.avol*.9,AU.ctx.currentTime,tc);},
   getBuf(k){
@@ -2534,8 +2536,8 @@ const AMB={defs:{
   start(k){
     if(!this.ensure()||this.live[k])return;
     const d=this.defs[k],c=AU.ctx,now=c.currentTime,g=c.createGain();g.gain.setValueAtTime(0,now);g.connect(AU.amb);
-    const L={g,srcs:[]};this.live[k]=L;
-    const fadeIn=()=>{const t=c.currentTime;g.gain.cancelScheduledValues(t);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(this.volOf(k),t+1.5);};
+    const L={g,srcs:[]};this.live[k]=L;this.master();
+    const fadeIn=()=>{const t=c.currentTime;g.gain.cancelScheduledValues(t);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(this.gainOf(k),t+1.5);};
     if(d.kind==='rec'||d.kind==='noise'){
       this.getBuf(k).then(b=>{if(this.live[k]!==L||!b)return;const sr=c.createBufferSource();sr.buffer=b;sr.loop=true;const tr=b._trim||[0,b.duration];
         sr.loopStart=tr[0];sr.loopEnd=tr[1];sr.connect(g);sr.start(c.currentTime+.03,tr[0]+Math.random()*(tr[1]-tr[0])*.9);L.srcs.push(sr);fadeIn();}).catch(e=>{try{console.warn('Geräusch',k,e);}catch(x){}});
@@ -2553,7 +2555,7 @@ const AMB={defs:{
   startAll(){this.fading=false;for(const k of this.list())this.start(k);this.master();},
   stopAll(fade=.6){for(const k of Object.keys(this.live))this.stop(k,fade);},
   fadeOut(sec){this.fading=true;this.master(sec/4);clearTimeout(this.fadeT);this.fadeT=setTimeout(()=>{this.stopAll(.2);this.fading=false;},sec*1000);},
-  setVol(k,v){this.vol[k]=v;const L=this.live[k];if(L)L.g.gain.setTargetAtTime(v,AU.ctx.currentTime,.15);}
+  setVol(k,v){this.vol[k]=v;const L=this.live[k];if(L)L.g.gain.setTargetAtTime(this.gainOf(k),AU.ctx.currentTime,.15);}
 };
 function decodeEmbedded(k){
   const el=document.getElementById('snd-'+k);if(!el)return Promise.reject(new Error('fehlt'));
@@ -2596,12 +2598,12 @@ function makeNoise(sh){
   return buf;
 }
 function buildDrone(c,f0,dest,L){
-  const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=1400;lp.Q.value=.3;
+  const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2400;lp.Q.value=.3;
   const sw=c.createGain();sw.gain.value=.85;lp.connect(sw);sw.connect(dest);
   const lfo=c.createOscillator();lfo.frequency.value=.07;const lg=c.createGain();lg.gain.value=.15;lfo.connect(lg);lg.connect(sw.gain);lfo.start();L.srcs.push(lfo);
-  const lfo2=c.createOscillator();lfo2.frequency.value=.031;const lg2=c.createGain();lg2.gain.value=380;lfo2.connect(lg2);lg2.connect(lp.frequency);lfo2.start();L.srcs.push(lfo2);
-  [[f0/4,.5],[f0*3/8,.34],[f0/2,.3],[f0*3/4,.16],[f0,.12]].forEach(([f,a],i)=>{for(const dt of [-.12,.12]){
-    const o=c.createOscillator();o.type=i<2?'triangle':'sine';o.frequency.value=f+dt*(1+i*.3);const og=c.createGain();og.gain.value=a*.16;o.connect(og);
+  const lfo2=c.createOscillator();lfo2.frequency.value=.031;const lg2=c.createGain();lg2.gain.value=500;lfo2.connect(lg2);lg2.connect(lp.frequency);lfo2.start();L.srcs.push(lfo2);
+  [[f0/4,.1,'sine'],[f0/2,.34,'triangle'],[f0*3/4,.26,'triangle'],[f0,.22,'sine'],[f0*3/2,.12,'sine'],[f0*2,.07,'sine']].forEach(([f,a,ty],i)=>{for(const dt of [-.12,.12]){
+    const o=c.createOscillator();o.type=ty;o.frequency.value=f+dt*(1+i*.3);const og=c.createGain();og.gain.value=a*.16;o.connect(og);
     let n=og;if(c.createStereoPanner){const p=c.createStereoPanner();p.pan.value=dt<0?-.35:.35;og.connect(p);n=p;}n.connect(lp);o.start();L.srcs.push(o);}});
 }
 function openEvidence(){
@@ -2708,8 +2710,8 @@ function renderMusic(){
         h+=RADIOS.map(x=>mrow('data-mr="'+x.id+'"',MUS.style==='radio:'+x.id,x.name,x.sta+' · '+x.sub)).join('');
       }else if(sec.type==='amb'){
         const EB='<button class="btn" data-evid style="min-height:40px;margin-top:8px;font-size:15px">Studienlage lesen</button>';
-        h+='<div class="mhint">'+(sec.grp==='nat'?'Echte Aufnahmen in Schleife. Mehrere gleichzeitig möglich, jedes mit eigenem Regler.':sec.grp==='noise'?'<span class="ev ev-y"></span>Gut zum Übertönen von Störgeräuschen. Fürs Einschlafen ist die Studienlage schwach, in einer Laborstudie ging mit rosa Rauschen der REM-Schlaf zurück. Leise stellen und den Timer nutzen. Eine Farbe gleichzeitig.'+EB:'Experimentell. Die Punkte zeigen die Studienlage: <span class="ev ev-y"></span>gemischt, <span class="ev ev-r"></span>kaum belegt. Binaurale Beats wirken nur mit Kopfhörern. Ein Klang gleichzeitig.'+EB)+'</div>';
-        h+=Object.keys(AMB.defs).filter(k=>AMB.defs[k].g===sec.grp).map(k=>'<div class="mamb">'+mrow('data-amb="'+k+'"',!!AMB.sel[k],AMB.defs[k].name,AMB.defs[k].sub+(AMB.defs[k].ev?' · <span class="ev ev-'+AMB.defs[k].ev+'"></span>'+EVT[AMB.defs[k].ev]:''),true)+(AMB.sel[k]?'<input type="range" min="0.1" max="1.4" step="0.05" value="'+AMB.volOf(k)+'" data-av="'+k+'" aria-label="Lautstärke '+AMB.defs[k].name+'">':'')+'</div>').join('');
+        h+='<div class="mhint">'+(sec.grp==='nat'?'Echte Aufnahmen in Schleife. Mehrere gleichzeitig möglich, jedes mit eigenem Regler.':sec.grp==='noise'?'<span class="ev ev-y"></span>Gut zum Übertönen von Störgeräuschen. Fürs Einschlafen ist die Studienlage schwach, in einer Laborstudie ging mit rosa Rauschen der REM-Schlaf zurück. Leise stellen und den Timer nutzen. Eine Farbe gleichzeitig.'+EB:'Experimentell. Die Punkte zeigen die Studienlage: <span class="ev ev-y"></span>gemischt, <span class="ev ev-r"></span>kaum belegt. Am besten mit Kopfhörern, binaurale Beats wirken nur damit. Über Handylautsprecher klingen die Klänge dünner. Ein Klang gleichzeitig.'+EB)+'</div>';
+        h+=Object.keys(AMB.defs).filter(k=>AMB.defs[k].g===sec.grp).map(k=>'<div class="mamb">'+mrow('data-amb="'+k+'"',!!AMB.sel[k],AMB.defs[k].name,AMB.defs[k].sub+(AMB.defs[k].ev?' · <span class="ev ev-'+AMB.defs[k].ev+'"></span>'+EVT[AMB.defs[k].ev]:''),true)+(AMB.sel[k]?'<input type="range" min="0.1" max="2" step="0.05" value="'+AMB.volOf(k)+'" data-av="'+k+'" aria-label="Lautstärke '+AMB.defs[k].name+'">':'')+'</div>').join('');
       }else{
         h+='<div class="mhint">Ein aufsteigender Ton heißt einatmen, ein Glöckchen heißt halten, ein absinkender Ton heißt ausatmen. Die ersten zwei Atemzüge werden angesagt.</div>';
         h+=Object.keys(BR_PATS).map(k=>mrow('data-bp="'+k+'"',BR.pat===k,BR_PATS[k].name,BR_PATS[k].sub)).join('');
@@ -3782,8 +3784,8 @@ function ktRender(){
 ['rc-timers','rcl-timers'].forEach(id=>$(id).addEventListener('click',e=>{const b=e.target.closest('[data-kt]');if(b)ktCancel(b.dataset.kt);}));
 
 /* ================= Mehr, Infoseiten, Installieren, Sicherung ================= */
-const APP_VER='1.1';
-const CHANGES={'1.1':['Echte Naturgeräusche: Regen, Gewitter, Wellen, Bach, Wind, Kaminfeuer, Vögel, Grillen, Katzenschnurren, Café, Zug, Boot und Stadt','Sieben Rauschfarben mit Erklärung, wofür sie gedacht sind','Klänge (experimentell): binaurale Beats sowie 432- und 528-Hz-Klangflächen, mit Ampel zur Studienlage','Radio: Ambient Sleeping Pill und Radio Paradise Mellow Mix, SomaFM als Ersatz'],'1.0':['Neuer Name: Wohlzeit – Zeit für dich','Untere Leiste mit Heute, Training, Wohlfühlen, Musik und Mehr','„Heute“ schlägt passend zur Tageszeit etwas vor','Wohlfühlrezepte: Seelenfutter und Kraftfutter, mit Portionsrechner und Küchentimer','Klarere Buttons, Infos ohne Kapseln, eingerückte Unterpunkte','Daten sichern und wiederherstellen unter „Mehr“','Als App auf dem Startbildschirm installierbar']};
+const APP_VER='1.2.1';
+const CHANGES={'1.2.1':['Klänge besser hörbar: binaurale Beats auf 400 Hz angehoben, Klangflächen eine Oktave höher gelegt','Klänge und braunes Rauschen so laut eingestellt, wie Naturgeräusche klingen','Hinweis bei den Klängen: am besten mit Kopfhörern'],'1.2':['Neu unter „Mehr“: Wohlzeit teilen, per WhatsApp oder über das Teilen-Menü, oder den Link kopieren','Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1.1':['Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1':['Echte Naturgeräusche: Regen, Gewitter, Wellen, Bach, Wind, Kaminfeuer, Vögel, Grillen, Katzenschnurren, Café, Zug, Boot und Stadt','Sieben Rauschfarben mit Erklärung, wofür sie gedacht sind','Klänge (experimentell): binaurale Beats sowie 432- und 528-Hz-Klangflächen, mit Ampel zur Studienlage','Radio: Ambient Sleeping Pill und Radio Paradise Mellow Mix, SomaFM als Ersatz'],'1.0':['Neuer Name: Wohlzeit – Zeit für dich','Untere Leiste mit Heute, Training, Wohlfühlen, Musik und Mehr','„Heute“ schlägt passend zur Tageszeit etwas vor','Wohlfühlrezepte: Seelenfutter und Kraftfutter, mit Portionsrechner und Küchentimer','Klarere Buttons, Infos ohne Kapseln, eingerückte Unterpunkte','Daten sichern und wiederherstellen unter „Mehr“','Als App auf dem Startbildschirm installierbar']};
 let instPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();instPrompt=e;if(curView==='v-home')renderHome();else if(curView==='v-more')renderMore();});
 window.addEventListener('appinstalled',()=>{instPrompt=null;LS.set('rr.instHide',1);if(curView==='v-home')renderHome();});
@@ -3796,7 +3798,7 @@ function openPage(eb,title,html,bind){$('pg-eb').textContent=eb;$('pg-title').te
 function confirmBox(t,p,yes,cb){$('cf-t').textContent=t;$('cf-p').textContent=p;$('cf-yes').textContent=yes;const ov=$('ov-confirm');ov.classList.add('on');
   const close=()=>{ov.classList.remove('on');$('cf-yes').onclick=null;$('cf-no').onclick=null;};$('cf-no').onclick=close;$('cf-yes').onclick=()=>{close();cb();};}
 function renderMore(){
-  const rows=[['settings','gear','Einstellungen','Stimme, Ton, Musik je Bereich'],['lib','figure','Alle Übungen','Mit Anleitung und Hintergrund'],['history','chart','Verlauf und Rücken-Check','Serie, Einheiten, Schmerzverlauf'],
+  const rows=[['share','share','Wohlzeit teilen','Link per WhatsApp schicken oder kopieren'],['settings','gear','Einstellungen','Stimme, Ton, Musik je Bereich'],['lib','figure','Alle Übungen','Mit Anleitung und Hintergrund'],['history','chart','Verlauf und Rücken-Check','Serie, Einheiten, Schmerzverlauf'],
     ['safety','shield','Sicher üben','Worauf du achten solltest'],['backup','save','Daten sichern','Sicherung herunterladen oder einlesen']];
   if(!isStandalone())rows.push(['install','phone','App installieren','Mit Symbol auf den Startbildschirm']);
   rows.push(['about','info','Über Wohlzeit','Version '+APP_VER+', Neuigkeiten, Datenschutz']);
@@ -3804,7 +3806,7 @@ function renderMore(){
   $('more-ver').textContent='Wohlzeit – Zeit für dich · Version '+APP_VER;
 }
 $('more-list').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;const m=b.dataset.m;
-  if(m==='settings'){renderSettings();show('v-settings');}else if(m==='lib')openLib();else if(m==='history')openHistory();else if(m==='safety')openSafety();else if(m==='backup')openBackup();else if(m==='install')openInstall();else if(m==='about')openAbout();});
+  if(m==='settings'){renderSettings();show('v-settings');}else if(m==='lib')openLib();else if(m==='history')openHistory();else if(m==='safety')openSafety();else if(m==='backup')openBackup();else if(m==='install')openInstall();else if(m==='about')openAbout();else if(m==='share')openShare();});
 function openHistory(){
   const tot=DATA.sessions.length,lim=Date.now()-30*864e5,l30=DATA.sessions.filter(x=>fromYmd(x.d).getTime()>=lim).length;
   openPage('Mehr','Verlauf und Rücken-Check','<div class="card"><div class="stats"><div class="stat"><b>'+streak()+'</b><span>Tage in Folge</span></div><div class="stat"><b>'+l30+'</b><span>Einheiten in 30 Tagen</span></div><div class="stat"><b>'+tot+'</b><span>Einheiten gesamt</span></div></div></div><div class="card" id="checkcard"></div>',()=>renderCheckCard());
@@ -3842,6 +3844,27 @@ function openBackup(){
       if(!o||o.app!=='Wohlzeit'||!o.data||typeof o.data!=='object'){$('bk-msg').textContent='Das ist keine Wohlzeit-Sicherung.';return;}
       const d=o.date?new Date(o.date).toLocaleDateString('de-DE'):'';
       confirmBox('Sicherung einlesen?','Die Sicherung'+(d?' vom '+d:'')+' ersetzt alle Daten auf diesem Handy. Danach lädt die App neu.','Einlesen',()=>{try{Object.keys(o.data).forEach(k=>{if(k.slice(0,3)==='rr.'&&typeof o.data[k]==='string')localStorage.setItem(k,o.data[k]);});LS.set('rr.welcome',1);location.reload();}catch(e){$('bk-msg').textContent='Einlesen hat nicht geklappt.';}});};rd.readAsText(f);ev.target.value='';});
+  });
+}
+const APP_URL='https://olffarg-dotcom.github.io/wohlzeit/';
+const SHARE_TXT='Wohlzeit – Zeit für dich: kurze Routinen, Training, Entspannung, Musik und Rezepte. Link öffnen und als App installieren:';
+function shareUrl(){try{if(isWeb())return location.origin+location.pathname.replace(/index\.html$/,'');}catch(e){}return APP_URL;}
+function copyText(t){
+  const fb=()=>{try{const ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.cssText='position:fixed;top:-100px;opacity:0';document.body.appendChild(ta);ta.select();ta.setSelectionRange(0,t.length);const ok=document.execCommand('copy');ta.remove();return ok;}catch(e){return false;}};
+  try{if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(t).then(()=>true,()=>fb());}catch(e){}
+  return Promise.resolve(fb());
+}
+function openShare(){
+  const url=shareUrl(),msg=SHARE_TXT+' '+url,canShare=!!navigator.share;
+  openPage('Mehr','Wohlzeit teilen','<p class="muted">Schick Freunden den Link. Sie öffnen ihn im Browser und können Wohlzeit dort als App installieren. Ihre Daten bleiben auf ihrem eigenen Handy.</p>'+
+    '<div class="card"><h3>Nachricht</h3><p class="small" style="margin-top:6px">'+escH(SHARE_TXT)+' <span style="overflow-wrap:anywhere">'+escH(url)+'</span></p></div>'+
+    '<div class="btnrow">'+(canShare?'<button class="btn primary" id="sh-go" style="--rc:var(--brand)">'+IC.share+'Teilen</button>':'')+
+    '<a class="btn'+(canShare?'':' primary')+'" id="sh-wa" href="https://wa.me/?text='+encodeURIComponent(msg)+'" target="_blank" rel="noopener" style="--rc:var(--brand);text-decoration:none">WhatsApp</a>'+
+    '<button class="btn" id="sh-copy">Link kopieren</button></div><p class="small" id="sh-msg" style="min-height:1.4em"></p>',
+  b=>{
+    const say=t=>{$('sh-msg').textContent=t;};
+    const go=b.querySelector('#sh-go');if(go)go.addEventListener('click',()=>{try{navigator.share({title:'Wohlzeit',text:SHARE_TXT,url}).catch(()=>{});}catch(e){say('Teilen ging hier nicht. Nimm „Link kopieren“.');}});
+    b.querySelector('#sh-copy').addEventListener('click',()=>copyText(url).then(ok=>say(ok?'Link kopiert. Du kannst ihn jetzt in jede Nachricht einfügen.':'Kopieren ging hier nicht. Halte den Link oben gedrückt, um ihn zu markieren.')));
   });
 }
 /* ---------- Erster Start und Neuigkeiten ---------- */
@@ -3884,7 +3907,7 @@ function loop(now){
 requestAnimationFrame(loop);
 
 /* ================= Start ================= */
-if(window.__rrDebug)window.__rr={EX,Fig,ROUTINES,PL,stepsOf,goTo:j=>goTo(j),DATA,Voice,expandItems,DOC,AU,Music,AMB:()=>AMB,BR:()=>BR,TM,TMCFG,Radio,todo:()=>TODO,tmNow,tmBuild,musicFor,S,RECIPES,KT,openRecipe,openRecipes,show,fmtAmt,suggestion,backupObj};
+if(window.__rrDebug)window.__rr={EX,Fig,ROUTINES,PL,stepsOf,goTo:j=>goTo(j),DATA,Voice,expandItems,DOC,AU,Music,AMB:()=>AMB,BR:()=>BR,TM,TMCFG,Radio,todo:()=>TODO,tmNow,tmBuild,musicFor,S,MUS,RECIPES,KT,openRecipe,openRecipes,show,fmtAmt,suggestion,backupObj};
 show('v-home');
 startChecks();
 Voice.load();
