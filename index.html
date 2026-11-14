@@ -5,7 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Wohlzeit</title>
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#E7ECEA">
+<meta name="theme-color" id="meta-tc" content="#E7ECEA">
+<script>/* Darstellung früh setzen, damit nichts aufblitzt */
+window.WZ_BG={"salbei": {"light": "#E7ECEA", "dark": "#0D1817"}, "orange": {"light": "#F3ECE4", "dark": "#17120E"}, "gruen": {"light": "#E5EDE6", "dark": "#0E1610"}, "blau": {"light": "#E4EBF2", "dark": "#0D131C"}, "grau": {"light": "#EAEAEA", "dark": "#121314"}};
+window.wzTheme=function(){var st={};try{st=JSON.parse(localStorage.getItem("rr.settings")||"{}")||{};}catch(e){}var r=document.documentElement,m=st.theme||"auto",pal=WZ_BG[st.pal]?st.pal:"salbei";if(m==="light"||m==="dark")r.setAttribute("data-theme",m);else r.removeAttribute("data-theme");if(pal!=="salbei")r.setAttribute("data-pal",pal);else r.removeAttribute("data-pal");var dark=m==="dark"||(m!=="light"&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches);var c=(document.body&&document.body.classList.contains("night"))?"#000000":WZ_BG[pal][dark?"dark":"light"];var t=document.getElementById("meta-tc");if(t)t.setAttribute("content",c);r.style.colorScheme=dark?"dark":"light";return c;};
+wzTheme();try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(){wzTheme();});}catch(e){}
+</script>
 <meta name="description" content="Wohlzeit – Zeit für dich: kurze Routinen, Training, Entspannung, Musik und Rezepte">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -50,7 +55,8 @@
 html,body{height:100%;margin:0}
 body{background:var(--bg);color:var(--ink);font-family:var(--font-b);font-size:17px;line-height:1.45;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
 body.night{background:#000;--bg:#000;--surface:#070909;--surface2:#0c0f0f;--ink:#7d8786;--muted:#4f5857;--line:#151a1a;--accent:#5a3a30}
-#app{height:100%;display:flex;flex-direction:column;max-width:560px;margin:0 auto;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+#app{height:100%;display:flex;flex-direction:column;max-width:560px;margin:0 auto;padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left)}
+.view>.scroll:last-child{padding-bottom:calc(32px + env(safe-area-inset-bottom))}
 .view{display:none;flex:1;min-height:0;flex-direction:column}
 .view.on{display:flex}
 .scroll{flex:1;min-height:0;overflow-y:auto;padding:12px 16px 32px;display:flex;flex-direction:column;gap:14px}
@@ -203,7 +209,7 @@ ul.plain li::before{content:"";position:absolute;left:2px;top:.6em;width:7px;hei
 .pill{font-size:13px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--line)}
 .pill.phase{background:var(--rc);color:var(--on-rc);border-color:transparent}
 .pill.phase.prep{background:var(--surface);color:var(--ink);border-color:var(--line)}
-.pill.phase.sw{background:var(--accent);color:#fff}
+.pill.phase.sw{background:var(--accent);color:var(--on-accent)}
 .pill:empty{display:none}
 .orb{width:min(62vw,250px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 45%,var(--rc) 0%,transparent 68%);opacity:.8;transform:scale(.7)}
 .p-info{padding:2px 20px 0}
@@ -339,6 +345,70 @@ ol.steps li.cur{font-weight:700}
 .ev-y{background:#D9A400}.ev-r{background:#D3542E}.ev-g{background:#2E9D5B}
 .mhint .btn{display:flex}
 :root{--brand:var(--couch)}
+
+/* Filter, Auswahl, Editor (1.3) */
+.fcard{display:grid;gap:12px;padding:12px}
+.frow{display:flex;gap:8px;align-items:center}
+.fsearch{flex:1;min-width:0;min-height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface2);color:var(--ink);font:inherit;padding:0 12px}
+.fbtn{min-height:44px;padding:0 14px}
+.fbody{display:grid;gap:12px}
+.fgrp{display:grid;gap:6px;margin-top:4px}
+.fgrp>b{font-size:14px}.fgrp>b span{font-weight:400;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;min-height:38px;padding:0 12px;font:inherit;font-size:15px}
+.chip[aria-pressed="true"]{background:var(--brand);color:var(--on-rc);border-color:transparent}
+.pkrow{display:grid;grid-template-columns:72px 1fr 48px;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:8px}
+.pkrow .th,.edrow .th{height:54px;background:var(--surface2);border-radius:10px;overflow:hidden}
+.pkrow .th svg,.edrow .th svg{width:100%;height:100%}
+.pkinfo{display:grid;gap:2px;text-align:left;background:none;border:0;padding:4px 0;color:var(--ink);font:inherit;min-width:0}
+.pkinfo .nm{font-weight:700;line-height:1.25}.pkinfo .sub{font-size:14px;color:var(--muted);line-height:1.3}
+.addbtn{width:48px;height:48px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface2);color:var(--ink);display:grid;place-items:center;padding:0;position:relative}
+.addbtn svg{width:22px;height:22px}.addbtn.on{background:var(--brand);color:var(--on-rc);border-color:transparent}
+.addbtn small{position:absolute;right:4px;bottom:2px;font-size:11px;font-weight:700}
+.edrow{display:grid;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px}
+.edtop{display:grid;grid-template-columns:60px 1fr auto;gap:10px;align-items:center}
+.edctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.seg2.sm button{min-height:38px;flex:0 0 auto;padding:0 12px}
+.mini{display:flex;gap:4px}
+.mini button,.stepper button{width:40px;height:40px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface2);color:var(--ink);font:inherit;font-size:18px;font-weight:700;padding:0}
+.mini button:disabled{opacity:.35}
+.stepper{display:flex;align-items:center;gap:6px}
+.stepper output{min-width:76px;text-align:center;font-weight:700}
+.colrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.colbtn{width:40px;height:40px;border-radius:50%;border:3px solid var(--surface);outline:2px solid transparent;background:var(--c);padding:0}
+.colbtn[aria-pressed="true"]{outline-color:var(--ink)}
+#ed-name{width:100%}
+
+/* Radio-Gruppen und eigene Musik (1.4) */
+.gtoggle.gsub{min-height:48px;padding:8px 14px;border-radius:14px;font-size:16px;font-weight:700}
+.ownbar{display:grid;grid-template-columns:44px 1fr 44px;gap:8px;align-items:center}
+.ownbar button{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface2);color:var(--ink);display:grid;place-items:center;padding:0}
+.ownbar button svg{width:22px;height:22px}
+.ownnow{font-size:14px;color:var(--muted);text-align:center;overflow-wrap:anywhere;line-height:1.3}
+.olist{display:grid;gap:4px;max-height:46vh;overflow-y:auto;border:1px solid var(--line);border-radius:14px;padding:6px;background:var(--surface)}
+.olist button{display:flex;gap:10px;align-items:baseline;text-align:left;width:100%;min-height:40px;padding:8px 10px;border-radius:10px;border:0;background:none;color:var(--ink);font:inherit;font-size:15px;overflow-wrap:anywhere}
+.olist button span{flex:none;min-width:26px;color:var(--muted);font-size:13px;text-align:right}
+.olist button[aria-current="true"]{background:var(--accent-soft);font-weight:700}
+/* Farbwelten (Darstellung) */
+:root{--on-accent:#fff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--on-accent:#0D1817}}
+:root[data-theme="dark"]{--on-accent:#0D1817}
+:root[data-pal="orange"]{--bg:#F3ECE4; --surface:#FFFFFF; --surface2:#F8F3EE; --ink:#2A1E16; --muted:#6B5C51; --line:#E2D6CA; --brand:#B34E1D; --accent:#1F7A8C; --accent-soft:#D6EEF2;}
+:root[data-pal="gruen"]{--bg:#E5EDE6; --surface:#FFFFFF; --surface2:#F1F6F2; --ink:#16241A; --muted:#55665A; --line:#CFDCD2; --brand:#2B7A4B; --accent:#B85A17; --accent-soft:#F8E3D2;}
+:root[data-pal="blau"]{--bg:#E4EBF2; --surface:#FFFFFF; --surface2:#F0F4F8; --ink:#14202E; --muted:#536274; --line:#CDD8E3; --brand:#2D69AE; --accent:#C9461F; --accent-soft:#FBE2D9;}
+:root[data-pal="grau"]{--bg:#EAEAEA; --surface:#FFFFFF; --surface2:#F4F4F4; --ink:#1D1F22; --muted:#5B5F63; --line:#D5D6D8; --brand:#4B5563; --accent:#C9461F; --accent-soft:#FBE2D9;}
+@media (prefers-color-scheme: dark){:root[data-pal="orange"]:not([data-theme="light"]){--bg:#17120E; --surface:#221B16; --surface2:#2B231D; --ink:#F0E6DD; --muted:#B3A396; --line:#3A2F27; --brand:#F08A4B; --accent:#52B8C9; --accent-soft:#1E3338;}}
+:root[data-pal="orange"][data-theme="dark"]{--bg:#17120E; --surface:#221B16; --surface2:#2B231D; --ink:#F0E6DD; --muted:#B3A396; --line:#3A2F27; --brand:#F08A4B; --accent:#52B8C9; --accent-soft:#1E3338;}
+@media (prefers-color-scheme: dark){:root[data-pal="gruen"]:not([data-theme="light"]){--bg:#0E1610; --surface:#172219; --surface2:#1E2B21; --ink:#E2ECE4; --muted:#97A89B; --line:#2A3A2D; --brand:#5CC98A; --accent:#F0A055; --accent-soft:#3A2A1A;}}
+:root[data-pal="gruen"][data-theme="dark"]{--bg:#0E1610; --surface:#172219; --surface2:#1E2B21; --ink:#E2ECE4; --muted:#97A89B; --line:#2A3A2D; --brand:#5CC98A; --accent:#F0A055; --accent-soft:#3A2A1A;}
+@media (prefers-color-scheme: dark){:root[data-pal="blau"]:not([data-theme="light"]){--bg:#0D131C; --surface:#151E2A; --surface2:#1C2735; --ink:#E1E8F0; --muted:#94A3B5; --line:#283546; --brand:#6AA8F0; --accent:#FF7A52; --accent-soft:#3B241D;}}
+:root[data-pal="blau"][data-theme="dark"]{--bg:#0D131C; --surface:#151E2A; --surface2:#1C2735; --ink:#E1E8F0; --muted:#94A3B5; --line:#283546; --brand:#6AA8F0; --accent:#FF7A52; --accent-soft:#3B241D;}
+@media (prefers-color-scheme: dark){:root[data-pal="grau"]:not([data-theme="light"]){--bg:#121314; --surface:#1B1C1E; --surface2:#232528; --ink:#E6E7E8; --muted:#A0A3A8; --line:#323438; --brand:#B8C0CC; --accent:#FF7A52; --accent-soft:#3B241D;}}
+:root[data-pal="grau"][data-theme="dark"]{--bg:#121314; --surface:#1B1C1E; --surface2:#232528; --ink:#E6E7E8; --muted:#A0A3A8; --line:#323438; --brand:#B8C0CC; --accent:#FF7A52; --accent-soft:#3B241D;}
+.palrow{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;margin-top:10px}
+.palbtn{display:grid;justify-items:center;gap:6px;padding:10px 6px;border-radius:16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:15px;cursor:pointer}
+.palbtn[aria-pressed="true"]{border-color:var(--brand);box-shadow:0 0 0 2px color-mix(in srgb,var(--brand) 30%,transparent)}
+.palbtn i{display:block;width:38px;height:38px;border-radius:50%;border:1px solid rgba(0,0,0,.12);background:linear-gradient(135deg,var(--a) 0 50%,var(--b) 50% 100%)}
 .view>.top h1{font-size:28px}
 .tabbar{display:flex;border-top:1px solid var(--line);background:var(--surface);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
 .tabbar button{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:2px 0;color:var(--muted);font-size:12px;font-weight:700}
@@ -452,6 +522,7 @@ ol.steps li.cur{font-weight:700}
   <section class="view" id="v-page" aria-label="Info">
     <div class="top"><button class="iconbtn" data-nav="home" aria-label="Zurück"></button><div class="grow"><div class="eyebrow" id="pg-eb"></div><h2 id="pg-title"></h2></div></div>
     <div class="scroll" id="pg-body"></div>
+    <div class="sticky" id="pg-sticky" hidden></div>
   </section>
 
   <section class="view" id="v-recipes" aria-label="Wohlfühlrezepte">
@@ -480,7 +551,7 @@ ol.steps li.cur{font-weight:700}
       <button class="iconbtn" data-nav="home" aria-label="Zurück"></button>
       <div class="grow"><div class="eyebrow">Tippe auf eine Übung für alle Infos</div><h2>Alle Übungen</h2></div>
     </div>
-    <div class="scroll"><div class="exlist" id="liblist"></div></div>
+    <div class="scroll"><div id="libflt"></div><p class="small muted" id="libcount" style="margin:-4px 2px"></p><div class="exlist" id="liblist"></div></div>
   </section>
 
   <section class="view" id="player" aria-label="Übung läuft">
@@ -593,7 +664,7 @@ ol.steps li.cur{font-weight:700}
         <div class="tring"><svg viewBox="0 0 108 108" aria-hidden="true"><circle cx="54" cy="54" r="46" fill="none" stroke="var(--line)" stroke-width="7"/><circle id="tm-arc" cx="54" cy="54" r="46" fill="none" stroke="var(--tc,var(--kraft))" stroke-width="7" stroke-linecap="round" stroke-dasharray="289.03" stroke-dashoffset="0"/></svg><div class="tn" id="tm-num"></div></div>
         <div class="stats tmeta"><div class="stat"><b id="tm-next"></b><span>Danach</span></div><div class="stat"><b id="tm-left"></b><span>Gesamt noch</span></div></div>
         <p class="small muted" id="tm-note"></p>
-        <div class="card" id="tm-confirm" style="width:100%" hidden><b>Timer beenden?</b><div class="row" style="margin-top:10px"><button class="btn block" id="tm-c-no">Weiter</button><button class="btn primary block" id="tm-c-yes" style="--rc:var(--accent);color:#fff">Beenden</button></div></div>
+        <div class="card" id="tm-confirm" style="width:100%" hidden><b>Timer beenden?</b><div class="row" style="margin-top:10px"><button class="btn block" id="tm-c-no">Weiter</button><button class="btn primary block" id="tm-c-yes" style="--rc:var(--accent);color:var(--on-accent)">Beenden</button></div></div>
       </div>
     </div>
     <div class="sticky" id="tm-bar1"><button class="btn primary block" id="tm-start" style="--rc:var(--kraft)">Starten</button></div>
@@ -615,6 +686,8 @@ ol.steps li.cur{font-weight:700}
         <div class="set" id="s-voicename-row"><label for="s-voicename">Handy-Stimme</label><select id="s-voicename"></select></div>
         <div class="set"><label for="s-rate">Sprechtempo</label><select id="s-rate"><option value="0.9">ruhig</option><option value="1">normal</option><option value="1.1">zügig</option></select></div>
         <div class="set"><label for="s-test">Ansage testen</label><button class="btn" id="s-test">Probe hören</button></div>
+        <div class="set"><label for="s-vhelp">Andere Stimme<span class="hint2">So lädst du auf dem Handy weitere Stimmen</span></label><button class="btn" id="s-vhelp">Anleitung</button></div>
+        <div class="set"><label for="s-crackle">Knackschutz<span class="hint2">Hält den Ton während einer Routine aktiv, gegen Knacken vor den Ansagen. Unhörbar.</span></label><input type="checkbox" class="switch" id="s-crackle"></div>
       </div>
       <div class="card">
         <div class="set"><label for="s-music">Hintergrundmusik</label><input type="checkbox" class="switch" id="s-music"></div>
@@ -634,6 +707,7 @@ ol.steps li.cur{font-weight:700}
       <div class="card">
         <div class="set"><label for="s-prep">Vorbereitungszeit<span class="hint2">Zeit zum Einnehmen der Position</span></label><select id="s-prep"><option value="6">6 Sek.</option><option value="8">8 Sek.</option><option value="12">12 Sek.</option><option value="15">15 Sek.</option></select></div>
         <div class="set"><label for="s-rest">Pause zwischen Sätzen<span class="hint2">Krafttraining</span></label><select id="s-rest"><option value="60">60 Sek.</option><option value="75">75 Sek.</option><option value="90">90 Sek.</option></select></div>
+        <div class="set"><label for="s-vary">Abwechslung<span class="hint2">Morgen, Abend, Couch und Büro tauschen täglich einzelne Übungen</span></label><input type="checkbox" class="switch" id="s-vary"></div>
         <div class="set"><label for="s-count">Tempo-Zähler<span class="hint2">Zählt beim Krafttraining die Wiederholungen im Tempo 2 runter, 1 hoch</span></label><input type="checkbox" class="switch" id="s-count"></div>
       </div>
       <p class="small muted" id="s-sync"></p>
@@ -670,7 +744,7 @@ ol.steps li.cur{font-weight:700}
   <div class="sheet">
     <h2 id="cf-t"></h2>
     <p class="muted" id="cf-p"></p>
-    <div class="row"><button class="btn block" id="cf-no">Abbrechen</button><button class="btn primary block" id="cf-yes" style="--rc:var(--accent);color:#fff">OK</button></div>
+    <div class="row"><button class="btn block" id="cf-no">Abbrechen</button><button class="btn primary block" id="cf-yes" style="--rc:var(--accent);color:var(--on-accent)">OK</button></div>
   </div>
 </div>
 
@@ -679,7 +753,7 @@ ol.steps li.cur{font-weight:700}
   <div class="sheet">
     <h2 id="ov-stop-t">Beenden?</h2>
     <p class="muted" id="ov-stop-p"></p>
-    <div class="row"><button class="btn block" id="ov-cancel">Weitermachen</button><button class="btn primary block" id="ov-end" style="--rc:var(--accent);color:#fff">Beenden</button></div>
+    <div class="row"><button class="btn block" id="ov-cancel">Weitermachen</button><button class="btn primary block" id="ov-end" style="--rc:var(--accent);color:var(--on-accent)">Beenden</button></div>
   </div>
 </div>
 
@@ -699,6 +773,8 @@ const SPEED=window.__rrSpeed||1;
 
 /* ================= Icons ================= */
 const IC={
+  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  palette:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.6-.9 1.2-1.8-.5-1.1.2-2.2 1.4-2.2H17a4 4 0 0 0 4-4c0-5.5-4-10-9-10z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10.5" cy="7" r="1.2"/><circle cx="15" cy="7.5" r="1.2"/></svg>',
   gear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
   back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
   close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
@@ -1046,7 +1122,7 @@ const EX={
     how:'Füße zusammen, Arme seitlich am Körper.',cues:['In die Grätsche springen','Arme über den Kopf','Weich landen'],
     tips:['Spring leicht in die Grätsche, Arme über den Kopf, und lande weich.'],
     info:['Ohne Springen geht es gelenkschonender: einfach abwechselnd ein Bein zur Seite stellen.'],
-    frames:[P(FV,{lN:{to:[105,135],b:-1},lF:{to:[95,135],b:1},aN:{a:[80,85]},aF:{a:[100,95]}}),P(FV,{hip:[100,83],lN:{to:[124,135],b:-1},lF:{to:[76,135],b:1},aN:{a:[-60,-80]},aF:{a:[-120,-100]}})]},
+    frames:[P(FV,{lN:{to:[105,135],b:-1},lF:{to:[95,135],b:1},aN:{a:[80,85]},aF:{a:[100,95]}}),P(FV,{hip:[100,83],lN:{to:[124,135],b:-1},lF:{to:[76,135],b:1},aN:{a:[-60,-80]},aF:{a:[240,260]}})]},
   bandziehen:{name:'Theraband auseinanderziehen',kind:'move',period:3,fv:true,
     how:'Greif das Band vor der Brust, Arme gestreckt.',cues:['Arme gestreckt vor der Brust','Band auseinanderziehen','Schulterblätter zusammen'],
     tips:['Zieh das Band auseinander, bis es fast die Brust berührt. Schulterblätter zusammen.'],
@@ -1299,6 +1375,200 @@ const EX={
     seq:[0,1,0],props:{bar:12},glow:'belly'},
 
   /* ---------- Geführte Entspannung ---------- */
+  /* ---------- 1.3: Schreibtisch, Ausdauer und Kraft ohne Geräte ---------- */
+  schulterkreisen:{name:'Schultern kreisen',kind:'move',period:4,
+    how:'Steh oder sitz aufrecht, die Arme hängen locker.',
+    cues:['Schultern hoch zu den Ohren','Nach hinten und unten kreisen','Langsam und rund'],
+    tips:['Mach die Kreise groß und langsam. Hinten ziehen die Schulterblätter leicht zusammen.','Der Kopf bleibt ruhig, nur die Schultern bewegen sich.'],
+    info:['Nach langem Sitzen am Bildschirm rutschen die Schultern oft nach vorn. Das Kreisen lockert Nacken und oberen Rücken.'],
+    frames:[P(STAND,{aN:{a:[95,92]},aF:{a:[86,90]}}),P(STAND,{ts:1.09,aN:{a:[92,90]},aF:{a:[84,88]}}),P(STAND,{ts:1.04,c:-3,h:-92,aN:{a:[106,98]},aF:{a:[98,94]}})],
+    seq:[0,1,2,0],w:[1,1,1],glow:'neck'},
+  nacken:{name:'Nacken seitlich dehnen',kind:'hold',sides:true,period:6,fv:true,
+    how:'Steh oder sitz aufrecht und lass die Schultern bewusst sinken.',
+    cues:['Ohr Richtung Schulter neigen','Hand liegt nur leicht am Kopf','Andere Schulter zieht sanft nach unten'],
+    tips:['Nicht ziehen: Die Hand liegt nur auf, ihr Gewicht reicht.','Die andere Schulter bleibt unten, als würdest du eine Tasche tragen.'],
+    info:['Der obere Trapezmuskel ist bei Bildschirmarbeit oft dauernd leicht angespannt. Sanftes Dehnen empfinden viele als entlastend.'],
+    frames:[P(FV,{h:-52,hx:2,aN:{a:[84,88]},aF:{a:[102,99]}}),P(FV,{h:-48,hx:2,aN:{a:[84,88]},aF:{a:[103,100]}})],glow:'neck'},
+  handgelenk:{name:'Unterarme dehnen',kind:'hold',sides:true,period:6,
+    how:'Streck einen Arm nach vorn, die Handfläche zeigt nach vorn, die Finger nach oben.',
+    cues:['Arm gestreckt nach vorn','Andere Hand zieht die Finger sanft zurück','Nach der Hälfte: Finger nach unten'],
+    tips:['Nur so weit ziehen, bis du eine sanfte Dehnung im Unterarm spürst.','Die Schulter bleibt dabei unten.'],
+    info:['Maus und Tastatur halten die Unterarmmuskeln lange in der gleichen Spannung. Kurze Dehnpausen lockern sie.'],
+    frames:[P(STAND,{aN:{a:[2,-6]},aF:{to:[138,40],b:1}}),P(STAND,{aN:{a:[2,-10]},aF:{to:[138,38],b:1}})],
+    revHalf:true,midCue:'Jetzt die Finger nach unten zeigen lassen und den Handrücken dehnen.'},
+  brustdehnstuhl:{name:'Brust öffnen am Stuhl',kind:'hold',period:6,
+    how:'Setz dich vorn auf die Stuhlkante und greif hinter dir mit beiden Händen die Lehne oder die Sitzfläche.',
+    cues:['Hände hinten am Stuhl','Brustbein nach vorn oben','Schultern weg von den Ohren'],
+    tips:['Schieb das Brustbein nach vorn, statt den Kopf in den Nacken zu legen.','Ruhig atmen und beim Ausatmen etwas weiter öffnen.'],
+    info:['Beim Tippen ziehen die Arme nach vorn, die Brustmuskeln bleiben verkürzt. Diese Dehnung öffnet in die Gegenrichtung.'],
+    frames:[P(SIT,{t:-96,c:-3,h:-98,aN:{to:[64,96],b:-1},aF:{to:[66,97],b:-1}}),P(SIT,{t:-99,c:-4,h:-103,aN:{to:[63,95],b:-1},aF:{to:[65,96],b:-1}})],
+    props:{chair:{x:60,seat:104,w:34,back:'left'}},glow:'chest'},
+  wadesteh:{name:'Wadenheben im Stehen',kind:'move',period:3,
+    how:'Steh hüftbreit. Eine Hand darf an Tisch oder Wand.',
+    cues:['Auf die Zehenspitzen hoch','Oben kurz halten','Langsam absenken'],
+    tips:['Drück gleichmäßig über den großen Zeh hoch, nicht nach außen kippen.','Das langsame Absenken ist der wirksamere Teil.'],
+    info:['Die Wadenmuskeln pumpen Blut aus den Beinen zurück zum Herzen. Nach langem Sitzen bringt das den Kreislauf in Schwung.'],
+    frames:[P(STAND,{fN:0,fF:0}),P(STAND,{hip:[100,73],lN:{to:[103,127],b:-1},lF:{to:[97,127],b:-1},fN:60,fF:60})],
+    seq:[0,1,1,0],w:[1,.6,1.4]},
+  seitneigung:{name:'Seitneigung im Stehen',kind:'move',period:7,fv:true,
+    how:'Steh hüftbreit mit lockeren Knien und streck beide Arme über den Kopf.',
+    cues:['Arme lang nach oben','Langsam zur Seite neigen','Über die Mitte zur anderen Seite'],
+    tips:['Nur zur Seite neigen, nicht nach vorn kippen.','Mach dich lang, als würdest du nach oben und zur Seite greifen.'],
+    info:['Die seitliche Rumpfmuskulatur kommt im Alltag kaum in die Länge. Die Neigung dehnt die Flanken und bewegt die Wirbelsäule zur Seite.'],
+    frames:[P(FV,{aN:{a:[-80,-86]},aF:{a:[-100,-94]}}),P(FV,{t:-76,c:3,h:-72,aN:{a:[-62,-52]},aF:{a:[-80,-64]}}),P(FV,{t:-104,c:-3,h:-108,aN:{a:[-100,-116]},aF:{a:[-118,-128]}})],
+    seq:[0,1,1,0,2,2,0],w:[1,.6,1,1,.6,1],glow:'lws'},
+  beinstreck:{name:'Bein strecken im Sitzen',kind:'move',sides:true,period:4,
+    how:'Setz dich aufrecht auf die vordere Hälfte von Stuhl oder Sofa, die Füße flach am Boden.',
+    cues:['Ein Bein langsam strecken','Zehen zu dir ziehen, kurz halten','Langsam absetzen'],
+    tips:['Bleib aufrecht sitzen, der Rücken lehnt sich nicht nach hinten.','Oben spannt der Oberschenkel, die Zehen zeigen zur Decke.'],
+    info:['Das Strecken weckt die vordere Oberschenkelmuskulatur und bewegt das Knie. Gut nach langem Sitzen mit angewinkelten Beinen.'],
+    frames:[P(SIT,{}),P(SIT,{lN:{a:[0,-4]},fN:-80})],
+    seq:[0,1,1,0],w:[1,1,1],props:{chair:{x:60,seat:104,w:34,back:'left'}}},
+  kniehebel:{name:'Kniehebelauf',kind:'move',period:.8,
+    how:'Steh aufrecht, die Arme angewinkelt.',
+    cues:['Knie im Wechsel hoch bis Hüfthöhe','Locker auf den Fußballen','Arme schwingen mit'],
+    tips:['Bleib aufrecht, der Oberkörper kippt nicht nach hinten.','Leise: ohne Sprung, die Knie im Wechsel hochziehen wie beim Marschieren.'],
+    info:['Bringt Puls und Atmung schnell nach oben und kräftigt die Hüftbeuger.'],
+    frames:[{hip:[100,79],t:-88,h:-88,lN:{a:[-14,92]},lF:{a:[91,89]},aN:{a:[125,40]},aF:{a:[55,-50]},fN:30},
+            {hip:[100,79],t:-88,h:-88,lN:{a:[91,89]},lF:{a:[-14,92]},aN:{a:[55,-50]},aF:{a:[125,40]},fF:30}]},
+  marsch:{name:'Marschieren mit hohen Knien',kind:'move',period:1.5,
+    how:'Steh aufrecht, die Arme angewinkelt.',
+    cues:['Knie im Wechsel hochziehen','Ohne Sprung, ein Fuß bleibt am Boden','Arme schwingen mit'],
+    tips:['Zügig marschieren und die Knie bis etwa Hüfthöhe heben.','Der Oberkörper bleibt aufrecht.'],
+    info:['Die leise Variante zum Kniehebelauf: weniger Stoß für Gelenke und Nachbarn, der Puls steigt trotzdem.'],
+    frames:[]},
+  climberfast:{name:'Bergsteiger, zügig',kind:'move',period:1.1,
+    how:'Hoher Liegestütz: Hände unter den Schultern, Körper gerade.',
+    cues:['Knie im Wechsel zügig Richtung Brust','Hüfte bleibt tief','Schultern über den Händen'],
+    tips:['Der Po bleibt auf Höhe des Körpers.','Leise: langsam und ohne Sprung, ein Bein nach dem anderen.'],
+    info:['Fordert Rumpf, Schultern und Kreislauf gleichzeitig.'],
+    frames:[],seq:[1,0,1,2,1],props:{mat:true}},
+  sprungkniebeuge:{name:'Sprungkniebeuge',kind:'move',period:1.8,
+    how:'Steh hüftbreit, die Fußspitzen zeigen leicht nach außen.',
+    cues:['Tief in die Kniebeuge','Kräftig nach oben springen','Weich und leise landen'],
+    tips:['Lande auf dem ganzen Fuß und geh gleich wieder in die Knie.','Die Knie zeigen in Richtung der Fußspitzen.','Leise: Kniebeuge und oben auf die Zehenspitzen, ohne Sprung.'],
+    info:['Springen fordert Beine und Kreislauf zugleich. Die Kraft kommt aus Po und Oberschenkeln.'],
+    frames:[P(STAND,{hip:[86,104],t:-58,h:-70,aN:{a:[-8,-8]},aF:{a:[-5,-5]}}),P(STAND,{aN:{a:[-60,-60]},aF:{a:[-56,-56]}}),
+            P(STAND,{hip:[100,70],aN:{a:[-105,-105]},aF:{a:[-101,-101]},lN:{to:[103,125],b:-1},lF:{to:[98,125],b:-1},fN:65,fF:65})],
+    seq:[0,1,2,1,0],w:[.7,.35,.35,.7]},
+  kniebeugeferse:{name:'Kniebeuge mit Zehenstand',kind:'move',period:2.8,
+    how:'Steh hüftbreit, die Fußspitzen zeigen leicht nach außen.',
+    cues:['Tief in die Kniebeuge','Hochkommen bis auf die Zehenspitzen','Arme nach oben strecken'],
+    tips:['Zügig, aber ohne Sprung.','Die Knie zeigen in Richtung der Fußspitzen.'],
+    info:['Die leise Variante zur Sprungkniebeuge: gleicher Bewegungsablauf, kein Aufprall.'],
+    frames:[P(STAND,{hip:[86,104],t:-58,h:-70,aN:{a:[-8,-8]},aF:{a:[-5,-5]}}),
+            P(STAND,{hip:[100,73],lN:{to:[103,127],b:-1},lF:{to:[97,127],b:-1},fN:60,fF:60,aN:{a:[-100,-100]},aF:{a:[-96,-96]}})]},
+  skater:{name:'Eisschnellläufer',kind:'move',period:1.7,fv:true,
+    how:'Steh hüftbreit, leicht in den Knien.',
+    cues:['Seitlich von einem Bein aufs andere springen','Das freie Bein kreuzt hinter','Arme schwingen mit'],
+    tips:['Lande weich auf dem äußeren Bein und halte kurz das Gleichgewicht.','Leise: Schritt zur Seite und das andere Bein hinten antippen, ohne Sprung.'],
+    info:['Seitliche Sprünge trainieren die Abspreizmuskeln der Hüfte und das Gleichgewicht, die beim Geradeauslaufen kaum gefordert werden.'],
+    frames:[{fv:1,hip:[120,86],t:-80,h:-84,aN:{a:[30,50]},aF:{a:[165,150]},lN:{to:[128,135],b:-1},lF:{to:[118,121],b:1},fN:10,fF:170},
+            {fv:1,hip:[100,78],t:-90,h:-90,aN:{a:[60,70]},aF:{a:[120,110]},lN:{to:[107,127],b:-1},lF:{to:[93,127],b:1},fN:30,fF:150},
+            {fv:1,hip:[80,86],t:-100,h:-96,aF:{a:[150,130]},aN:{a:[15,30]},lF:{to:[72,135],b:1},lN:{to:[82,121],b:-1},fN:10,fF:170}],
+    seq:[0,1,2,1,0],w:[1,1,1,1]},
+  seitschritt:{name:'Seitschritt mit Antippen',kind:'move',period:1.9,fv:true,
+    how:'Steh hüftbreit, leicht in den Knien.',
+    cues:['Großer Schritt zur Seite','Anderes Bein hinten antippen','Arme schwingen mit'],
+    tips:['Tief in den Knien bleiben, das macht es anstrengender.','Zügig hin und her, ohne Sprung.'],
+    info:['Die leise Variante zum Eisschnellläufer: gleiche Muskeln, kein Aufprall.'],
+    frames:[{fv:1,hip:[118,85],t:-82,h:-86,aN:{a:[30,50]},aF:{a:[160,145]},lN:{to:[127,135],b:-1},lF:{to:[110,135],b:1},fN:10,fF:200},
+            {fv:1,hip:[82,85],t:-98,h:-94,aF:{a:[150,130]},aN:{a:[20,35]},lF:{to:[73,135],b:1},lN:{to:[90,135],b:-1},fN:-20,fF:170}]},
+  burpee:{name:'Burpee',kind:'move',period:3.6,
+    how:'Steh hüftbreit, die Arme locker.',
+    cues:['In die Hocke, Hände auf den Boden','Beine nach hinten in den Liegestütz','Zurück in die Hocke und hochspringen'],
+    tips:['Im Liegestütz bleibt der Rücken gerade, die Hüfte hängt nicht durch.','Leise: Beine einzeln nach hinten setzen und ohne Sprung aufstehen.'],
+    info:['Der Burpee verbindet Kniebeuge, Stütz und Sprung. Er bringt den Puls in kurzer Zeit sehr hoch.'],
+    frames:[P(STAND,{aN:{a:[95,90]},aF:{a:[88,86]}}),
+            {hip:[94,116],t:-30,h:-18,aN:{to:[130,135],b:1},aF:{to:[132,135],b:1},lN:{to:[106,135],b:-1},lF:{to:[103,135],b:-1},fN:0,fF:0},
+            {hip:[93.6,109.6],t:-24.5,h:-24,aN:{to:[130,135],b:1},aF:{to:[132,135],b:1},lN:{to:[44,133],b:-1},lF:{to:[46,133],b:-1},fN:120,fF:120},
+            P(STAND,{hip:[100,70],aN:{a:[-105,-105]},aF:{a:[-101,-101]},lN:{to:[103,125],b:-1},lF:{to:[98,125],b:-1},fN:65,fF:65})],
+    seq:[0,1,2,1,0,3,0],w:[.5,.4,.6,.4,.3,.3],props:{mat:true}},
+  burpeeleise:{name:'Burpee ohne Sprung',kind:'move',period:5,
+    how:'Steh hüftbreit, die Arme locker.',
+    cues:['In die Hocke, Hände auf den Boden','Ein Bein nach dem anderen nach hinten','Einzeln zurück und aufrichten'],
+    tips:['Im Liegestütz bleibt der Rücken gerade.','Zügig, aber ohne Sprung.'],
+    info:['Die leise Variante zum Burpee: Stütz und Kniebeuge bleiben, der Aufprall fällt weg.'],
+    frames:[],seq:[0,1,2,1,0],w:[.8,1,1,.8],props:{mat:true}},
+  boxen:{name:'Schattenboxen',kind:'move',period:1.1,
+    how:'Leichte Schrittstellung, ein Fuß vorn. Die Fäuste sind vor dem Kinn.',
+    cues:['Locker auf den Fußballen federn','Abwechselnd geradeaus schlagen','Faust gleich zurück zum Kinn'],
+    tips:['Den Arm nicht ganz durchstrecken, der Ellbogen bleibt minimal gebeugt.','Die Kraft kommt aus der Drehung von Hüfte und Schulter.'],
+    info:['Schattenboxen bringt den Kreislauf ohne Springen in Schwung und fordert Schultern und Rumpf.'],
+    frames:[{hip:[98,83],t:-84,h:-86,aN:{to:[140,44],b:1},aF:{to:[113,43],b:1},lN:{to:[114,135],b:-1},lF:{to:[84,135],b:-1},fN:0,fF:-10},
+            {hip:[98,83],t:-86,h:-86,aN:{to:[113,43],b:1},aF:{to:[140,44],b:1},lN:{to:[114,135],b:-1},lF:{to:[84,135],b:-1},fN:0,fF:-10}]},
+  hampelleise:{name:'Hampelmann ohne Sprung',kind:'move',period:2.4,fv:true,
+    how:'Füße zusammen, die Arme seitlich am Körper.',
+    cues:['Ein Bein zur Seite setzen','Gleichzeitig die Arme über den Kopf','Zurück, dann die andere Seite'],
+    tips:['Zügig im Wechsel, ohne Sprung.','Die Arme gehen ganz nach oben.'],
+    info:['Die leise Variante zum Hampelmann: kaum Stoß für Knie und Nachbarn.'],
+    frames:[P(FV,{lN:{to:[105,135],b:-1},lF:{to:[95,135],b:1},aN:{a:[80,85]},aF:{a:[100,95]}}),
+            P(FV,{lN:{to:[124,135],b:-1},lF:{to:[95,135],b:1},aN:{a:[-60,-80]},aF:{a:[240,260]}}),
+            P(FV,{lN:{to:[105,135],b:-1},lF:{to:[76,135],b:1},aN:{a:[-60,-80]},aF:{a:[240,260]}})],
+    seq:[0,1,0,2,0],w:[1,1,1,1]},
+  b_liege:{name:'Liegestütze am Boden',kind:'strength',muscles:'Brust, Schultern, Arme',def:2,rng:[6,15],
+    tempo:[['runter',2],['hoch',1]],
+    stages:['Auf den Knien','Normal am Boden',{t:'Normal, 3 Sekunden runter',down:3},'Eng: Hände schulterbreit, Ellbogen dicht am Körper',{t:'Eng und 3 Sekunden runter',down:3}],
+    how:'Hände etwas breiter als die Schultern auf die Matte, Körper gerade von Kopf bis Fuß.',
+    cues:['Körper bleibt wie ein Brett','Brust Richtung Boden','Kräftig hochdrücken'],
+    tips:['Bauch und Po fest, die Hüfte hängt nicht durch.','Die Ellbogen zeigen schräg nach hinten, nicht zur Seite.'],
+    info:['Liegestütze trainieren Brust, Schultern und Trizeps und den Rumpf gleich mit.'],
+    frames:[],seq:[0,1,0],props:{mat:true}},
+  b_split:{name:'Ausfallschritt im Stand',kind:'strength',sides:true,muscles:'Oberschenkel vorn, Po',def:2,rng:[8,15],
+    tempo:[['runter',2],['hoch',1]],
+    stages:['Halber Weg nach unten','Ganz runter, hinteres Knie knapp über dem Boden',{t:'Ganz runter, 3 Sekunden',down:3},'Unten 2 Sekunden halten','Ausfallschritt rückwärts aus dem Stand'],
+    how:'Großer Schritt nach vorn, der hintere Fuß steht auf dem Ballen. Hände an die Hüfte.',
+    cues:['Senkrecht nach unten sinken','Vorderes Knie über dem Fuß','Über die vordere Ferse hochdrücken'],
+    tips:['Der Oberkörper bleibt aufrecht.','Das vordere Knie zeigt in Richtung Fußspitze, nicht nach innen.'],
+    info:['Einbeinige Übungen gleichen Unterschiede zwischen den Seiten aus und fordern das Gleichgewicht.'],
+    frames:[{hip:[96,84],t:-90,h:-90,aN:{to:[100,86],b:1},aF:{to:[99,86],b:1},lN:{to:[120,135],b:-1},lF:{to:[70,134],b:-1},fN:0,fF:-150},
+            {hip:[95,104],t:-90,h:-90,aN:{to:[99,106],b:1},aF:{to:[98,106],b:1},lN:{to:[120,135],b:-1},lF:{to:[70,134],b:-1},fN:0,fF:-150}],
+    seq:[0,1,0]},
+  b_bruecke:{name:'Beckenheben einbeinig',kind:'strength',sides:true,muscles:'Po, hintere Oberschenkel',def:1,rng:[8,15],
+    tempo:[['hoch',1],['halten',1],['runter',2]],
+    stages:['Anderes Knie zur Brust gezogen','Anderes Bein gestreckt',{t:'Gestreckt, oben 2 Sekunden halten'},{t:'Gestreckt, 3 Sekunden runter',down:3}],
+    how:'Rückenlage, ein Fuß steht nah am Po, das andere Bein ist angezogen oder gestreckt.',
+    cues:['Über die Ferse das Becken heben','Oben Po fest anspannen','Langsam absenken'],
+    tips:['Das Becken bleibt waagerecht und kippt nicht zur Seite.','Oben nicht ins Hohlkreuz drücken, die Spannung kommt aus dem Po.'],
+    info:['Einbeinig ist das Beckenheben ohne Gewicht schon fordernd. Es kräftigt Po und Beinrückseite, die beim Sitzen kaum arbeiten.'],
+    frames:[],seq:[0,1,1,0],props:{mat:true},glow:'hip'},
+  b_pike:{name:'Pike-Liegestütz am Boden',kind:'strength',muscles:'Schultern, Trizeps',def:2,rng:[6,15],
+    tempo:[['runter',2],['hoch',1]],
+    stages:['Füße weiter weg, Körper flacher','Hüfte hoch, Körper wie ein umgedrehtes V',{t:'Wie Stufe 2, 3 Sekunden runter',down:3},'Füße näher an den Händen, Hüfte noch höher'],
+    how:'Wie ein umgedrehtes V: Hände schulterbreit am Boden, Hüfte hoch, Beine möglichst gestreckt.',
+    cues:['Kopf zwischen den Händen Richtung Boden','Ellbogen schräg nach hinten','Kräftig hochdrücken'],
+    tips:['Der Kopf geht vor die Hände, nicht direkt zwischen sie.','Die Hüfte bleibt die ganze Zeit oben.'],
+    info:['Der Pike-Liegestütz verlagert das Gewicht auf die Schultern. Ohne Hanteln ist er die beste Übung für die Schultern.'],
+    frames:[],seq:[0,1,0],props:{mat:true}},
+  b_ytw:{name:'Y-T-W in Bauchlage',kind:'strength',muscles:'oberer Rücken, hintere Schulter',def:1,rng:[8,15],
+    tempo:[['hoch',1],['halten',2],['runter',2]],
+    stages:['W: Ellbogen gebeugt anheben','Y: Arme gestreckt schräg nach vorn',{t:'Y, oben 3 Sekunden halten'},'Im Wechsel Y, T und W'],
+    how:'Bauchlage, die Stirn liegt auf einem Handtuch. Die Daumen zeigen nach oben.',
+    cues:['Schulterblätter nach hinten unten ziehen','Arme knapp vom Boden heben','Kopf bleibt unten'],
+    tips:['Nur ein paar Zentimeter anheben, der untere Rücken bleibt locker.','Die Bewegung kommt aus den Schulterblättern, nicht aus dem Nacken.'],
+    info:['Ohne Stange oder Band gibt es keine echte Zugübung. Y-T-W kräftigt wenigstens die Muskeln zwischen den Schulterblättern, die bei Bildschirmarbeit oft schwach sind.'],
+    frames:[],seq:[0,1,1,0],props:{mat:true},glow:'bws'},
+  b_curlup:{name:'Curl-up nach McGill',kind:'strength',muscles:'gerader Bauchmuskel',def:1,rng:[5,8],
+    tempo:[['hoch',1],['halten',8],['runter',1]],
+    stages:['Ellbogen bleiben am Boden','Ellbogen leicht vom Boden heben','Ellbogen angehoben, beim Halten tief atmen','Halten 10 Sekunden, Bauch fest wie vor einem Stoß'],
+    how:'Rückenlage, ein Bein angewinkelt, das andere gestreckt. Die Hände liegen flach unter dem unteren Rücken.',
+    cues:['Bauch anspannen wie vor einem Stoß','Kopf und Schultern nur wenige Zentimeter heben','8 Sekunden halten, ruhig weiteratmen'],
+    tips:['Kinn nicht zur Brust ziehen, der Kopf bleibt in Verlängerung des Rumpfs.','Der untere Rücken behält seine natürliche Wölbung, die Hände spüren das.'],
+    info:['Statt Sit-ups: Der Curl-up trainiert den Bauch, belastet die Bandscheiben aber deutlich weniger. Er stammt vom Wirbelsäulenforscher Stuart McGill.'],
+    frames:[P(SUP,{lN:{to:[128,134],b:-1},fN:0,aN:{to:[90,130],b:-1},aF:{to:[92,130],b:-1}}),P(SUP,{t:188,h:198,lN:{to:[128,134],b:-1},fN:0,aN:{to:[90,130],b:-1},aF:{to:[92,130],b:-1}})],
+    seq:[0,1,1,0],props:{mat:true},glow:'belly'},
+  b_deadbug:{name:'Dead Bug',kind:'strength',muscles:'tiefe Bauchmuskeln',def:2,rng:[6,12],
+    tempo:[['links strecken',2],['zurück',1.5],['rechts strecken',2],['zurück',1.5]],
+    stages:['Nur die Beine abwechselnd strecken, Arme bleiben oben','Arm und Gegenbein gleichzeitig strecken',{t:'Arm und Gegenbein, 3 Sekunden zurück',down:3},'Gestreckt 2 Sekunden halten, Fuß knapp über dem Boden'],
+    how:'Rückenlage, Arme zur Decke, Knie über der Hüfte und 90 Grad gebeugt.',
+    cues:['Unterer Rücken bleibt am Boden','Arm und Gegenbein langsam strecken','Zurück, dann die andere Seite'],
+    tips:['Nur so weit strecken, wie der Rücken am Boden bleibt.','Ausatmen beim Strecken.'],
+    info:['Der Dead Bug trainiert den Rumpf, während sich Arme und Beine bewegen, ohne die Wirbelsäule zu beugen.'],
+    frames:[P(SUP,{aN:{a:[-90,-90]},aF:{a:[-88,-88]},lN:{a:[-90,0]},lF:{a:[-88,2]},fN:-90,fF:-88}),
+            P(SUP,{aN:{a:[-160,-160]},aF:{a:[-88,-88]},lN:{a:[-90,0]},lF:{a:[-12,-10]},fN:-90,fF:-80}),
+            P(SUP,{aN:{a:[-90,-90]},aF:{a:[-158,-158]},lN:{a:[-12,-10]},lF:{a:[-88,2]},fN:-80,fF:-88})],
+    seq:[0,1,0,2,0],props:{mat:true},glow:'belly'},
+
   g_einschlafen:{name:'Wieder einschlafen',kind:'guide',night:true,dur:600,breathSeg:[[64,180,4,6]],
     script:[
       [0,'Du bist aufgewacht. Das ist völlig in Ordnung. Du musst jetzt nichts tun und nichts schaffen.','Ankommen'],
@@ -1345,9 +1615,9 @@ const EX={
         s.push([9,'Zu jedem seiner Buchstaben denkst du dir Wörter aus, die damit anfangen, und stellst dir jedes ganz kurz vor. Ohne Zusammenhang, ohne Druck.']);
         s.push([24,'Fällt dir nichts mehr ein, warte einfach auf den nächsten Buchstaben. Mit der Vor-Taste kannst du auch selbst weiterspringen.']);
         let t=38;
-        for(const w of sh(SHUF_L)){
+        for(const w of sh(shufPool(SHUF_L,'l',8))){
           const L=[];for(const ch of w.toUpperCase())if(!L.includes(ch))L.push(ch);
-          s.push([t,'Dein Wort ist: '+w+'. Erster Buchstabe: '+L[0]+'.',w+' · '+L[0]]);t+=75;
+          s.push([t,'Dein Wort ist: '+w+'. Erster Buchstabe: '+L[0]+'.',w+' · '+L[0],w,'l']);t+=75;
           for(let i=1;i<L.length&&t<870;i++){s.push([t,'Nächster Buchstabe: '+L[i]+'.',w+' · '+L[i]]);t+=75;}
           if(t>=870)break;
           s.push([t,'Neues Wort.']);t+=4;
@@ -1356,8 +1626,8 @@ const EX={
         s.push([0,'Das ist der Gedanken-Shuffle. Ich nenne dir gleich einzelne Wörter, die nichts miteinander zu tun haben.','Ankommen']);
         s.push([10,'Stell dir zu jedem Wort kurz ein Bild vor. Ganz locker, ohne nachzudenken. Wenn das Bild verschwimmt, ist das genau richtig.']);
         s.push([25,'Such keinen Zusammenhang zwischen den Wörtern. Lass jedes einfach kommen und wieder gehen. Leg das Handy weg.']);
-        let t=40,gap=11,n=0;const w=sh(SHUF_W);
-        while(t<870&&n<w.length){s.push([t,w[n]+'.',n%12===0?'Bilder '+(n/12+1):undefined]);n++;t+=gap;gap=Math.min(22,gap+.25);}
+        let t=40,gap=11,n=0;const w=sh(shufPool(SHUF_W,'b',70));
+        while(t<870&&n<w.length){s.push([t,w[n]+'.',n%12===0?'Bilder '+(n/12+1):undefined,w[n],'b']);n++;t+=gap;gap=Math.min(22,gap+.25);}
       }
       s.push([880,'Ich werde jetzt still. Mach einfach allein weiter, wenn du magst.']);
       return s;
@@ -1394,14 +1664,44 @@ function wFrames(base){return [P(base,{aN:{a:[30,-75]},aF:{a:[34,-71]}}),P(base,
 function armUp(base){return [P(base,{aN:{a:[75,75]},aF:{a:[78,78]}}),P(base,{t:-96,c:-4,h:-110,aN:{a:[-112,-112]},aF:{a:[-108,-108]}})];}
 
 EX.k_liege2.frames=EX.k_liegestuetz.frames;EX.k_rudern2.frames=EX.k_rudern.frames;
-const SHUF_W=["Apfel", "Ballon", "Bleistift", "Brille", "Brot", "Buch", "Dampfer", "Eichhörnchen", "Eimer", "Fahrrad", "Feder", "Fenster", "Flöte", "Gabel", "Garten", "Gießkanne", "Gitarre", "Globus", "Hafen", "Hängematte", "Heißluftballon", "Hut", "Igel", "Insel", "Kaktus", "Kamel", "Kanu", "Karotte", "Kastanie", "Kerze", "Kirsche", "Kissen", "Kompass", "Korb", "Kran", "Krone", "Laterne", "Leiter", "Leuchtturm", "Löffel", "Mantel", "Marienkäfer", "Mond", "Murmel", "Muschel", "Nudel", "Nuss", "Ofen", "Orange", "Paddel", "Papierflieger", "Pinsel", "Pfau", "Pilz", "Pinguin", "Popcorn", "Regenschirm", "Roller", "Rucksack", "Sandburg", "Schaukel", "Schiff", "Schlitten", "Schnecke", "Schneemann", "Schmetterling", "Seestern", "Segelboot", "Sessel", "Socke", "Sonnenblume", "Spiegel", "Stern", "Straßenbahn", "Strohhut", "Tasse", "Teekanne", "Teppich", "Tomate", "Traktor", "Trompete", "Tulpe", "Uhr", "Vase", "Vogelhaus", "Waffel", "Wal", "Wecker", "Wiese", "Windmühle", "Wolke", "Würfel", "Zebra", "Zelt", "Zitrone", "Zug", "Ananas", "Anker", "Badewanne", "Bambus", "Banane", "Biene", "Blatt", "Boje", "Brücke", "Brunnen", "Delfin", "Eule", "Fächer", "Fisch", "Flamingo", "Fuchs", "Gans", "Giraffe", "Glocke", "Gurke", "Handschuh", "Hase", "Heft", "Hufeisen", "Kakao", "Kiwi", "Klavier", "Knopf", "Koffer", "Kokosnuss", "Lama", "Lineal", "Mais", "Melone", "Mühle", "Mütze", "Nest", "Notizbuch", "Panda", "Papagei", "Pfeffermühle", "Picknickdecke", "Pyramide", "Rakete", "Rasen", "Reh", "Ring", "Rose", "Rutsche", "Salat", "Schal", "Schere", "Schildkröte", "Schwan", "Seife", "Sofa", "Spatz", "Stiefel", "Strand", "Taube", "Teich", "Topf", "Trampolin", "Turm", "Walnuss", "Wasserfall", "Weintraube", "Wolle", "Zahnbürste", "Ziege", "Zimt", "Zwiebel", "Zuckerwatte", "Gondel", "Hummel", "Iglu", "Joghurt", "Kirschbaum", "Mosaik", "Origami", "Pelikan", "Puzzle", "Radieschen", "Sandale", "Seerose", "Tannenzapfen", "Teleskop", "Veilchen", "Wimpel", "Bügeleisen", "Butterbrot", "Dackel", "Erdbeere", "Fernrohr", "Gartenzaun", "Hängebrücke", "Holzlöffel", "Kanarienvogel", "Keks", "Kreide", "Limonade", "Maulwurf", "Nilpferd", "Ostereier", "Pfannkuchen", "Rasenmäher", "Schaukelstuhl", "Sonnenhut", "Stoppuhr", "Tannenbaum", "Wäscheklammer"];
-const SHUF_L=["Garten", "Lampe", "Wolke", "Fenster", "Kompass", "Insel", "Sommer", "Teppich", "Hafen", "Muschel", "Kerze", "Wiese", "Apfel", "Pinsel", "Strand", "Laterne", "Feder", "Kamera", "Orange", "Gitarre", "Tulpe", "Mond", "Brunnen", "Kissen", "Segel", "Wald", "Decke", "Himmel", "Tasse", "Blume"];
+EX.marsch.frames=EX.kniehebel.frames;EX.climberfast.frames=EX.climber.frames;EX.burpeeleise.frames=EX.burpee.frames;
+EX.b_liege.frames=EX.k_liegestuetz.frames;EX.b_bruecke.frames=EX.bruecke1.frames;EX.b_pike.frames=EX.k_pike.frames;EX.b_ytw.frames=EX.wyraise.frames;
+const SHUF_W=["Wiese", "Wald", "Lichtung", "Bach", "Fluss", "See", "Teich", "Quelle", "Wasserfall", "Hügel", "Berg", "Gipfel", "Tal", "Schlucht", "Felsen", "Kiesel", "Sanddüne", "Strand", "Bucht", "Insel", "Halbinsel", "Küste", "Klippe", "Brandung", "Welle", "Lagune", "Moor", "Heide", "Weinberg", "Obstwiese", "Acker", "Feldweg", "Waldweg", "Pfad", "Brücke", "Steg", "Ufer", "Mündung", "Gletscher", "Vulkan", "Höhle", "Oase", "Wüste", "Steppe", "Savanne", "Regenwald", "Lavendelfeld", "Sonnenblumenfeld", "Kornfeld", "Heuballen", "Strohballen", "Maisfeld", "Rapsfeld", "Hecke", "Gartenzaun", "Tümpel", "Seerose", "Schilf", "Moos", "Farn", "Pilz", "Tannenzapfen", "Eichel", "Kastanie", "Blatt", "Zweig", "Ast", "Baumstamm", "Baumrinde", "Wurzel", "Laubhaufen", "Schneeflocke", "Eiszapfen", "Raureif", "Tautropfen", "Regenbogen", "Wolke", "Nebel", "Morgenrot", "Abendrot", "Sonnenuntergang", "Sternenhimmel", "Mondsichel", "Vollmond", "Sternschnuppe", "Polarlicht", "Sommerregen", "Pfütze", "Rose", "Tulpe", "Narzisse", "Krokus", "Schneeglöckchen", "Maiglöckchen", "Veilchen", "Gänseblümchen", "Löwenzahn", "Pusteblume", "Kornblume", "Mohnblume", "Margerite", "Sonnenblume", "Lavendel", "Flieder", "Holunder", "Hortensie", "Pfingstrose", "Dahlie", "Aster", "Lilie", "Orchidee", "Kaktus", "Efeu", "Bambus", "Palme", "Birke", "Eiche", "Buche", "Linde", "Ahorn", "Kastanienbaum", "Weide", "Trauerweide", "Tanne", "Fichte", "Kiefer", "Lärche", "Pappel", "Kirschbaum", "Apfelbaum", "Magnolie", "Klee", "Kleeblatt", "Basilikum", "Rosmarin", "Thymian", "Minze", "Petersilie", "Schnittlauch", "Salbei", "Kamille", "Brennnessel", "Distel", "Heidekraut", "Sonnenhut", "Ringelblume", "Kapuzinerkresse", "Glockenblume", "Vergissmeinnicht", "Edelweiß", "Enzian", "Seegras", "Alge", "Mistelzweig", "Stechpalme", "Apfel", "Birne", "Pflaume", "Kirsche", "Erdbeere", "Himbeere", "Brombeere", "Heidelbeere", "Johannisbeere", "Stachelbeere", "Weintraube", "Rosine", "Banane", "Orange", "Mandarine", "Zitrone", "Limette", "Grapefruit", "Ananas", "Mango", "Kiwi", "Melone", "Wassermelone", "Pfirsich", "Aprikose", "Nektarine", "Feige", "Dattel", "Granatapfel", "Kokosnuss", "Papaya", "Maracuja", "Quitte", "Holunderbeere", "Preiselbeere", "Walnuss", "Haselnuss", "Erdnuss", "Mandel", "Pistazie", "Karotte", "Kartoffel", "Tomate", "Gurke", "Paprika", "Zucchini", "Kürbis", "Aubergine", "Brokkoli", "Blumenkohl", "Rosenkohl", "Weißkohl", "Rotkohl", "Grünkohl", "Spinat", "Salatkopf", "Radieschen", "Rettich", "Sellerie", "Lauch", "Zwiebel", "Knoblauch", "Erbse", "Bohne", "Linse", "Kichererbse", "Maiskolben", "Spargel", "Artischocke", "Fenchel", "Pastinake", "Süßkartoffel", "Champignon", "Pfifferling", "Ingwer", "Peperoni", "Olive", "Avocado", "Kohlrabi", "Brot", "Brötchen", "Brezel", "Croissant", "Zimtschnecke", "Butterbrot", "Toast", "Waffel", "Pfannkuchen", "Crêpe", "Muffin", "Keks", "Lebkuchen", "Plätzchen", "Kuchen", "Apfelstrudel", "Käsekuchen", "Torte", "Sahnetorte", "Erdbeertorte", "Hefezopf", "Schokolade", "Praline", "Bonbon", "Lutscher", "Gummibärchen", "Marzipan", "Honig", "Marmelade", "Nougat", "Müsli", "Haferflocken", "Joghurt", "Quark", "Butter", "Käse", "Käselaib", "Emmentaler", "Frühstücksei", "Spiegelei", "Rührei", "Omelett", "Pizza", "Nudeln", "Spaghetti", "Lasagne", "Ravioli", "Risotto", "Reis", "Suppe", "Kürbissuppe", "Tomatensuppe", "Eintopf", "Kartoffelbrei", "Bratkartoffeln", "Pommes", "Popcorn", "Salzstange", "Sandwich", "Wrap", "Taco", "Sushi", "Dampfnudel", "Knödel", "Maultasche", "Spätzle", "Flammkuchen", "Quiche", "Pastete", "Pfefferkuchen", "Eiscreme", "Eiswaffel", "Sorbet", "Pudding", "Wackelpudding", "Grießbrei", "Milchreis", "Vanillesoße", "Zuckerwatte", "Kaugummi", "Lakritz", "Smoothie", "Limonade", "Kakao", "Tee", "Teekanne", "Kaffee", "Milchkaffee", "Milch", "Apfelsaft", "Orangensaft", "Mineralwasser", "Kräutertee", "Zitronenlimonade", "Eistee", "Katze", "Kätzchen", "Hund", "Welpe", "Pferd", "Pony", "Fohlen", "Esel", "Kuh", "Kalb", "Schaf", "Lamm", "Ziege", "Zicklein", "Schwein", "Ferkel", "Kaninchen", "Hase", "Meerschweinchen", "Hamster", "Igel", "Eichhörnchen", "Maulwurf", "Biber", "Otter", "Dachs", "Fuchs", "Reh", "Hirsch", "Elch", "Rentier", "Bär", "Eisbär", "Panda", "Koala", "Känguru", "Giraffe", "Elefant", "Nashorn", "Nilpferd", "Zebra", "Kamel", "Lama", "Alpaka", "Affe", "Faultier", "Erdmännchen", "Waschbär", "Pinguin", "Robbe", "Seehund", "Walross", "Wal", "Delfin", "Seepferdchen", "Seestern", "Schildkröte", "Frosch", "Kaulquappe", "Schnecke", "Marienkäfer", "Schmetterling", "Raupe", "Libelle", "Hummel", "Glühwürmchen", "Grashüpfer", "Goldfisch", "Forelle", "Lachs", "Krabbe", "Muschel", "Tintenfisch", "Flamingo", "Pelikan", "Papagei", "Wellensittich", "Eule", "Uhu", "Specht", "Amsel", "Meise", "Spatz", "Rotkehlchen", "Schwalbe", "Storch", "Kranich", "Schwan", "Ente", "Entenküken", "Gans", "Huhn", "Küken", "Hahn", "Pfau", "Taube", "Möwe", "Adler", "Falke", "Kolibri", "Strauß", "Tukan", "Chamäleon", "Gecko", "Teekessel", "Tasse", "Becher", "Teller", "Schüssel", "Löffel", "Gabel", "Teelöffel", "Kochlöffel", "Schneebesen", "Nudelholz", "Backblech", "Backform", "Pfanne", "Kochtopf", "Deckel", "Sieb", "Reibe", "Salzstreuer", "Pfeffermühle", "Zuckerdose", "Butterdose", "Brotkorb", "Eierbecher", "Serviette", "Tischdecke", "Kerzenständer", "Kerze", "Teelicht", "Laterne", "Lampe", "Stehlampe", "Nachttischlampe", "Glühbirne", "Lampenschirm", "Vase", "Blumentopf", "Gießkanne", "Wäscheklammer", "Wäscheleine", "Bügeleisen", "Besen", "Kehrschaufel", "Staubwedel", "Eimer", "Schwamm", "Handtuch", "Bademantel", "Badewanne", "Gummiente", "Zahnbürste", "Seife", "Seifenblase", "Kamm", "Haarbürste", "Spiegel", "Wecker", "Uhr", "Kuckucksuhr", "Sanduhr", "Kalender", "Schlüssel", "Schlüsselbund", "Türklinke", "Fensterbank", "Vorhang", "Jalousie", "Teppich", "Fußmatte", "Kissen", "Kuscheldecke", "Bettdecke", "Federbett", "Hängematte", "Schaukelstuhl", "Sessel", "Sofa", "Hocker", "Stuhl", "Tisch", "Schreibtisch", "Bücherregal", "Kommode", "Schrank", "Kleiderbügel", "Truhe", "Korb", "Weidenkorb", "Picknickkorb", "Thermoskanne", "Brotdose", "Kühlschrank", "Toaster", "Kaffeemaschine", "Wasserkocher", "Mixer", "Waage", "Messbecher", "Ofen", "Kachelofen", "Kamin", "Holzscheit", "Streichholz", "Feuerzeug", "Regenschirm", "Schirmständer", "Garderobe", "Briefkasten", "Gartenstuhl", "Gartenbank", "Sonnenschirm", "Liegestuhl", "Planschbecken", "Gartenschlauch", "Rasenmäher", "Schubkarre", "Gartenzwerg", "Vogelhaus", "Futterhaus", "Windspiel", "Blumenkasten", "Mütze", "Schal", "Handschuh", "Fäustling", "Pullover", "Strickjacke", "Hemd", "Bluse", "T-Shirt", "Kleid", "Rock", "Hose", "Jeans", "Latzhose", "Shorts", "Socke", "Kniestrumpf", "Hausschuh", "Gummistiefel", "Sandale", "Turnschuh", "Wanderschuh", "Stiefel", "Regenjacke", "Mantel", "Weste", "Krawatte", "Fliege", "Gürtel", "Hosenträger", "Strohhut", "Zylinder", "Baskenmütze", "Schirmmütze", "Stirnband", "Ohrenschützer", "Sonnenbrille", "Brille", "Armbanduhr", "Halskette", "Ohrring", "Armband", "Ring", "Brosche", "Haarspange", "Haarband", "Knopf", "Reißverschluss", "Schnürsenkel", "Taschentuch", "Rucksack", "Handtasche", "Koffer", "Geldbörse", "Jutebeutel", "Schlafanzug", "Nachthemd", "Badehose", "Badeanzug", "Taucherbrille", "Schwimmflügel", "Bleistift", "Buntstift", "Füller", "Kugelschreiber", "Wachsmalstift", "Pinsel", "Farbkasten", "Malkasten", "Staffelei", "Leinwand", "Radiergummi", "Anspitzer", "Lineal", "Zirkel", "Schere", "Klebestift", "Tesafilm", "Büroklammer", "Heftklammer", "Locher", "Notizbuch", "Tagebuch", "Schreibheft", "Briefumschlag", "Briefmarke", "Postkarte", "Ansichtskarte", "Landkarte", "Globus", "Kompass", "Lupe", "Fernglas", "Teleskop", "Mikroskop", "Taschenlampe", "Zollstock", "Wasserwaage", "Hammer", "Nagel", "Schraube", "Schraubenzieher", "Zange", "Farbeimer", "Leiter", "Werkbank", "Werkzeugkasten", "Gießform", "Schnur", "Wollknäuel", "Stricknadel", "Häkelnadel", "Nähkästchen", "Fingerhut", "Nadelkissen", "Stoffballen", "Bastelschere", "Bügelperlen", "Tonkrug", "Töpferscheibe", "Webstuhl", "Spinnrad", "Geige", "Bratsche", "Cello", "Kontrabass", "Harfe", "Gitarre", "Ukulele", "Banjo", "Mandoline", "Klavier", "Flügel", "Orgel", "Akkordeon", "Mundharmonika", "Blockflöte", "Querflöte", "Klarinette", "Oboe", "Saxofon", "Trompete", "Posaune", "Tuba", "Waldhorn", "Trommel", "Pauke", "Tamburin", "Triangel", "Xylofon", "Glockenspiel", "Kastagnetten", "Rassel", "Notenständer", "Notenblatt", "Taktstock", "Spieluhr", "Plattenspieler", "Schallplatte", "Kopfhörer", "Radio", "Kassette", "Mikrofon", "Lautsprecher", "Ball", "Fußball", "Basketball", "Tennisball", "Tischtennisschläger", "Federball", "Frisbee", "Bumerang", "Drachen", "Kreisel", "Jojo", "Murmel", "Würfel", "Spielkarte", "Puzzle", "Puzzleteil", "Schachbrett", "Schachfigur", "Dominostein", "Bauklotz", "Teddybär", "Puppe", "Puppenhaus", "Schaukelpferd", "Steckenpferd", "Holzeisenbahn", "Modellauto", "Kaleidoskop", "Sandkasten", "Sandburg", "Schaufel", "Förmchen", "Hula-Hoop-Reifen", "Springseil", "Rollschuh", "Inliner", "Skateboard", "Roller", "Schlitten", "Schlittschuh", "Schneemann", "Schneeball", "Iglu", "Wippe", "Schaukel", "Rutsche", "Karussell", "Riesenrad", "Luftballon", "Konfetti", "Luftschlange", "Lampion", "Zauberstab", "Zylinderhut", "Krone", "Fahne", "Wimpel", "Turnmatte", "Sprossenwand", "Barren", "Reck", "Ringe", "Trampolin", "Sprungbrett", "Schwimmbecken", "Badesee", "Surfbrett", "Segelboot", "Paddel", "Kanu", "Kajak", "Ruderboot", "Tretboot", "Luftmatratze", "Schwimmring", "Taucherflossen", "Schnorchel", "Golfball", "Golfschläger", "Minigolf", "Kegel", "Bowlingkugel", "Billardkugel", "Dartscheibe", "Tischkicker", "Hantelbank", "Fahrradhelm", "Wanderstock", "Kletterseil", "Karabiner", "Zelt", "Schlafsack", "Lagerfeuer", "Stockbrot", "Picknickdecke", "Angelrute", "Kescher", "Pfeil", "Zielscheibe", "Hürde", "Staffelstab", "Stoppuhr", "Pokal", "Medaille", "Siegertreppchen", "Tor", "Netz", "Fahrrad", "Tandem", "Dreirad", "Laufrad", "Motorroller", "Moped", "Motorrad", "Auto", "Cabrio", "Oldtimer", "Wohnmobil", "Wohnwagen", "Bus", "Doppeldeckerbus", "Straßenbahn", "Seilbahn", "Gondel", "Sessellift", "Zahnradbahn", "Dampflok", "Lokomotive", "Eisenbahnwagen", "Güterzug", "Bummelzug", "Traktor", "Mähdrescher", "Bagger", "Kran", "Gabelstapler", "Müllauto", "Lieferwagen", "Postauto", "Taxi", "Kutsche", "Pferdewagen", "Leiterwagen", "Bollerwagen", "Kinderwagen", "Einkaufswagen", "Segelschiff", "Dampfer", "Fähre", "Fischkutter", "Containerschiff", "Hausboot", "Floß", "U-Boot", "Heißluftballon", "Zeppelin", "Segelflugzeug", "Flugzeug", "Wasserflugzeug", "Hubschrauber", "Rakete", "Raumstation", "Mondfahrzeug", "Leuchtturm", "Windmühle", "Wassermühle", "Scheune", "Bauernhof", "Hühnerstall", "Pferdestall", "Gartenhaus", "Baumhaus", "Holzhütte", "Berghütte", "Almhütte", "Blockhaus", "Fachwerkhaus", "Reihenhaus", "Hochhaus", "Turm", "Burg", "Schloss", "Burggraben", "Zugbrücke", "Kirchturm", "Kapelle", "Kloster", "Rathaus", "Marktplatz", "Brunnen", "Springbrunnen", "Denkmal", "Park", "Stadtpark", "Gewächshaus", "Zoo", "Aquarium", "Museum", "Bibliothek", "Theater", "Kino", "Konzertsaal", "Bahnhof", "Bahnsteig", "Hafen", "Anlegestelle", "Strandkorb", "Strandbar", "Promenade", "Seebrücke", "Schwimmbad", "Eisdiele", "Bäckerei", "Konditorei", "Café", "Wochenmarkt", "Blumenladen", "Buchladen", "Spielplatz", "Rodelbahn", "Skipiste", "Campingplatz", "Jugendherberge", "Pension", "Ferienhaus", "Weinkeller", "Kräutergarten", "Rosengarten", "Labyrinth", "Pavillon", "Gartenlaube", "Pergola", "Teehaus", "Pagode", "Pyramide", "Sternwarte", "Planetarium", "Observatorium", "Zirkuszelt", "Jahrmarkt", "Weihnachtsmarkt", "Fischmarkt", "Gondelstation", "Passstraße", "Serpentine", "Tunnel", "Viadukt", "Staudamm", "Schleuse", "Kanal", "Allee", "Kopfsteinpflaster", "Gasse", "Treppe", "Wendeltreppe", "Torbogen", "Balkon", "Dachterrasse", "Wintergarten", "Veranda", "Innenhof", "Planet", "Saturn", "Mond", "Sonne", "Stern", "Komet", "Galaxie", "Milchstraße", "Astronaut", "Raumanzug", "Satellit", "Ufo", "Einhorn", "Drache", "Fee", "Zauberer", "Kobold", "Riese", "Zwerg", "Meerjungfrau", "Pegasus", "Phönix", "Wichtel", "Elfe", "Schatzkiste", "Schatzkarte", "Goldmünze", "Edelstein", "Kristall", "Bernstein", "Perle", "Muschelschale", "Flaschenpost", "Glaskugel", "Schneekugel", "Zauberhut", "Wolkenschloss", "Lebkuchenhaus", "Märchenbuch", "Bilderbuch", "Pirat", "Piratenschiff", "Fernrohr", "Steuerrad", "Anker", "Kompassrose", "Segel", "Ruder", "Logbuch", "Bäcker", "Konditor", "Gärtner", "Imker", "Förster", "Fischer", "Schäfer", "Bauer", "Koch", "Kellner", "Briefträger", "Lokführer", "Kapitän", "Pilot", "Gondoliere", "Uhrmacher", "Goldschmied", "Schreiner", "Tischler", "Töpfer", "Maler", "Bildhauer", "Fotograf", "Schneider", "Florist", "Bibliothekar", "Musiker", "Dirigent", "Zauberkünstler", "Jongleur", "Seiltänzer", "Akrobat", "Eisverkäufer", "Bademeister", "Bergführer", "Astronom", "Archäologe", "Kartograf", "Leuchtturmwärter", "Kugel", "Spirale", "Kreis", "Dreieck", "Quadrat", "Herz", "Halbmond", "Wellenlinie", "Zickzack", "Schachbrettmuster", "Punktmuster", "Streifen", "Karomuster", "Mosaik", "Fliese", "Glasmurmel", "Murmelbahn", "Mobile", "Windrad", "Wetterhahn", "Wetterfahne", "Sonnenuhr", "Pendel", "Kompassnadel", "Magnet", "Batterie", "Lichterkette", "Wunderkerze", "Feuerwerk", "Kürbislaterne", "Tannenbaum", "Christbaumkugel", "Adventskranz", "Nussknacker", "Räuchermännchen", "Schwibbogen", "Osterei", "Osterhase", "Schokohase", "Strohstern", "Papierflieger", "Papierschiff", "Origami", "Fächer", "Schirm", "Kreidetafel", "Kreide", "Straßenkreide", "Hüpfkästchen", "Briefpapier", "Siegel", "Wachssiegel", "Federkiel", "Tintenfass", "Pergament", "Schriftrolle", "Kerzenlicht", "Öllampe", "Petroleumlampe", "Leuchtglobus", "Weltkarte", "Postkasten", "Telefonzelle", "Litfaßsäule", "Laternenpfahl", "Parkbank", "Fahrradständer", "Hydrant", "Gartentor", "Holztor", "Zaunpfahl", "Vogelscheuche", "Heuschober", "Wagenrad", "Mühlrad", "Wasserrad", "Ziehbrunnen"];
+const SHUF_L=["Lichtung", "Teich", "Gipfel", "Schlucht", "Felsen", "Kiesel", "Strand", "Bucht", "Insel", "Klippe", "Brandung", "Lagune", "Weinberg", "Acker", "Feldweg", "Waldweg", "Vulkan", "Savanne", "Kornfeld", "Maisfeld", "Rapsfeld", "Schilf", "Eichel", "Kastanie", "Zweig", "Wurzel", "Raureif", "Wolke", "Abendrot", "Vollmond", "Tulpe", "Narzisse", "Krokus", "Veilchen", "Lavendel", "Flieder", "Holunder", "Dahlie", "Aster", "Orchidee", "Kaktus", "Bambus", "Palme", "Birke", "Buche", "Linde", "Ahorn", "Fichte", "Kiefer", "Magnolie", "Rosmarin", "Thymian", "Minze", "Salbei", "Kamille", "Distel", "Enzian", "Seegras", "Apfel", "Birne", "Pflaume", "Kirsche", "Himbeere", "Rosine", "Orange", "Zitrone", "Limette", "Mango", "Melone", "Pfirsich", "Aprikose", "Dattel", "Maracuja", "Quitte", "Walnuss", "Erdnuss", "Mandel", "Pistazie", "Karotte", "Tomate", "Gurke", "Paprika", "Zucchini", "Brokkoli", "Rotkohl", "Spinat", "Rettich", "Sellerie", "Lauch", "Zwiebel", "Bohne", "Linse", "Spargel", "Fenchel", "Ingwer", "Peperoni", "Olive", "Avocado", "Kohlrabi", "Brezel", "Waffel", "Muffin", "Kuchen", "Hefezopf", "Praline", "Lutscher", "Marzipan", "Honig", "Nougat", "Joghurt", "Quark", "Butter", "Omelett", "Nudeln", "Lasagne", "Ravioli", "Risotto", "Eintopf", "Pommes", "Popcorn", "Sandwich", "Quiche", "Pastete", "Eiscreme", "Sorbet", "Pudding", "Kaugummi", "Lakritz", "Smoothie", "Limonade", "Teekanne", "Milch", "Katze", "Pferd", "Fohlen", "Schaf", "Zicklein", "Schwein", "Ferkel", "Hamster", "Maulwurf", "Dachs", "Fuchs", "Hirsch", "Rentier", "Giraffe", "Elefant", "Nashorn", "Nilpferd", "Zebra", "Kamel", "Faultier", "Pinguin", "Seehund", "Walross", "Delfin", "Seestern", "Frosch", "Schnecke", "Raupe", "Hummel", "Forelle", "Lachs", "Krabbe", "Muschel", "Flamingo", "Pelikan", "Papagei", "Specht", "Amsel", "Spatz", "Schwalbe", "Storch", "Kranich", "Schwan", "Taube", "Adler", "Falke", "Kolibri", "Tukan", "Gecko", "Becher", "Gabel", "Backform", "Pfanne", "Kochtopf", "Deckel", "Brotkorb", "Teelicht", "Laterne", "Lampe", "Schwamm", "Handtuch", "Spiegel", "Wecker", "Sanduhr", "Kalender", "Vorhang", "Jalousie", "Teppich", "Kissen", "Hocker", "Stuhl", "Tisch", "Kommode", "Schrank", "Truhe", "Brotdose", "Toaster", "Mixer", "Kamin", "Schal", "Pullover", "Bluse", "Kleid", "Jeans", "Latzhose", "Shorts", "Socke", "Sandale", "Stiefel", "Mantel", "Krawatte", "Fliege", "Strohhut", "Zylinder", "Brille", "Ohrring", "Armband", "Brosche", "Haarband", "Knopf", "Rucksack", "Koffer", "Badehose", "Pinsel", "Leinwand", "Lineal", "Zirkel", "Schere", "Tesafilm", "Locher", "Tagebuch", "Globus", "Kompass", "Fernglas", "Teleskop", "Hammer", "Nagel", "Schraube", "Zange", "Leiter", "Werkbank", "Schnur", "Tonkrug", "Webstuhl", "Spinnrad", "Bratsche", "Harfe", "Gitarre", "Banjo", "Klavier", "Orgel", "Saxofon", "Trompete", "Posaune", "Waldhorn", "Trommel", "Pauke", "Tamburin", "Triangel", "Xylofon", "Rassel", "Spieluhr", "Radio", "Kassette", "Mikrofon", "Frisbee", "Bumerang", "Drachen", "Kreisel", "Murmel", "Puzzle", "Bauklotz", "Sandburg", "Schaufel", "Inliner", "Schaukel", "Rutsche", "Konfetti", "Lampion", "Krone", "Fahne", "Wimpel", "Barren", "Ringe", "Badesee", "Paddel", "Tretboot", "Golfball", "Minigolf", "Kescher", "Pfeil", "Stoppuhr", "Pokal", "Medaille", "Fahrrad", "Tandem", "Dreirad", "Laufrad", "Moped", "Motorrad", "Cabrio", "Oldtimer", "Seilbahn", "Gondel", "Dampflok", "Traktor", "Bagger", "Postauto", "Kutsche", "Dampfer", "Hausboot", "Zeppelin", "Flugzeug", "Rakete", "Scheune", "Baumhaus", "Hochhaus", "Schloss", "Kapelle", "Kloster", "Rathaus", "Brunnen", "Denkmal", "Aquarium", "Theater", "Bahnhof", "Hafen", "Eisdiele", "Skipiste", "Pension", "Pavillon", "Pergola", "Teehaus", "Pagode", "Pyramide", "Tunnel", "Viadukt", "Staudamm", "Schleuse", "Torbogen", "Balkon", "Veranda", "Innenhof", "Planet", "Saturn", "Stern", "Komet", "Galaxie", "Satellit", "Einhorn", "Drache", "Zauberer", "Kobold", "Zwerg", "Pegasus", "Wichtel", "Kristall", "Pirat", "Fernrohr", "Anker", "Logbuch", "Konditor", "Imker", "Fischer", "Bauer", "Kellner", "Pilot", "Tischler", "Maler", "Fotograf", "Florist", "Musiker", "Dirigent", "Jongleur", "Akrobat", "Astronom", "Kugel", "Spirale", "Kreis", "Dreieck", "Quadrat", "Halbmond", "Zickzack", "Streifen", "Mosaik", "Fliese", "Mobile", "Windrad", "Pendel", "Magnet", "Batterie", "Osterei", "Origami", "Schirm", "Kreide", "Siegel", "Parkbank", "Hydrant", "Holztor", "Wagenrad"];
+/* Gehörte Wörter merken: ein Wort kommt erst wieder, wenn die anderen dran waren */
+let SHUF_U=null;
+function shufUsed(){if(!SHUF_U){let u=LS.get('rr.shufw',{b:[],l:[]});if(!u||!Array.isArray(u.b))u={b:[],l:[]};if(!Array.isArray(u.l))u.l=[];SHUF_U=u;}return SHUF_U;}
+function shufPool(list,key,need){const U=shufUsed(),used=new Set(U[key]);let pool=list.filter(w=>!used.has(w));if(pool.length<need){U[key]=[];LS.set('rr.shufw',U);pool=list.slice();}return pool;}
+function shufMark(w,key){if(!w)return;const U=shufUsed(),a=U[key];if(!a.includes(w)){a.push(w);LS.set('rr.shufw',U);}}
 const EQ={"katzekuh": ["Matte"], "bwsrot": ["Matte"], "hkdyn": ["Matte", "evtl. Kissen fürs Knie"], "hamstring": ["Matte", "Handtuch oder Gurt"], "hfkniend": ["Matte"], "figur4": ["Matte"], "bwsrolle": ["Matte", "Faszienrolle oder fest gerolltes Handtuch"], "paeckchen": ["Matte"], "atmung": ["Matte"], "sitzrot": ["Sofa oder Stuhl"], "sitzext": ["Sofa oder Stuhl"], "hfcouch": ["Sofa", "evtl. Kissen fürs Knie"], "hamsitz": ["Sofa oder Stuhl"], "wsitz": ["Sofa oder Stuhl"], "f4sitz": ["Sofa oder Stuhl"], "hfsteh": ["evtl. Tisch zum Festhalten"], "rumpfstuhl": ["Stuhl"], "brettvorbeuge": ["Matte"], "hundwechsel": ["Matte"], "nadeloehr": ["Matte"], "tuer": ["Türrahmen"], "wandpresse": ["Wand"], "aussenrot": ["Theraband"], "wyraise": ["Matte"], "birddog": ["Matte"], "seitstuetz": ["Matte"], "halo": ["Kettlebell"], "overhead": ["Kettlebell"], "passthrough": ["Besenstiel oder Handtuch"], "ninety": ["Matte"], "cossack": ["Matte"], "runnerslunge": ["Matte"], "dogbike": ["Matte"], "taube": ["Matte", "evtl. Kissen"], "schmetterling": ["Matte", "evtl. Kissen"], "hocke": ["evtl. Handtuch unter die Fersen"], "sphinx": ["Matte"], "bruecke": ["Matte"], "bandziehen": ["Theraband"], "k_liegestuetz": ["Matte"], "k_rudern": ["Matte", "Theraband"], "k_becken": ["Matte"], "k_schulter": ["Hanteln oder Kettlebell"], "k_curls": ["Hantel oder Kettlebell"], "k_plank": ["Matte"], "k_bss": ["Sofa", "Kettlebell (je nach Stufe)"], "k_klimmzug": ["Klimmzugstange", "lila Band (je nach Stufe)"], "k_liege2": ["Matte", "Stuhl (je nach Stufe)"], "k_hipthrust": ["Sofa", "Kettlebell (je nach Stufe)"], "k_facepull": ["Klimmzugstange", "Theraband"], "k_wade": ["Stufe oder dickes Buch", "Wand", "Gewicht (je nach Stufe)"], "k_slrdl": ["Kettlebell (je nach Stufe)", "Wand"], "k_boxsquat": ["Sofa"], "k_rudern2": ["Matte", "lila Band oder Theraband"], "k_pike": ["Matte", "Sofa oder Stuhl (je nach Stufe)"], "k_knieheben": ["Klimmzugstange"]};
+Object.assign(EQ,{"brustdehnstuhl": ["Stuhl"], "wadesteh": ["evtl. Tisch oder Wand zum Festhalten"], "beinstreck": ["Stuhl oder Sofa"], "climberfast": ["Matte"], "burpee": ["Matte"], "burpeeleise": ["Matte"], "b_liege": ["Matte"], "b_bruecke": ["Matte"], "b_pike": ["Matte"], "b_ytw": ["Matte", "evtl. Handtuch für die Stirn"], "b_curlup": ["Matte"], "b_deadbug": ["Matte"]});
 const eqOf=k=>EQ[k]||[];
 const eqKey=x=>x.replace(/^evtl\. /,'').replace(/ \(je nach Stufe\)/,'');
 function routineEq(r){const out=[],seen=new Set();for(const it of r.items)for(const e of eqOf(it.ex)){const k=eqKey(e);if(seen.has(k))continue;seen.add(k);out.push(e);}return out;}
 const joinUnd=a=>a.length<2?(a[0]||''):a.slice(0,-1).join(', ')+' und '+a[a.length-1];
 const eqSpoken=a=>joinUnd(a.filter(e=>!/^evtl\./.test(e)).map(e=>eqKey(e)));
+/* ================= Kategorien je Übung (Filter, eigene Routinen) ================= */
+const TAG={"armkreise": ["mob", "st", "schulter bws"], "armehoch": ["mob", "st", "schulter bws"], "katzekuh": ["mob", "bo", "bws rumpf"], "bwsrot": ["mob", "bo", "bws"], "hkdyn": ["mob", "bo", "huefte"], "kniebeuge": ["mob", "st", "beine huefte"], "hamstring": ["dehn", "bo", "beine"], "hfkniend": ["dehn", "bo", "huefte"], "figur4": ["dehn", "bo", "huefte"], "bwsrolle": ["mob", "bo", "bws"], "paeckchen": ["dehn", "bo", "rumpf"], "atmung": ["ruhe", "bo", "rumpf"], "sitzrot": ["mob", "si", "bws"], "sitzext": ["mob", "si", "bws"], "hfcouch": ["dehn", "bo", "huefte"], "hamsitz": ["dehn", "si", "beine"], "wsitz": ["kraft", "si", "schulter bws"], "f4sitz": ["dehn", "si", "huefte"], "rueckbeuge": ["mob", "st", "rumpf"], "kinn": ["mob", "st", "nacken"], "wsteh": ["kraft", "st", "schulter bws"], "hfsteh": ["dehn", "st", "huefte"], "rumpfstuhl": ["mob", "st", "bws rumpf"], "brettvorbeuge": ["mob", "bo", "bws rumpf"], "hundwechsel": ["mob", "bo", "bws schulter"], "nadeloehr": ["dehn", "bo", "bws schulter"], "wandpresse": ["kraft", "st", "schulter"], "aussenrot": ["kraft", "st", "schulter"], "wyraise": ["kraft", "bo", "bws schulter"], "halo": ["mob", "st", "schulter"], "overhead": ["kraft", "st", "schulter arme"], "passthrough": ["mob", "st", "schulter"], "ninety": ["mob", "bo", "huefte"], "cossack": ["mob", "st", "huefte beine"], "runnerslunge": ["dehn", "bo", "huefte beine"], "dogbike": ["mob", "bo", "beine schulter"], "taube": ["dehn", "bo", "huefte"], "schmetterling": ["dehn", "bo", "huefte"], "hocke": ["dehn", "st", "huefte beine"], "sphinx": ["dehn", "bo", "rumpf"], "bruecke": ["kraft", "bo", "huefte rumpf"], "laufen": ["cardio", "st", "ganz"], "hampelmann": ["cardio", "st", "ganz"], "bandziehen": ["kraft", "st", "schulter bws"], "k_kniebeuge": ["kraft", "st", "beine"], "k_liegestuetz": ["kraft", "bo", "arme schulter"], "k_rudern": ["kraft", "bo", "bws arme"], "k_becken": ["kraft", "bo", "huefte"], "k_schulter": ["kraft", "st", "schulter arme"], "k_curls": ["kraft", "st", "arme"], "k_plank": ["kraft", "bo", "rumpf"], "tuer": ["dehn", "st", "schulter"], "birddog": ["kraft", "bo", "rumpf"], "seitstuetz": ["kraft", "bo", "rumpf"], "ausfallschritt": ["kraft", "st", "beine"], "rudern1": ["kraft", "st", "bws arme"], "bruecke1": ["kraft", "bo", "huefte"], "pullover": ["kraft", "bo", "bws schulter"], "revfly": ["kraft", "st", "schulter bws"], "dips": ["kraft", "bo", "arme"], "climber": ["kraft", "bo", "rumpf ganz"], "k_bss": ["kraft", "st", "beine"], "k_liege2": ["kraft", "bo", "arme schulter"], "k_klimmzug": ["kraft", "st", "bws arme"], "k_hipthrust": ["kraft", "bo", "huefte"], "k_facepull": ["kraft", "st", "schulter bws"], "k_wade": ["kraft", "st", "beine"], "k_slrdl": ["kraft", "st", "beine huefte"], "k_boxsquat": ["kraft", "st", "beine"], "k_rudern2": ["kraft", "st", "bws arme"], "k_pike": ["kraft", "bo", "schulter arme"], "k_knieheben": ["kraft", "st", "rumpf"], "schulterkreisen": ["mob", "st", "nacken schulter"], "nacken": ["dehn", "st", "nacken"], "handgelenk": ["dehn", "st", "arme"], "brustdehnstuhl": ["dehn", "si", "schulter bws"], "wadesteh": ["kraft", "st", "beine"], "seitneigung": ["mob", "st", "rumpf"], "beinstreck": ["mob", "si", "beine"], "kniehebel": ["cardio", "st", "ganz"], "marsch": ["cardio", "st", "ganz"], "climberfast": ["cardio", "bo", "ganz rumpf"], "sprungkniebeuge": ["cardio", "st", "beine ganz"], "kniebeugeferse": ["cardio", "st", "beine"], "skater": ["cardio", "st", "beine ganz"], "seitschritt": ["cardio", "st", "beine"], "burpee": ["cardio", "st", "ganz"], "burpeeleise": ["cardio", "st", "ganz"], "boxen": ["cardio", "st", "schulter ganz"], "hampelleise": ["cardio", "st", "ganz"], "b_liege": ["kraft", "bo", "arme schulter"], "b_split": ["kraft", "st", "beine"], "b_bruecke": ["kraft", "bo", "huefte"], "b_pike": ["kraft", "bo", "schulter arme"], "b_ytw": ["kraft", "bo", "bws schulter"], "b_curlup": ["kraft", "bo", "rumpf"], "b_deadbug": ["kraft", "bo", "rumpf"]};
+const ART_N={mob:'Mobilisieren',dehn:'Dehnen',kraft:'Kräftigen',cardio:'Ausdauer',ruhe:'Atmen'};
+const POS_N={st:'Stehen',si:'Sitzen',bo:'Boden'};
+const ZONE_N={nacken:'Nacken',schulter:'Schultern',bws:'Brustwirbelsäule',rumpf:'Rumpf, unterer Rücken',huefte:'Hüfte, Po',beine:'Beine',arme:'Arme',ganz:'ganzer Körper'};
+const HM_N={nichts:'Nichts',matte:'Matte',moebel:'Stuhl oder Sofa',wand:'Wand oder Tür',klein:'Handtuch, Rolle, Stab',band:'Theraband',gewicht:'Hantel oder Kettlebell',stange:'Klimmzugstange'};
+const ORT_N={zuhause:'Zu Hause',buero:'Am Schreibtisch',unterwegs:'Unterwegs'};
+function hmOf(k){
+  const need=new Set();
+  for(const e of eqOf(k)){if(/^evtl\./.test(e)||/je nach Stufe/.test(e))continue;
+    if(/Matte/.test(e))need.add('matte');else if(/Sofa|Stuhl|Tisch/.test(e))need.add('moebel');else if(/Wand|Tür/.test(e))need.add('wand');
+    else if(/Band/.test(e))need.add('band');else if(/Hantel|Kettlebell/.test(e))need.add('gewicht');else if(/Stange/.test(e))need.add('stange');else need.add('klein');}
+  if(!need.size)need.add('nichts');return [...need];
+}
+function tagsOf(k){
+  const t=TAG[k]||['mob','st','ganz'],hm=hmOf(k),pos=t[1];
+  const easy=hm.every(h=>h==='nichts'||h==='moebel'||h==='wand');
+  const ort=['zuhause'];
+  if(easy&&(pos==='st'||pos==='si')&&t[0]!=='cardio')ort.push('buero');
+  if(hm.every(h=>h==='nichts')&&pos==='st')ort.push('unterwegs');
+  return {art:t[0],pos,zone:t[2].split(' '),hm,ort};
+}
 /* ================= Info-Texte je Übung =================
    s = So geht's (Schritte), t = Takt, w = Darauf achten, e = Häufige Fehler, y = Warum diese Übung,
    x = Warum so lange (sonst allgemeiner Text), l = leichter, h = schwerer, a = anpassen oder weglassen, wenn, n = Hinweis */
@@ -1669,7 +1969,73 @@ const DOC={
   k_knieheben:{s:['An die Klimmzugstange hängen, Schultern aktiv nach unten ziehen.','Knie kontrolliert hochziehen.','Oben das Becken leicht einrollen.','Langsam ablassen und unten zur Ruhe kommen.'],
     w:['Kein Schwung.','Schultern weg von den Ohren.'],e:['Mit Schwung arbeiten.','Nur die Knie heben, ohne das Becken einzurollen.'],
     y:'Kräftigt Bauch und Hüftbeuger, nebenbei die Griffkraft.',
-    x:DOSE.hyp,l:'Nur bis Hüfthöhe.',h:'Langsamer ablassen, dann gestreckte Beine.',a:'Rückenschmerz beim Einrollen: nur bis Hüfthöhe, ohne Einrollen.'}
+    x:DOSE.hyp,l:'Nur bis Hüfthöhe.',h:'Langsamer ablassen, dann gestreckte Beine.',a:'Rückenschmerz beim Einrollen: nur bis Hüfthöhe, ohne Einrollen.'},
+  schulterkreisen:{s:['Aufrecht stehen oder sitzen, Arme hängen locker.','Beide Schultern zu den Ohren ziehen.','Nach hinten führen und die Schulterblätter leicht zusammenziehen.','Nach unten sinken lassen und von vorn neu beginnen.'],
+    t:'Ein Kreis etwa 4 Sekunden.',w:['Der Kopf bleibt ruhig.','Nur so groß kreisen, wie es angenehm ist.'],e:['Schnelles Hochreißen der Schultern.','Mitbewegen des Kopfes.'],
+    y:'Lockert Nacken und oberen Rücken nach langer Bildschirmarbeit. Die Bewegung nach hinten wirkt der typischen nach vorn gezogenen Schulterhaltung entgegen.',l:'Kleinere Kreise.',h:'Langsamer kreisen und hinten 2 Sekunden halten.'},
+  nacken:{s:['Aufrecht stehen oder sitzen, Schultern sinken lassen.','Den Kopf zur Seite neigen, das Ohr Richtung Schulter.','Die Hand derselben Seite liegt leicht auf dem Kopf.','Die andere Schulter zieht sanft nach unten. Halten und ruhig atmen.','Langsam zurück zur Mitte, dann die andere Seite.'],
+    w:['Nicht am Kopf ziehen, das Gewicht der Hand reicht.','Kein Schmerz, nur ein sanftes Ziehen seitlich am Hals.'],e:['Der Kopf dreht sich mit, statt nur zu neigen.','Die Schulter wandert mit nach oben.'],
+    y:'Der obere Trapezmuskel hält bei Bildschirmarbeit Kopf und Schultern oft stundenlang in leichter Spannung. Die Dehnung entspannt ihn.',a:'Kribbeln oder Taubheit in Arm oder Hand: sofort lösen und abklären lassen.'},
+  handgelenk:{s:['Einen Arm gestreckt nach vorn heben, Handfläche nach vorn, Finger nach oben.','Mit der anderen Hand die Finger sanft zu dir ziehen.','Nach der halben Zeit die Finger nach unten zeigen lassen und den Handrücken dehnen.','Dann die andere Seite.'],
+    w:['Der Ellbogen bleibt gestreckt, aber nicht überstreckt.','Nur sanft ziehen.'],e:['Zu fest ziehen.','Die Schulter zieht nach oben.'],
+    y:'Maus und Tastatur halten die Unterarmmuskeln lange in der gleichen Spannung. Die Dehnung in beide Richtungen lockert Beuger und Strecker.'},
+  brustdehnstuhl:{s:['Vorn auf die Stuhlkante setzen, Füße fest am Boden.','Hinter dir mit beiden Händen Lehne oder Sitzfläche greifen.','Brustbein nach vorn oben schieben, die Schulterblätter sinken nach hinten unten.','Halten und ruhig atmen.'],
+    w:['Der Kopf bleibt in Verlängerung der Wirbelsäule.','Nur so weit öffnen, wie es angenehm zieht.'],e:['Den Kopf in den Nacken legen.','Ins Hohlkreuz fallen.'],
+    y:'Beim Tippen arbeiten die Arme vorn, die Brustmuskeln bleiben verkürzt und ziehen die Schultern nach vorn. Die Dehnung öffnet in die Gegenrichtung.',l:'Hände seitlich auf die Sitzfläche statt an die Lehne.'},
+  wadesteh:{s:['Hüftbreit stehen, bei Bedarf eine Hand an Tisch oder Wand.','Auf die Zehenspitzen hochdrücken.','Oben kurz halten.','Langsam absenken.'],
+    t:'1 Sekunde hoch, kurz halten, 2 Sekunden runter.',w:['Gleichmäßig über den großen Zeh drücken.','Die Knie bleiben gestreckt, aber locker.'],
+    y:'Die Wadenmuskeln wirken wie eine Pumpe für das Blut in den Beinen. Nach langem Sitzen bringt das den Kreislauf in Schwung.',h:'Einbeinig, die Hand an der Wand.'},
+  seitneigung:{s:['Hüftbreit stehen, Knie locker, beide Arme über den Kopf.','Langsam zur Seite neigen, als würdest du nach oben und zur Seite greifen.','Kurz bleiben, über die Mitte zur anderen Seite.'],
+    t:'Etwa 3 Sekunden pro Seite, ruhig atmen.',w:['Nur zur Seite neigen, nicht nach vorn oder hinten kippen.','Das Becken bleibt ruhig.'],e:['Den Oberkörper nach vorn drehen.','Ins Hohlkreuz fallen.'],
+    y:'Dehnt die Flanken und bewegt die Wirbelsäule seitlich. Diese Richtung kommt im Alltag kaum vor.',l:'Hände an die Hüfte statt über den Kopf.'},
+  beinstreck:{s:['Aufrecht auf die vordere Hälfte von Stuhl oder Sofa setzen.','Ein Bein langsam nach vorn strecken, bis das Knie gerade ist.','Die Zehen zu dir ziehen und kurz halten.','Langsam absetzen. Nach der Zeit die andere Seite.'],
+    t:'2 Sekunden strecken, kurz halten, 2 Sekunden absetzen.',w:['Der Rücken bleibt aufrecht.','Den Oberschenkel oben bewusst anspannen.'],
+    y:'Weckt die vordere Oberschenkelmuskulatur und bewegt das Kniegelenk, das beim Sitzen lange gebeugt bleibt.'},
+  kniehebel:{s:['Aufrecht stehen, Arme angewinkelt.','Im Wechsel die Knie bis etwa Hüfthöhe hochziehen und locker springen.','Die Arme schwingen gegengleich mit.'],t:'Zügig, etwa zwei bis drei Schritte pro Sekunde.',
+    w:['Auf den Fußballen landen.','Aufrecht bleiben.'],y:'Bringt den Puls schnell nach oben und kräftigt die Hüftbeuger.',l:'Marschieren mit hohen Knien, ohne Sprung.'},
+  marsch:{s:['Aufrecht stehen, Arme angewinkelt.','Im Wechsel die Knie hochziehen, ein Fuß bleibt immer am Boden.','Die Arme schwingen mit.'],t:'Zügig, etwa ein Schritt pro Sekunde.',
+    w:['Knie etwa bis Hüfthöhe.','Aufrecht bleiben.'],y:'Die leise Variante zum Kniehebelauf: weniger Stoß für Gelenke und Nachbarn.'},
+  climberfast:{s:['Hoher Liegestütz: Hände unter den Schultern, Körper gerade.','Im Wechsel die Knie zügig Richtung Brust ziehen.','Die Hüfte bleibt auf Höhe des Körpers.'],t:'Zügig, so schnell es sauber geht.',
+    w:['Schultern bleiben über den Händen.','Bauch fest.'],e:['Der Po geht nach oben.','Die Hüfte hängt durch.'],y:'Fordert Rumpf, Schultern und Kreislauf gleichzeitig.',l:'Langsam und ohne Sprung, ein Bein nach dem anderen.'},
+  sprungkniebeuge:{s:['Hüftbreit stehen, Fußspitzen leicht nach außen.','In die Kniebeuge gehen, Arme nach vorn.','Kräftig nach oben springen, Arme nach oben.','Weich landen und direkt in die nächste Kniebeuge.'],t:'Etwa ein Sprung alle 2 Sekunden.',
+    w:['Leise landen, über den ganzen Fuß abrollen.','Knie zeigen in Richtung Fußspitzen.'],e:['Mit gestreckten Beinen landen.','Knie fallen nach innen.'],
+    y:'Springen trainiert Schnellkraft und Kreislauf zugleich.',l:'Kniebeuge mit Zehenstand, ohne Sprung.',a:'Knie- oder Rückenschmerzen beim Landen: leise Variante nehmen.'},
+  kniebeugeferse:{s:['Hüftbreit stehen.','In die Kniebeuge gehen.','Hochkommen bis auf die Zehenspitzen, Arme nach oben strecken.','Wieder absenken.'],t:'Zügig, etwa 3 Sekunden pro Wiederholung.',
+    w:['Knie zeigen in Richtung Fußspitzen.'],y:'Die leise Variante zur Sprungkniebeuge.'},
+  skater:{s:['Hüftbreit stehen, leicht in den Knien.','Seitlich auf das rechte Bein springen, das linke kreuzt hinten.','Kurz abfangen, dann zur anderen Seite springen.'],t:'Etwa ein Sprung pro Sekunde.',
+    w:['Weich auf dem ganzen Fuß landen.','Das Knie bleibt über dem Fuß.'],e:['Mit gestrecktem Bein landen.'],y:'Trainiert die Abspreizmuskeln der Hüfte und das Gleichgewicht.',l:'Seitschritt mit Antippen, ohne Sprung.'},
+  seitschritt:{s:['Hüftbreit stehen, leicht in den Knien.','Einen großen Schritt zur Seite machen und das andere Bein hinten antippen.','Zur anderen Seite wechseln.'],t:'Zügig, etwa ein Schritt pro Sekunde.',
+    w:['Tief in den Knien bleiben.'],y:'Die leise Variante zum Eisschnellläufer.'},
+  burpee:{s:['Hüftbreit stehen.','In die Hocke gehen und die Hände vor den Füßen auf den Boden setzen.','Beide Beine nach hinten in den hohen Liegestütz springen.','Zurück in die Hocke springen.','Aufrichten und hochspringen, Arme nach oben.'],t:'Etwa ein Burpee alle 3 bis 4 Sekunden.',
+    w:['Im Liegestütz bleibt der Körper gerade.','Weich landen.'],e:['Die Hüfte hängt im Stütz durch.','Mit rundem Rücken in die Hocke fallen.'],
+    y:'Kniebeuge, Stütz und Sprung in einer Bewegung. Bringt den Puls in kurzer Zeit sehr hoch.',l:'Burpee ohne Sprung: Beine einzeln nach hinten und zurück.',a:'Rückenschmerzen im Stütz: Hände auf eine Stufe oder die leise Variante.'},
+  burpeeleise:{s:['Hüftbreit stehen.','In die Hocke, Hände auf den Boden.','Ein Bein nach dem anderen nach hinten in den Liegestütz setzen.','Einzeln zurück in die Hocke und aufrichten.'],t:'Etwa 5 Sekunden pro Wiederholung.',
+    w:['Im Liegestütz bleibt der Körper gerade.'],y:'Die leise Variante zum Burpee.'},
+  boxen:{s:['Leichte Schrittstellung, Fäuste vor dem Kinn.','Locker auf den Fußballen federn.','Abwechselnd links und rechts geradeaus schlagen.','Die Faust nach jedem Schlag zurück zum Kinn.'],t:'Etwa zwei Schläge pro Sekunde.',
+    w:['Ellbogen nie ganz durchstrecken.','Schultern locker lassen.'],y:'Bringt den Kreislauf ohne Springen in Schwung und fordert Schultern und Rumpf.'},
+  hampelleise:{s:['Füße zusammen, Arme am Körper.','Ein Bein zur Seite setzen und die Arme über den Kopf führen.','Zurück und die andere Seite.'],t:'Etwa ein Schritt pro Sekunde.',
+    w:['Zügig bleiben, damit der Puls steigt.'],y:'Die leise Variante zum Hampelmann.'},
+  b_liege:{s:['Hände etwas breiter als schulterbreit auf die Matte.','Körper gerade von Kopf bis Fuß (Stufe 1: Knie am Boden).','Die Brust Richtung Boden senken, Ellbogen schräg nach hinten.','Kräftig hochdrücken.'],
+    w:['Bauch und Po fest.','Der Kopf bleibt in Verlängerung des Körpers.'],e:['Die Hüfte hängt durch.','Die Ellbogen zeigen zur Seite.'],
+    y:'Trainiert Brust, Schultern und Trizeps, der Rumpf arbeitet mit. Die Stufen kommen ohne Stuhl oder Tisch aus.'},
+  b_split:{s:['Großer Schritt nach vorn, der hintere Fuß steht auf dem Ballen.','Hände an die Hüfte, Oberkörper aufrecht.','Senkrecht nach unten sinken, bis das hintere Knie knapp über dem Boden ist.','Über die vordere Ferse hochdrücken. Alle Wiederholungen, dann die andere Seite.'],
+    w:['Das vordere Knie zeigt in Richtung Fußspitze.','Das Gewicht liegt vor allem auf dem vorderen Bein.'],e:['Das Knie fällt nach innen.','Der Schritt ist zu kurz.'],
+    y:'Kräftigt Oberschenkel und Po einbeinig, ganz ohne Gewicht. Ausgleich für Unterschiede zwischen den Seiten.',a:'Knieschmerzen: weniger tief gehen.'},
+  b_bruecke:{s:['Rückenlage, ein Fuß steht nah am Po.','Das andere Knie zur Brust ziehen (Stufe 1) oder das Bein strecken.','Über die Ferse das Becken heben, bis Knie, Hüfte und Schulter eine Linie bilden.','Langsam absenken. Alle Wiederholungen, dann die andere Seite.'],
+    w:['Das Becken bleibt waagerecht.','Die Spannung kommt aus dem Po, nicht aus dem unteren Rücken.'],e:['Ins Hohlkreuz drücken.','Das Becken kippt zur Seite.'],
+    y:'Po und Beinrückseite arbeiten beim Sitzen kaum. Einbeinig ist die Übung auch ohne Gewicht fordernd.'},
+  b_pike:{s:['Hände schulterbreit auf den Boden, Hüfte hoch wie ein umgedrehtes V.','Ellbogen beugen, der Kopf geht vor den Händen Richtung Boden.','Kräftig zurück nach oben drücken.'],
+    w:['Die Hüfte bleibt oben.','Ellbogen schräg nach hinten, nicht zur Seite.'],e:['Die Hüfte sinkt ab und es wird ein normaler Liegestütz.'],
+    y:'Verlagert das Gewicht auf die Schultern. Ohne Hanteln die wirksamste Übung für die Schultermuskeln.',a:'Druck im Kopf oder Schwindel: Füße weiter weg, flacher arbeiten.'},
+  b_ytw:{s:['Bauchlage, die Stirn auf ein Handtuch, Daumen zeigen nach oben.','Die Schulterblätter nach hinten unten ziehen.','Die Arme in Y-, T- oder W-Form wenige Zentimeter anheben und halten.','Langsam ablegen.'],
+    w:['Der Kopf bleibt unten.','Der untere Rücken bleibt locker.'],e:['Mit dem Oberkörper hochkommen.','Die Schultern zu den Ohren ziehen.'],
+    y:'Ohne Stange oder Band gibt es keine echte Zugübung. Y-T-W kräftigt die Muskeln zwischen den Schulterblättern, die bei Bildschirmarbeit oft schwach sind.'},
+  b_curlup:{s:['Rückenlage, ein Bein angewinkelt, das andere gestreckt.','Die Hände flach unter den unteren Rücken legen.','Den Bauch anspannen wie vor einem leichten Stoß.','Kopf und Schultern nur wenige Zentimeter anheben, 8 Sekunden halten und weiteratmen.','Ablegen. Nach der Hälfte der Wiederholungen die Beine tauschen.'],
+    w:['Der Kopf bleibt in Verlängerung des Rumpfs, das Kinn nicht zur Brust.','Der untere Rücken behält seine Wölbung.'],e:['Hochkommen wie beim Sit-up.','Den Atem anhalten.'],
+    y:'Ersatz für Sit-ups: In Messungen von Stuart McGill drückt ein normaler Sit-up mit etwa 3.300 Newton auf die unteren Bandscheiben. Beim Curl-up bleibt die Wirbelsäule gerade und die Belastung viel geringer, der Bauch arbeitet trotzdem kräftig.',x:DOSE.core},
+  b_deadbug:{s:['Rückenlage, Arme zur Decke, Knie über der Hüfte 90 Grad gebeugt.','Den unteren Rücken sanft gegen den Boden drücken.','Einen Arm über den Kopf und das gegenüberliegende Bein lang strecken.','Zurück und die andere Seite.'],
+    w:['Der untere Rücken bleibt am Boden.','Ausatmen beim Strecken.'],e:['Ins Hohlkreuz fallen.','Zu schnell werden.'],
+    y:'Trainiert den Rumpf gegen die Bewegung von Armen und Beinen, ohne die Wirbelsäule zu beugen.'}
 };
 DOC.wsteh=DOC.wsteh||DOC.wsitz;
 function taktOf(key){
@@ -1714,16 +2080,16 @@ const R=(o)=>o;
 const ROUTINES=[
   R({id:'morgen',group:'kurz',title:'Morgen',when:'nach dem Aufstehen',color:'var(--morgen)',mood:'morgen',
     desc:'Sanft in Gang kommen, ohne tiefe Vorbeuge.',
-    items:[{ex:'armkreise',dur:30},{ex:'armehoch',dur:40},{ex:'katzekuh',dur:40},{ex:'bwsrot',dur:30},{ex:'hkdyn',dur:30},{ex:'kniebeuge',dur:30}]}),
+    items:[{ex:'armkreise',dur:30,alt:['schulterkreisen']},{ex:'armehoch',dur:40,alt:[{ex:'seitneigung',dur:40}]},{ex:'katzekuh',dur:40,alt:[{ex:'birddog',dur:40}]},{ex:'bwsrot',dur:30,alt:[{ex:'nadeloehr',dur:30}]},{ex:'hkdyn',dur:30,alt:[{ex:'ninety',dur:30},{ex:'runnerslunge',dur:30}]},{ex:'kniebeuge',dur:30,alt:[{ex:'wadesteh',dur:30},{ex:'ausfallschritt',dur:36}]}]}),
   R({id:'abend',group:'kurz',title:'Abend',when:'vor dem Schlafen',color:'var(--abend)',mood:'abend',
     desc:'Halten und lösen: Beinrückseite, Hüfte, Brustwirbelsäule.',
-    items:[{ex:'hamstring',dur:30},{ex:'hfkniend',dur:30},{ex:'figur4',dur:25},{ex:'bwsrolle',dur:40},{ex:'paeckchen',dur:30},{ex:'atmung',dur:30}]}),
+    items:[{ex:'hamstring',dur:30,alt:['hamsitz']},{ex:'hfkniend',dur:30,alt:['hfsteh']},{ex:'figur4',dur:25,alt:[{ex:'taube',dur:30},{ex:'schmetterling',dur:40}]},{ex:'bwsrolle',dur:40,alt:[{ex:'sphinx',dur:40},{ex:'nadeloehr',dur:30}]},{ex:'paeckchen',dur:30},{ex:'atmung',dur:30}]}),
   R({id:'couch',group:'kurz',title:'Couch',when:'zwischendurch',color:'var(--couch)',mood:'couch',
     desc:'Auf und vor dem Sofa, z. B. beim Fernsehen.',
-    items:[{ex:'sitzrot',dur:30},{ex:'sitzext',dur:30},{ex:'hfcouch',dur:30},{ex:'hamsitz',dur:30},{ex:'wsitz',dur:30},{ex:'f4sitz',dur:25}]}),
+    items:[{ex:'sitzrot',dur:30},{ex:'sitzext',dur:30},{ex:'hfcouch',dur:30},{ex:'hamsitz',dur:30,alt:['beinstreck']},{ex:'wsitz',dur:30,alt:['schulterkreisen']},{ex:'f4sitz',dur:25}]}),
   R({id:'buero',group:'kurz',title:'Büro',when:'nach langem Sitzen',color:'var(--buero)',mood:'buero',
     desc:'Kurze Pause im Stehen am Schreibtisch.',
-    items:[{ex:'rueckbeuge',dur:30},{ex:'kinn',dur:30},{ex:'armehoch',dur:30},{ex:'wsteh',dur:30},{ex:'hfsteh',dur:20}]}),
+    items:[{ex:'rueckbeuge',dur:30,alt:['seitneigung']},{ex:'kinn',dur:30,alt:[{ex:'nacken',dur:25}]},{ex:'armehoch',dur:30,alt:['schulterkreisen',{ex:'handgelenk',dur:20}]},{ex:'wsteh',dur:30,alt:['brustdehnstuhl']},{ex:'hfsteh',dur:20,alt:[{ex:'wadesteh',dur:30}]}]}),
   R({id:'bws',group:'prog',title:'BWS & Rumpf',when:'Programm',color:'var(--bws)',mood:'couch',
     desc:'Brustwirbelsäule mobilisieren, Schulterblätter und Rumpf kräftigen.',
     note:'Nach deinem Plan „BWS-Mobilisation & Rumpfstabilität“. Übung 1 und 2 beugen die Wirbelsäule: nicht in der ersten Stunde nach dem Aufstehen. Ausrüstung: Stuhl, Wand, Theraband, Kettlebell oder Hantel.',
@@ -1750,6 +2116,18 @@ const ROUTINES=[
     items:[{ex:'laufen',dur:60},{ex:'hampelmann',dur:30},{ex:'armkreise',dur:30},{ex:'kniebeuge',reps:8,pace:4},{ex:'birddog',reps:2,pace:20},
       {ex:'k_slrdl',kraft:true},{ex:'k_boxsquat',kraft:true},{ex:'k_rudern2',kraft:true},{ex:'k_pike',kraft:true},{ex:'k_knieheben',kraft:true},
       {ex:'hfkniend',dur:30},{ex:'hamstring',dur:30},{ex:'tuer',dur:30}]}),
+  R({id:'cardio',group:'prog',type:'zirkel',title:'Ausdauer ohne Geräte',when:'Zirkel · nur Matte',color:'var(--morgen)',mood:'buero',zchange:20,quiet:true,
+    desc:'Herz-Kreislauf-Zirkel: 6 Übungen im Wechsel von Belastung und kurzer Pause, 3 Runden. Jede Übung gibt es auch ohne Springen.',
+    note:'Etwa 30 Minuten mit Aufwärmen und Abkühlen, mit 2 Runden gut 20. 40 Sekunden Belastung, 20 Sekunden Wechsel. So zügig, dass Reden schwer wird, aber sauber. Mit dem Schalter „Ohne Springen“ tauscht die App jede Sprungübung gegen eine leise Variante, gut für Gelenke und Nachbarn. Empfehlung: 2- bis 3-mal pro Woche.',
+    warm:[{ex:'laufen',dur:60},{ex:'armkreise',dur:30},{ex:'boxen',dur:40},{ex:'kniebeuge',reps:8,pace:4}],
+    stations:[{ex:'hampelmann'},{ex:'kniehebel'},{ex:'climberfast'},{ex:'sprungkniebeuge'},{ex:'skater'},{ex:'burpee'}],
+    cool:[{ex:'marsch',dur:60},{ex:'hfsteh',dur:30},{ex:'figur4',dur:25},{ex:'atmung',dur:40}]}),
+  R({id:'kraft_frei',group:'prog',type:'kraft',adv:true,setKey:'f',defSets:2,defRest:60,title:'Kraft ohne Geräte',when:'nur Matte · 2- bis 3-mal pro Woche',color:'var(--buero)',mood:'buero',
+    desc:'Muskelaufbau nur mit dem eigenen Körper: Liegestütze, Beine einbeinig, Po, Schultern, oberer Rücken und Bauch ohne Sit-ups.',
+    note:'Etwa 35 Minuten mit 2 Sätzen und 60 Sekunden Pause, mit 3 Sätzen knapp 50. Sätze und Pause stellst du unten ein, unabhängig von Kraft A und B. Tagebuch und Stufen wie dort. Jeder Satz endet, wenn noch 1 bis 2 saubere Wiederholungen gingen. Schaffst du in allen Sätzen das obere Ende, nimm die nächste Stufe. Statt Sit-ups gibt es Curl-up und Dead Bug: Sie trainieren den Bauch, ohne die Wirbelsäule unter Last zu beugen. Ohne Stange oder Band lässt sich das Ziehen (Rücken, Bizeps) nur schwach trainieren, Y-T-W ist der beste Ersatz.',
+    items:[{ex:'laufen',dur:60},{ex:'hampelmann',dur:30},{ex:'armkreise',dur:30},{ex:'kniebeuge',reps:8,pace:4},{ex:'birddog',reps:2,pace:20},
+      {ex:'b_liege',kraft:true},{ex:'b_split',kraft:true},{ex:'b_bruecke',kraft:true},{ex:'b_pike',kraft:true},{ex:'b_ytw',kraft:true},{ex:'b_curlup',kraft:true},{ex:'b_deadbug',kraft:true},
+      {ex:'hfkniend',dur:30},{ex:'figur4',dur:25},{ex:'nadeloehr',dur:30}]}),
   R({id:'einschlafen',group:'ruhe',type:'guide',title:'Wieder einschlafen',when:'nachts im Bett',color:'var(--ruhe)',mood:'ruhe',night:true,
     desc:'Wenn dich der Rücken weckt: Atem, Körperreise, loslassen. Dunkler Bildschirm.',
     items:[{ex:'g_einschlafen'}]}),
@@ -1765,6 +2143,26 @@ const ROUTINES=[
     items:[{ex:'g_pmr'}]})
 ];
 ROUTINES.forEach(r=>{if(r.type==='zirkel')r.items=[...r.warm,...r.stations.flatMap(x=>x.ex2?[{ex:x.ex,machine:x.m,stationDef:true,half:1},{ex:x.ex2,machine:x.m,stationDef:true,half:2}]:[{ex:x.ex,machine:x.m,stationDef:true}]),...r.cool];r.nStat=(r.stations||[]).length;});
+const QUIET={hampelmann:'hampelleise',kniehebel:'marsch',climberfast:'climber',sprungkniebeuge:'kniebeugeferse',skater:'seitschritt',burpee:'burpeeleise'};
+const isQuiet=r=>!!(r&&r.quiet&&DATA.kraft.quiet);
+ROUTINES.forEach(r=>{if(r.type==='zirkel'&&!r.items){r.items=[...r.warm,...r.stations.map(st=>({ex:st.ex,stationDef:true,machine:st.m})),...r.cool];r.nStat=r.stations.length;}});
+/* Abwechslung: Plätze mit Alternativen wechseln täglich, stabil über den Tag */
+ROUTINES.forEach(r=>{if(r.items.some(it=>it.alt))r.baseItems=r.items;});
+function vHash(t){let h=2166136261;for(let i=0;i<t.length;i++){h^=t.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function variantItems(r,day){
+  const base=r.baseItems||r.items;if(!r.baseItems||S.vary===false)return base;
+  const used=new Set(base.filter(it=>!it.alt).map(it=>it.ex));
+  return base.map((it,i)=>{
+    if(!it.alt)return it;
+    const opts=[{ex:it.ex}].concat(it.alt.map(a=>typeof a==='string'?{ex:a}:a));
+    const k=vHash(day+'|'+r.id+'|'+i)%opts.length;
+    for(let n=0;n<opts.length;n++){const o=opts[(k+n)%opts.length];if(used.has(o.ex))continue;used.add(o.ex);
+      if(o.ex===it.ex)return P(it,{alt:undefined,base:it.ex});
+      const ni={ex:o.ex,base:it.ex,swapped:true};if(o.reps){ni.reps=o.reps;ni.pace=o.pace;}else ni.dur=o.dur||it.dur;return ni;}
+    return it;});
+}
+let VAR_DAY='';
+function applyVariants(force){const d=ymd(new Date());if(!force&&d===VAR_DAY)return;VAR_DAY=d;ROUTINES.forEach(r=>{if(r.baseItems)r.items=variantItems(r,d);});}
 const RMAP=Object.fromEntries(ROUTINES.map(r=>[r.id,r]));
 const GROUPS=[{id:'kurz',title:'Routinen',open:true},{id:'prog',title:'Training',open:false},{id:'ruhe',title:'Entspannung',open:false}];
 const GOPEN={};GROUPS.forEach(g=>GOPEN[g.id]=g.open);
@@ -1918,12 +2316,13 @@ class Fig{
 
 /* ================= Speicher ================= */
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
-const S=Object.assign({voice:true,voiceName:'',rate:1,music:true,vol:.6,sfx:true,prep:8,detail:'auto',style:'pads',rest:75,count:true,name:'',engine:'auto',cvoice:'buttery',avol:.7,bvol:.7,shuffle:'bilder',rmusic:{},gmusic:{}},LS.get('rr.settings',{}));
+const S=Object.assign({voice:true,voiceName:'',rate:1,music:true,vol:.6,sfx:true,prep:8,detail:'auto',style:'pads',rest:75,count:true,name:'',engine:'auto',cvoice:'buttery',theme:'auto',pal:'salbei',vary:true,crackle:true,avol:.7,bvol:.7,shuffle:'bilder',rmusic:{},gmusic:{}},LS.get('rr.settings',{}));
 if(!S.rmusic||typeof S.rmusic!=='object')S.rmusic={};if(!S.gmusic||typeof S.gmusic!=='object')S.gmusic={};
 let DATA=Object.assign({v:2,sessions:[],checks:{},kraft:{}},LS.get('rr.data',{}));
 if(!Array.isArray(DATA.sessions))DATA.sessions=[];
 if(!DATA.checks||typeof DATA.checks!=='object')DATA.checks={};
 DATA.kraft=Object.assign({levels:{},log:[],sets:'auto',plank:20,ts:0},DATA.kraft||{});
+if(!Array.isArray(DATA.custom))DATA.custom=[];
 const TIPS=LS.get('rr.tips',{});
 const saveSettings=()=>LS.set('rr.settings',S);
 const pad2=n=>String(n).padStart(2,'0');
@@ -1959,12 +2358,13 @@ function mergeData(remote){
   DATA.sessions=[...byId.values()].sort((a,b)=>a.id<b.id?-1:1);
   const rc=remote.checks||{};
   for(const k in rc){const a=DATA.checks[k],b=rc[k];if(!a||(b&&(b.ts||0)>(a.ts||0)))DATA.checks[k]=b;}
+  if(Array.isArray(remote.custom)){const m=new Map((DATA.custom||[]).map(c=>[c.id,c]));for(const c of remote.custom){if(!c||!c.id)continue;const a=m.get(c.id);if(!a||(c.ts||0)>(a.ts||0))m.set(c.id,c);}DATA.custom=[...m.values()];}
   const rk=remote.kraft;
   if(rk){
     const lg=new Map((DATA.kraft.log||[]).map(e=>[e.id,e]));
     for(const e of (rk.log||[]))if(e&&e.id&&!lg.has(e.id))lg.set(e.id,e);
     DATA.kraft.log=[...lg.values()].sort((a,b)=>a.id<b.id?-1:1);
-    if((rk.ts||0)>(DATA.kraft.ts||0)){DATA.kraft.levels=rk.levels||{};DATA.kraft.sets=rk.sets||'auto';DATA.kraft.plank=rk.plank||20;if(rk.hs)DATA.kraft.hs=rk.hs;if(rk.hr)DATA.kraft.hr=rk.hr;DATA.kraft.ts=rk.ts;}
+    if((rk.ts||0)>(DATA.kraft.ts||0)){DATA.kraft.levels=rk.levels||{};DATA.kraft.sets=rk.sets||'auto';DATA.kraft.plank=rk.plank||20;if(rk.hs)DATA.kraft.hs=rk.hs;if(rk.hr)DATA.kraft.hr=rk.hr;if(rk.zr)DATA.kraft.zr=rk.zr;if(rk.fs)DATA.kraft.fs=rk.fs;if(rk.fr)DATA.kraft.fr=rk.fr;if(rk.zw)DATA.kraft.zw=rk.zw;if(rk.quiet!=null)DATA.kraft.quiet=rk.quiet;DATA.kraft.ts=rk.ts;}
   }
 }
 function saveLocal(push=true){
@@ -1987,8 +2387,8 @@ function streak(){
   return n;
 }
 const isDetailed=r=>S.detail==='full'||(S.detail==='auto'&&runs(r.id)<10);
-const kraftSets=(r)=>{r=r||PL.r;if(r&&r.adv)return Number(DATA.kraft.hs||3);return DATA.kraft.sets==='auto'?(runs('kraft')<6?2:3):Number(DATA.kraft.sets);};
-const restOf=r=>r&&r.adv?Number(DATA.kraft.hr||90):S.rest;
+const kraftSets=(r)=>{r=r||PL.r;if(r&&r.custom)return r.sets||3;if(r&&r.adv)return Number(DATA.kraft[(r.setKey||'h')+'s']||r.defSets||3);return DATA.kraft.sets==='auto'?(runs('kraft')<6?2:3):Number(DATA.kraft.sets);};
+const restOf=r=>r&&r.custom?(r.setRest||90):r&&r.adv?Number(DATA.kraft[(r.setKey||'h')+'r']||r.defRest||90):S.rest;
 const rngOf=k=>EX[k].rng||[8,15];
 const KSWITCH=8;
 const level=k=>DATA.kraft.levels[k]||EX[k].def||1;
@@ -2089,47 +2489,90 @@ const STYLE_NAME={};STYLES.forEach(k=>STYLE_NAME[k]=STYLE_DEF[k].name);
 const BEAT_STYLES=['funk','blues','rock','house'];
 const MSCOPE={kurz:'Routinen',prog:'Training',ruhe:'Entspannung',timer:'Intervall-Timer'};
 const isRadio=v=>typeof v==='string'&&v.slice(0,6)==='radio:';
-function musName(v){if(!v||v==='std')return 'Standard';if(v==='off')return 'Keine Musik';if(v==='random')return 'Zufällig';if(isRadio(v)){const r=RSTA[v.slice(6)];return r?'Radio '+r.name:'Radio';}return STYLE_NAME[v]||v;}
+function musName(v){if(!v||v==='std')return 'Standard';if(v==='off')return 'Keine Musik';if(v==='random')return 'Zufällig';if(isRadio(v)){const r=RSTA[v.slice(6)];return r?(r.local?'Eigene Musik':'Radio '+r.name):'Radio';}return STYLE_NAME[v]||v;}
 function stdMusic(){return S.music?(S.style||'pads'):'off';}
 function groupMusic(g){const v=S.gmusic[g];if(g==='timer'&&!v)return 'off';return v&&v!=='std'?v:stdMusic();}
 function musicFor(r){const v=S.rmusic[r.id];return v&&v!=='std'?v:groupMusic(r.group);}
 function musicExplicit(r){const v=S.rmusic[r.id],g=S.gmusic[r.group];return !!((v&&v!=='std')||(g&&g!=='std'));}
-function musOpts(stdLabel){return (stdLabel?'<option value="std">'+stdLabel+'</option>':'')+'<option value="off">Keine Musik</option><optgroup label="Musik aus der App"><option value="random">Zufällig</option>'+STYLES.map(k=>'<option value="'+k+'">'+STYLE_NAME[k]+'</option>').join('')+'</optgroup><optgroup label="Internetradio">'+RADIOS.map(x=>'<option value="radio:'+x.id+'">'+x.name+' ('+x.sta+')</option>').join('')+'</optgroup>';}
+function musOpts(stdLabel){return (stdLabel?'<option value="std">'+stdLabel+'</option>':'')+'<option value="off">Keine Musik</option><optgroup label="Musik aus der App"><option value="random">Zufällig</option>'+STYLES.map(k=>'<option value="'+k+'">'+STYLE_NAME[k]+'</option>').join('')+'</optgroup><optgroup label="Eigene Musik"><option value="radio:local">Eigene Musik vom Handy</option></optgroup>'+RGROUPS.map(([g,t])=>'<optgroup label="Radio: '+t+'">'+RADIOS.filter(x=>x.g===g).map(x=>'<option value="radio:'+x.id+'">'+x.name+' ('+x.sta+')</option>').join('')+'</optgroup>').join('');}
 const DRUM_STYLES=['lofi','funk','blues','rock','house'];
 const SLOW_PAD=['pads','ocean','bowls','musicbox'];
 const CALM_STYLES=['pads','piano','ocean','musicbox','bowls'];
 const ACTIVE_STYLES=['pads','lofi','piano','funk','blues','rock','house'];
 /* ---------- Internetradio ---------- */
 const RF=n=>['https://icecast.radiofrance.fr/'+n+'-midfi.mp3?id=radiofrance','https://icecast.radiofrance.fr/'+n+'-hifi.aac?id=radiofrance'];
+const SOMA=n=>['https://ice1.somafm.com/'+n+'-128-mp3','https://ice2.somafm.com/'+n+'-128-mp3','https://ice6.somafm.com/'+n+'-128-mp3'];
+const CZ=n=>['https://streams.greenhost.nl:8006/'+n,'http://streams.greenhost.nl:8080/'+n];
+const RGROUPS=[['pop','Pop, Rock, Jazz'],['blues','Blues'],['beat','Elektro, Reggae, Hip-Hop'],['klassik','Klassik und alte Musik'],['ruhe','Ruhig und Meditation']];
 const RADIOS=[
-  {id:'pop',name:'Pop',sta:'FIP Pop',sub:'Pop quer durch die Jahrzehnte',urls:RF('fippop')},
-  {id:'rock',name:'Rock',sta:'FIP Rock',sub:'von Classic Rock bis Indie',urls:RF('fiprock').concat(['https://stream.radioparadise.com/rock-128'])},
-  {id:'jazz',name:'Jazz',sta:'FIP Jazz',sub:'klassischer und moderner Jazz',urls:RF('fipjazz').concat(['https://stream.srg-ssr.ch/m/rsj/mp3_128'])},
-  {id:'klassik',name:'Klassik',sta:'France Musique Easy Classique',sub:'bekannte, eher ruhige Stücke',urls:RF('francemusiqueeasyclassique').concat(['https://stream.srg-ssr.ch/m/rsc_de/mp3_128'])},
-  {id:'groove',name:'Funk und Soul',sta:'FIP Groove',sub:'Funk, Soul, R&B, Hip-Hop',urls:RF('fipgroove')},
-  {id:'electro',name:'Elektronisch',sta:'FIP Electro',sub:'House, Techno, Downtempo',urls:RF('fipelectro')},
-  {id:'chill',name:'Mellow',sta:'Radio Paradise Mellow Mix',sub:'ruhiger Pop, Rock und Folk',urls:['https://stream.radioparadise.com/mellow-128','https://stream.radioparadise.com/mellow-320','https://ice1.somafm.com/groovesalad-128-aac','https://ice1.somafm.com/groovesalad-128-mp3','https://ice2.somafm.com/groovesalad-128-aac'],fbAt:2,fb:'SomaFM Groove Salad'},
-  {id:'ambient',name:'Ambient',sta:'Ambient Sleeping Pill',sub:'Klangflächen ohne Beat, zum Einschlafen',urls:['https://radio.stereoscenic.com/asp-h','http://radio.stereoscenic.com/asp-h','https://ice1.somafm.com/dronezone-128-aac','https://ice1.somafm.com/dronezone-128-mp3','https://ice2.somafm.com/dronezone-128-aac'],fbAt:2,fb:'SomaFM Drone Zone'}
+  {id:'bytefm',g:'pop',name:'ByteFM',sta:'ByteFM',sub:'moderiertes Musikradio aus Hamburg, ohne Werbung',urls:['https://bytefm.cast.addradio.de/bytefm/main/high/stream','https://bytefm.cast.addradio.de/bytefm/main/mid/stream','https://bytefm.stream14.radiohost.de/bytefm-mainhq_mp3-192?addradio&upd-meta&upd-scheme=https','https://bytefm.stream18.radiohost.de/bytefm-main_mp3-128?addradio&upd-meta&upd-scheme=https','https://bytefm.stream14.radiohost.de/bytefm-main_mp3-128?addradio&upd-meta&upd-scheme=https']},
+  {id:'pop',g:'pop',name:'Pop',sta:'FIP Pop',sub:'Pop quer durch die Jahrzehnte',urls:RF('fippop')},
+  {id:'rock',g:'pop',name:'Rock',sta:'FIP Rock',sub:'von Classic Rock bis Indie',urls:RF('fiprock').concat(['https://stream.radioparadise.com/rock-128'])},
+  {id:'jazz',g:'pop',name:'Jazz',sta:'FIP Jazz',sub:'klassischer und moderner Jazz',urls:RF('fipjazz').concat(['https://stream.srg-ssr.ch/m/rsj/mp3_128'])},
+  {id:'groove',g:'pop',name:'Funk und Soul',sta:'FIP Groove',sub:'Funk, Soul, R&B, Hip-Hop',urls:RF('fipgroove')},
+  {id:'bluesrock',g:'blues',name:'Blues Rock',sta:'Blues Rock Cafe',sub:'gitarrenlastiger Blues Rock, kurze Werbung möglich',urls:['https://stream.laut.fm/bluesrockcafe','https://bluesrockcafe.stream.laut.fm/bluesrockcafe','https://stream.rockantenne.de/blues-rock/stream/mp3','https://s3-webradio.rockantenne.de/blues-rock/stream/mp3'],fbAt:2,fb:'ROCK ANTENNE Blues Rock'},
+  {id:'delta',g:'blues',name:'Delta Blues',sta:'A Mississippi Blues',sub:'alter Blues aus dem Mississippi-Delta, dazu klassischer Blues',urls:['https://cast1.torontocast.com:4450/;?type=http','https://radiosuitenetwork.torontocast.stream/amississippiblues/','https://wumb.streamguys1.com/wumb919st'],fbAt:2,fb:'WUMB Blues'},
+  {id:'bluesneu',g:'blues',name:'Moderner Blues',sta:'Blues Scene Radio',sub:'Blues von heute',urls:['https://login.webinternetradio.com/contemporarybluesplace','https://jazzblues.ice.infomaniak.ch/jazzblues-high.mp3','https://jazzblues.ice.infomaniak.ch/jazzblues-high.aac'],fbAt:1,fb:'Jazz Radio Blues'},
+  {id:'electro',g:'beat',name:'Elektronisch',sta:'FIP Electro',sub:'House, Techno, Downtempo',urls:RF('fipelectro')},
+  {id:'slowhouse',g:'beat',name:'Slow House',sta:'SomaFM Beat Blender',sub:'ruhiger Deep House und Downtempo',urls:SOMA('beatblender')},
+  {id:'reggae',g:'beat',name:'Reggae',sta:'FIP Reggae',sub:'Roots, Dub und Ska',urls:RF('fipreggae').concat(SOMA('reggae')),fbAt:2,fb:'SomaFM Heavyweight Reggae'},
+  {id:'hiphop',g:'beat',name:'Hip-Hop',sta:'FIP Hip-Hop',sub:'Rap von den Anfängen bis heute',urls:RF('fiphiphop')},
+  {id:'klassik',g:'klassik',name:'Klassik',sta:'France Musique Easy Classique',sub:'bekannte, eher ruhige Stücke',urls:RF('francemusiqueeasyclassique').concat(['https://stream.srg-ssr.ch/m/rsc_de/mp3_128'])},
+  {id:'swissclassic',g:'klassik',name:'Ruhige Klassik',sta:'Radio Swiss Classic',sub:'Klassik rund um die Uhr, dezent moderiert',urls:['https://stream.srg-ssr.ch/m/rsc_de/mp3_128','https://stream.srg-ssr.ch/srgssr/rsc_de/mp3/128','https://livestreaming-node-4.srg-ssr.ch/srgssr/rsc_de/aac/192'].concat(RF('francemusiqueclassiqueplus')),fbAt:3,fb:'France Musique Classique Plus'},
+  {id:'barock',g:'klassik',name:'Barock',sta:'Concertzender Barok',sub:'Bach, Vivaldi, Telemann und ihre Zeit',urls:CZ('barok').concat(RF('francemusiquebaroque')),fbAt:2,fb:'France Musique La Baroque'},
+  {id:'altemusik',g:'klassik',name:'Alte Musik',sta:'Concertzender Oude Muziek',sub:'Mittelalter, Renaissance und Barock',urls:CZ('oudemuziek')},
+  {id:'gregor',g:'klassik',name:'Gregorianik',sta:'Concertzender Gregoriaans',sub:'gregorianische Choräle',urls:CZ('gregoriaans')},
+  {id:'chill',g:'ruhe',name:'Mellow',sta:'Radio Paradise Mellow Mix',sub:'ruhiger Pop, Rock und Folk',urls:['https://stream.radioparadise.com/mellow-128','https://stream.radioparadise.com/mellow-320','https://ice1.somafm.com/groovesalad-128-aac','https://ice1.somafm.com/groovesalad-128-mp3','https://ice2.somafm.com/groovesalad-128-aac'],fbAt:2,fb:'SomaFM Groove Salad'},
+  {id:'lush',g:'ruhe',name:'Lush',sta:'SomaFM Lush',sub:'ruhige Songs, meist mit Frauenstimmen',urls:SOMA('lush')},
+  {id:'ambient',g:'ruhe',name:'Ambient',sta:'Ambient Sleeping Pill',sub:'Klangflächen ohne Beat, zum Einschlafen',urls:['https://radio.stereoscenic.com/asp-h','http://radio.stereoscenic.com/asp-h','https://ice1.somafm.com/dronezone-128-aac','https://ice1.somafm.com/dronezone-128-mp3','https://ice2.somafm.com/dronezone-128-aac'],fbAt:2,fb:'SomaFM Drone Zone'},
+  {id:'drone',g:'ruhe',name:'Drone Zone',sta:'SomaFM Drone Zone',sub:'schwebende Klangflächen fast ohne Rhythmus',urls:SOMA('dronezone')},
+  {id:'zen',g:'ruhe',name:'Meditation',sta:'myNoise Zen Garden',sub:'Klangspiele und Naturklänge ohne Moderation',urls:['https://zengarden.radio.mynoise.net/','http://zengarden.radio.mynoise.net/','https://streaming.positivity.radio/pr/posimeditation/icecast.audio','https://nl4.mystreaming.net/pr/posimeditation/icecast.audio'],fbAt:2,fb:'Positively Meditation'}
 ];
 const RSTA={};RADIOS.forEach(x=>RSTA[x.id]=x);
+RSTA.local={id:'local',name:'Eigene Musik',sta:'Eigene Musik',sub:'',urls:[],local:true};
+const isLocalMus=v=>v==='radio:local';
+/* Merkt sich je Sender die Adresse, die zuletzt lief (3 Tage lang) */
+const ROK=LS.get('rr.rok',{})||{};
+function rokGet(id,n){const e=ROK[id];return e&&e.i<n&&Date.now()-e.t<3*864e5?e.i:0;}
+function rokSave(id,i){const e=ROK[id];if(e&&e.i===i&&Date.now()-e.t<864e5)return;ROK[id]={i,t:Date.now()};LS.set('rr.rok',ROK);}
 const Radio={a:null,on:false,id:null,idx:0,tries:0,mute:false,solo:false,night:false,fading:false,self:false,status:'',rT:null,fadeT:null,retryT:null,toT:null,
   el(){
     if(this.a)return this.a;
     const a=new Audio();a.preload='none';
-    a.addEventListener('playing',()=>{if(!this.on)return;clearTimeout(this.toT);const st=RSTA[this.id];this.status=st&&st.fbAt!=null&&(this.idx%st.urls.length)>=st.fbAt?'läuft über Ersatzsender '+st.fb:'läuft';this.tries=0;this.level();radioUI();});
+    a.addEventListener('playing',()=>{if(!this.on)return;clearTimeout(this.toT);const st=RSTA[this.id];if(st.local){this.status='läuft';LOC.fails=0;this.level();this.meta(st);radioUI();return;}this.status=st&&st.fbAt!=null&&(this.idx%st.urls.length)>=st.fbAt?'läuft über Ersatzsender '+st.fb:'läuft';this.tries=0;rokSave(this.id,this.idx%st.urls.length);this.level();radioUI();});
     a.addEventListener('waiting',()=>{if(this.on&&this.status==='läuft'){this.status='puffert …';radioUI();}});
-    a.addEventListener('error',()=>{if(this.on&&!this.self&&a.getAttribute('src'))this.next();});
-    a.addEventListener('ended',()=>{if(this.on&&!this.self)this.next();});
-    a.addEventListener('pause',()=>{if(this.on&&!this.self&&!this.fading){this.status='angehalten';radioUI();}});
+    a.addEventListener('error',()=>{if(this.on&&!this.self&&a.getAttribute('src')){if(this.id==='local')LOC.failed();else this.next();}});
+    a.addEventListener('ended',()=>{if(this.on&&!this.self){if(this.id==='local')LOC.step(1,true);else this.next();}});
+    a.addEventListener('pause',()=>{if(this.on&&!this.self&&!this.fading&&!a.ended){this.status='angehalten';radioUI();}});
     return this.a=a;
   },
   play(id,opt={}){
     const st=RSTA[id];if(!st)return false;
     this.stop(0);
-    Object.assign(this,{on:true,id,solo:!!opt.solo,night:!!opt.night,mute:false,fading:false,idx:0,tries:0,fallback:opt.fallback||null});
+    if(st.local&&!LOC.tracks.length){this.id=id;this.status='kein Ordner gewählt';radioUI();if(opt.fallback)setTimeout(opt.fallback,0);return false;}
+    Object.assign(this,{on:true,id,solo:!!opt.solo,night:!!opt.night,mute:false,fading:false,idx:st.local?0:rokGet(id,st.urls.length),tries:0,fallback:opt.fallback||null});
     this.load();this.meta(st);return true;
   },
+  loadLocal(){
+    const a=this.el(),t=LOC.cur(),gen=++LOC.gen;
+    clearTimeout(this.toT);clearTimeout(this.retryT);
+    if(!t){this.on=false;this.status='keine Titel';radioUI();return;}
+    if(!a.getAttribute('src'))this.status='lädt …';
+    LOC.fileOf(t).then(f=>{
+      if(!this.on||this.id!=='local'||gen!==LOC.gen)return;
+      LOC.revoke();LOC.url=URL.createObjectURL(f);a.src=LOC.url;LOC.loaded=LOC.order[LOC.pos];
+      try{a.volume=LOC.first?0:this.target();}catch(e){}LOC.first=false;
+      const rs=LOC.noResume?null:LOC.resume;LOC.resume=null;LOC.noResume=false;
+      if(rs&&rs.i===LOC.order[LOC.pos]&&rs.t>3){const once=()=>{a.removeEventListener('loadedmetadata',once);try{if(gen===LOC.gen&&isFinite(a.duration)&&rs.t<a.duration-5)a.currentTime=rs.t;}catch(e){}};a.addEventListener('loadedmetadata',once);}
+      let p;try{p=a.play();}catch(e){}
+      if(p&&p.catch)p.catch(e=>{if(!this.on||gen!==LOC.gen)return;if(e&&e.name==='NotAllowedError'){this.status='blockiert, bitte nochmal tippen';radioUI();}else if(!e||e.name!=='AbortError')LOC.failed();});
+      this.meta(RSTA.local);radioUI();
+    }).catch(()=>{if(this.on&&this.id==='local'&&gen===LOC.gen)LOC.failed(true);});
+    radioUI();
+  },
   load(){
+    if(this.id==='local'){this.loadLocal();return;}
+    this.lg=(this.lg||0)+1;
     const st=RSTA[this.id],a=this.el();
     this.status='verbinde …';a.src=st.urls[this.idx%st.urls.length];try{a.volume=0;}catch(e){}
     let p;try{p=a.play();}catch(e){}
@@ -2138,7 +2581,8 @@ const Radio={a:null,on:false,id:null,idx:0,tries:0,mute:false,solo:false,night:f
     radioUI();
   },
   next(){
-    if(!this.on)return;
+    if(!this.on||this.id==='local')return;
+    if(this.nextG===this.lg)return;this.nextG=this.lg;
     const st=RSTA[this.id];this.tries++;clearTimeout(this.toT);clearTimeout(this.retryT);
     if(this.tries>=st.urls.length*2){this.on=false;this.kill();this.status='nicht erreichbar';radioUI();const f=this.fallback;this.fallback=null;if(f)try{f();}catch(e){}return;}
     this.idx++;this.status='verbinde …';
@@ -2166,10 +2610,15 @@ const Radio={a:null,on:false,id:null,idx:0,tries:0,mute:false,solo:false,night:f
   },
   kill(){
     clearInterval(this.rT);const a=this.a;if(!a)return;
+    if(this.id==='local'&&a.getAttribute('src')&&LOC.loaded!=null){try{LOC.resume={i:LOC.loaded,t:a.ended?0:(a.currentTime||0)};}catch(e){}}
     this.self=true;try{a.pause();}catch(e){}a.removeAttribute('src');try{a.load();}catch(e){}this.self=false;
+    if(this.id==='local'){LOC.gen++;LOC.revoke();LOC.first=true;}
     this.status='';this.meta(null);
   },
-  meta(st){try{if(!('mediaSession' in navigator))return;navigator.mediaSession.metadata=st&&window.MediaMetadata?new MediaMetadata({title:st.sta,artist:'Internetradio · '+st.name,album:'Wohlzeit'}):null;}catch(e){}}
+  meta(st){try{if(!('mediaSession' in navigator))return;const ms=navigator.mediaSession,loc=!!(st&&st.local),t=loc?LOC.cur():null;
+    ms.metadata=st&&window.MediaMetadata?new MediaMetadata(loc?{title:t?t.title:'Eigene Musik',artist:LOC.name||'Eigene Musik',album:'Wohlzeit'}:{title:st.sta,artist:'Internetradio · '+st.name,album:'Wohlzeit'}):null;
+    try{ms.setActionHandler('nexttrack',loc?()=>LOC.step(1):null);ms.setActionHandler('previoustrack',loc?()=>LOC.step(-1):null);}catch(e){}
+  }catch(e){}}
 };
 const Music={on:false,m:null,style:'pads',beat:0,next:0,timer:null,mi:5,calm:false,amp:1,force:false,
   start(mood,opt={}){
@@ -2374,6 +2823,11 @@ const Music={on:false,m:null,style:'pads',beat:0,next:0,timer:null,mi:5,calm:fal
 };
 
 /* ================= Sprachansage ================= */
+/* Knackschutz: hält den Audio-Ausgang mit einem unhörbaren 25-Hz-Ton aktiv, damit der Lautsprecher zwischen den Ansagen nicht abschaltet */
+const KA={o:null,g:null,offT:null,
+  on(){clearTimeout(this.offT);if(S.crackle===false||!audioInit()||this.o)return;try{const c=AU.ctx;const o=c.createOscillator(),g=c.createGain();o.frequency.value=25;g.gain.value=.001;o.connect(g);g.connect(c.destination);o.start();this.o=o;this.g=g;}catch(e){this.o=null;}},
+  off(delay=0){clearTimeout(this.offT);const f=()=>{if(this.o){try{this.o.stop();this.g.disconnect();}catch(e){}this.o=null;this.g=null;}};if(delay)this.offT=setTimeout(f,delay);else f();}
+};
 const Voice={ok:'speechSynthesis' in window&&typeof window.SpeechSynthesisUtterance==='function',voices:[],voice:null,speaking:false,checked:false,
   load(){
     if(!this.ok)return;
@@ -2474,14 +2928,15 @@ function show(id){
   document.querySelectorAll('#tabbar [data-tab]').forEach(b=>{if(b.dataset.tab===curTab)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
   if((prev==='v-recipe'||prev==='v-recipes')&&id!=='v-recipe'&&id!=='v-recipes'&&!KT.list.length&&!MUS.on&&!TM.running&&!PL.running)Wake.off();
   document.body.classList.toggle('night',((id==='player'||id==='v-done')&&!!PL.night)||(id==='v-todo'&&(()=>{const h=new Date().getHours();return h>=21||h<5;})()));
+  try{wzTheme();}catch(e){}
   if(id!=='player'&&id!=='v-done')PL.quiet=false;
   if(id==='v-home')renderHome();else if(id==='v-train')renderTrain();else if(id==='v-well')renderWell();else if(id==='v-more')renderMore();
   const sc=document.querySelector('#'+id+' .scroll');if(sc)sc.scrollTop=0;
 }
-document.querySelectorAll('[data-nav]').forEach(b=>{b.innerHTML=IC.back;b.addEventListener('click',()=>{if(b.dataset.nav==='recipes')openRecipes();else show(curTab);});});
+document.querySelectorAll('[data-nav]').forEach(b=>{b.innerHTML=IC.back;b.addEventListener('click',()=>{if(b.dataset.nav==='recipes')openRecipes();else if(b.closest('#v-page')&&PG_BACK)PG_BACK();else show(curTab);});});
 document.querySelectorAll('#tabbar [data-ic]').forEach(e=>e.innerHTML=IC[e.dataset.ic]);
 document.querySelectorAll('#tabbar [data-tab]').forEach(b=>b.addEventListener('click',()=>{const t=b.dataset.tab;if(t==='v-music')openMusic();else show(t);}));
-const MUS={style:'pads',tempo:'ruhe',dur:10,on:false,until:0,timer:null,fading:false,open:{}};
+const MUS={style:'pads',tempo:'ruhe',dur:10,on:false,until:0,timer:null,fading:false,open:{},ropen:{},olist:false};
 const M_DURS=[5,10,15,20,30,45,60,0];
 /* ---------- Geräusche ---------- */
 const AMB_SRC={
@@ -2626,6 +3081,118 @@ function openEvidence(){
    ].map(x=>'<li><a href="'+x[1]+'" target="_blank" rel="noopener">'+x[0]+'</a></li>').join('')+'</ul></div>');
 }
 /* ---------- Atemtakt ---------- */
+/* ================= Eigene Musik vom Handy ================= */
+const AUDIO_RE=/\.(mp3|m4a|m4b|aac|ogg|oga|opus|flac|wav|weba|webm)$/i;
+const natCmp=(a,b)=>a.localeCompare(b,'de',{numeric:true,sensitivity:'base'});
+const locTitle=n=>n.replace(/\.[a-z0-9]{2,5}$/i,'').replace(/_/g,' ').trim();
+const LOCP=Object.assign({shuffle:false,repeat:true,name:'',n:0},LS.get('rr.own',{}));
+const IDB={db:null,
+  open(){return this.db||(this.db=new Promise((res,rej)=>{try{const r=indexedDB.open('wohlzeit',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);}catch(e){rej(e);}}));},
+  get(k){return this.open().then(db=>new Promise((res,rej)=>{const q=db.transaction('kv').objectStore('kv').get(k);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error);}));},
+  set(k,v){return this.open().then(db=>new Promise((res,rej)=>{const tx=db.transaction('kv','readwrite');tx.objectStore('kv').put(v,k);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error);tx.onabort=()=>rej(tx.error);}));}};
+const LOC={tracks:[],order:[],pos:0,name:'',url:null,gen:0,failGen:-1,fails:0,first:true,resume:null,handle:null,stored:null,busy:false,msg:'',
+  save(){LS.set('rr.own',{shuffle:LOCP.shuffle,repeat:LOCP.repeat,name:this.name||LOCP.name,n:this.tracks.length||LOCP.n});},
+  cur(){return this.tracks[this.order[this.pos]]||null;},
+  fileOf(t){return t.file?Promise.resolve(t.file):t.h.getFile();},
+  revoke(){if(this.url){try{URL.revokeObjectURL(this.url);}catch(e){}this.url=null;}},
+  build(keep){
+    const n=this.tracks.length,cur=keep?this.order[this.pos]:null;
+    this.order=Array.from({length:n},(_,i)=>i);
+    if(LOCP.shuffle)for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[this.order[i],this.order[j]]=[this.order[j],this.order[i]];}
+    if(cur!=null&&cur<n){const k=this.order.indexOf(cur);if(LOCP.shuffle){[this.order[0],this.order[k]]=[this.order[k],this.order[0]];this.pos=0;}else this.pos=k;}else this.pos=0;
+  },
+  set(tracks,name){tracks.sort((a,b)=>natCmp(a.path,b.path));this.tracks=tracks;this.name=name||'';this.resume=null;this.loaded=null;this.noResume=false;this.first=true;this.fails=0;this.build(false);LOCP.name=this.name;LOCP.n=tracks.length;this.save();},
+  playing(){return Radio.on&&Radio.id==='local';},
+  step(d,auto){
+    if(!this.tracks.length)return;
+    let p=this.pos+d;
+    if(p>=this.order.length){
+      if(auto&&!LOCP.repeat&&MUS.on){this.pos=0;
+        if(!AMB.list().length&&BR.pat==='off')musicStop();else{Radio.on=false;Radio.kill();Radio.status='zu Ende';radioUI();}
+        this.resume=null;return;}
+      if(LOCP.shuffle)this.build(false);p=0;
+    }
+    if(p<0)p=this.order.length-1;
+    this.pos=p;this.resume=null;this.noResume=true;
+    if(this.playing())Radio.loadLocal();else ownUI();
+  },
+  jump(i){const k=this.order.indexOf(i);if(k<0)return;this.pos=k;this.resume=null;this.noResume=true;if(this.playing())Radio.loadLocal();},
+  failed(hard){
+    if(this.failGen===this.gen)return;this.failGen=this.gen;
+    this.fails++;
+    if(this.fails>=Math.min(this.tracks.length,8)){Radio.on=false;Radio.kill();this.resume=null;Radio.status=hard?'Ordner nicht mehr lesbar, bitte neu wählen':'Dateien nicht abspielbar';radioUI();const f=Radio.fallback;Radio.fallback=null;if(f)try{f();}catch(e){}return;}
+    this.pos=(this.pos+1)%this.order.length;this.resume=null;setTimeout(()=>{if(this.playing())Radio.loadLocal();},150);
+  }
+};
+function ownUI(){try{if($('v-music').classList.contains('on'))renderMusic();}catch(e){}}
+async function locScanDir(dir,prefix,out,depth){
+  if(depth>6||out.length>=5000)return;
+  for await(const [name,h] of dir.entries()){
+    if(name.charAt(0)==='.')continue;
+    if(h.kind==='file'){if(AUDIO_RE.test(name))out.push({h,path:prefix+name,title:locTitle(name)});}
+    else await locScanDir(h,prefix+name+'/',out,depth+1);
+    if(out.length>=5000)break;
+  }
+}
+function locFromFiles(files){
+  const out=[];let root='';
+  for(const f of files){
+    if(f.name.charAt(0)==='.')continue;
+    if(!(AUDIO_RE.test(f.name)||/^audio\//.test(f.type||'')))continue;
+    out.push({file:f,path:f.webkitRelativePath||f.name,title:locTitle(f.name)});
+    if(!root&&f.webkitRelativePath)root=f.webkitRelativePath.split('/')[0];
+  }
+  return {out,root};
+}
+function locApply(out,name){if(LOC.playing())Radio.stop(0);LOC.set(out,name);MUS.style='radio:local';MUS.open.own=true;if(MUS.on)startSoloMusic();}
+async function locLoadHandle(h,store){
+  LOC.busy=true;LOC.msg='Ordner wird gelesen …';ownUI();
+  try{
+    const out=[];await locScanDir(h,'',out,0);
+    if(!out.length)LOC.msg='In diesem Ordner sind keine Musikdateien.';
+    else{locApply(out,h.name);LOC.handle=h;LOC.msg='';if(store){try{await IDB.set('musicdir',h);LOC.stored=h;}catch(e){}}}
+  }catch(e){LOC.msg='Der Ordner konnte nicht gelesen werden.';}
+  LOC.busy=false;ownUI();
+}
+async function locPickDir(){
+  if(LOC.busy)return;
+  if(window.showDirectoryPicker){
+    let h=null;
+    try{h=await window.showDirectoryPicker({mode:'read',id:'wohlzeit-musik'});}catch(e){if(e&&e.name==='AbortError')return;h=null;}
+    if(h){await locLoadHandle(h,true);return;}
+  }
+  locInput(true);
+}
+function locInput(dir){
+  const inp=document.createElement('input');inp.type='file';inp.multiple=true;
+  if(dir){inp.setAttribute('webkitdirectory','');try{inp.webkitdirectory=true;}catch(e){}}else inp.accept='audio/*,.mp3,.m4a,.aac,.ogg,.opus,.flac,.wav';
+  inp.style.display='none';document.body.appendChild(inp);
+  inp.addEventListener('change',()=>{
+    const r=locFromFiles(Array.from(inp.files||[]));inp.remove();
+    if(!r.out.length){LOC.msg=dir?'In diesem Ordner sind keine Musikdateien.':'Keine Musikdateien gewählt.';ownUI();return;}
+    LOC.handle=null;LOC.msg='';locApply(r.out,r.root||(r.out.length===1?r.out[0].title:r.out.length+' Dateien'));ownUI();
+  });
+  inp.addEventListener('cancel',()=>inp.remove());
+  inp.click();
+}
+async function locReopen(){
+  const h=LOC.stored;if(!h||LOC.busy)return;
+  try{
+    let p=await h.queryPermission({mode:'read'});
+    if(p!=='granted')p=await h.requestPermission({mode:'read'});
+    if(p!=='granted'){LOC.msg='Der Zugriff wurde nicht erlaubt. Wähle den Ordner neu.';ownUI();return;}
+    await locLoadHandle(h,false);
+  }catch(e){LOC.msg='Der Ordner ist nicht mehr erreichbar. Wähle ihn neu.';ownUI();}
+}
+setTimeout(()=>{try{
+  if(!window.showDirectoryPicker||!window.indexedDB)return;
+  IDB.get('musicdir').then(async h=>{
+    if(!h||!h.queryPermission)return;LOC.stored=h;
+    try{if(await h.queryPermission({mode:'read'})==='granted'){const out=[];await locScanDir(h,'',out,0);if(out.length&&!LOC.tracks.length){LOC.set(out,h.name);LOC.handle=h;}}}catch(e){}
+    ownUI();
+  }).catch(()=>{});
+}catch(e){}},700);
+
 const BR_PATS={off:{name:'Aus',sub:'kein Atemtakt'},calm:{name:'Ruhig 4–6',sub:'länger ausatmen als einatmen',ph:[['in',4],['out',6]]},
   coh:{name:'Gleichmäßig 5–5',sub:'etwa sechs Atemzüge pro Minute',ph:[['in',5],['out',5]]},
   box:{name:'Box 4–4–4–4',sub:'ein, halten, aus, halten',ph:[['in',4],['hold',4],['out',4],['hold',4]]},
@@ -2684,18 +3251,19 @@ const M_SECTIONS=[
   {id:'sleep',title:'Einschlafen und Meditation',type:'music',items:['ocean','musicbox','bowls']},
   {id:'beat',title:'Mit Beat',type:'music',items:['funk','blues','rock','house']},
   {id:'radio',title:'Internetradio',type:'radio'},
+  {id:'own',title:'Eigene Musik',type:'own'},
   {id:'amb',title:'Naturgeräusche',type:'amb',grp:'nat'},
   {id:'noise',title:'Rauschen',type:'amb',grp:'noise'},
   {id:'tone',title:'Klänge (experimentell)',type:'amb',grp:'tone'},
   {id:'breath',title:'Atemtakt',type:'breath'}];
-function secActive(sec){if(sec.type==='music')return sec.items.includes(MUS.style);if(sec.type==='radio')return isRadio(MUS.style);if(sec.type==='amb')return AMB.list(sec.grp).length>0;return BR.pat!=='off';}
+function secActive(sec){if(sec.type==='music')return sec.items.includes(MUS.style);if(sec.type==='radio')return isRadio(MUS.style)&&!isLocalMus(MUS.style);if(sec.type==='own')return isLocalMus(MUS.style);if(sec.type==='amb')return AMB.list(sec.grp).length>0;return BR.pat!=='off';}
 function openMusic(){if(PL.running||TM.running)return;M_SECTIONS.forEach(sec=>{if(MUS.open[sec.id]==null)MUS.open[sec.id]=secActive(sec);});renderMusic();show('v-music');}
 const mrow=(attr,on,name,sub,box)=>'<button class="mrow'+(box?' box':'')+'" '+attr+' aria-pressed="'+on+'"><span class="mtx"><b>'+name+'</b><small>'+sub+'</small></span><span class="mchk">'+(on?CHK:'')+'</span></button>';
 function renderMusic(){
   const host=$('m-sections');host.innerHTML='';
   for(const sec of M_SECTIONS){
     const wrap=document.createElement('div');wrap.style.cssText='display:grid;gap:8px';
-    const cnt=sec.type==='music'?(sec.items.includes(MUS.style)?STYLE_DEF[MUS.style].name:''):sec.type==='radio'?(isRadio(MUS.style)?RSTA[MUS.style.slice(6)].name:''):sec.type==='amb'?AMB.list(sec.grp).map(k=>AMB.defs[k].name).join(', '):(BR.pat!=='off'?BR_PATS[BR.pat].name:'');
+    const cnt=sec.type==='music'?(sec.items.includes(MUS.style)?STYLE_DEF[MUS.style].name:''):sec.type==='radio'?(isRadio(MUS.style)&&!isLocalMus(MUS.style)?RSTA[MUS.style.slice(6)].name:''):sec.type==='own'?(isLocalMus(MUS.style)?(LOC.name||'ausgewählt'):''):sec.type==='amb'?AMB.list(sec.grp).map(k=>AMB.defs[k].name).join(', '):(BR.pat!=='off'?BR_PATS[BR.pat].name:'');
     const btn=document.createElement('button');btn.className='gtoggle';btn.setAttribute('aria-expanded',String(!!MUS.open[sec.id]));
     btn.innerHTML='<span>'+sec.title+'<span class="gc">'+cnt+'</span></span>'+CHEV;
     btn.addEventListener('click',()=>{MUS.open[sec.id]=!MUS.open[sec.id];renderMusic();});
@@ -2706,8 +3274,27 @@ function renderMusic(){
         if(sec.tempo)h+='<div class="mtempo">Tempo<div class="seg2"><button data-mt="ruhe" aria-pressed="'+(MUS.tempo==='ruhe')+'">Ruhig</button><button data-mt="couch" aria-pressed="'+(MUS.tempo==='couch')+'">Normal</button></div></div>';
         h+=sec.items.map(k=>mrow('data-ms="'+k+'"',MUS.style===k,STYLE_DEF[k].name,STYLE_DEF[k].sub)).join('');
       }else if(sec.type==='radio'){
-        h+='<div class="mhint">'+(/claude/i.test(location.hostname)?'In der Vorschau in der Claude-App blockiert. In der heruntergeladenen Datei oder als Web-App funktioniert es. ':'')+'Werbefrei und fast ohne Moderation. Braucht Internet, etwa 60 MB pro Stunde.</div>';
-        h+=RADIOS.map(x=>mrow('data-mr="'+x.id+'"',MUS.style==='radio:'+x.id,x.name,x.sta+' · '+x.sub)).join('');
+        h+='<div class="mhint">'+(/claude/i.test(location.hostname)?'In der Vorschau in der Claude-App blockiert. In der heruntergeladenen Datei oder als Web-App funktioniert es. ':'')+'Braucht Internet, etwa 60 MB pro Stunde. Viele Sender laufen ohne Werbung und fast ohne Moderation, einzelne sind moderiert.</div>';
+        const actR=isRadio(MUS.style)&&!isLocalMus(MUS.style)?RSTA[MUS.style.slice(6)]:null;
+        h+=RGROUPS.map(([g,t])=>{const act=!!(actR&&actR.g===g),op=MUS.ropen[g]!=null?MUS.ropen[g]:act;
+          return '<button class="gtoggle gsub" data-rg="'+g+'" aria-expanded="'+op+'"><span>'+t+'<span class="gc">'+(act?actR.name:'')+'</span></span>'+CHEV+'</button>'+(op?'<div class="mlist">'+RADIOS.filter(x=>x.g===g).map(x=>mrow('data-mr="'+x.id+'"',MUS.style==='radio:'+x.id,x.name,x.sta+' · '+x.sub)).join('')+'</div>':'');}).join('');
+      }else if(sec.type==='own'){
+        const n=LOC.tracks.length;
+        h+='<div class="mhint">Spielt Musik, die auf diesem Handy gespeichert ist. Die Dateien bleiben auf dem Handy, es wird nichts hochgeladen.</div>';
+        if(LOC.msg)h+='<div class="note">'+escH(LOC.msg)+'</div>';
+        if(n){
+          h+=mrow('data-own="sel"',isLocalMus(MUS.style),LOC.name||'Eigene Musik',n+' Titel · '+(LOCP.shuffle?'zufällig':'der Reihe nach'));
+          h+='<div class="mtempo">Reihenfolge<div class="seg2"><button data-osh="0" aria-pressed="'+(!LOCP.shuffle)+'">Der Reihe nach</button><button data-osh="1" aria-pressed="'+(!!LOCP.shuffle)+'">Zufällig</button></div></div>';
+          h+='<div class="set" style="border:0;padding:0 2px"><label for="own-rep">Wiederholen<span class="hint2">Nach dem letzten Titel wieder von vorn</span></label><input type="checkbox" class="switch" id="own-rep"'+(LOCP.repeat?' checked':'')+'></div>';
+          h+='<div class="ownbar"><button data-ost="-1" aria-label="Titel zurück">'+IC.prev+'</button><div class="ownnow" id="own-now"></div><button data-ost="1" aria-label="Nächster Titel">'+IC.next+'</button></div>';
+          h+='<button class="btn" data-olist style="min-height:40px;font-size:15px">'+(MUS.olist?'Titelliste ausblenden':'Titelliste zeigen ('+n+')')+'</button>';
+          if(MUS.olist)h+='<div class="olist">'+LOC.tracks.slice(0,500).map((t,i)=>'<button data-otr="'+i+'"'+(LOC.order[LOC.pos]===i?' aria-current="true"':'')+'><span>'+(i+1)+'</span>'+escH(t.title)+'</button>').join('')+(n>500?'<p class="small muted">… und '+(n-500)+' weitere</p>':'')+'</div>';
+        }else if(LOC.stored&&!LOC.busy){
+          h+='<button class="btn primary" data-own="reopen" style="--rc:var(--brand)">Ordner „'+escH(LOC.stored.name||'Musik')+'“ wieder öffnen</button>';
+        }
+        h+='<div class="btnrow"><button class="btn" data-own="dir">'+(n?'Anderer Ordner':'Ordner wählen')+'</button><button class="btn" data-own="files">Dateien wählen</button></div>';
+        if(!n&&LOCP.n&&!LOC.stored&&!LOC.busy)h+='<div class="mhint">Zuletzt: '+escH(LOCP.name||'Musik')+' ('+LOCP.n+' Titel). Der Browser merkt sich den Ordner hier nicht, wähle ihn bitte neu.</div>';
+        if(/claude/i.test(location.hostname))h+='<div class="mhint">In der Vorschau in der Claude-App kann die Dateiauswahl blockiert sein. In der installierten App funktioniert sie.</div>';
       }else if(sec.type==='amb'){
         const EB='<button class="btn" data-evid style="min-height:40px;margin-top:8px;font-size:15px">Studienlage lesen</button>';
         h+='<div class="mhint">'+(sec.grp==='nat'?'Echte Aufnahmen in Schleife. Mehrere gleichzeitig möglich, jedes mit eigenem Regler.':sec.grp==='noise'?'<span class="ev ev-y"></span>Gut zum Übertönen von Störgeräuschen. Fürs Einschlafen ist die Studienlage schwach, in einer Laborstudie ging mit rosa Rauschen der REM-Schlaf zurück. Leise stellen und den Timer nutzen. Eine Farbe gleichzeitig.'+EB:'Experimentell. Die Punkte zeigen die Studienlage: <span class="ev ev-y"></span>gemischt, <span class="ev ev-r"></span>kaum belegt. Am besten mit Kopfhörern, binaurale Beats wirken nur damit. Über Handylautsprecher klingen die Klänge dünner. Ein Klang gleichzeitig.'+EB)+'</div>';
@@ -2720,6 +3307,16 @@ function renderMusic(){
     }
     host.appendChild(wrap);
   }
+  host.querySelectorAll('[data-rg]').forEach(b=>b.addEventListener('click',()=>{MUS.ropen[b.dataset.rg]=b.getAttribute('aria-expanded')!=='true';renderMusic();}));
+  host.querySelectorAll('[data-own]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.own;
+    if(k==='dir')locPickDir();else if(k==='files')locInput(false);else if(k==='reopen')locReopen();
+    else if(k==='sel'){MUS.style=isLocalMus(MUS.style)?'none':'radio:local';renderMusic();if(MUS.on){if(MUS.style==='none'){Music.stop(.5);Radio.stop(.5);}else startSoloMusic();}}}));
+  host.querySelectorAll('[data-osh]').forEach(b=>b.addEventListener('click',()=>{LOCP.shuffle=b.dataset.osh==='1';LOC.build(true);LOC.save();renderMusic();}));
+  {const orp=host.querySelector('#own-rep');if(orp)orp.addEventListener('change',()=>{LOCP.repeat=orp.checked;LOC.save();});}
+  host.querySelectorAll('[data-ost]').forEach(b=>b.addEventListener('click',()=>{LOC.step(Number(b.dataset.ost));musicTick();}));
+  {const ol=host.querySelector('[data-olist]');if(ol)ol.addEventListener('click',()=>{MUS.olist=!MUS.olist;renderMusic();});}
+  host.querySelectorAll('[data-otr]').forEach(b=>b.addEventListener('click',()=>{const i=Number(b.dataset.otr),was=isLocalMus(MUS.style);MUS.style='radio:local';LOC.jump(i);
+    if(!MUS.on)musicPlay();else if(!was||!LOC.playing())startSoloMusic();if(!was)renderMusic();else musicTick();}));
   host.querySelectorAll('[data-ms],[data-mr]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.ms||('radio:'+b.dataset.mr);MUS.style=MUS.style===k?'none':k;renderMusic();if(MUS.on){if(MUS.style==='none'){Music.stop(.5);Radio.stop(.5);}else startSoloMusic();}}));
   host.querySelectorAll('[data-mt]').forEach(b=>b.addEventListener('click',()=>{MUS.tempo=b.dataset.mt;renderMusic();if(MUS.on&&STYLE_DEF[MUS.style]&&!STYLE_DEF[MUS.style].mood)startSoloMusic();}));
   host.querySelectorAll('[data-amb]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.amb,d=AMB.defs[k],on=!AMB.sel[k];
@@ -2737,6 +3334,7 @@ function startSoloMusic(){Music.stop(.05);if(isRadio(MUS.style)){if(MUS.on)Radio
 function musicPlay(){
   audioInit();
   if(MUS.style==='none'&&!AMB.list().length&&BR.pat==='off'){$('m-now').textContent='Wähle zuerst Musik, ein Geräusch oder einen Atemtakt.';return;}
+  if(isLocalMus(MUS.style)&&!LOC.tracks.length&&!AMB.list().length&&BR.pat==='off'){MUS.open.own=true;renderMusic();$('m-now').textContent='Wähle zuerst unter „Eigene Musik“ einen Ordner.';return;}
   if(testMusic){testMusic=false;$('s-mtest').textContent='Abspielen';}
   MUS.on=true;MUS.fading=false;MUS.until=MUS.dur?Date.now()+MUS.dur*60000:0;
   if(MUS.style!=='none')startSoloMusic();else Music.stop(.05);
@@ -2745,7 +3343,7 @@ function musicPlay(){
   Wake.on();musicTick();
 }
 function musicStop(quick){MUS.on=false;MUS.fading=false;Music.stop(quick?.05:.6);Radio.stop(quick?0:.6);AMB.stopAll(quick?.1:.6);BR.stop();Wake.off();clearInterval(MUS.timer);MUS.timer=null;$('m-darkov').hidden=true;musicTick();}
-function musicSummary(){const a=[];if(MUS.style!=='none')a.push(musName(MUS.style)+(isRadio(MUS.style)&&MUS.on&&Radio.status?' ('+Radio.status+')':''));const am=AMB.list().map(k=>AMB.defs[k].name);if(am.length)a.push(am.join(', '));if(BR.pat!=='off')a.push('Atem '+BR_PATS[BR.pat].name);return a.join(' · ');}
+function musicSummary(){const a=[];if(isLocalMus(MUS.style)){const t=LOC.cur();a.push(MUS.on&&t&&Radio.status==='läuft'?t.title:'Eigene Musik'+(MUS.on&&Radio.status?' ('+Radio.status+')':''));}else if(MUS.style!=='none')a.push(musName(MUS.style)+(isRadio(MUS.style)&&MUS.on&&Radio.status?' ('+Radio.status+')':''));const am=AMB.list().map(k=>AMB.defs[k].name);if(am.length)a.push(am.join(', '));if(BR.pat!=='off')a.push('Atem '+BR_PATS[BR.pat].name);return a.join(' · ');}
 function musicTick(){
   const go=$('m-go');if(!go)return;
   let txt;
@@ -2756,6 +3354,8 @@ function musicTick(){
   $('m-time').textContent=txt;$('m-dtime').textContent=txt;
   go.textContent=MUS.on?'Stopp':'Abspielen';
   const sm=musicSummary();$('m-now').textContent=sm||'Nichts ausgewählt';
+  const on=$('own-now');if(on){const t=LOC.cur(),a=Radio.a;on.textContent=t?'Titel '+(LOC.pos+1)+' von '+LOC.order.length+': '+t.title+(LOC.playing()&&a&&isFinite(a.duration)&&a.duration>0?' · '+mmss(a.currentTime)+' / '+mmss(a.duration):''):'';
+    const ol=document.querySelector('.olist');if(ol){const c=LOC.order[LOC.pos],old=ol.querySelector('[aria-current]');if(!old||Number(old.dataset.otr)!==c){if(old)old.removeAttribute('aria-current');const ne=ol.querySelector('[data-otr="'+c+'"]');if(ne)ne.setAttribute('aria-current','true');}}}
 }
 $('m-dark').innerHTML=IC.moon;
 $('m-go').addEventListener('click',()=>{if(MUS.on)musicStop();else musicPlay();});
@@ -2771,12 +3371,13 @@ const zRounds=()=>Number(DATA.kraft.zr||3),zWork=()=>{const v=Number(DATA.kraft.
 const sayM=m=>String(m||'').replace(/&/g,' und ');
 const zDur=it=>{const ex=EX[it.ex],W=zWork();return it.half||ex.sides?Math.round(W/2):W;};
 function expandItems(r){
+  if(r.type==='eigen'){const R=r.rounds||1,out=[];for(let k=0;k<R;k++)r.items.forEach((it,i)=>out.push(P(it,{seg:R>1?k:i,round:k+1,last:R>1&&k<R-1&&i===r.items.length-1})));return out;}
   if(r.type!=='zirkel')return r.items.map((it,i)=>P(it,{seg:i}));
   const R=zRounds(),W=zWork(),out=[];
   r.warm.forEach(it=>out.push(P(it,{seg:0})));
   for(let k=1;k<=R;k++)r.stations.forEach((st,j)=>{const base={seg:k,station:true,round:k,pos:j+1,of:r.stations.length,machine:st.m},lastR=j===r.stations.length-1&&k<R;
     if(st.ex2){out.push(P(base,{ex:st.ex,dur:Math.round(W/2),half:1,partner:st.ex2}));out.push(P(base,{ex:st.ex2,dur:Math.round(W/2),half:2,partner:st.ex,last:lastR}));}
-    else{const ex=EX[st.ex];out.push(P(base,{ex:st.ex,dur:ex.sides?Math.round(W/2):W,last:lastR}));}});
+    else{const k=isQuiet(r)&&QUIET[st.ex]?QUIET[st.ex]:st.ex,ex=EX[k];out.push(P(base,{ex:k,dur:ex.sides?Math.round(W/2):W,last:lastR}));}});
   r.cool.forEach(it=>out.push(P(it,{seg:R+1})));
   return out;
 }
@@ -2790,20 +3391,23 @@ function stepsOf(r){
     if(it.kraft){
       const prev=items[i-1],next=items[i+1];
       if(!(prev&&prev.kraft))out.push({kind:'prep',i,dur:prepD(i)});
-      for(let s=1;s<=n;s++){
-        if(ex.timed)out.push({kind:'tset',i,set:s,of:n,dur:DATA.kraft.plank});
-        else if(ex.sides){out.push({kind:'set',i,set:s,of:n,dur:Infinity,side:1});out.push({kind:'switch',i,dur:KSWITCH,side:2,set:s});out.push({kind:'set',i,set:s,of:n,dur:Infinity,side:2});}
-        else out.push({kind:'set',i,set:s,of:n,dur:Infinity});
-        if(s<n||(next&&next.kraft))out.push({kind:'rest',i,set:s,of:n,dur:restOf(r),toNext:s===n});
+      const off=r.type==='eigen'?((it.round||1)-1)*n:0,tot=r.type==='eigen'?n*(r.rounds||1):n;
+      for(let s0=1;s0<=n;s0++){const s=s0+off;
+        if(ex.timed)out.push({kind:'tset',i,set:s,of:tot,dur:DATA.kraft.plank});
+        else if(ex.sides){out.push({kind:'set',i,set:s,of:tot,dur:Infinity,side:1});out.push({kind:'switch',i,dur:KSWITCH,side:2,set:s});out.push({kind:'set',i,set:s,of:tot,dur:Infinity,side:2});}
+        else out.push({kind:'set',i,set:s,of:tot,dur:Infinity});
+        if(s0<n||(next&&next.kraft))out.push({kind:'rest',i,set:s,of:tot,dur:restOf(r),toNext:s0===n});
       }
+      if(it.last&&!(next&&next.kraft))out.push({kind:'pause',i,dur:r.roundRest||ZPAUSE});
       return;
     }
     const dur=it.reps?it.reps*it.pace:it.dur;
-    out.push({kind:'prep',i,dur:it.half===2?ZPAIR+(det?4:0):it.station?ZCHANGE+(det?5:0):prepD(i)});
+    out.push({kind:'prep',i,dur:it.half===2?ZPAIR+(det?4:0):it.station?(r.zchange||ZCHANGE)+(det?5:0):prepD(i)});
     const base={i,dur,reps:it.reps||0,pace:it.pace||0};
     if(ex.sides){out.push(P(base,{kind:'work',side:1}));out.push({kind:'switch',i,dur:SWITCH,side:2});out.push(P(base,{kind:'work',side:2}));}
     else out.push(P(base,{kind:'work',side:0}));
-    if(it.last)out.push({kind:'pause',i,dur:ZPAUSE});
+    if(it.last)out.push({kind:'pause',i,dur:r.roundRest||ZPAUSE});
+    else if(r.gap&&i<items.length-1&&!items[i+1].kraft)out.push({kind:'pause',i,dur:r.gap,gap:true});
   });
   out.forEach(st=>st.seg=items[st.i].seg);
   return out;
@@ -2820,7 +3424,7 @@ function itemLabel(it){
   return it.dur+' s'+(ex.sides?' je Seite':'');
 }
 
-function routineMeta(r){const n=r.items.length;return r.type==='guide'?'≈ '+Math.round(totalSec(r)/60)+' min · geführt':r.type==='zirkel'?'≈ '+Math.round(totalSec(r)/60)+' min · '+r.nStat+' Stationen':r.type==='kraft'?'≈ '+Math.round(totalSec(r)/60)+' min · '+r.items.filter(x=>x.kraft).length+' Übungen · '+kraftSets(r)+' Sätze':'≈ '+Math.round(totalSec(r)/60)+' min · '+n+' Übungen';}
+function routineMeta(r){const n=r.items.length;if(r.type==='eigen')return '≈ '+Math.max(1,Math.round(totalSec(r)/60))+' min · '+n+(n===1?' Übung':' Übungen')+(r.rounds>1?' · '+r.rounds+' Runden':'')+(r.items.some(it=>it.kraft)?' · '+r.sets+' Sätze':'');return r.type==='guide'?'≈ '+Math.round(totalSec(r)/60)+' min · geführt':r.type==='zirkel'?'≈ '+Math.round(totalSec(r)/60)+' min · '+r.nStat+' Stationen':r.type==='kraft'?'≈ '+Math.round(totalSec(r)/60)+' min · '+r.items.filter(x=>x.kraft).length+' Übungen · '+kraftSets(r)+' Sätze':'≈ '+Math.round(totalSec(r)/60)+' min · '+n+' Übungen';}
 function doneTodaySet(){const t=ymd(new Date());return new Set(DATA.sessions.filter(s=>s.d===t).map(s=>s.r));}
 function suggestion(){
   const d=new Date(),h=d.getHours(),wd=d.getDay(),today=ymd(d),done=doneTodaySet();
@@ -2855,7 +3459,7 @@ function installCard(){
   el.addEventListener('click',e=>{const b=e.target.closest('[data-x]');if(!b)return;if(b.dataset.x==='later'){LS.set('rr.instHide',1);renderHome();}else doInstall();});
   return el;
 }
-function renderHome(){
+function renderHome(){applyVariants();
   const now=new Date(),h=now.getHours(),n=nm();
   $('h-greet').textContent=(h<11?'Guten Morgen':h<18?'Hallo':'Guten Abend')+(n?', '+n:'')+' · Zeit für dich';
   const ic=$('h-install');ic.innerHTML='';const icc=installCard();if(icc)ic.appendChild(icc);
@@ -2872,7 +3476,11 @@ function linkCard(title,text,btn,color,fn){const el=document.createElement('div'
 function renderTrain(){
   const done=doneTodaySet(),host=$('tr-list');host.innerHTML='';
   ROUTINES.filter(r=>r.group==='prog').forEach(r=>host.appendChild(routineCard(r,done.has(r.id))));
-  const c=TMCFG;host.appendChild(linkCard('Intervall-Timer','Arbeit und Pause frei einstellen, nach Runden oder Gesamtzeit. Signaltöne vor jedem Wechsel. Zuletzt: '+c.work+' s / '+c.rest+' s'+(c.mode==='rounds'?' × '+c.rounds:', '+c.mins+' min')+'.',IC.timer+'Timer öffnen','var(--kraft)',openTimer));
+  const c=TMCFG;const tmc=linkCard('Intervall-Timer','Arbeit und Pause frei einstellen, nach Runden oder Gesamtzeit. Signaltöne vor jedem Wechsel. Zuletzt: '+c.work+' s / '+c.rest+' s'+(c.mode==='rounds'?' × '+c.rounds:', '+c.mins+' min')+'.',IC.timer+'Timer öffnen','var(--kraft)',openTimer);
+  const mine=customList(),h=document.createElement('h2');h.className='sect';h.textContent='Meine Routinen';host.appendChild(h);
+  mine.forEach(r=>host.appendChild(routineCard(r,done.has(r.id))));
+  host.appendChild(linkCard(mine.length?'Weitere Routine erstellen':'Eigene Routine erstellen','Übungen nach Hilfsmittel, Ort und Körperbereich filtern und mit Zeit, Wiederholungen oder Sätzen zusammenstellen. Jede fertige Routine lässt sich auch als Vorlage kopieren.',IC.plus+'Neue Routine','var(--brand)',()=>openEditor(null)));
+  const h2=document.createElement('h2');h2.className='sect';h2.textContent='Werkzeuge';host.appendChild(h2);host.appendChild(tmc);
 }
 function renderWell(){
   const done=doneTodaySet(),host=$('w-list');host.innerHTML='';
@@ -2924,16 +3532,17 @@ function renderCheckCard(){
   c.innerHTML=html;
 }
 
-function exItem(it,routines,r){
+function exItem(it,routines,r,lazy){
   const ex=EX[it.ex];
   const el=document.createElement('div');el.className='exitem';
   const tags='<span class="tag">'+kindLabel[ex.kind]+'</span>'+(routines?routines.map(x=>'<span class="tag" style="color:'+x.color+'">'+x.title+'</span>').join(''):'');
-  const sub=(it.dur||it.reps||it.kraft||it.stationDef?itemLabel(it)+' · ':'')+tags+(eqOf(it.ex).length?'<div class="eqline">Du brauchst: '+eqOf(it.ex).join(', ')+'</div>':'');
-  el.innerHTML='<div class="th"></div><div><div class="nm">'+ex.name+(ex.muscles?' <span class="muted small">'+ex.muscles+'</span>':'')+'</div><div class="sub">'+sub+(it.add?'<span class="tag" style="background:var(--accent-soft);color:var(--ink)">ergänzt</span>':'')+(it.machine?'<span class="tag">statt '+it.machine+'</span>':'')+'</div><div class="cuesmall">'+(taktOf(it.ex)?'<b>Takt:</b> '+taktOf(it.ex)+' ':'')+'<span class="more">Alle Infos ›</span></div></div>';
+  const tg=lazy?tagsOf(it.ex):null;
+  const sub=(it.dur||it.reps||it.kraft||it.stationDef?itemLabel(it)+' · ':'')+tags+(lazy?'<div class="eqline">'+ART_N[tg.art]+' · '+POS_N[tg.pos]+(tg.ort.includes('buero')?' · auch am Schreibtisch':'')+'</div>':'')+(eqOf(it.ex).length?'<div class="eqline">Du brauchst: '+eqOf(it.ex).join(', ')+'</div>':'');
+  el.innerHTML='<div class="th"></div><div><div class="nm">'+ex.name+(ex.muscles?' <span class="muted small">'+ex.muscles+'</span>':'')+'</div><div class="sub">'+sub+(it.add?'<span class="tag" style="background:var(--accent-soft);color:var(--ink)">ergänzt</span>':'')+(it.machine?'<span class="tag">statt '+it.machine+'</span>':'')+(it.swapped&&EX[it.base]?'<span class="tag">heute statt '+EX[it.base].name+'</span>':'')+'</div><div class="cuesmall">'+(taktOf(it.ex)?'<b>Takt:</b> '+taktOf(it.ex)+' ':'')+'<span class="more">Alle Infos ›</span></div></div>';
   el.setAttribute('role','button');el.tabIndex=0;el.setAttribute('aria-label',ex.name+': alle Infos');
   el.addEventListener('click',()=>openInfo(it.ex,it));
   el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openInfo(it.ex,it);}});
-  const f=new Fig(ex);el.querySelector('.th').appendChild(f.svg);live.add(f);
+  const f=new Fig(ex);el.querySelector('.th').appendChild(f.svg);if(lazy)LIVEOBS.add(f,el);else live.add(f);
   if(it.kraft&&r){
     const x=document.createElement('div');x.className='extra';
     const render=()=>{
@@ -2950,6 +3559,7 @@ function exItem(it,routines,r){
 }
 let detailR=null;
 function openDetail(r){
+  applyVariants();
   detailR=r;
   $('v-detail').style.setProperty('--rc',r.color);
   $('d-eyebrow').textContent=r.when+' · '+fmtMin(totalSec(r));
@@ -2963,7 +3573,13 @@ function openDetail(r){
   if(r.type!=='guide')mode.textContent='Ansagen: '+(isDetailed(r)?'ausführlich':'kurz')+(S.detail==='auto'?' (automatisch, '+runs(r.id)+' von 10 Durchgängen gemacht)':'')+'. Änderbar in den Einstellungen.';
   body.appendChild(mode);
   if(r.note){const n=document.createElement('div');n.className='note';n.textContent=r.note;body.appendChild(n);}
-  if(r.id==='shuffle'){const c=document.createElement('div');c.className='card';const rr=()=>{c.innerHTML='<b>Art</b><div class="seg2" style="margin-top:8px"><button data-sh="bilder" aria-pressed="'+(S.shuffle!=='buchstaben')+'">Bilder</button><button data-sh="buchstaben" aria-pressed="'+(S.shuffle==='buchstaben')+'">Buchstaben</button></div><p class="small muted" style="margin-top:8px">'+(S.shuffle==='buchstaben'?'Du bekommst ein Wort. Zu jedem Buchstaben suchst du Wörter und stellst sie dir vor, etwa 75 Sekunden pro Buchstabe. Die Vor-Taste springt zum nächsten Buchstaben.':'Die Stimme nennt ruhig einzelne Wörter, die Abstände werden länger. Zu jedem stellst du dir kurz ein Bild vor.')+' Dauer 15 Minuten, die Musik läuft leise mit.</p>';c.querySelectorAll('[data-sh]').forEach(b=>b.addEventListener('click',()=>{S.shuffle=b.dataset.sh;saveSettings();rr();}));};rr();body.appendChild(c);}
+  if(r.baseItems){const c=document.createElement('div');c.className='card';const nSw=r.items.filter(it=>it.swapped).length;c.innerHTML='<div class="set" style="border:0;padding:0"><label for="d-vary">Täglich abwechseln<span class="hint2">'+(S.vary===false?'Aus: immer die gleichen Übungen':'Einzelne Übungen wechseln jeden Tag gegen gleichwertige. Heute '+(nSw?nSw+' getauscht':'die Grundfassung'))+'</span></label><input type="checkbox" class="switch" id="d-vary"'+(S.vary===false?'':' checked')+'></div>';c.querySelector('#d-vary').addEventListener('change',e=>{S.vary=e.target.checked;saveSettings();applyVariants(true);openDetail(r);});body.appendChild(c);}
+  if(r.id==='shuffle'){const c=document.createElement('div');c.className='card';const rr=()=>{c.innerHTML='<b>Art</b><div class="seg2" style="margin-top:8px"><button data-sh="bilder" aria-pressed="'+(S.shuffle!=='buchstaben')+'">Bilder</button><button data-sh="buchstaben" aria-pressed="'+(S.shuffle==='buchstaben')+'">Buchstaben</button></div><p class="small muted" style="margin-top:8px">'+(S.shuffle==='buchstaben'?'Du bekommst ein Wort. Zu jedem Buchstaben suchst du Wörter und stellst sie dir vor, etwa 75 Sekunden pro Buchstabe. Die Vor-Taste springt zum nächsten Buchstaben.':'Die Stimme nennt ruhig einzelne Wörter, die Abstände werden länger. Zu jedem stellst du dir kurz ein Bild vor.')+' Dauer 15 Minuten, die Musik läuft leise mit.</p><p class="small muted" style="margin-top:6px">'+(S.shuffle==='buchstaben'?SHUF_L.length:SHUF_W.length)+' Wörter im Vorrat, zufällig gemischt. Ein Wort kommt erst wieder, wenn alle anderen dran waren. Noch ungehört: '+(S.shuffle==='buchstaben'?SHUF_L.length-shufUsed().l.length:SHUF_W.length-shufUsed().b.length)+'.</p>';c.querySelectorAll('[data-sh]').forEach(b=>b.addEventListener('click',()=>{S.shuffle=b.dataset.sh;saveSettings();rr();}));};rr();body.appendChild(c);}
+  if(r.custom){const c=document.createElement('div');c.className='card';c.innerHTML='<div class="btnrow"><button class="btn" data-ce="edit">Bearbeiten</button><button class="btn" data-ce="copy">Kopieren</button></div>';
+    c.querySelector('[data-ce=edit]').addEventListener('click',()=>openEditor(r.src));
+    c.querySelector('[data-ce=copy]').addEventListener('click',()=>openEditor(Object.assign(JSON.parse(JSON.stringify(r.src)),{id:null,title:'Kopie von '+r.src.title})));body.appendChild(c);}
+  else if(r.type!=='guide'){const c=document.createElement('div');c.className='card';c.innerHTML='<div class="set" style="border:0;padding:0"><label>Eigene Fassung<span class="hint2">Diese Routine kopieren und nach deinem Geschmack ändern</span></label><button class="btn" data-ce="tpl">Kopieren</button></div>';
+    c.querySelector('[data-ce=tpl]').addEventListener('click',()=>openEditor(routineToCustom(r)));body.appendChild(c);}
   {const c=document.createElement('div');c.className='card';const rr=()=>{const v=S.rmusic[r.id]||'std';c.innerHTML='<div class="set" style="border:0;padding:0"><label for="d-mus">Musik<span class="hint2">'+(v==='std'?'Wie bei '+MSCOPE[r.group]+' eingestellt':'Gilt nur für diese Routine')+'</span></label><select id="d-mus">'+musOpts(musName(groupMusic(r.group))+' (Standard)')+'</select></div>';const sl=c.querySelector('select');sl.value=v;sl.addEventListener('change',()=>{if(sl.value==='std')delete S.rmusic[r.id];else S.rmusic[r.id]=sl.value;saveSettings();rr();});};rr();body.appendChild(c);}
   {const eq=routineEq(r);if(eq.length){const c=document.createElement('div');c.className='card eqcard';c.innerHTML='<b>Das brauchst du</b><div class="eqchips">'+eq.map(e=>'<span>'+e+'</span>').join('')+'</div>';body.appendChild(c);}}
   if(r.type==='kraft'&&r.adv){
@@ -2973,8 +3589,8 @@ function openDetail(r){
       sc.innerHTML='<b>Sätze pro Übung</b><div class="seg2" style="margin:8px 0 12px">'+[2,3,4].map(v=>'<button data-hs="'+v+'" aria-pressed="'+(n===v)+'">'+v+'</button>').join('')+'</div>'+
         '<b>Pause zwischen den Sätzen</b><div class="seg2" style="margin-top:8px">'+[60,90,120].map(v=>'<button data-hr="'+v+'" aria-pressed="'+(rs===v)+'">'+v+' s</button>').join('')+'</div>'+
         '<p class="small muted" style="margin-top:8px">Einseitige Übungen: erst alle Wiederholungen mit einer Seite, 8 s Wechsel, dann die andere. Eingetragen wird die schwächere Seite. Pause: Mehr als 60 s brachte in Studien etwas mehr Muskelaufbau, über 90 s kaum noch.</p>';
-      sc.querySelectorAll('[data-hs]').forEach(b=>b.addEventListener('click',()=>{DATA.kraft.hs=Number(b.dataset.hs);DATA.kraft.ts=Date.now();saveLocal();renderH();$('d-eyebrow').textContent=r.when+' · '+fmtMin(totalSec(r));}));
-      sc.querySelectorAll('[data-hr]').forEach(b=>b.addEventListener('click',()=>{DATA.kraft.hr=Number(b.dataset.hr);DATA.kraft.ts=Date.now();saveLocal();renderH();$('d-eyebrow').textContent=r.when+' · '+fmtMin(totalSec(r));}));
+      sc.querySelectorAll('[data-hs]').forEach(b=>b.addEventListener('click',()=>{DATA.kraft[(r.setKey||'h')+'s']=Number(b.dataset.hs);DATA.kraft.ts=Date.now();saveLocal();renderH();$('d-eyebrow').textContent=r.when+' · '+fmtMin(totalSec(r));}));
+      sc.querySelectorAll('[data-hr]').forEach(b=>b.addEventListener('click',()=>{DATA.kraft[(r.setKey||'h')+'r']=Number(b.dataset.hr);DATA.kraft.ts=Date.now();saveLocal();renderH();$('d-eyebrow').textContent=r.when+' · '+fmtMin(totalSec(r));}));
     };
     renderH();body.appendChild(sc);
   }
@@ -3001,7 +3617,8 @@ function openDetail(r){
       const R=zRounds(),W=zWork();
       sc.innerHTML='<b>Runden</b><div class="seg2" style="margin:8px 0 12px">'+[2,3,4].map(v=>'<button data-r="'+v+'" aria-pressed="'+(R===v)+'">'+v+'</button>').join('')+'</div>'+
         '<b>Arbeitszeit pro Station</b><div class="seg2" style="margin-top:8px">'+ZW_OPTS.map(v=>'<button data-w="'+v+'" aria-pressed="'+(W===v)+'">'+v+' s</button>').join('')+'</div>'+
-        '<p class="small muted" style="margin-top:8px">Doppelstationen: halbe Zeit je Übung, dazwischen 6 s zum Umgreifen. Rotary: halbe Zeit je Seite. Zwischen den Stationen 15 s Wechsel, zwischen den Runden 60 s Pause.</p>';
+        (r.quiet?'<div class="set" style="border:0;padding:12px 0 0"><label for="d-quiet">Ohne Springen<span class="hint2">Leise Varianten: gut für Gelenke und Nachbarn</span></label><input type="checkbox" class="switch" id="d-quiet"'+(DATA.kraft.quiet?' checked':'')+'></div><p class="small muted" style="margin-top:8px">Zwischen den Übungen '+(r.zchange||ZCHANGE)+' s Wechsel, zwischen den Runden 60 s Pause.</p>':'<p class="small muted" style="margin-top:8px">Doppelstationen: halbe Zeit je Übung, dazwischen 6 s zum Umgreifen. Rotary: halbe Zeit je Seite. Zwischen den Stationen 15 s Wechsel, zwischen den Runden 60 s Pause.</p>');
+      const q=sc.querySelector('#d-quiet');if(q)q.addEventListener('change',()=>{DATA.kraft.quiet=q.checked;DATA.kraft.ts=Date.now();saveLocal();openDetail(r);});
       sc.querySelectorAll('[data-r]').forEach(b=>b.addEventListener('click',()=>{DATA.kraft.zr=Number(b.dataset.r);DATA.kraft.ts=Date.now();saveLocal();renderZ();$('d-eyebrow').textContent=r.when+' · '+fmtMin(totalSec(r));}));
       sc.querySelectorAll('[data-w]').forEach(b=>b.addEventListener('click',()=>{DATA.kraft.zw=Number(b.dataset.w);DATA.kraft.ts=Date.now();saveLocal();renderZ();$('d-eyebrow').textContent=r.when+' · '+fmtMin(totalSec(r));}));
     };
@@ -3013,19 +3630,19 @@ function openDetail(r){
   for(const [title,fn] of groups){
     if(title){const h=document.createElement('div');h.className='sechead';h.innerHTML='<h2>'+title+'</h2>';body.appendChild(h);}
     const list=document.createElement('div');list.className='exlist';
-    r.items.filter(fn).forEach(it=>list.appendChild(exItem(it,null,r)));
+    r.items.filter(fn).forEach(it=>list.appendChild(exItem(it.stationDef&&isQuiet(r)&&QUIET[it.ex]?P(it,{ex:QUIET[it.ex]}):it,null,r)));
     body.appendChild(list);
   }
 }
 $('d-start').addEventListener('click',()=>{if(detailR)startRoutine(detailR);});
 function renderLib(){
-  const list=$('liblist');list.innerHTML='';
-  Object.keys(EX).filter(k=>EX[k].kind!=='guide').forEach(k=>{
-    const rs=ROUTINES.filter(r=>r.items.some(it=>it.ex===k));
-    if(rs.length)list.appendChild(exItem({ex:k},rs));
-  });
+  const draw=full=>{if(full){const h=$('libflt');h.innerHTML=fltHTML();fltBind(h,draw);}
+    const list=$('liblist');list.innerHTML='';LIVEOBS.reset();const keys=fltKeys();
+    $('libcount').textContent=keys.length+' von '+NEX+' Übungen';
+    keys.forEach(k=>{const rs=ROUTINES.filter(r=>(r.baseItems||r.items).some(it=>it.ex===k||(it.alt||[]).some(a=>(a.ex||a)===k)));list.appendChild(exItem({ex:k},rs,null,true));});};
+  draw(true);
 }
-function openLib(){show('v-lib');renderLib();}
+function openLib(){FLT.q='';show('v-lib');renderLib();}
 
 function renderVoiceSelect(){
   const er=$('s-engine-row');if(er){er.hidden=!CTTS.ready;$('s-cvoice-row').hidden=!(CTTS.ready&&S.engine!=='device');$('s-voicename-row').hidden=CTTS.ready&&S.engine!=='device';}
@@ -3039,11 +3656,11 @@ function renderVoiceWarn(){
   const w=$('voice-warn');
   if(CTTS.ready&&S.engine!=='device'){w.hidden=true;return;}
   if(!Voice.ok){w.hidden=false;w.textContent='Sprachansagen funktionieren in dieser Ansicht nicht. Öffne die Seite im Browser (Chrome oder Safari). Gong und Signaltöne laufen trotzdem.';}
-  else if(Voice.checked&&!Voice.voices.length){w.hidden=false;w.textContent='Auf diesem Gerät ist keine deutsche Stimme installiert. Unter Android: Einstellungen › Sprachausgabe › Google-Sprachausgabe › Deutsch laden.';}
+  else if(Voice.checked&&!Voice.voices.length){w.hidden=false;w.innerHTML='Auf diesem Gerät ist keine deutsche Stimme installiert. <button class="btn" style="min-height:38px;margin-top:8px" id="vw-help">So lädst du eine Stimme</button>';const hb=$('vw-help');if(hb)hb.onclick=()=>openVoiceHelp(()=>show(curTab));}
   else w.hidden=true;
 }
 function renderSettings(){
-  $('s-voice').checked=!!S.voice;$('s-music').checked=!!S.music;$('s-sfx').checked=!!S.sfx;$('s-count').checked=!!S.count;
+  $('s-voice').checked=!!S.voice;$('s-music').checked=!!S.music;$('s-sfx').checked=!!S.sfx;$('s-count').checked=!!S.count;$('s-crackle').checked=S.crackle!==false;$('s-vary').checked=S.vary!==false;
   $('s-vol').value=S.vol;$('s-rate').value=String(S.rate);$('s-prep').value=String(S.prep);
   $('s-style').innerHTML=STYLES.map(k=>'<option value="'+k+'">'+STYLE_NAME[k]+'</option>').join('')+'<option value="random">Zufällig</option>';
   $('s-detail').value=S.detail;$('s-style').value=S.style;$('s-rest').value=String(S.rest);
@@ -3054,7 +3671,8 @@ function renderSettings(){
 document.querySelectorAll('[data-gm]').forEach(sl=>sl.addEventListener('change',()=>{S.gmusic[sl.dataset.gm]=sl.value;saveSettings();}));
 function renderSyncNote(){const n=$('s-sync');if(n)n.textContent=Sync.state==='synced'?'Dein Verlauf und Trainingstagebuch werden in deinem Konto gespeichert und sind auf allen Geräten gleich.':'Dein Verlauf wird auf diesem Gerät gespeichert.';}
 const bindSwitch=(id,key,cb)=>$(id).addEventListener('change',e=>{S[key]=e.target.checked;saveSettings();cb&&cb();});
-bindSwitch('s-voice','voice');bindSwitch('s-music','music',()=>Music.level());bindSwitch('s-sfx','sfx');bindSwitch('s-count','count');
+bindSwitch('s-voice','voice');bindSwitch('s-music','music',()=>Music.level());bindSwitch('s-sfx','sfx');bindSwitch('s-count','count');bindSwitch('s-vary','vary',()=>applyVariants(true));bindSwitch('s-crackle','crackle',()=>{if(S.crackle===false)KA.off();});
+$('s-vhelp').addEventListener('click',()=>openVoiceHelp());
 $('s-vol').addEventListener('input',e=>{S.vol=Number(e.target.value);saveSettings();Music.level();});
 $('s-rate').addEventListener('change',e=>{S.rate=Number(e.target.value);saveSettings();});
 $('s-name').addEventListener('change',e=>{S.name=e.target.value.trim().slice(0,24);saveSettings();});
@@ -3132,8 +3750,9 @@ $('p-voice').innerHTML=IC.voice;$('p-music').innerHTML=IC.music;$('p-info').inne
 $('p-info').addEventListener('click',()=>{if(!PL.r)return;const {key,it}=cur();openInfo(key,it);});
 
 function startRoutine(r){
+  applyVariants();
   if(r.type==='guide'){const gx=EX[r.items[0].ex];if(gx.genScript)gx.script=gx.genScript(S.shuffle||'bilder');}
-  audioInit();Voice.unlock();
+  audioInit();Voice.unlock();KA.on();
   if(testMusic){testMusic=false;Music.stop(.05);$('s-mtest').textContent='Abspielen';}
   if(MUS.on)musicStop(true);
   Object.assign(PL,{r,items:expandItems(r),steps:stepsOf(r),idx:0,el:0,running:true,paused:false,anim:0,figKey:null,startTs:Date.now(),
@@ -3218,7 +3837,7 @@ function enterStep(){
     if(!PL.log[key])PL.log[key]={stage:level(key),reps:[]};
     Voice.say('Satz '+numWord(st.set)+' von '+numWord(st.of)+'. '+st.dur+' Sekunden halten. Los.',true);
   }else if(st.kind==='pause'){
-    SFX.sw();Voice.say('Runde '+it.round+' geschafft. '+st.dur+' Sekunden Pause. Trink einen Schluck.',true);
+    SFX.sw();if(st.gap){const nx=PL.items[st.i+1];Voice.say('Kurze Pause.'+(nx?' Danach: '+EX[nx.ex].name+'.':''),true);}else Voice.say('Runde '+it.round+' geschafft. '+st.dur+' Sekunden Pause. Trink einen Schluck.',true);
   }else if(st.kind==='rest'){
     SFX.sw();
     let t=co('rest')+' '+st.dur+' Sekunden Pause.';
@@ -3285,7 +3904,7 @@ function events(){
   const {st,it,key,ex}=cur();const el=PL.el,rem=st.dur-el;
   if(PL.pending&&!Voice.busy()){if(rem>PL.pending.until)Voice.say(PL.pending.text);PL.pending=null;}
   if(st.kind==='guide'){
-    for(let k=0;k<ex.script.length;k++){const [t,txt]=ex.script[k];if(el>=t&&fire('g'+k)){if(txt){Voice.say(txt,false,.9);$('p-gline').textContent=txt;PL.lastLine=txt;}}}
+    for(let k=0;k<ex.script.length;k++){const [t,txt,,sw,sk]=ex.script[k];if(el>=t&&fire('g'+k)){if(txt){Voice.say(txt,false,.9);$('p-gline').textContent=txt;PL.lastLine=txt;}if(sw)shufMark(sw,sk);}}
     if(rem<45&&fire('fade')){Music.stop(PL.night?12:5);Radio.fadeOut(PL.night?12:5);}
     return;
   }
@@ -3301,7 +3920,7 @@ function events(){
   }
   for(const n of [3,2,1]){if(rem<=n&&rem>n-1&&fire('t'+n)){if(st.kind!=='work'||st.dur>=10)SFX.tick(st.kind==='work'||st.kind==='tset');}}
   if(st.kind==='tset'){if(el>=st.dur/2&&st.dur>=20&&fire('half')&&!Voice.busy())Voice.say(co('half'));return;}
-  if(st.kind==='pause'){if(rem<=10&&fire('p10'))Voice.say('Noch zehn Sekunden. Gleich startet Runde '+(it.round+1)+'.');return;}
+  if(st.kind==='pause'){if(!st.gap&&rem<=10&&fire('p10'))Voice.say('Noch zehn Sekunden. Gleich startet Runde '+(it.round+1)+'.');return;}
   if(st.kind==='rest'){
     if(PL.det&&el>=15&&fire('rtip')){const t=st.toNext?null:tipFor(key,st.set%2?2:1);if(t)sayLater('Für den nächsten Satz: '+t,12);}
     if(rem<=10&&fire('r10')){const t=st.toNext?'Noch zehn Sekunden, dann geht es weiter.':'Noch zehn Sekunden. Mach dich bereit für Satz '+numWord(st.set+1)+'.';Voice.say(t);}
@@ -3363,7 +3982,7 @@ function render(){
   const nl=$('p-nextlbl'),nb=$('p-next');
   if(st.kind==='guide'){nl.textContent='Danach';nb.textContent=PL.night?'Musik klingt aus':'Ende';}
   else if(st.kind==='prep'){nl.textContent='Jetzt';nb.textContent=it.station?(it.half===2?'Gegenrichtung · statt '+it.machine:it.machine?'statt '+it.machine+(it.partner?' · 1 von 2':''):'Station wechseln'):(st.i===0?'Handy hinlegen, Position einnehmen':'Position einnehmen');}
-  else if(st.kind==='pause'){nl.textContent='Gleich';nb.textContent='Runde '+(it.round+1);}
+  else if(st.kind==='pause'){nl.textContent='Gleich';nb.textContent=st.gap&&nxt?EX[nxt.ex].name:'Runde '+(it.round+1);}
   else if(st.kind==='switch'&&st.set){nl.textContent='Gleich';nb.textContent='Satz '+st.set+', andere Seite';}
   else if(st.kind==='set'){nl.textContent='Fertig?';nb.textContent=st.side===1?'Mittlere Taste: Seite fertig':'Mittlere Taste: Satz beenden';}
   else if(st.kind==='rest'){nl.textContent='Gleich';nb.textContent=st.toNext&&nxt?EX[nxt.ex].name:'Satz '+(st.set+1);}
@@ -3391,7 +4010,7 @@ function render(){
   else{play.innerHTML=PL.paused?IC.play:IC.pause;play.setAttribute('aria-label',PL.paused?'Weiter':'Pause');}
 }
 function syncToggles(){$('p-voice').classList.toggle('off',!S.voice);$('p-music').classList.toggle('off',!PL.musOn);}
-function startSessionMusic(){const r=PL.r;if(!r||!PL.musOn)return;const v=PL.mus;if(isRadio(v)){Music.stop(.05);Radio.play(v.slice(6),{night:PL.night,fallback:()=>{if(PL.running&&PL.musOn&&PL.r===r){PL.mus=S.style&&S.style!=='random'?S.style:'pads';Music.start(r.mood,{night:PL.night,style:PL.mus,force:true});pNote('Das Internetradio ist gerade nicht erreichbar, deshalb läuft Musik aus der App.');}}});}else{Radio.stop(0);Music.start(r.mood,{night:PL.night,style:v,force:true,keep:PL.musKeep});}}
+function startSessionMusic(){const r=PL.r;if(!r||!PL.musOn)return;const v=PL.mus;if(isRadio(v)){Music.stop(.05);Radio.play(v.slice(6),{night:PL.night,fallback:()=>{if(PL.running&&PL.musOn&&PL.r===r){PL.mus=S.style&&S.style!=='random'?S.style:'pads';Music.start(r.mood,{night:PL.night,style:PL.mus,force:true});pNote(isLocalMus(v)?'Die eigene Musik ist gerade nicht geladen. Wähle den Ordner unter Musik › Eigene Musik. Solange läuft Musik aus der App.':'Das Internetradio ist gerade nicht erreichbar, deshalb läuft Musik aus der App.');}}});}else{Radio.stop(0);Music.start(r.mood,{night:PL.night,style:v,force:true,keep:PL.musKeep});}}
 $('p-voice').addEventListener('click',()=>{S.voice=!S.voice;saveSettings();if(!S.voice)Voice.cancel();syncToggles();});
 $('p-music').addEventListener('click',()=>{if(!PL.running)return;audioInit();PL.musOn=!PL.musOn;if(PL.musOn&&PL.mus==='off')PL.mus=S.style||'pads';Music.mute=!PL.musOn;Radio.mute=!PL.musOn;if(PL.musOn&&!Music.on&&!Radio.on)startSessionMusic();Music.level();syncToggles();});
 $('p-play').addEventListener('click',()=>{
@@ -3467,12 +4086,12 @@ $('ov-end').addEventListener('click',()=>{$('ov-stop').classList.remove('on');fi
 function finish(complete){
   const r=PL.r,fr=doneFrac(),secs=(Date.now()-PL.startTs)/1000;
   PL.running=false;PL.paused=false;PL.autoPaused=false;pNote('');
-  Music.stop(PL.night?6:.6);Radio.stop(PL.night?6:.6);Wake.off();
+  Music.stop(PL.night?6:.6);Radio.stop(PL.night?6:.6);Wake.off();KA.off(9000);
   if(!PL.guide)Voice.cancel();
   const counted=complete||fr>=.5;
   if(counted)recordSession(r.id,secs,complete);
   let kraftRes=null;
-  if(r.type==='kraft'&&counted&&Object.keys(PL.log).length){
+  if(r.items.some(it=>it.kraft)&&counted&&Object.keys(PL.log).length){
     const items={};for(const k in PL.log){const lg=PL.log[k];const reps=lg.reps.filter(v=>v!=null);if(reps.length)items[k]={stage:lg.stage,reps};}
     const now=new Date();
     DATA.kraft.log.push({id:now.toISOString(),d:ymd(now),r:r.id,sets:kraftSets(r),items});
@@ -3623,7 +4242,7 @@ function tmRender(pos){
 }
 function tmUI(run){$('tm-setup').hidden=run;$('tm-run').hidden=!run;$('tm-bar1').hidden=run;$('tm-bar2').hidden=!run;$('tm-voice').hidden=!run;$('tm-music').hidden=!run;$('tm-confirm').hidden=true;}
 function tmMusicStart(){if(!TM.musOn)return;const v=TM.mus;if(isRadio(v)){Music.stop(.05);Radio.play(v.slice(6),{solo:true,fallback:()=>{if(TM.running&&TM.musOn){TM.mus=S.style&&S.style!=='random'?S.style:'pads';Music.start('buero',{style:TM.mus,force:true,solo:true});if(TM.paused){Music.mute=true;Music.level();}}}});}else{Radio.stop(0);Music.start('buero',{style:v,force:true,solo:true});}}
-function tmStart(){
+function tmStart(){KA.on();
   if(!audioInit())return;
   if(MUS.on)musicStop(true);
   if(testMusic){testMusic=false;Music.stop(.05);$('s-mtest').textContent='Abspielen';}
@@ -3642,7 +4261,7 @@ function tmJump(pos){
   if(!TM.paused){tmAnchor(pos);Voice.cancel();}
   TM.ph=-1;tmLoop();
 }
-function tmFinish(complete){
+function tmFinish(complete){KA.off(6000);
   const n=TM.n,tot=TM.total,pos=tmNow(),r=TM.plan[tmPhaseAt(pos)];
   TM.running=false;TM.paused=false;clearInterval(TM.ui);TM.ui=null;
   if(!complete)tmKillBus();else{const b=TM.bus;TM.bus=null;setTimeout(()=>{try{b&&b.disconnect();}catch(e){}},4000);}
@@ -3784,8 +4403,8 @@ function ktRender(){
 ['rc-timers','rcl-timers'].forEach(id=>$(id).addEventListener('click',e=>{const b=e.target.closest('[data-kt]');if(b)ktCancel(b.dataset.kt);}));
 
 /* ================= Mehr, Infoseiten, Installieren, Sicherung ================= */
-const APP_VER='1.2.1';
-const CHANGES={'1.2.1':['Klänge besser hörbar: binaurale Beats auf 400 Hz angehoben, Klangflächen eine Oktave höher gelegt','Klänge und braunes Rauschen so laut eingestellt, wie Naturgeräusche klingen','Hinweis bei den Klängen: am besten mit Kopfhörern'],'1.2':['Neu unter „Mehr“: Wohlzeit teilen, per WhatsApp oder über das Teilen-Menü, oder den Link kopieren','Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1.1':['Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1':['Echte Naturgeräusche: Regen, Gewitter, Wellen, Bach, Wind, Kaminfeuer, Vögel, Grillen, Katzenschnurren, Café, Zug, Boot und Stadt','Sieben Rauschfarben mit Erklärung, wofür sie gedacht sind','Klänge (experimentell): binaurale Beats sowie 432- und 528-Hz-Klangflächen, mit Ampel zur Studienlage','Radio: Ambient Sleeping Pill und Radio Paradise Mellow Mix, SomaFM als Ersatz'],'1.0':['Neuer Name: Wohlzeit – Zeit für dich','Untere Leiste mit Heute, Training, Wohlfühlen, Musik und Mehr','„Heute“ schlägt passend zur Tageszeit etwas vor','Wohlfühlrezepte: Seelenfutter und Kraftfutter, mit Portionsrechner und Küchentimer','Klarere Buttons, Infos ohne Kapseln, eingerückte Unterpunkte','Daten sichern und wiederherstellen unter „Mehr“','Als App auf dem Startbildschirm installierbar']};
+const APP_VER='1.4';
+const CHANGES={'1.4':['Eigene Musik: Ordner oder einzelne Dateien vom Handy wählen und der Reihe nach oder zufällig abspielen. Geht auch als Hintergrundmusik für Routinen und Training','14 neue Radiosender, darunter ByteFM, drei Blues-Sender, Slow House, Reggae, Hip-Hop, Gregorianik, alte Musik, Barock und Meditation. Die Sender sind jetzt in Gruppen sortiert','Das Radio merkt sich die Adresse, die zuletzt lief, und verbindet dadurch schneller'],'1.3':['Darstellung unter „Mehr“: hell, dunkel oder wie das Handy, dazu fünf Farbwelten. Die Leiste oben nimmt die Farbe der App an','Eigene Routinen: Übungen filtern, auswählen und mit Zeit, Wiederholungen oder Sätzen samt Tagebuch zusammenstellen. Fertige Routinen lassen sich als Vorlage kopieren','Zwei neue Trainings nur mit Matte: Ausdauer-Zirkel (auf Wunsch ohne Springen) und Kraft ohne Geräte, mit Curl-up und Dead Bug statt Sit-ups','25 neue Übungen, darunter mehrere für den Schreibtisch. Alle Übungen haben jetzt Filter nach Art, Ort, Hilfsmittel und Körperbereich','Morgen, Abend, Couch und Büro wechseln täglich einzelne Übungen gegen gleichwertige. Abschaltbar','Gedanken-Shuffle mit über 1.100 Wörtern, die sich erst wiederholen, wenn alle dran waren','Anleitung für andere Stimmen in den Einstellungen und ein Knackschutz für die Ansagen'],'1.2.1':['Klänge besser hörbar: binaurale Beats auf 400 Hz angehoben, Klangflächen eine Oktave höher gelegt','Klänge und braunes Rauschen so laut eingestellt, wie Naturgeräusche klingen','Hinweis bei den Klängen: am besten mit Kopfhörern'],'1.2':['Neu unter „Mehr“: Wohlzeit teilen, per WhatsApp oder über das Teilen-Menü, oder den Link kopieren','Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1.1':['Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1':['Echte Naturgeräusche: Regen, Gewitter, Wellen, Bach, Wind, Kaminfeuer, Vögel, Grillen, Katzenschnurren, Café, Zug, Boot und Stadt','Sieben Rauschfarben mit Erklärung, wofür sie gedacht sind','Klänge (experimentell): binaurale Beats sowie 432- und 528-Hz-Klangflächen, mit Ampel zur Studienlage','Radio: Ambient Sleeping Pill und Radio Paradise Mellow Mix, SomaFM als Ersatz'],'1.0':['Neuer Name: Wohlzeit – Zeit für dich','Untere Leiste mit Heute, Training, Wohlfühlen, Musik und Mehr','„Heute“ schlägt passend zur Tageszeit etwas vor','Wohlfühlrezepte: Seelenfutter und Kraftfutter, mit Portionsrechner und Küchentimer','Klarere Buttons, Infos ohne Kapseln, eingerückte Unterpunkte','Daten sichern und wiederherstellen unter „Mehr“','Als App auf dem Startbildschirm installierbar']};
 let instPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();instPrompt=e;if(curView==='v-home')renderHome();else if(curView==='v-more')renderMore();});
 window.addEventListener('appinstalled',()=>{instPrompt=null;LS.set('rr.instHide',1);if(curView==='v-home')renderHome();});
@@ -3794,11 +4413,176 @@ const isIOS=()=>/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platfor
 const isWeb=()=>{try{return location.protocol==='https:'&&window.top===window&&!/claude/i.test(location.hostname);}catch(e){return false;}};
 function canInstall(){return !isStandalone()&&isWeb()&&(!!instPrompt||isIOS());}
 function doInstall(){if(instPrompt){const p=instPrompt;instPrompt=null;try{p.prompt();p.userChoice.then(()=>{if(curView==='v-home')renderHome();}).catch(()=>{});}catch(e){openInstall();}}else openInstall();}
-function openPage(eb,title,html,bind){$('pg-eb').textContent=eb;$('pg-title').textContent=title;$('pg-body').innerHTML=html;show('v-page');if(bind)bind($('pg-body'));}
+/* ================= Eigene Routinen ================= */
+const CCOLORS=['kraft','morgen','abend','couch','buero','bws','mobil','zirkel'];
+const canSets=k=>{const ex=EX[k];return !!(ex&&ex.kind==='strength'&&ex.stages&&!ex.timed);};
+function paceOf(k){const ex=EX[k];if(ex.kind==='strength'&&ex.tempo)return Math.max(2,ex.tempo.reduce((s,x)=>s+x[1],0));return Math.max(1,(ex.period||4)/(ex.repsPerCycle||1));}
+function customToRoutine(c){
+  const items=(c.items||[]).filter(x=>EX[x.ex]).map(x=>x.m==='sets'&&canSets(x.ex)?{ex:x.ex,kraft:true}:x.m==='reps'?{ex:x.ex,reps:x.reps||10,pace:paceOf(x.ex)}:{ex:x.ex,dur:x.dur||30});
+  const col=CCOLORS.includes(c.color)?c.color:'kraft';
+  return {id:c.id,group:'prog',type:'eigen',custom:true,src:c,title:c.title||'Meine Routine',when:'Eigene Routine',color:'var(--'+col+')',mood:'buero',
+    desc:'Deine eigene Zusammenstellung'+((c.rounds|0)>1?' in '+c.rounds+' Runden':'')+'.',items,rounds:Math.max(1,c.rounds|0||1),gap:c.gap|0,sets:c.sets||3,setRest:c.setRest||90,roundRest:c.roundRest||60};
+}
+function customList(){return (DATA.custom||[]).filter(c=>!c.del&&c.items&&c.items.length).map(customToRoutine);}
+function customSave(c){if(!Array.isArray(DATA.custom))DATA.custom=[];c.ts=Date.now();const i=DATA.custom.findIndex(x=>x.id===c.id);if(i>=0)DATA.custom[i]=c;else DATA.custom.push(c);saveLocal();}
+function customDelete(id){const c=(DATA.custom||[]).find(x=>x.id===id);if(c){c.del=true;c.items=[];c.ts=Date.now();saveLocal();}}
+function routineToCustom(r){
+  const col=(String(r.color).match(/--([a-z]+)/)||[])[1];
+  const c={id:null,title:r.title+' (eigene)',color:CCOLORS.includes(col)?col:'kraft',items:[],rounds:1,gap:0,sets:3,setRest:90,roundRest:60};
+  if(r.type==='zirkel'){c.items=r.stations.map(st=>({ex:isQuiet(r)&&QUIET[st.ex]?QUIET[st.ex]:st.ex,m:'time',dur:zWork()}));c.rounds=zRounds();c.gap=r.zchange||15;}
+  else c.items=r.items.map(it=>it.kraft&&canSets(it.ex)?{ex:it.ex,m:'sets'}:it.kraft?{ex:it.ex,m:'time',dur:30}:it.reps?{ex:it.ex,m:'reps',reps:it.reps}:{ex:it.ex,m:'time',dur:it.dur||30});
+  if(r.items.some(it=>it.kraft)){c.sets=kraftSets(r)||3;c.setRest=restOf(r)||90;}
+  return c;
+}
+/* Filter für Übungsliste und Auswahl */
+let FLT=Object.assign({art:[],ort:[],have:[],zone:[],pos:[],q:'',open:false},LS.get('rr.flt',{}));
+['art','ort','have','zone','pos'].forEach(k=>{if(!Array.isArray(FLT[k]))FLT[k]=[];});FLT.q='';
+const HAVE_N={matte:'Matte',moebel:'Stuhl oder Sofa',wand:'Wand oder Tür',klein:'Handtuch, Rolle, Stab',band:'Theraband',gewicht:'Hantel, Kettlebell',stange:'Klimmzugstange'};
+const FLT_GROUPS=[['art','Art',ART_N],['ort','Wo',ORT_N],['have','Ich habe',HAVE_N],['zone','Körperbereich',ZONE_N],['pos','Position',POS_N]];
+const fltCount=()=>FLT.art.length+FLT.ort.length+FLT.have.length+FLT.zone.length+FLT.pos.length;
+function fltPass(k){
+  const t=tagsOf(k),f=FLT;
+  if(f.art.length&&!f.art.includes(t.art))return false;
+  if(f.ort.length&&!f.ort.some(o=>t.ort.includes(o)))return false;
+  if(f.have.length&&!t.hm.every(h=>h==='nichts'||f.have.includes(h)))return false;
+  if(f.zone.length&&!f.zone.some(z=>t.zone.includes(z)))return false;
+  if(f.pos.length&&!f.pos.includes(t.pos))return false;
+  if(f.q){const q=f.q.toLowerCase();if(!(EX[k].name.toLowerCase().includes(q)||String(EX[k].muscles||'').toLowerCase().includes(q)))return false;}
+  return true;
+}
+function fltHTML(){const n=fltCount();
+  return '<div class="card fcard"><div class="frow"><input type="search" class="fsearch" placeholder="Übung suchen" value="'+escH(FLT.q)+'" aria-label="Übung suchen"><button class="btn fbtn" data-fopen aria-expanded="'+(!!FLT.open)+'">Filter'+(n?' ('+n+')':'')+'</button></div>'+
+    '<div class="fbody"'+(FLT.open?'':' hidden')+'>'+FLT_GROUPS.map(([k,t,N])=>'<div class="fgrp"><b>'+t+(k==='have'?'<span> · zeigt nur, was damit geht</span>':'')+'</b><div class="chips">'+Object.keys(N).map(v=>'<button class="chip" data-f="'+k+'" data-v="'+v+'" aria-pressed="'+FLT[k].includes(v)+'">'+N[v]+'</button>').join('')+'</div></div>').join('')+
+    (n?'<button class="btn" data-freset>Filter zurücksetzen</button>':'')+'</div></div>';}
+function fltBind(root,onChange){
+  root.querySelector('[data-fopen]').addEventListener('click',()=>{FLT.open=!FLT.open;LS.set('rr.flt',FLT);onChange(true);});
+  root.querySelectorAll('[data-f]').forEach(b=>b.addEventListener('click',()=>{const a=FLT[b.dataset.f],v=b.dataset.v,i=a.indexOf(v);if(i>=0)a.splice(i,1);else a.push(v);LS.set('rr.flt',FLT);onChange(true);}));
+  const rs=root.querySelector('[data-freset]');if(rs)rs.addEventListener('click',()=>{FLT_GROUPS.forEach(([k])=>FLT[k]=[]);LS.set('rr.flt',FLT);onChange(true);});
+  const q=root.querySelector('.fsearch');q.addEventListener('input',()=>{FLT.q=q.value.trim();onChange(false);});
+}
+const fltKeys=()=>Object.keys(EX).filter(k=>EX[k].kind!=='guide'&&fltPass(k));
+const NEX=Object.keys(EX).filter(k=>EX[k].kind!=='guide').length;
+/* Figuren nur animieren, wenn sie sichtbar sind */
+const LIVEOBS={io:null,map:new Map(),
+  reset(){if(this.io)this.io.disconnect();this.map.clear();this.io=('IntersectionObserver' in window)?new IntersectionObserver(es=>{for(const e of es){const f=this.map.get(e.target);if(!f)continue;if(e.isIntersecting)live.add(f);else live.delete(f);}}):null;},
+  add(f,el){if(!this.io){live.add(f);return;}this.map.set(el,f);this.io.observe(el);}};
+const eqShort=k=>eqOf(k).filter(e=>!/^evtl\./.test(e)).map(eqKey).join(', ');
+/* Editor */
+const ED={c:null,dirty:false};
+function newCustom(){return {id:null,title:'',color:'kraft',items:[],rounds:1,gap:0,sets:3,setRest:90,roundRest:60};}
+function defItem(k){const ex=EX[k],a=tagsOf(k).art;if(canSets(k))return {ex:k,m:'sets'};return {ex:k,m:'time',dur:a==='cardio'?40:30};}
+function edModes(k){const ex=EX[k];const m=[['time','Zeit']];if(ex.kind!=='hold'&&ex.kind!=='breath')m.push(['reps','Wdh.']);if(canSets(k))m.push(['sets','Sätze']);return m;}
+function edVal(x){const ex=EX[x.ex],s=ex.sides?' je Seite':'';return x.m==='time'?(x.dur||30)+' s'+s:x.m==='reps'?(x.reps||10)+' Wdh.'+s:rngOf(x.ex).join('–')+' Wdh.'+s+' · Stufe '+level(x.ex);}
+function edRow(x,i,n){
+  const ex=EX[x.ex],modes=edModes(x.ex);if(!modes.some(m=>m[0]===x.m))x.m=modes[0][0];
+  return '<div class="edrow"><div class="edtop"><div class="th" data-th="'+i+'"></div><button class="pkinfo" data-info="'+i+'"><span class="nm">'+(i+1)+'. '+ex.name+'</span><span class="sub">'+ART_N[tagsOf(x.ex).art]+(eqShort(x.ex)?' · '+eqShort(x.ex):'')+'</span></button>'+
+    '<div class="mini"><button data-up="'+i+'" aria-label="nach oben"'+(i===0?' disabled':'')+'>↑</button><button data-dn="'+i+'" aria-label="nach unten"'+(i===n-1?' disabled':'')+'>↓</button><button data-rm="'+i+'" aria-label="entfernen">✕</button></div></div>'+
+    '<div class="edctl"><div class="seg2 sm">'+modes.map(([m,l])=>'<button data-m="'+i+'" data-v="'+m+'" aria-pressed="'+(x.m===m)+'">'+l+'</button>').join('')+'</div>'+
+    (x.m==='sets'?'<span class="small muted">'+edVal(x)+'</span>':'<div class="stepper"><button data-dec="'+i+'" aria-label="weniger">−</button><output>'+edVal(x)+'</output><button data-inc="'+i+'" aria-label="mehr">+</button></div>')+'</div></div>';
+}
+const segBtns=(key,opts,cur,fmt)=>'<div class="seg2">'+opts.map(v=>'<button data-set="'+key+'" data-v="'+v+'" aria-pressed="'+(cur===v)+'">'+(fmt?fmt(v):v)+'</button>').join('')+'</div>';
+function openEditor(c,keep){
+  if(!keep){ED.c=c?JSON.parse(JSON.stringify(c)):newCustom();ED.dirty=!!(c&&!c.id);}
+  const C=ED.c,n=C.items.length,hasSets=C.items.some(x=>x.m==='sets'&&canSets(x.ex));
+  const R=customToRoutine(C),est=n?Math.max(1,Math.round(totalSec(R)/60)):0;
+  let h='<div class="card"><div class="set" style="border:0;padding:0 0 10px"><label for="ed-name">Name</label><input type="text" id="ed-name" maxlength="40" placeholder="z. B. Bauch und Rücken" value="'+escH(C.title||'')+'"></div>'+
+    '<b>Farbe</b><div class="colrow">'+CCOLORS.map(k=>'<button class="colbtn" data-col="'+k+'" style="--c:var(--'+k+')" aria-pressed="'+(C.color===k)+'" aria-label="Farbe '+k+'"></button>').join('')+'</div></div>';
+  h+='<h2 class="sect">Übungen'+(n?' ('+n+')':'')+'</h2>';
+  h+=n?'<div class="exlist">'+C.items.map((x,i)=>edRow(x,i,n)).join('')+'</div>':'<div class="card"><p class="small muted">Noch keine Übungen. Tippe auf „Übungen hinzufügen“ und filtere nach Hilfsmittel, Ort oder Körperbereich.</p></div>';
+  h+='<button class="btn block" id="ed-add" style="border-style:dashed">'+IC.plus+'Übungen hinzufügen</button>';
+  h+='<div class="card"><h3>Ablauf</h3><div class="fgrp" style="margin-top:10px"><b>Runden</b>'+segBtns('rounds',[1,2,3,4,5],C.rounds||1)+'</div>'+
+    '<div class="fgrp"><b>Pause zwischen den Übungen</b>'+segBtns('gap',[0,10,20,30],C.gap||0,v=>v?v+' s':'keine')+'</div>'+
+    ((C.rounds||1)>1?'<div class="fgrp"><b>Pause zwischen den Runden</b>'+segBtns('roundRest',[30,60,90],C.roundRest||60,v=>v+' s')+'</div>':'')+
+    (hasSets?'<div class="fgrp"><b>Sätze pro Kraftübung</b>'+segBtns('sets',[2,3,4],C.sets||3)+'</div><div class="fgrp"><b>Pause zwischen den Sätzen</b>'+segBtns('setRest',[60,90,120],C.setRest||90,v=>v+' s')+'</div>':'')+
+    '<p class="small muted" style="margin-top:10px">Vor jeder Übung gibt es '+S.prep+' Sekunden zum Einnehmen der Position.'+(hasSets?' Bei „Sätze“ zählst du die Wiederholungen selbst und trägst sie in der Pause ein, wie bei den Kraft-Programmen. Stufe und Tagebuch gelten für die Übung überall gleich.':'')+'</p></div>';
+  if(n)h+='<p class="small muted">Dauer etwa '+est+' Minuten'+(hasSets?' (Sätze geschätzt)':'')+'.</p>';
+  if(C.id)h+='<button class="btn block" id="ed-del" style="color:var(--accent)">Routine löschen</button>';
+  const sc=curView==='v-page'?$('pg-body').scrollTop:0;
+  openPage('Training',C.id?'Routine bearbeiten':'Eigene Routine',h,b=>{
+    C.items.forEach((x,i)=>{const th=b.querySelector('[data-th="'+i+'"]');if(th){const f=new Fig(EX[x.ex]);th.appendChild(f.svg);}});
+    const re=()=>{ED.dirty=true;openEditor(ED.c,true);};
+    b.querySelector('#ed-name').addEventListener('input',e=>{C.title=e.target.value;ED.dirty=true;});
+    b.querySelectorAll('[data-col]').forEach(x=>x.addEventListener('click',()=>{C.color=x.dataset.col;re();}));
+    b.querySelectorAll('[data-info]').forEach(x=>x.addEventListener('click',()=>openInfo(C.items[+x.dataset.info].ex)));
+    b.querySelectorAll('[data-up]').forEach(x=>x.addEventListener('click',()=>{const i=+x.dataset.up;if(i>0){[C.items[i-1],C.items[i]]=[C.items[i],C.items[i-1]];re();}}));
+    b.querySelectorAll('[data-dn]').forEach(x=>x.addEventListener('click',()=>{const i=+x.dataset.dn;if(i<C.items.length-1){[C.items[i+1],C.items[i]]=[C.items[i],C.items[i+1]];re();}}));
+    b.querySelectorAll('[data-rm]').forEach(x=>x.addEventListener('click',()=>{C.items.splice(+x.dataset.rm,1);re();}));
+    b.querySelectorAll('[data-m]').forEach(x=>x.addEventListener('click',()=>{const it=C.items[+x.dataset.m];it.m=x.dataset.v;if(it.m==='reps'&&!it.reps)it.reps=10;if(it.m==='time'&&!it.dur)it.dur=30;re();}));
+    const step=(i,d)=>{const it=C.items[i];if(it.m==='time'){const v=it.dur||30,st=v>=60?10:5;it.dur=Math.max(10,Math.min(300,v+d*st));}else{it.reps=Math.max(1,Math.min(50,(it.reps||10)+d));}re();};
+    b.querySelectorAll('[data-dec]').forEach(x=>x.addEventListener('click',()=>step(+x.dataset.dec,-1)));
+    b.querySelectorAll('[data-inc]').forEach(x=>x.addEventListener('click',()=>step(+x.dataset.inc,1)));
+    b.querySelectorAll('[data-set]').forEach(x=>x.addEventListener('click',()=>{C[x.dataset.set]=+x.dataset.v;re();}));
+    b.querySelector('#ed-add').addEventListener('click',openPicker);
+    const del=b.querySelector('#ed-del');if(del)del.addEventListener('click',()=>confirmBox('Routine löschen?','„'+(C.title||'Meine Routine')+'“ wird gelöscht. Dein Verlauf bleibt erhalten.','Löschen',()=>{customDelete(C.id);ED.dirty=false;show('v-train');renderTrain();}));
+    $('pg-sticky').querySelector('#ed-save').addEventListener('click',edSave);
+  },edLeave,'<button class="btn primary block" id="ed-save" style="--rc:var(--brand)">Speichern</button>');
+  if(keep)$('pg-body').scrollTop=sc;
+}
+function edLeave(){if(ED.dirty&&ED.c.items.length)confirmBox('Änderungen verwerfen?','Die Routine ist noch nicht gespeichert.','Verwerfen',()=>{ED.dirty=false;show('v-train');renderTrain();});else{show('v-train');renderTrain();}}
+function edSave(){
+  const C=ED.c;
+  if(!C.items.length){confirmBox('Noch keine Übungen','Füge mindestens eine Übung hinzu.','Übungen wählen',openPicker);return;}
+  C.title=(C.title||'').trim()||'Meine Routine';if(!C.id)C.id='c'+Date.now().toString(36);
+  customSave(C);ED.dirty=false;renderTrain();show('v-train');openDetail(customToRoutine(C));
+}
+function openPicker(){
+  FLT.q='';
+  openPage('Eigene Routine','Übungen auswählen','<div id="pk-flt"></div><p class="small muted" id="pk-count"></p><div class="exlist" id="pk-list"></div>',()=>{
+    const draw=full=>{if(full){const h=$('pk-flt');h.innerHTML=fltHTML();fltBind(h,draw);}
+      const list=$('pk-list');list.innerHTML='';LIVEOBS.reset();const keys=fltKeys();
+      pkCount(keys.length);keys.forEach(k=>list.appendChild(pickRow(k)));};
+    draw(true);
+    $('pg-sticky').querySelector('#pk-done').addEventListener('click',()=>openEditor(ED.c,true));
+  },()=>openEditor(ED.c,true),'<button class="btn primary block" id="pk-done" style="--rc:var(--brand)">Fertig</button>');
+}
+function pkCount(nk){const n=ED.c.items.length;$('pk-count').textContent=(nk!=null?nk+' Übungen · ':'')+n+' ausgewählt';const d=$('pk-done');if(d)d.textContent=n?'Fertig: '+n+' '+(n===1?'Übung':'Übungen'):'Fertig';PK_N=nk;}
+let PK_N=null;
+function pickRow(k){
+  const ex=EX[k],t=tagsOf(k),cnt=()=>ED.c.items.filter(x=>x.ex===k).length;
+  const el=document.createElement('div');el.className='pkrow';
+  const btn=()=>{const n=cnt();return n?IC.check+(n>1?'<small>'+n+'</small>':''):IC.plus;};
+  el.innerHTML='<div class="th"></div><button class="pkinfo" aria-label="'+ex.name+': Infos"><span class="nm">'+ex.name+'</span><span class="sub">'+ART_N[t.art]+' · '+POS_N[t.pos]+(eqShort(k)?' · '+eqShort(k):'')+'</span></button><button class="addbtn'+(cnt()?' on':'')+'" aria-label="'+ex.name+' hinzufügen">'+btn()+'</button>';
+  const f=new Fig(ex);el.querySelector('.th').appendChild(f.svg);LIVEOBS.add(f,el);
+  el.querySelector('.pkinfo').addEventListener('click',()=>openInfo(k));
+  el.querySelector('.addbtn').addEventListener('click',e=>{ED.c.items.push(defItem(k));ED.dirty=true;const b=e.currentTarget;b.classList.add('on');b.innerHTML=btn();pkCount(PK_N);});
+  return el;
+}
+
+let PG_BACK=null;
+function openPage(eb,title,html,bind,back,sticky){PG_BACK=back||null;$('pg-eb').textContent=eb;$('pg-title').textContent=title;$('pg-body').innerHTML=html;const st=$('pg-sticky');st.innerHTML=sticky||'';st.hidden=!sticky;show('v-page');$('pg-body').scrollTop=0;if(bind)bind($('pg-body'));}
 function confirmBox(t,p,yes,cb){$('cf-t').textContent=t;$('cf-p').textContent=p;$('cf-yes').textContent=yes;const ov=$('ov-confirm');ov.classList.add('on');
   const close=()=>{ov.classList.remove('on');$('cf-yes').onclick=null;$('cf-no').onclick=null;};$('cf-no').onclick=close;$('cf-yes').onclick=()=>{close();cb();};}
+const PAL_META={"salbei": ["Salbei", "#E7ECEA", "#13806F", "#0D1817", "#43C7B2"], "orange": ["Orange", "#F3ECE4", "#B34E1D", "#17120E", "#F08A4B"], "gruen": ["Grün", "#E5EDE6", "#2B7A4B", "#0E1610", "#5CC98A"], "blau": ["Blau", "#E4EBF2", "#2D69AE", "#0D131C", "#6AA8F0"], "grau": ["Grau", "#EAEAEA", "#4B5563", "#121314", "#B8C0CC"]};
+function applyTheme(){try{wzTheme();}catch(e){}}
+function openLook(){
+  const dark=()=>S.theme==='dark'||(S.theme!=='light'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);
+  const html=()=>'<div class="card"><h3>Hell oder dunkel</h3><div class="seg2" style="margin-top:10px">'+[['auto','Wie Handy'],['light','Hell'],['dark','Dunkel']].map(([v,l])=>'<button data-th="'+v+'" aria-pressed="'+(S.theme===v)+'">'+l+'</button>').join('')+'</div>'+
+    '<p class="small muted" style="margin-top:8px">„Wie Handy“ folgt dem dunklen Modus deines Handys.</p></div>'+
+    '<div class="card"><h3>Farbwelt</h3><p class="small muted" style="margin-top:4px">Ändert Hintergrund, Knöpfe und Hervorhebungen. Die Farben der Bereiche (Morgen, Abend …) bleiben gleich.</p><div class="palrow">'+
+    Object.keys(PAL_META).map(k=>{const m=PAL_META[k],d=dark();return '<button class="palbtn" data-pal="'+k+'" aria-pressed="'+((S.pal||'salbei')===k)+'"><i style="--a:'+(d?m[3]:m[1])+';--b:'+(d?m[4]:m[2])+'"></i>'+m[0]+'</button>';}).join('')+'</div></div>'+
+    '<div class="card"><h3>Leisten oben und unten</h3><p class="small muted" style="margin-top:4px">Die Leiste oben mit Uhr und Akku nimmt die Farbe der App an. Die Leiste unten steuert Android selbst. Bleibt sie in der installierten App hell, hilft oft: App vom Startbildschirm entfernen und neu installieren. Deine Daten bleiben dabei erhalten, solange du die Website-Daten im Browser nicht löschst.</p></div>';
+  const bind=b=>{
+    b.querySelectorAll('[data-th]').forEach(x=>x.addEventListener('click',()=>{S.theme=x.dataset.th;saveSettings();applyTheme();openLook();}));
+    b.querySelectorAll('[data-pal]').forEach(x=>x.addEventListener('click',()=>{S.pal=x.dataset.pal;saveSettings();applyTheme();openLook();}));
+  };
+  const sc=$('pg-body').scrollTop;openPage('Mehr','Darstellung',html(),bind);if(curView==='v-page')$('pg-body').scrollTop=sc;
+}
+function openVoiceHelp(back){
+  openPage('Einstellungen','Andere Stimme einrichten',
+   '<div class="card"><h3>Wo die Stimme herkommt</h3><p class="small" style="margin-top:6px">Wohlzeit nutzt die Sprachausgabe deines Handys. Im Browser auf Android lässt sich die Stimme meist nicht in der App wählen: Chrome nimmt die Stimme, die in Android eingestellt ist. Die Sprachen in der Google-App oder beim Assistant sind davon getrennt und ändern die Stimme nicht.</p></div>'+
+   '<div class="card"><h3>Pixel und die meisten Android-Handys</h3><ol class="steps" style="margin-top:8px">'+
+   '<li>Einstellungen öffnen und oben nach <b>Sprachausgabe</b> suchen. Alternativ: Bedienungshilfen › Text-in-Sprache-Ausgabe.</li>'+
+   '<li>Bei <b>Bevorzugtes Modul</b> „Sprachdienste von Google“ wählen.</li>'+
+   '<li>Auf das <b>Zahnrad</b> daneben tippen › <b>Sprachdaten installieren</b> › Deutsch (Deutschland).</li>'+
+   '<li>Die Stimmen antippen und anhören, dann deine Stimme auswählen. Fehlt sie noch, wird sie heruntergeladen, am besten im WLAN.</li>'+
+   '<li>Zurück: Bei <b>Sprache</b> „Deutsch“ oder „Systemsprache verwenden“ einstellen. Mit „Wiedergeben“ kannst du testen.</li>'+
+   '<li>Wohlzeit ganz schließen: App-Übersicht öffnen und Wohlzeit wegwischen. Neu öffnen und unter Einstellungen auf „Probe hören“ tippen.</li></ol></div>'+
+   '<div class="card"><h3>Samsung</h3><p class="small" style="margin-top:6px">Einstellungen › Allgemeine Verwaltung › Text-zu-Sprache › Bevorzugtes Modul (Samsung oder Google) › Zahnrad › Sprachdaten installieren. Danach Wohlzeit ganz schließen und neu öffnen.</p></div>'+
+   '<div class="card"><h3>iPhone</h3><p class="small" style="margin-top:6px">Einstellungen › Bedienungshilfen › Gesprochene Inhalte › Stimmen › Deutsch. Dort eine Stimme laden, die erweiterten Stimmen klingen natürlicher.</p></div>'+
+   '<div class="card"><h3>Knacken vor den Ansagen</h3><p class="small" style="margin-top:6px">Lass den Knackschutz in den Einstellungen an. Knackt es trotzdem, tippe in den Handy-Einstellungen bei der Sprachausgabe auf „Wiedergeben“. Knackt es dort auch, liegt es an der Stimme. Dann hilft eine andere Stimme.</p></div>',null,back||(()=>{renderSettings();show('v-settings');}));
+}
 function renderMore(){
-  const rows=[['share','share','Wohlzeit teilen','Link per WhatsApp schicken oder kopieren'],['settings','gear','Einstellungen','Stimme, Ton, Musik je Bereich'],['lib','figure','Alle Übungen','Mit Anleitung und Hintergrund'],['history','chart','Verlauf und Rücken-Check','Serie, Einheiten, Schmerzverlauf'],
+  const rows=[['share','share','Wohlzeit teilen','Link per WhatsApp schicken oder kopieren'],['look','palette','Darstellung','Hell oder dunkel, Farbwelt'],['settings','gear','Einstellungen','Stimme, Ton, Musik je Bereich'],['lib','figure','Alle Übungen','Mit Anleitung und Hintergrund'],['history','chart','Verlauf und Rücken-Check','Serie, Einheiten, Schmerzverlauf'],
     ['safety','shield','Sicher üben','Worauf du achten solltest'],['backup','save','Daten sichern','Sicherung herunterladen oder einlesen']];
   if(!isStandalone())rows.push(['install','phone','App installieren','Mit Symbol auf den Startbildschirm']);
   rows.push(['about','info','Über Wohlzeit','Version '+APP_VER+', Neuigkeiten, Datenschutz']);
@@ -3806,7 +4590,7 @@ function renderMore(){
   $('more-ver').textContent='Wohlzeit – Zeit für dich · Version '+APP_VER;
 }
 $('more-list').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;const m=b.dataset.m;
-  if(m==='settings'){renderSettings();show('v-settings');}else if(m==='lib')openLib();else if(m==='history')openHistory();else if(m==='safety')openSafety();else if(m==='backup')openBackup();else if(m==='install')openInstall();else if(m==='about')openAbout();else if(m==='share')openShare();});
+  if(m==='settings'){renderSettings();show('v-settings');}else if(m==='lib')openLib();else if(m==='history')openHistory();else if(m==='safety')openSafety();else if(m==='backup')openBackup();else if(m==='install')openInstall();else if(m==='about')openAbout();else if(m==='share')openShare();else if(m==='look')openLook();});
 function openHistory(){
   const tot=DATA.sessions.length,lim=Date.now()-30*864e5,l30=DATA.sessions.filter(x=>fromYmd(x.d).getTime()>=lim).length;
   openPage('Mehr','Verlauf und Rücken-Check','<div class="card"><div class="stats"><div class="stat"><b>'+streak()+'</b><span>Tage in Folge</span></div><div class="stat"><b>'+l30+'</b><span>Einheiten in 30 Tagen</span></div><div class="stat"><b>'+tot+'</b><span>Einheiten gesamt</span></div></div></div><div class="card" id="checkcard"></div>',()=>renderCheckCard());
@@ -3907,7 +4691,7 @@ function loop(now){
 requestAnimationFrame(loop);
 
 /* ================= Start ================= */
-if(window.__rrDebug)window.__rr={EX,Fig,ROUTINES,PL,stepsOf,goTo:j=>goTo(j),DATA,Voice,expandItems,DOC,AU,Music,AMB:()=>AMB,BR:()=>BR,TM,TMCFG,Radio,todo:()=>TODO,tmNow,tmBuild,musicFor,S,MUS,RECIPES,KT,openRecipe,openRecipes,show,fmtAmt,suggestion,backupObj};
+if(window.__rrDebug)window.__rr={musOpts,LOC:()=>LOC,LOCP:()=>LOCP,RADIOS,RSTA,locApply,locFromFiles,locLoadHandle,musicPlay,musicStop,KA:()=>KA,EX,Fig,variantItems,customList,openEditor,openPicker,FLT:()=>FLT,tagsOf,ROUTINES,PL,stepsOf,goTo:j=>goTo(j),DATA,Voice,expandItems,DOC,AU,Music,AMB:()=>AMB,BR:()=>BR,TM,TMCFG,Radio,todo:()=>TODO,tmNow,tmBuild,musicFor,S,MUS,RECIPES,KT,openRecipe,openRecipes,show,fmtAmt,suggestion,backupObj};
 show('v-home');
 startChecks();
 Voice.load();
