@@ -97,6 +97,29 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .mhint{font-size:13px;color:var(--muted);margin:-2px 2px 2px}
 .mtempo{display:flex;gap:8px;align-items:center;font-weight:700;font-size:14px;color:var(--muted)}
 .mtempo .seg2{flex:1}
+.gbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.gbar .btn{min-height:44px;padding:0 12px;font-size:15px}
+.gsets{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.gsets .btn{flex:1 1 auto;min-height:44px;padding:0 12px;font-size:15px}
+.gsets .btn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.gpad{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}
+.gpad[hidden]{display:none}
+.gpad .btn{min-height:52px;touch-action:none;user-select:none}
+.gcross{display:grid;grid-template-areas:". u ." "l . r" ". d .";gap:4px}
+.gcross .btn{width:52px;padding:0}
+.gbar .btn[aria-pressed="false"]{opacity:.5;text-decoration:line-through}
+.gscore{font-weight:700;font-size:15px;color:var(--muted);margin:10px 2px;min-height:20px}
+.gcv{display:block;width:100%;border-radius:18px;border:1.5px solid var(--line);background:var(--surface);touch-action:none}
+.gboard{display:grid;gap:10px}
+.gcell{position:relative;touch-action:none;user-select:none;-webkit-user-select:none;appearance:none;aspect-ratio:1;border-radius:18px;border:2px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:20px;font-weight:700}
+.gcell[data-v="1"],.gcell[data-v="2"]{border-color:var(--ink)}
+.gcell i{position:absolute;left:6px;bottom:7px;width:5px;border-radius:3px;background:var(--muted)}
+.gcell.pitch{border-color:var(--ruhe);box-shadow:0 0 0 3px var(--ruhe)}
+.gcell.pitch i{width:9px;background:var(--ruhe)}
+.gcell.cur{outline:3px solid var(--ruhe);outline-offset:2px}
+.gpairs .gcell{font-size:30px}
+.gpairs .gcell[data-v="2"]{opacity:.55}
+.gback{position:fixed;left:16px;right:16px;bottom:calc(86px + env(safe-area-inset-bottom));z-index:60;--rc:var(--ruhe)}
 .langsw{justify-self:end;display:flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden;margin:0 0 -4px}
 .langsw button{appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-size:13px;font-weight:700;padding:0 13px;min-height:36px}
 .langsw button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
@@ -692,6 +715,7 @@ ol.steps li.cur{font-weight:700}
         <div class="set"><label for="s-test">Ansage testen</label><button class="btn" id="s-test">Probe hören</button></div>
         <div class="set"><label for="s-vhelp">Andere Stimme<span class="hint2">So lädst du auf dem Handy weitere Stimmen</span></label><button class="btn" id="s-vhelp">Anleitung</button></div>
         <div class="set"><label for="s-crackle">Knackschutz<span class="hint2">Hält den Ton während einer Routine aktiv, gegen Knacken vor den Ansagen. Unhörbar.</span></label><input type="checkbox" class="switch" id="s-crackle"></div>
+        <div class="set"><label for="s-bgrun">Bei Display aus weiterlaufen (Test)<span class="hint2">Gilt für die geführten Entspannungen. Ob Stimme und Ablauf bei ausgeschaltetem Display wirklich weiterlaufen, hängt vom Handy ab. Am ehesten klappt es, wenn Musik mitläuft.</span></label><input type="checkbox" class="switch" id="s-bgrun"></div>
       </div>
       <div class="card">
         <div class="set"><label for="s-music">Hintergrundmusik</label><input type="checkbox" class="switch" id="s-music"></div>
@@ -783,7 +807,7 @@ const EN=window.WZ_LANG==='en';
 const TR=(d,e)=>EN?e:d;
 const LOCALE=EN?'en-US':'de-DE';
 const VN=EN?'voiceNameEn':'voiceName';
-const STATIC_EN={"Heute":"Today","Zeit für dich":"Time for you","Kurze Routinen":"Short routines","Kraft, Beweglichkeit, Intervalle":"Strength, mobility, intervals","Wohlfühlen":"Wellbeing","Ruhe, Kopf und Genuss":"Calm, mind and enjoyment","Entspannung":"Relaxation","Mehr für dich":"More for you","Mehr":"More","Einstellungen und Infos":"Settings and info","Zurück":"Back","Wohlfühlrezepte":"Feel-good recipes","Seelenfutter und Kraftfutter":"Soul food and power food","Rezept":"Recipe","Starten":"Start","Alle Übungen":"All exercises","Tippe auf eine Übung für alle Infos":"Tap an exercise for all info","Übung läuft":"Exercise in progress","Beenden":"End","Infos zur Übung":"Exercise info","Sprachansage an oder aus":"Voice announcements on or off","Musik an oder aus":"Music on or off","Zeitleiste":"Timeline","Eins weniger":"One less","Eins mehr":"One more","Sek.":"sec","Danach":"Next","Pause":"Pause","Weiter":"Continue","Geschafft":"Done","Musik und Geräusche":"Music and sounds","Musik, Radio, Geräusche, Atemtakt":"Music, radio, sounds, breathing pacer","Musik":"Music","Lautstärke":"Volume","Geräusche":"Sounds","Atemtöne":"Breathing tones","Am Ende klingt alles über etwa 20 Sekunden aus. Ob es bei ausgeschaltetem Display weiterläuft, hängt vom Handy ab.":"At the end, everything fades out over about 20 seconds. Whether it keeps playing with the display off depends on the phone.","Bildschirm abdunkeln":"Dim the screen","Abspielen":"Play","Kopf leeren":"Clear your head","Vor dem Schlafen":"Before sleep","Schreib auf, was morgen und in den nächsten Tagen ansteht, so konkret wie möglich. Dann darf es bis morgen liegen bleiben.":"Write down what's coming up tomorrow and in the next few days, as specifically as possible. Then it can wait until tomorrow.","z. B. Zahnarzt anrufen wegen Termin":"e.g. call the dentist about an appointment","Neue Aufgabe":"New task","Hinzufügen":"Add","Erledigte entfernen":"Remove completed","Gedanken-Shuffle":"Cognitive shuffle","Einschlafen":"Falling asleep","Warum das helfen kann":"Why this can help","In einer Schlaflabor-Studie mit 57 jungen Erwachsenen schrieben die einen vor dem Schlafen 5 Minuten eine To-do-Liste für die nächsten Tage, die anderen notierten, was sie schon erledigt hatten. Die To-do-Gruppe schlief im Schnitt rund 9 Minuten schneller ein, und je konkreter die Liste, desto schneller. Die Studie ist klein, und eine Gruppe ganz ohne Schreiben gab es nicht (Scullin und Kollegen, 2018).":"In a sleep lab study with 57 young adults, some spent 5 minutes before sleep writing a to-do list for the next few days, the others noted what they had already completed. The to-do group fell asleep about 9 minutes faster on average, and the more specific the list, the faster. The study is small, and there was no group that didn't write at all (Scullin and colleagues, 2018).","Intervall-Timer":"Interval timer","Arbeit, Pause, Runden":"Work, rest, rounds","Ansagen an oder aus":"Announcements on or off","Hörbuch nebenher: Musik auf „Keine Musik“, Hörbuch zuerst starten, dann hier den Timer. Ob Android das Hörbuch während der Ansagen kurz leiser macht oder anhält, hängt vom Handy und der App ab. Mit „Probehören“ kannst du es vorher testen. Lass die Timer-Seite am besten offen.":"Audiobook alongside: set music to “No music,” start the audiobook first, then the timer here. Whether Android briefly lowers or pauses the audiobook during announcements depends on the phone and the app. You can test it beforehand with “Preview.” It's best to leave the timer page open.","Gesamt noch":"Total remaining","Timer beenden?":"End timer?","Einstellungen":"Settings","Ton und Ablauf":"Sound and flow","Sprachansagen":"Voice announcements","Sagt jede Übung an, damit du nicht aufs Handy schauen musst":"Announces every exercise so you don't have to look at your phone","Wie viel erklärt wird":"How much is explained","Ausführlich: Anleitung, Technik-Tipp und Hintergrundwissen. Kurz: nur Name und Zeit.":"Detailed: instructions, technique tip and background. Short: only name and time.","Automatisch":"Automatic","Ausführlich":"Detailed","Kurz":"Short","Automatisch: die ersten 10 Durchgänge jeder Routine ausführlich, danach kurz.":"Automatic: the first 10 runs of each routine detailed, then short.","Dein Vorname":"Your first name","Für Begrüßung und Abschluss. Leer lassen geht auch.":"For greeting and closing. You can also leave it empty.","Sprecher":"Speaker","Die Claude-Stimme klingt natürlicher und braucht Internet.":"The Claude voice sounds more natural and needs internet.","Claude-Stimme":"Claude voice","Handy-Stimme":"Phone voice","Weich":"Soft","Hell":"Bright","Klar":"Clear","Sprechtempo":"Speaking rate","ruhig":"calm","zügig":"brisk","Ansage testen":"Test announcement","Probe hören":"Hear sample","Andere Stimme":"Different voice","So lädst du auf dem Handy weitere Stimmen":"How to download more voices on your phone","Anleitung":"Instructions","Knackschutz":"Crackle guard","Hält den Ton während einer Routine aktiv, gegen Knacken vor den Ansagen. Unhörbar.":"Keeps the audio active during a routine, against crackling before announcements. Inaudible.","Hintergrundmusik":"Background music","Musikstil":"Music style","Tonart und Tempo passen sich der Routine an":"Key and tempo adapt to the routine","Musik probehören":"Preview music","Lautstärke Musik":"Music volume","Signaltöne":"Signal tones","Gong bei neuer Übung, Ticks bei 3-2-1 und pro Wiederholung":"Gong at each new exercise, ticks at 3-2-1 and per rep","Musik je Bereich":"Music per area","Standard heißt: Schalter „Hintergrundmusik“ und Musikstil von oben. Einzelne Routinen stellst du in ihrer Übersicht ein, das geht dann vor.":"Default means: the “Background music” switch and the music style from above. You set individual routines in their overview; that then takes priority.","Routinen":"Routines","Vorbereitungszeit":"Preparation time","Zeit zum Einnehmen der Position":"Time to get into position","6 Sek.":"6 sec","8 Sek.":"8 sec","12 Sek.":"12 sec","15 Sek.":"15 sec","Pause zwischen Sätzen":"Rest between sets","Krafttraining":"Strength training","60 Sek.":"60 sec","75 Sek.":"75 sec","90 Sek.":"90 sec","Abwechslung":"Variety","Morgen, Abend, Couch und Büro tauschen täglich einzelne Übungen":"Morning, Evening, Couch and Office swap individual exercises daily","Tempo-Zähler":"Tempo counter","Zählt beim Krafttraining die Wiederholungen im Tempo 2 runter, 1 hoch":"Counts the reps during strength training at the tempo 2 down, 1 up","Hauptbereiche":"Main sections","Willkommen bei Wohlzeit":"Welcome to Wohlzeit","Kurze Routinen für Rücken und Beweglichkeit, Training, Entspannung, Musik und Rezepte. Alles bleibt auf deinem Handy, ohne Konto und ohne Werbung.":"Short routines for back and mobility, training, relaxation, music and recipes. Everything stays on your phone, with no account and no ads.","Für Begrüßung und Ansagen. Leer lassen geht auch.":"For greeting and announcements. You can also leave it empty.","Die Übungen ersetzen keine ärztliche oder physiotherapeutische Beratung. Bei starken oder ausstrahlenden Schmerzen, Kribbeln oder Taubheit: Übung abbrechen und abklären lassen.":"The exercises do not replace medical or physiotherapy advice. With strong or radiating pain, tingling or numbness: stop the exercise and get it checked.","Los geht’s":"Let's go","Neu in Wohlzeit":"New in Wohlzeit","Alles klar":"Got it","Abbrechen":"Cancel","Tippen, um zurückzukehren":"Tap to return","Beenden?":"End?","Weitermachen":"Keep going","Schließen":"Close"};
+const STATIC_EN={"Heute":"Today","Zeit für dich":"Time for you","Kurze Routinen":"Short routines","Kraft, Beweglichkeit, Intervalle":"Strength, mobility, intervals","Wohlfühlen":"Wellbeing","Ruhe, Kopf und Genuss":"Calm, mind and enjoyment","Entspannung":"Relaxation","Mehr für dich":"More for you","Mehr":"More","Einstellungen und Infos":"Settings and info","Zurück":"Back","Wohlfühlrezepte":"Feel-good recipes","Seelenfutter und Kraftfutter":"Soul food and power food","Rezept":"Recipe","Starten":"Start","Alle Übungen":"All exercises","Tippe auf eine Übung für alle Infos":"Tap an exercise for all info","Übung läuft":"Exercise in progress","Beenden":"End","Infos zur Übung":"Exercise info","Sprachansage an oder aus":"Voice announcements on or off","Musik an oder aus":"Music on or off","Zeitleiste":"Timeline","Eins weniger":"One less","Eins mehr":"One more","Sek.":"sec","Danach":"Next","Pause":"Pause","Weiter":"Continue","Geschafft":"Done","Musik und Geräusche":"Music and sounds","Musik, Radio, Geräusche, Atemtakt":"Music, radio, sounds, breathing pacer","Musik":"Music","Lautstärke":"Volume","Geräusche":"Sounds","Atemtöne":"Breathing tones","Am Ende klingt alles über etwa 20 Sekunden aus. Ob es bei ausgeschaltetem Display weiterläuft, hängt vom Handy ab.":"At the end, everything fades out over about 20 seconds. Whether it keeps playing with the display off depends on the phone.","Bildschirm abdunkeln":"Dim the screen","Abspielen":"Play","Kopf leeren":"Clear your head","Vor dem Schlafen":"Before sleep","Schreib auf, was morgen und in den nächsten Tagen ansteht, so konkret wie möglich. Dann darf es bis morgen liegen bleiben.":"Write down what's coming up tomorrow and in the next few days, as specifically as possible. Then it can wait until tomorrow.","z. B. Zahnarzt anrufen wegen Termin":"e.g. call the dentist about an appointment","Neue Aufgabe":"New task","Hinzufügen":"Add","Erledigte entfernen":"Remove completed","Gedanken-Shuffle":"Cognitive shuffle","Einschlafen":"Falling asleep","Warum das helfen kann":"Why this can help","In einer Schlaflabor-Studie mit 57 jungen Erwachsenen schrieben die einen vor dem Schlafen 5 Minuten eine To-do-Liste für die nächsten Tage, die anderen notierten, was sie schon erledigt hatten. Die To-do-Gruppe schlief im Schnitt rund 9 Minuten schneller ein, und je konkreter die Liste, desto schneller. Die Studie ist klein, und eine Gruppe ganz ohne Schreiben gab es nicht (Scullin und Kollegen, 2018).":"In a sleep lab study with 57 young adults, some spent 5 minutes before sleep writing a to-do list for the next few days, the others noted what they had already completed. The to-do group fell asleep about 9 minutes faster on average, and the more specific the list, the faster. The study is small, and there was no group that didn't write at all (Scullin and colleagues, 2018).","Intervall-Timer":"Interval timer","Arbeit, Pause, Runden":"Work, rest, rounds","Ansagen an oder aus":"Announcements on or off","Hörbuch nebenher: Musik auf „Keine Musik“, Hörbuch zuerst starten, dann hier den Timer. Ob Android das Hörbuch während der Ansagen kurz leiser macht oder anhält, hängt vom Handy und der App ab. Mit „Probehören“ kannst du es vorher testen. Lass die Timer-Seite am besten offen.":"Audiobook alongside: set music to “No music,” start the audiobook first, then the timer here. Whether Android briefly lowers or pauses the audiobook during announcements depends on the phone and the app. You can test it beforehand with “Preview.” It's best to leave the timer page open.","Gesamt noch":"Total remaining","Timer beenden?":"End timer?","Einstellungen":"Settings","Ton und Ablauf":"Sound and flow","Sprachansagen":"Voice announcements","Sagt jede Übung an, damit du nicht aufs Handy schauen musst":"Announces every exercise so you don't have to look at your phone","Wie viel erklärt wird":"How much is explained","Ausführlich: Anleitung, Technik-Tipp und Hintergrundwissen. Kurz: nur Name und Zeit.":"Detailed: instructions, technique tip and background. Short: only name and time.","Automatisch":"Automatic","Ausführlich":"Detailed","Kurz":"Short","Automatisch: die ersten 10 Durchgänge jeder Routine ausführlich, danach kurz.":"Automatic: the first 10 runs of each routine detailed, then short.","Dein Vorname":"Your first name","Für Begrüßung und Abschluss. Leer lassen geht auch.":"For greeting and closing. You can also leave it empty.","Sprecher":"Speaker","Die Claude-Stimme klingt natürlicher und braucht Internet.":"The Claude voice sounds more natural and needs internet.","Claude-Stimme":"Claude voice","Handy-Stimme":"Phone voice","Weich":"Soft","Hell":"Bright","Klar":"Clear","Sprechtempo":"Speaking rate","ruhig":"calm","zügig":"brisk","Ansage testen":"Test announcement","Probe hören":"Hear sample","Andere Stimme":"Different voice","So lädst du auf dem Handy weitere Stimmen":"How to download more voices on your phone","Anleitung":"Instructions","Knackschutz":"Crackle guard","Hält den Ton während einer Routine aktiv, gegen Knacken vor den Ansagen. Unhörbar.":"Keeps the audio active during a routine, against crackling before announcements. Inaudible.","Hintergrundmusik":"Background music","Musikstil":"Music style","Tonart und Tempo passen sich der Routine an":"Key and tempo adapt to the routine","Musik probehören":"Preview music","Lautstärke Musik":"Music volume","Signaltöne":"Signal tones","Gong bei neuer Übung, Ticks bei 3-2-1 und pro Wiederholung":"Gong at each new exercise, ticks at 3-2-1 and per rep","Musik je Bereich":"Music per area","Standard heißt: Schalter „Hintergrundmusik“ und Musikstil von oben. Einzelne Routinen stellst du in ihrer Übersicht ein, das geht dann vor.":"Default means: the “Background music” switch and the music style from above. You set individual routines in their overview; that then takes priority.","Routinen":"Routines","Vorbereitungszeit":"Preparation time","Zeit zum Einnehmen der Position":"Time to get into position","6 Sek.":"6 sec","8 Sek.":"8 sec","12 Sek.":"12 sec","15 Sek.":"15 sec","Pause zwischen Sätzen":"Rest between sets","Krafttraining":"Strength training","60 Sek.":"60 sec","75 Sek.":"75 sec","90 Sek.":"90 sec","Abwechslung":"Variety","Morgen, Abend, Couch und Büro tauschen täglich einzelne Übungen":"Morning, Evening, Couch and Office swap individual exercises daily","Tempo-Zähler":"Tempo counter","Zählt beim Krafttraining die Wiederholungen im Tempo 2 runter, 1 hoch":"Counts the reps during strength training at the tempo 2 down, 1 up","Hauptbereiche":"Main sections","Willkommen bei Wohlzeit":"Welcome to Wohlzeit","Kurze Routinen für Rücken und Beweglichkeit, Training, Entspannung, Musik und Rezepte. Alles bleibt auf deinem Handy, ohne Konto und ohne Werbung.":"Short routines for back and mobility, training, relaxation, music and recipes. Everything stays on your phone, with no account and no ads.","Für Begrüßung und Ansagen. Leer lassen geht auch.":"For greeting and announcements. You can also leave it empty.","Die Übungen ersetzen keine ärztliche oder physiotherapeutische Beratung. Bei starken oder ausstrahlenden Schmerzen, Kribbeln oder Taubheit: Übung abbrechen und abklären lassen.":"The exercises do not replace medical or physiotherapy advice. With strong or radiating pain, tingling or numbness: stop the exercise and get it checked.","Los geht’s":"Let's go","Neu in Wohlzeit":"New in Wohlzeit","Alles klar":"Got it","Abbrechen":"Cancel","Tippen, um zurückzukehren":"Tap to return","Beenden?":"End?","Weitermachen":"Keep going","Schließen":"Close","Bei Display aus weiterlaufen (Test)":"Keep running with display off (test)","Gilt für die geführten Entspannungen. Ob Stimme und Ablauf bei ausgeschaltetem Display wirklich weiterlaufen, hängt vom Handy ab. Am ehesten klappt es, wenn Musik mitläuft.":"Applies to the guided relaxations. Whether voice and sequence really keep running with the display off depends on the phone. It is most likely to work when music is playing along."};
 if(EN)(function(){
   const D=STATIC_EN,w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),ns=[];
   while(w.nextNode())ns.push(w.currentNode);
@@ -2933,7 +2957,7 @@ const Wake={lock:null,state:'',vid:null,
 function pNote(t){const n=$('p-note');if(!n)return;n.textContent=t||'';n.hidden=!t;}
 document.addEventListener('visibilitychange',()=>{
   if(document.visibilityState==='hidden'){
-    if(PL.running&&!PL.paused){PL.paused=true;PL.autoPaused=true;Voice.cancel();Music.level();render();}
+    if(PL.running&&!PL.paused&&!(S.bgrun&&PL.r&&PL.r.group==='ruhe')){PL.paused=true;PL.autoPaused=true;Voice.cancel();Music.level();render();}
   }else{
     Voice.reset();
     if(PL.running&&PL.autoPaused){pNote(TR('Pausiert, weil das Display aus war oder die App im Hintergrund lief. Tippe auf Weiter, dann geht es an derselben Stelle weiter.','Paused because the display was off or the app was in the background. Tap Continue and it picks up at the same spot.')+(Wake.state!=='ok'?(' '+TR('Tipp: Stell unter Einstellungen › Display das Bildschirm-Zeitlimit auf 10 Minuten oder mehr.','Tip: under Settings › Display, set the screen timeout to 10 minutes or more.')):''));render();}
@@ -3506,6 +3530,295 @@ function renderWell(){
   const m=$('w-more');m.innerHTML='';const nOpen=TODO.filter(x=>!x.done).length;
   m.appendChild(linkCard(TR('Kopf leeren','Clear your head'),TR('To-do-Liste vor dem Schlafen: aufschreiben, was ansteht, dann darf es bis morgen liegen bleiben.','To-do list before sleep: write down what\'s coming up, then it can wait until tomorrow.')+(nOpen?' '+(EN?'Currently '+nOpen+' open.':'Gerade '+nOpen+' offen.'):''),(EN?''+IC.todo+'Open list':''+IC.todo+'Liste öffnen'),'var(--ruhe)',openTodo));
   m.appendChild(linkCard(TR('Wohlfühlrezepte','Feel-good recipes'),TR('Seelenfutter zum Genießen und Kraftfutter als braves Gegenstück, mit Portionsrechner und Küchentimer.','Soul food to enjoy and power food as the well-behaved counterpart, with a serving calculator and kitchen timer.'),(EN?''+IC.book+'Open recipes':''+IC.book+'Rezepte öffnen'),'var(--morgen)',openRecipes));
+  m.appendChild(linkCard(TR('Spiele','Games'),TR('Sechs ruhige Spiele für eine Pause: Klangbrett, Wolken, Turm, Zen-Garten, Atemballon und Paare finden.','Six calm games for a break: sound board, clouds, tower, zen garden, breath balloon and find pairs.'),TR('Spiele öffnen','Open games'),'var(--ruhe)',openGames));
+}
+/* ================= Spiele =================
+   Sechs ruhige Spiele unter Wohlfühlen › Spiele. Alle zeichnen mit den Farben der gewählten Darstellung (gCol),
+   Geräusche über gSfx (abschaltbar, S.gsfx), Texte direkt als TR('deutsch','english').
+   Der Spielstand liegt in GST (bleibt, solange die App offen ist); Klangbrett und Zen-Garten werden zusätzlich gespeichert. */
+const GAME={raf:0,iv:0,paused:false};
+const GST={};
+const G_OL='#26303A';
+function gCol(){const cs=getComputedStyle(document.documentElement),g=k=>cs.getPropertyValue(k).trim();const dark=(()=>{const m=/^#?([0-9a-f]{6})$/i.exec(g('--bg'));if(!m)return false;const n=parseInt(m[1],16);return ((n>>16)*.3+((n>>8)&255)*.6+(n&255)*.1)<110;})();
+  return {bg:g('--bg'),sf:g('--surface'),ink:g('--ink'),mu:g('--muted'),ln:g('--line'),ac:g('--accent')||g('--brand'),dark};}
+function gTone(f,d,v,type,drop){if(!audioInit())return;try{const c=AU.ctx,o=c.createOscillator(),g=c.createGain(),t=c.currentTime;d=d||.4;o.type=type||'sine';o.frequency.setValueAtTime(f,t);if(drop)o.frequency.exponentialRampToValueAtTime(f*drop,t+d);g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(v||.1,t+.015);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(AU.sfx);o.start(t);o.stop(t+d+.05);}catch(e){}}
+function gSfx(f,d,v,type,drop){if(S.gsfx===false)return;gTone(f,d,v||.07,type,drop);}
+const G_PENTA=[261.6,293.7,329.6,392,440,523.3,587.3,659.3,784,880];
+const G_SC=[130.8,261.6,523.2].reduce((a,b)=>a.concat([1,9/8,5/4,3/2,5/3].map(r=>b*r)),[]);
+const GAMES=[
+  ['board',TR('Klangbrett','Sound board'),TR('Felder antippen und eine kleine Melodie bauen. Das Lauflicht spielt sie im Kreis.','Tap fields and build a little melody. The running light plays it in a loop.'),1],
+  ['clouds',TR('Wolken','Clouds'),TR('Gleich große Wolken zusammenziehen. Dunkle Wolken regnen ab und lassen Blumen wachsen. Herzen hellen Wolken auf und lassen Blumen blühen.','Drag clouds of the same size together. Dark clouds rain and make flowers grow. Hearts brighten clouds and make flowers bloom.'),1],
+  ['tower',TR('Turm','Tower'),TR('Von Absatz zu Absatz schnippen, ganz ohne Zeitdruck. Wer danebenspringt, landet weich auf dem letzten Absatz.','Flick from ledge to ledge, with no time pressure at all. If you miss, you land softly on the last ledge.'),1],
+  ['zen',TR('Zen-Garten','Zen garden'),TR('Linien in den Sand harken, Steine und Moos setzen. Kein Ziel, keine Punkte.','Rake lines into the sand, place stones and moss. No goal, no points.'),0],
+  ['breath',TR('Atemballon','Breath balloon'),TR('Finger halten heißt einatmen, loslassen heißt ausatmen. Der Ballon folgt dem Ring im ruhigen Atemtakt.','Holding your finger means inhale, letting go means exhale. The balloon follows the ring at a calm breathing pace.'),1],
+  ['pairs',TR('Paare finden','Find pairs'),TR('Sechzehn Karten, acht Paare. In Ruhe aufdecken und merken.','Sixteen cards, eight pairs. Turn them over calmly and remember.'),0]
+];
+function gBar(g){return '<div class="gbar"><button class="btn" id="g-sfx" aria-pressed="'+(S.gsfx!==false)+'">'+TR('Geräusche','Sounds')+'</button><button class="btn" id="g-mus" aria-pressed="'+!!MUS.on+'">♪ '+TR('Musik','Music')+'</button><button class="btn" id="g-msel">'+TR('Musik wählen','Choose music')+'</button>'+(g[3]?'<button class="btn" id="g-pause">'+TR('Pause','Pause')+'</button>':'')+'<button class="btn" id="g-new">'+TR('Neu starten','Restart')+'</button></div><div class="gscore" id="g-score"></div>';}
+function gBind(body,id){
+  const q=s=>body.querySelector(s),sb=q('#g-sfx'),mb=q('#g-mus'),pb=q('#g-pause');
+  sb.addEventListener('click',()=>{S.gsfx=S.gsfx===false;saveSettings();sb.setAttribute('aria-pressed',String(S.gsfx!==false));gSfx(523,.3);});
+  mb.addEventListener('click',()=>{if(MUS.on)musicStop();else musicPlay();mb.setAttribute('aria-pressed',String(!!MUS.on));});
+  q('#g-msel').addEventListener('click',()=>gMusicMenu(()=>openGame(id)));
+  if(pb)pb.addEventListener('click',()=>{GAME.paused=!GAME.paused;pb.textContent=GAME.paused?TR('Weiter','Continue'):TR('Pause','Pause');pb.setAttribute('aria-pressed',String(GAME.paused));});
+  q('#g-new').addEventListener('click',()=>{delete GST[id];if(id==='board')LS.set('rr.gboard',null);if(id==='zen')LS.set('rr.gzen',null);openGame(id);});
+}
+function gMusicMenu(reopen){
+  show('v-music');
+  let b=document.getElementById('g-back');if(b)b.remove();
+  b=document.createElement('button');b.id='g-back';b.className='btn primary gback';b.textContent='‹ '+TR('Zurück zum Spiel','Back to the game');
+  const iv=setInterval(()=>{if(curView!=='v-music'){clearInterval(iv);b.remove();}},400);
+  b.addEventListener('click',()=>{clearInterval(iv);b.remove();reopen();});
+  document.body.appendChild(b);
+}
+function gScore(t){const e=document.getElementById('g-score');if(e&&e.textContent!==t)e.textContent=t;}
+function gCanvas(body){const cv=document.createElement('canvas');cv.className='gcv';body.appendChild(cv);const dpr=Math.min(2,window.devicePixelRatio||1);const W=cv.clientWidth||340;const H=Math.max(300,Math.min(620,window.innerHeight-cv.getBoundingClientRect().top-28));cv.style.height=H+'px';cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);const x=cv.getContext('2d');x.scale(dpr,dpr);x.lineJoin='round';x.lineCap='round';return {cv,x,W,H};}
+function gLoop(cv,fn){cancelAnimationFrame(GAME.raf);let last=performance.now();const step=t=>{if(!cv.isConnected||curView!=='v-page')return;const dt=Math.min(.05,(t-last)/1000);last=t;fn(GAME.paused?0:dt,t/1000);GAME.raf=requestAnimationFrame(step);};GAME.raf=requestAnimationFrame(step);}
+function gPos(cv,e){const r=cv.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top};}
+function gCap(cv,e){try{cv.setPointerCapture(e.pointerId);}catch(_){}}
+function gBlob(x,cx,cy,r,fill,line,lw){x.beginPath();x.arc(cx,cy,r,0,7);x.fillStyle=fill;x.fill();if(line){x.lineWidth=lw||2.5;x.strokeStyle=line;x.stroke();}}
+function gCloud(x,cx,cy,r,fill){const p=[[-.75,.15,.55],[-.3,-.3,.7],[.35,-.2,.62],[.8,.18,.5],[0,.25,.7]];x.lineWidth=5;x.strokeStyle=G_OL;p.forEach(q=>{x.beginPath();x.arc(cx+q[0]*r,cy+q[1]*r,q[2]*r,0,7);x.stroke();});x.fillStyle=fill;p.forEach(q=>{x.beginPath();x.arc(cx+q[0]*r,cy+q[1]*r,q[2]*r,0,7);x.fill();});}
+function gHeart(x,cx,cy,s,fill){x.beginPath();x.moveTo(cx,cy+s*.9);x.bezierCurveTo(cx-s*1.5,cy-s*.2,cx-s*.7,cy-s*1.2,cx,cy-s*.4);x.bezierCurveTo(cx+s*.7,cy-s*1.2,cx+s*1.5,cy-s*.2,cx,cy+s*.9);x.fillStyle=fill;x.fill();x.lineWidth=2.5;x.strokeStyle=G_OL;x.stroke();}
+function gNote(host,t){const p=document.createElement('p');p.className='small muted';p.style.marginTop='10px';p.textContent=t;host.appendChild(p);}
+function openGames(){
+  openPage(TR('Wohlfühlen','Wellbeing'),TR('Spiele','Games'),'<p class="small muted" style="margin:0 2px 4px">'+TR('Ruhige Spiele für eine Pause. Die Farben folgen deiner Darstellung, bei dunkler Darstellung bleiben auch die Spiele dunkel. Ein angefangenes Spiel bleibt stehen, bis du „Neu starten“ wählst.','Calm games for a break. The colors follow your appearance setting; with the dark setting the games stay dark too. A game you started stays as it is until you choose “Restart.”')+'</p>'+
+    GAMES.map(g=>'<div class="card lcard" style="--rc:var(--ruhe)"><h2>'+g[1]+'</h2><p class="small muted">'+g[2]+'</p><button class="btn primary block" style="--rc:var(--ruhe)" data-game="'+g[0]+'">'+(GST[g[0]]?TR('Weiterspielen','Continue playing'):TR('Spielen','Play'))+'</button></div>').join(''),
+    body=>{body.querySelectorAll('[data-game]').forEach(b=>b.addEventListener('click',()=>openGame(b.dataset.game)));});
+}
+function openGame(id){
+  const g=GAMES.find(x=>x[0]===id);if(!g)return;audioInit();clearInterval(GAME.iv);cancelAnimationFrame(GAME.raf);GAME.paused=false;
+  openPage(TR('Spiele','Games'),g[1],gBar(g)+'<div id="g-host"></div>',body=>{gBind(body,id);const host=body.querySelector('#g-host');
+    ({board:gameBoard,clouds:gameClouds,tower:gameTower,zen:gameZen,breath:gameBreath,pairs:gamePairs})[id](host);},openGames);
+}
+/* ---------- Klangbrett ---------- */
+function gameBoard(host){
+  const SETS=[[TR('Glocke','Bell'),'sine',.9,0],[TR('Marimba','Marimba'),'triangle',.28,0],[TR('Tropfen','Drops'),'sine',.3,.5],[TR('Trommel','Drum'),'sine',.22,.4],[TR('Eigener Ton','Own sound')]];
+  const mk=n=>{const c=[];for(let i=0;i<n*n;i++)c.push({v:0,n:3+Math.floor(Math.random()*8)});return c;};
+  let B=GST.board;if(!B){const sv=LS.get('rr.gboard',null);B=GST.board=(sv&&sv.cells&&sv.cells.length===sv.n*sv.n)?sv:{n:4,cells:mk(4),set:0,bpm:96};B.on=true;B.pos=-1;}
+  const save=()=>LS.set('rr.gboard',{n:B.n,cells:B.cells,set:B.set,bpm:B.bpm});
+  if(!GAME.rec){const d=LS.get('rr.grec',null);if(d&&audioInit()){fetch(d).then(r=>r.arrayBuffer()).then(a=>AU.ctx.decodeAudioData(a)).then(b=>{GAME.rec=b;}).catch(()=>{});}}
+  const play=i=>{const f=G_SC[B.cells[i].n];if(B.set===4){if(!GAME.rec||!audioInit())return;try{const c=AU.ctx,s=c.createBufferSource(),g=c.createGain();s.buffer=GAME.rec;s.playbackRate.value=f/261.6;g.gain.value=.9;s.connect(g);g.connect(AU.sfx);s.start();}catch(e){}return;}
+    const s=SETS[B.set];gTone(f*(B.set===3?.5:1),s[2],.11,s[1],s[3]||0);};
+  const cellHtml=c=>'<i style="height:'+Math.round((c.n+1)/15*78)+'%"></i>'+'●'.repeat(c.v).split('').join(' ');
+  const record=async st=>{
+    if(!navigator.mediaDevices||!window.MediaRecorder){st.textContent=TR('Aufnehmen geht in diesem Browser nicht.','Recording does not work in this browser.');return;}
+    try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});const mr=new MediaRecorder(stream),ch=[];st.textContent=TR('Aufnahme läuft … jetzt den Ton machen','Recording … make the sound now');
+      mr.ondataavailable=e=>ch.push(e.data);
+      mr.onstop=async()=>{stream.getTracks().forEach(t=>t.stop());try{const blob=new Blob(ch,{type:mr.mimeType});const raw=await AU.ctx.decodeAudioData(await blob.arrayBuffer());const d=raw.getChannelData(0);let a=0;while(a<d.length&&Math.abs(d[a])<.03)a++;a=Math.max(0,a-200);const len=Math.min(d.length-a,Math.round(raw.sampleRate*1.2));
+          if(len<raw.sampleRate*.05){st.textContent=TR('Es war nichts zu hören. Bitte noch einmal, etwas lauter.','Nothing was audible. Please try again, a bit louder.');return;}
+          const nb=AU.ctx.createBuffer(1,len,raw.sampleRate),o=nb.getChannelData(0);for(let i=0;i<len;i++)o[i]=d[a+i]*Math.min(1,(len-i)/2000);GAME.rec=nb;
+          const fr=new FileReader();fr.onload=()=>{try{LS.set('rr.grec',fr.result);}catch(e){}};fr.readAsDataURL(blob);
+          B.set=4;save();draw();const s2=host.querySelector('#gb-st');if(s2)s2.textContent=TR('Aufgenommen. Die Felder spielen jetzt deinen Ton in verschiedenen Höhen.','Recorded. The fields now play your sound at different pitches.');}
+        catch(e){st.textContent=TR('Die Aufnahme ließ sich nicht verarbeiten.','The recording could not be processed.');}};
+      mr.start();setTimeout(()=>{try{mr.stop();}catch(e){}},1600);
+    }catch(e){st.textContent=TR('Kein Zugriff auf das Mikrofon. Erlaube ihn in den Einstellungen des Browsers.','No access to the microphone. Allow it in the browser settings.');}
+  };
+  const draw=()=>{host.innerHTML='<div class="gboard" style="grid-template-columns:repeat('+B.n+',1fr)">'+B.cells.map((c,i)=>'<button class="gcell" data-i="'+i+'" data-v="'+Math.min(1,c.v)+'" aria-label="'+TR('Feld','Field')+' '+(i+1)+'">'+cellHtml(c)+'</button>').join('')+'</div>'+
+    '<div class="card" style="margin-top:12px"><div class="seg2"><button data-n="3" aria-pressed="'+(B.n===3)+'">3 × 3</button><button data-n="4" aria-pressed="'+(B.n===4)+'">4 × 4</button></div>'+
+    '<div class="gsets">'+SETS.map((s,k)=>'<button class="btn" data-set="'+k+'" aria-pressed="'+(B.set===k)+'">'+s[0]+'</button>').join('')+'</div>'+
+    '<div class="set" style="border:0;padding:10px 0 0"><label for="gb-bpm">'+TR('Tempo','Tempo')+'</label><input type="range" id="gb-bpm" min="50" max="180" value="'+B.bpm+'"></div>'+
+    '<div class="gsets"><button class="btn primary" id="gb-play">'+(B.on?TR('Anhalten','Pause'):TR('Abspielen','Play'))+'</button><button class="btn" id="gb-roll">'+TR('Zufällige Höhen','Random pitches')+'</button><button class="btn" id="gb-clr">'+TR('Leeren','Clear')+'</button><button class="btn" id="gb-rec">'+TR('Ton aufnehmen','Record sound')+'</button></div>'+
+    '<p class="small muted" id="gb-st" style="margin-top:10px">'+TR('Tippen: 1, 2 oder 3 Schläge, dann wieder aus. Feld gedrückt halten und den Finger hoch oder runter schieben: Tonhöhe. Der Balken im Feld zeigt sie an.','Tap: 1, 2 or 3 hits, then off again. Press and hold a field and slide your finger up or down: pitch. The bar in the field shows it.')+'</p></div>';
+    host.querySelectorAll('.gcell').forEach(b=>{const i=+b.dataset.i,c=B.cells[i];let ht=0,pm=false,y0=0,n0=0;
+      const upd=()=>{b.innerHTML=cellHtml(c);b.dataset.v=Math.min(1,c.v);};
+      b.addEventListener('pointerdown',e=>{pm=false;y0=e.clientY;n0=c.n;gCap(b,e);ht=setTimeout(()=>{pm=true;b.classList.add('pitch');play(i);},330);});
+      b.addEventListener('pointermove',e=>{if(!pm){if(Math.abs(e.clientY-y0)>14){clearTimeout(ht);pm=true;b.classList.add('pitch');}else return;}const n=Math.max(0,Math.min(14,n0+Math.round((y0-e.clientY)/13)));if(n!==c.n){c.n=n;upd();play(i);}});
+      const end=cancel=>{clearTimeout(ht);b.classList.remove('pitch');if(!pm&&!cancel){c.v=(c.v+1)%4;upd();if(c.v)play(i);}pm=false;save();};
+      b.addEventListener('pointerup',()=>end(false));b.addEventListener('pointercancel',()=>end(true));b.addEventListener('contextmenu',e=>e.preventDefault());});
+    host.querySelectorAll('[data-n]').forEach(b=>b.addEventListener('click',()=>{B.n=+b.dataset.n;B.cells=mk(B.n);B.pos=-1;save();draw();}));
+    host.querySelectorAll('[data-set]').forEach(b=>b.addEventListener('click',()=>{const k=+b.dataset.set;if(k===4&&!GAME.rec){host.querySelector('#gb-st').textContent=TR('Noch kein eigener Ton. Tippe auf „Ton aufnehmen“.','No own sound yet. Tap “Record sound.”');return;}B.set=k;save();draw();}));
+    host.querySelector('#gb-bpm').addEventListener('input',e=>{B.bpm=+e.target.value;save();start();});
+    host.querySelector('#gb-play').addEventListener('click',()=>{B.on=!B.on;draw();});
+    host.querySelector('#gb-roll').addEventListener('click',()=>{B.cells.forEach(c=>{c.n=3+Math.floor(Math.random()*8);});save();draw();});
+    host.querySelector('#gb-clr').addEventListener('click',()=>{B.cells.forEach(c=>{c.v=0;});save();draw();});
+    host.querySelector('#gb-rec').addEventListener('click',()=>{audioInit();record(host.querySelector('#gb-st'));});
+  };
+  const start=()=>{clearInterval(GAME.iv);const ms=60000/B.bpm/2;GAME.iv=setInterval(()=>{
+    if(!host.isConnected||curView!=='v-page'){clearInterval(GAME.iv);return;}if(!B.on||GAME.paused)return;
+    B.pos=(B.pos+1)%(B.n*B.n);host.querySelectorAll('.gcell').forEach((b,i)=>b.classList.toggle('cur',i===B.pos));
+    const p=B.pos,v=B.cells[p].v;for(let k=0;k<v;k++)setTimeout(()=>play(p),k*ms/v);},ms);};
+  draw();start();gScore('');
+}
+/* ---------- Wolken ---------- */
+function gameClouds(host){
+  const {cv,x,W,H}=gCanvas(host);const GR=46;
+  const st=GST.clouds||(GST.clouds={cl:[],he:[],fl:[],best:1,tC:0,tH:3});const cl=st.cl,he=st.he,fl=st.fl;let drag=null;
+  const rad=c=>15+c.lv*7,hs=h=>6+h.lv*4;
+  const SH=['#EEF2F5','#C9D2DB','#9DA9B8','#707D90','#4C596B'],HC=['#F6B9C6','#F08FA6','#E56A8A'];
+  const addCloud=()=>{cl.push({x:30+Math.random()*(W-60),y:40+Math.random()*(H-GR-170),lv:1,dark:0,vx:(Math.random()<.5?-1:1)*(5+Math.random()*7),rain:0});};
+  if(!cl.length)for(let i=0;i<4;i++)addCloud();
+  const pick=p=>{let b=null,bd=1e9;he.forEach(h=>{const d=Math.hypot(h.x-p.x,h.y-p.y);if(d<hs(h)+20&&d<bd){b=h;bd=d;}});if(b)return b;cl.forEach(c=>{if(c.rain)return;const d=Math.hypot(c.x-p.x,c.y-p.y);if(d<rad(c)+12&&d<bd){b=c;bd=d;}});return b;};
+  cv.addEventListener('pointerdown',e=>{const p=gPos(cv,e);drag=pick(p);if(drag){drag.hold=true;gCap(cv,e);}});
+  cv.addEventListener('pointermove',e=>{if(!drag)return;const p=gPos(cv,e);drag.x=Math.max(10,Math.min(W-10,p.x));drag.y=Math.max(10,Math.min(H-GR+6,p.y));});
+  const drop=()=>{if(!drag)return;const d=drag;drag=null;d.hold=false;
+    if('dark' in d){d.y=Math.min(d.y,H-GR-rad(d));const o=cl.find(c=>c!==d&&!c.rain&&c.lv===d.lv&&Math.hypot(c.x-d.x,c.y-d.y)<rad(c)+rad(d)*.6);
+      if(o){cl.splice(cl.indexOf(d),1);o.lv++;o.dark=Math.max(o.dark,d.dark)+1;st.best=Math.max(st.best,o.lv);gSfx(G_PENTA[Math.min(9,o.lv+1)],.6);if(o.dark>=4){o.rain=3.2;gSfx(196,1.4,.05);}}}
+    else{const o=he.find(h=>h!==d&&h.lv===d.lv&&h.lv<3&&Math.hypot(h.x-d.x,h.y-d.y)<hs(h)+hs(d)+10);
+      if(o){he.splice(he.indexOf(d),1);o.lv++;gSfx(587+o.lv*70,.5);return;}
+      const c=cl.find(c=>!c.rain&&c.dark>0&&Math.hypot(c.x-d.x,c.y-d.y)<rad(c)+14);
+      if(c){c.dark=Math.max(0,c.dark-d.lv);he.splice(he.indexOf(d),1);gSfx(784,.7);return;}
+      const f=fl.find(f=>f.h>=1&&f.b<3&&Math.abs(f.x-d.x)<22&&d.y>H-GR-60);
+      if(f){f.b=Math.min(3,f.b+d.lv);he.splice(he.indexOf(d),1);gSfx(880,.8);gSfx(1175,.9,.04);}}
+  };
+  cv.addEventListener('pointerup',drop);cv.addEventListener('pointercancel',drop);
+  gLoop(cv,(dt,t)=>{
+    const C=gCol();
+    st.tC-=dt;if(st.tC<=0){st.tC=4.5;if(cl.length<8)addCloud();}
+    st.tH-=dt;if(st.tH<=0){st.tH=5+Math.random()*4;if(he.length<7)he.push({x:24+Math.random()*(W-48),y:-14,lv:1,ph:Math.random()*6});}
+    cl.forEach(c=>{if(!c.hold&&!c.rain){c.x+=c.vx*dt;if(c.x<rad(c)||c.x>W-rad(c))c.vx*=-1;}if(c.rain){c.rain-=dt;if(c.rain<=0){fl.push({x:Math.max(14,Math.min(W-14,c.x)),h:0,b:0,c:Math.floor(Math.random()*4)});c.gone=true;gSfx(523,.8);}}});
+    for(let i=cl.length-1;i>=0;i--)if(cl[i].gone)cl.splice(i,1);
+    he.forEach(h=>{const rest=H-GR-hs(h)*.9;if(!h.hold&&h.y<rest){h.y=Math.min(rest,h.y+13*dt);h.x+=Math.sin(t*1.3+h.ph)*9*dt;}});
+    fl.forEach(f=>{f.h=Math.min(1,f.h+dt*.5);});if(fl.length>30)fl.shift();
+    x.clearRect(0,0,W,H);
+    x.fillStyle=C.dark?'rgba(255,255,255,.05)':'rgba(0,0,0,.05)';x.fillRect(0,H-GR,W,GR);x.strokeStyle=C.ln;x.lineWidth=1.5;x.beginPath();x.moveTo(0,H-GR);x.lineTo(W,H-GR);x.stroke();
+    const FC=['#F2A7B8','#F6D27A','#B9A4E8','#8FD1C2'];
+    fl.forEach(f=>{const top=H-GR-(24+f.b*7)*f.h;x.strokeStyle=C.dark?'#6FB38A':'#3F8F62';x.lineWidth=3;x.beginPath();x.moveTo(f.x,H-GR+8);x.lineTo(f.x,top);x.stroke();
+      if(f.b){const pr=5+f.b*1.6;for(let k=0;k<5+f.b;k++){const a=k/(5+f.b)*6.283+t*.15;gBlob(x,f.x+Math.cos(a)*pr*1.25,top+Math.sin(a)*pr*1.25,pr*.8,FC[f.c],G_OL,1.5);}gBlob(x,f.x,top,pr*.75,'#F6D27A',G_OL,1.5);}
+      else gBlob(x,f.x,top,6*f.h+1,FC[f.c],G_OL,2);});
+    cl.forEach(c=>{const r=rad(c);if(c.rain){x.strokeStyle=C.dark?'#8FB8E8':'#4F86C6';x.lineWidth=2.5;for(let k=0;k<7;k++){const dx=(k-3)*r*.28,ph=((t*1.6+k*.37)%1);const y0=c.y+r*.6+ph*(H-GR-c.y-r*.6);x.beginPath();x.moveTo(c.x+dx,y0);x.lineTo(c.x+dx,y0+9);x.stroke();}x.globalAlpha=Math.max(.15,c.rain/3.2);}
+      gCloud(x,c.x,c.y,r,SH[Math.min(4,c.dark)]);x.globalAlpha=1;});
+    he.forEach(h=>gHeart(x,h.x,h.y,hs(h),HC[h.lv-1]));
+    gScore(TR('Blumen ','Flowers ')+fl.length+' · '+TR('blühend ','in bloom ')+fl.filter(f=>f.b).length+' · '+TR('größte Wolke ','largest cloud ')+st.best);
+  });
+  gNote(host,TR('Zwei gleich große Wolken ergeben eine größere, dunklere. Sehr dunkle Wolken regnen ab. Herzen bleiben am Boden liegen: Zwei gleiche ergeben ein größeres. Ein Herz auf einer Wolke hellt sie auf, ein Herz auf einer Blume lässt sie blühen.','Two clouds of the same size make a bigger, darker one. Very dark clouds rain. Hearts stay on the ground: two of the same size make a bigger one. A heart on a cloud brightens it, a heart on a flower makes it bloom.'));
+}
+/* ---------- Turm ---------- */
+function gameTower(host){
+  const {cv,x,W,H}=gCanvas(host);const R=15,GV=1100,DY=92;
+  const st=GST.tower||(GST.tower={L:[],P:{x:W*.25,y:0,vx:0,vy:0,on:0,cl:-1},cam:-H*.28,stars:0,top:0,safe:0});const L=st.L,P=st.P;let dn=null,squash=0;
+  const led=i=>{while(L.length<=i){const k=L.length;const side=k===0?0:(Math.random()<.82?1-L[k-1].side:L[k-1].side);const w=k===0?W*.5:70+Math.random()*34;
+    L.push({side,w,y:k*DY+(k?Math.random()*22-11:0),crumb:k>6&&k%7===3,t:0,gone:0,star:k>1&&k%3===2,cl:k>3&&k%5===4?{x:W*(.4+Math.random()*.2),r:20,t:0,gone:0}:null});}return L[i];};
+  led(0);
+  const lx=l=>l.side===0?[0,l.w]:[W-l.w,W];
+  const TH=[null,'#7FB7E6','#B9A4E8','#8FD1C2','#F6D27A'],TT=['sine','triangle','sine','triangle','sine'],TM=[1,1,1.5,.75,2];
+  cv.addEventListener('pointerdown',e=>{dn=gPos(cv,e);gCap(cv,e);});
+  const up=e=>{if(!dn)return;const p=gPos(cv,e),dx=p.x-dn.x,dy=p.y-dn.y;dn=null;const len=Math.hypot(dx,dy);if(len<18||P.on===-1||GAME.paused)return;
+    const k=Math.min(1,len/150),a=Math.atan2(-dy,dx);let ux=Math.cos(a),uy=Math.max(.35,Math.sin(a));const n=Math.hypot(ux,uy);ux/=n;uy/=n;const sp=430+470*k;
+    P.vx=ux*sp;P.vy=uy*sp;P.on=-1;P.cl=-1;gSfx(330,.18,.05);};
+  cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',()=>{dn=null;});
+  const star=()=>{st.stars++;gSfx(1047,.5,.06);if(st.stars%10===0)[0,2,4,7].forEach((n,k)=>setTimeout(()=>gSfx(G_PENTA[n]*TM[Math.floor(st.stars/10)%5],.6,.06,TT[Math.floor(st.stars/10)%5]),k*130));};
+  gLoop(cv,(dt,t)=>{
+    const C=gCol(),th=Math.floor(st.stars/10)%5;
+    if(P.on===-1&&dt){
+      P.vy-=GV*dt;const py=P.y;P.x+=P.vx*dt;P.y+=P.vy*dt;
+      if(P.x<R){P.x=R;P.vx=0;}if(P.x>W-R){P.x=W-R;P.vx=0;}
+      const i0=Math.max(0,Math.floor((P.y-200)/DY));
+      for(let i=i0;i<=i0+6&&P.on===-1;i++){const l=led(i);
+        if(l.cl&&l.cl.gone<=0){const cy=l.y+46;if(P.vy<0&&py>=cy&&P.y<=cy&&Math.abs(P.x-l.cl.x)<l.cl.r*1.45){P.y=cy;P.vx=P.vy=0;P.on=-2;P.cl=i;squash=1;l.cl.t=2.4;if(i>st.top)st.top=i;gSfx(G_PENTA[(i+2)%10]*TM[th],.5,.06,TT[th]);}}
+        if(P.on!==-1||l.gone>0)continue;const [a,b]=lx(l);
+        if(P.vy<0&&py>=l.y&&P.y<=l.y&&P.x>a-R*.5&&P.x<b+R*.5){P.y=l.y;P.vx=P.vy=0;P.on=i;squash=1;if(!l.crumb)st.safe=i;if(i>st.top)st.top=i;if(l.star){l.star=false;star();}gSfx(G_PENTA[i%10]*TM[th],.45,.07,TT[th]);if(l.crumb)l.t=2.6;}
+      }
+      if(P.on===-1&&P.y<led(st.safe).y-420){const l=led(st.safe),[a,b]=lx(l);P.x=(a+b)/2;P.y=l.y;P.vx=P.vy=0;P.on=st.safe;gSfx(220,.5,.05);}
+    }
+    L.forEach((l,i)=>{if(l.t>0){l.t-=dt;if(l.t<=0){l.gone=4;if(P.on===i){P.on=-1;P.vy=0;}}}else if(l.gone>0)l.gone-=dt;
+      if(l.cl){if(l.cl.t>0){l.cl.t-=dt;if(l.cl.t<=0){l.cl.gone=5;if(P.on===-2&&P.cl===i){P.on=-1;P.cl=-1;P.vy=0;}}}else if(l.cl.gone>0)l.cl.gone-=dt;}});
+    squash=Math.max(0,squash-dt*5);
+    const target=(P.on!==-1?P.y:Math.min(P.y,led(st.safe).y+300))-H*.28;st.cam+=(target-st.cam)*Math.min(1,dt*(P.on!==-1?4:2.2));
+    x.clearRect(0,0,W,H);const sy=y=>H-(y-st.cam);
+    const depth=Math.min(1,st.top/60);if(depth>0){x.fillStyle=C.dark?'rgba(255,255,255,'+(.5*depth)+')':'rgba(0,0,0,'+(.18*depth)+')';for(let k=0;k<26;k++){const px=(k*97%W),py=((k*173+Math.floor(st.cam*.15))%H+H)%H;x.fillRect(px,py,2,2);}}
+    x.fillStyle=C.dark?'rgba(255,255,255,.06)':'rgba(0,0,0,.06)';x.fillRect(0,0,6,H);x.fillRect(W-6,0,6,H);
+    const i0=Math.max(0,Math.floor(st.cam/DY)-1),i1=i0+Math.ceil(H/DY)+3;
+    for(let i=i0;i<=i1;i++){const l=led(i);const y=sy(l.y);
+      if(l.gone<=0){const [a,b]=lx(l);x.globalAlpha=l.t>0?.35+.65*(l.t/2.6):1;x.fillStyle=l.crumb?C.mu:(TH[th]||C.ac);x.strokeStyle=G_OL;x.lineWidth=2.5;x.beginPath();const rr=9;if(x.roundRect)x.roundRect(a-(l.side===0?rr:0),y,b-a+rr,16,rr);else x.rect(a,y,b-a,16);x.fill();x.stroke();x.globalAlpha=1;
+        if(l.star){const cx=(a+b)/2,cy=y-26+Math.sin(t*2+i)*3;gBlob(x,cx,cy,8,'#F6D27A',G_OL,2);}}
+      if(l.cl&&l.cl.gone<=0){x.globalAlpha=l.cl.t>0?.25+.75*(l.cl.t/2.4):1;gCloud(x,l.cl.x,sy(l.y+46)+l.cl.r*.55,l.cl.r,C.dark?'#C9D2DB':'#EEF2F5');x.globalAlpha=1;}
+    }
+    const py=sy(P.y);x.save();x.translate(P.x,py);x.scale(1+.25*squash,1-.25*squash);gBlob(x,0,-R,R,'#FFFFFF',G_OL,3);x.fillStyle=G_OL;x.beginPath();x.arc(-5,-R-2,2.2,0,7);x.arc(5,-R-2,2.2,0,7);x.fill();x.lineWidth=2;x.strokeStyle=G_OL;x.beginPath();x.arc(0,-R+3,4,.15*Math.PI,.85*Math.PI);x.stroke();x.restore();
+    gScore(TR('Höhe ','Height ')+st.top+' · '+TR('Sterne ','Stars ')+st.stars);
+  });
+  gNote(host,TR('Mit dem Finger in die Richtung schnippen, in die die Figur springen soll. Längeres Schnippen springt weiter. Auf den Wolken in der Mitte kannst du landen, sie lösen sich aber bald auf, genau wie graue Absätze. Alle 10 Sterne wechseln Farbe und Klang.','Flick your finger in the direction the figure should jump. A longer flick jumps farther. You can land on the clouds in the middle, but they soon dissolve, just like gray ledges. Every 10 stars, color and sound change.'));
+}
+/* ---------- Zen-Garten ---------- */
+function gameZen(host){
+  let Z=GST.zen;if(!Z){const sv=LS.get('rr.gzen',null);Z=GST.zen={ops:(sv&&sv.ops)||[],stones:(sv&&sv.stones)||[],moss:(sv&&sv.moss)||[],tool:'rake',wide:true,guide:false,pad:false,leaves:[]};}
+  const TOOLS=[['rake',TR('Harke','Rake')],['wave',TR('Welle','Wave')],['erase',TR('Radierer','Eraser')],['stone',TR('Stein','Stone')],['moss',TR('Moos','Moss')]];
+  const bar=document.createElement('div');host.appendChild(bar);
+  const {cv,x,W,H}=gCanvas(host);const pad=document.createElement('div');pad.className='gpad';host.appendChild(pad);
+  let cur=null,mv=null,cx=W/2,cy=H/2,down=false,rep=0;
+  const save=()=>{if(Z.ops.length>260)Z.ops.splice(0,Z.ops.length-260);LS.set('rr.gzen',{ops:Z.ops,stones:Z.stones,moss:Z.moss});};
+  const path=(pts,off,wave)=>{x.beginPath();let s=0;for(let i=0;i<pts.length;i++){const a=pts[Math.max(0,i-1)],b=pts[Math.min(pts.length-1,i+1)];let dx=b[0]-a[0],dy=b[1]-a[1];const len=Math.hypot(dx,dy)||1;if(i)s+=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);const o=off+(wave?Math.sin(s/15)*6:0);const px=pts[i][0]-dy/len*o,py=pts[i][1]+dx/len*o;if(i)x.lineTo(px,py);else x.moveTo(px,py);}x.stroke();};
+  const render=()=>{const C=gCol(),tint=C.dark?'rgba(255,255,255,.035)':'rgba(120,90,40,.07)',ln=C.dark?'rgba(255,255,255,.24)':'rgba(0,0,0,.22)';
+    const sand=f=>{x.fillStyle=C.sf;f();x.fillStyle=tint;f();};
+    x.clearRect(0,0,W,H);sand(()=>x.fillRect(0,0,W,H));
+    Z.ops.concat(cur?[cur]:[]).forEach(o=>{if(o.pts.length<2)return;
+      if(o.t==='erase'){x.lineWidth=38;x.strokeStyle=C.sf;path(o.pts,0);x.globalCompositeOperation='source-over';x.strokeStyle=tint;path(o.pts,0);}
+      else{const h=o.w?2:1;x.lineWidth=1.6;x.strokeStyle=ln;for(let k=-h;k<=h;k++)path(o.pts,k*7,o.t==='wave');}});
+    Z.stones.forEach(s=>{sand(()=>{x.beginPath();x.ellipse(s.x,s.y,(s.r+25)*1.25,s.r+25,0,0,7);x.fill();});x.strokeStyle=ln;x.lineWidth=1.6;for(let k=1;k<=3;k++){x.beginPath();x.ellipse(s.x,s.y,(s.r+k*7)*1.25,s.r+k*7,0,0,7);x.stroke();}});
+    Z.moss.forEach(m=>{[[0,0,9],[-9,3,6],[8,4,7],[2,-7,6]].forEach(q=>gBlob(x,m.x+q[0],m.y+q[1],q[2],C.dark?'#4E7F5A':'#7FB388',G_OL,1.5));});
+    Z.stones.forEach(s=>{x.save();x.translate(s.x,s.y);x.scale(1.25,1);gBlob(x,0,0,s.r,C.dark?'#69727E':'#8C9199',G_OL,2.5);x.restore();});
+    Z.leaves.forEach(l=>{x.save();x.translate(l.x,l.y);x.rotate(l.a);x.beginPath();x.ellipse(0,0,9,4.5,0,0,7);x.fillStyle=l.c;x.fill();x.lineWidth=1.5;x.strokeStyle=G_OL;x.stroke();x.restore();});
+    if(Z.pad){x.strokeStyle=C.ac;x.lineWidth=2.5;x.beginPath();x.arc(cx,cy,down?7:11,0,7);x.stroke();}
+  };
+  const sweep=p=>{const n=Z.leaves.length;Z.leaves=Z.leaves.filter(l=>Math.hypot(l.x-p[0],l.y-p[1])>22);if(Z.leaves.length<n)gSfx(659,.3,.04);};
+  const begin=p=>{cur={t:Z.tool==='erase'?'erase':Z.tool==='wave'?'wave':'rake',w:Z.wide?1:0,pts:[p]};};
+  const add=p=>{if(!cur)return;const l=cur.pts[cur.pts.length-1];if(Math.hypot(p[0]-l[0],p[1]-l[1])<4)return;cur.pts.push(p);sweep(p);render();};
+  const finish=()=>{if(!cur)return;if(cur.pts.length>1){
+      if(Z.guide&&cur.t!=='erase'){const a=cur.pts[0],b=cur.pts[cur.pts.length-1];let ang=Math.atan2(b[1]-a[1],b[0]-a[0]);ang=Math.round(ang/(Math.PI/12))*(Math.PI/12);const len=Math.hypot(b[0]-a[0],b[1]-a[1]);const ux=Math.cos(ang),uy=Math.sin(ang),nx=-uy,ny=ux;let sx=a[0],sy=a[1];
+        const pv=[...Z.ops].reverse().find(o=>o.g!=null);const bw=(cur.w?5:3)*7;
+        if(pv&&Math.abs(Math.sin(pv.g-ang))<.02){const d=(sx-pv.pts[0][0])*nx+(sy-pv.pts[0][1])*ny;const q=Math.round(d/bw)*bw-d;sx+=nx*q;sy+=ny*q;}
+        const pts=[];for(let s=0;s<=len;s+=6)pts.push([sx+ux*s,sy+uy*s]);cur.pts=pts;cur.g=ang;}
+      Z.ops.push(cur);save();}
+    cur=null;render();};
+  const hitStone=p=>Z.stones.find(s=>Math.hypot(s.x-p.x,s.y-p.y)<s.r*1.25+8);
+  cv.addEventListener('pointerdown',e=>{const p=gPos(cv,e);gCap(cv,e);
+    if(Z.tool==='stone'){const s=hitStone(p);if(s){mv=s;return;}Z.stones.push({x:p.x,y:p.y,r:12+Math.random()*12});gSfx(196,.5,.05);save();render();mv=Z.stones[Z.stones.length-1];return;}
+    if(Z.tool==='moss'){const k=Z.moss.findIndex(m=>Math.hypot(m.x-p.x,m.y-p.y)<16);if(k>=0)Z.moss.splice(k,1);else Z.moss.push({x:p.x,y:p.y});gSfx(392,.3,.04);save();render();return;}
+    begin([p.x,p.y]);});
+  cv.addEventListener('pointermove',e=>{const p=gPos(cv,e);if(mv){mv.x=Math.max(10,Math.min(W-10,p.x));mv.y=Math.max(10,Math.min(H-10,p.y));render();return;}if(cur&&!down)add([p.x,p.y]);});
+  const end=()=>{if(mv){mv=null;save();return;}if(!down)finish();};cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+  const drawBar=()=>{bar.innerHTML='<div class="gsets" style="margin-top:0">'+TOOLS.map(t=>'<button class="btn" data-t="'+t[0]+'" aria-pressed="'+(Z.tool===t[0])+'">'+t[1]+'</button>').join('')+'</div>'+
+    '<div class="gsets"><button class="btn" data-o="wide" aria-pressed="'+Z.wide+'">'+TR('Breite Harke','Wide rake')+'</button><button class="btn" data-o="guide" aria-pressed="'+Z.guide+'">'+TR('Führung','Guide')+'</button><button class="btn" data-o="pad" aria-pressed="'+Z.pad+'">'+TR('Steuerkreuz','D-pad')+'</button></div>'+
+    '<div class="gsets" style="margin-bottom:10px"><button class="btn" id="gz-clr">'+TR('Alles glätten','Smooth everything')+'</button><button class="btn" id="gz-save">'+TR('Bild speichern','Save picture')+'</button></div>';
+    bar.querySelectorAll('[data-t]').forEach(b=>b.addEventListener('click',()=>{Z.tool=b.dataset.t;drawBar();}));
+    bar.querySelectorAll('[data-o]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.o;Z[k]=!Z[k];if(k==='pad'){down=false;cur=null;drawPad();}drawBar();render();}));
+    bar.querySelector('#gz-clr').addEventListener('click',()=>{Z.ops=[];Z.leaves=[];save();render();gSfx(294,.6,.04);});
+    bar.querySelector('#gz-save').addEventListener('click',()=>{try{cv.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='zen-garten.png';document.body.appendChild(a);a.click();a.remove();});}catch(e){}});
+  };
+  const drawPad=()=>{pad.hidden=!Z.pad;if(!Z.pad){pad.innerHTML='';return;}
+    pad.innerHTML='<button class="btn" id="gz-act" aria-pressed="false">'+TR('Harke absetzen','Lower rake')+'</button><div class="gcross"><button class="btn" data-d="0,-1" style="grid-area:u" aria-label="'+TR('hoch','up')+'">▲</button><button class="btn" data-d="-1,0" style="grid-area:l" aria-label="'+TR('links','left')+'">◀</button><button class="btn" data-d="1,0" style="grid-area:r" aria-label="'+TR('rechts','right')+'">▶</button><button class="btn" data-d="0,1" style="grid-area:d" aria-label="'+TR('runter','down')+'">▼</button></div>';
+    const act=pad.querySelector('#gz-act');
+    act.addEventListener('click',()=>{if(Z.tool==='stone'||Z.tool==='moss'){Z.tool='rake';drawBar();}down=!down;act.setAttribute('aria-pressed',String(down));act.textContent=down?TR('Harke anheben','Lift rake'):TR('Harke absetzen','Lower rake');if(down)begin([cx,cy]);else finish();render();});
+    pad.querySelectorAll('[data-d]').forEach(b=>{const d=b.dataset.d.split(',').map(Number);const stop=()=>{clearInterval(rep);rep=0;};
+      const step=()=>{if(!cv.isConnected){stop();return;}cx=Math.max(4,Math.min(W-4,cx+d[0]*3));cy=Math.max(4,Math.min(H-4,cy+d[1]*3));if(down)add([cx,cy]);else render();};
+      b.addEventListener('pointerdown',e=>{e.preventDefault();stop();step();rep=setInterval(step,28);});['pointerup','pointerleave','pointercancel'].forEach(k=>b.addEventListener(k,stop));b.addEventListener('contextmenu',e=>e.preventDefault());});
+  };
+  clearInterval(GAME.iv);GAME.iv=setInterval(()=>{if(!cv.isConnected||curView!=='v-page'){clearInterval(GAME.iv);return;}if(Z.leaves.length<5&&!cur&&!mv){Z.leaves.push({x:20+Math.random()*(W-40),y:20+Math.random()*(H-40),a:Math.random()*6,c:['#D9A05B','#C97B4A','#B8B25A'][Math.floor(Math.random()*3)]});render();}},11000);
+  drawBar();drawPad();render();gScore('');
+  gNote(host,TR('Führung: Linien werden gerade und halten gleichen Abstand zur letzten Bahn. Steuerkreuz: Kreis mit den Pfeilen bewegen, „Harke absetzen“ zieht die Linie. Steine lassen sich mit dem Werkzeug Stein verschieben, Moos durch Antippen wieder entfernen. Ab und zu fällt ein Blatt, das du wegharken kannst.','Guide: lines become straight and keep the same distance to the last track. D-pad: move the circle with the arrows, “Lower rake” draws the line. Stones can be moved with the Stone tool, moss is removed by tapping it. Now and then a leaf falls that you can rake away.'));
+}
+/* ---------- Atemballon ---------- */
+function gameBreath(host){
+  const {cv,x,W,H}=gCanvas(host);const st=GST.breath||(GST.breath={by:H-70,vy:0,t0:0,inT:0,breaths:0,last:''});let hold=false;
+  cv.addEventListener('pointerdown',e=>{hold=true;gCap(cv,e);});
+  const rel=()=>{hold=false;};cv.addEventListener('pointerup',rel);cv.addEventListener('pointercancel',rel);
+  gLoop(cv,dt=>{
+    const C=gCol();st.t0+=dt;const ph=st.t0%10,up=ph<4;const f=up?(1-Math.cos(Math.PI*ph/4))/2:(1+Math.cos(Math.PI*(ph-4)/6))/2;
+    const lo=H-70,hi=70,D=lo-hi,ty=lo-D*f;
+    if(dt&&(up?'in':'out')!==st.last){st.last=up?'in':'out';if(up&&st.t0>1)st.breaths++;gSfx(up?392:294,.9,.04);}
+    st.vy+=((hold?-D/4*1.3:D/6*1.3)-st.vy)*Math.min(1,dt*3.5);st.by=Math.max(hi-6,Math.min(lo+6,st.by+st.vy*dt));
+    const near=Math.abs(st.by-ty)<42;if(near)st.inT+=dt;
+    x.clearRect(0,0,W,H);
+    x.strokeStyle=C.ln;x.lineWidth=1.5;x.setLineDash([4,8]);x.beginPath();x.moveTo(W/2,hi-20);x.lineTo(W/2,lo+30);x.stroke();x.setLineDash([]);
+    x.lineWidth=4;x.strokeStyle=near?C.ac:C.mu;x.beginPath();x.arc(W/2,ty,42,0,7);x.stroke();
+    x.strokeStyle=C.dark?C.mu:G_OL;x.lineWidth=2;x.beginPath();x.moveTo(W/2,st.by+24);x.quadraticCurveTo(W/2+8,st.by+44,W/2,st.by+62);x.stroke();
+    x.save();x.translate(W/2,st.by);x.scale(1,1.12);gBlob(x,0,0,24,C.dark?'#E8A0B0':'#F2A7B8',G_OL,3);x.restore();
+    x.fillStyle=C.ink;x.font='600 20px system-ui,sans-serif';x.textAlign='center';x.fillText(GAME.paused?TR('Pause','Paused'):up?TR('Einatmen','Inhale'):TR('Ausatmen','Exhale'),W/2,34);
+    gScore(TR('Atemzüge ','Breaths ')+st.breaths+' · '+TR('im Takt ','in sync ')+Math.round(100*st.inT/Math.max(1,st.t0))+' %');
+  });
+  gNote(host,TR('Finger auf die Fläche legen und halten: Der Ballon steigt, du atmest ein. Loslassen: Er sinkt, du atmest aus. 4 Sekunden ein, 6 Sekunden aus.','Put your finger on the area and hold: the balloon rises, you inhale. Let go: it sinks, you exhale. 4 seconds in, 6 seconds out.'));
+}
+/* ---------- Paare finden ---------- */
+function gamePairs(host){
+  const SY=['🌿','🌙','⭐','🌸','🍄','🐚','☁️','🍃'];const st=GST.pairs||(GST.pairs={cards:null,open:[],moves:0,found:0});let lock=false;
+  const deal=()=>{st.cards=SY.concat(SY).map(s=>({s,up:false,ok:false}));for(let i=st.cards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[st.cards[i],st.cards[j]]=[st.cards[j],st.cards[i]];}st.open=[];st.moves=0;st.found=0;lock=false;draw();};
+  const draw=()=>{host.innerHTML='<div class="gboard gpairs" style="grid-template-columns:repeat(4,1fr)">'+st.cards.map((c,k)=>'<button class="gcell" data-k="'+k+'" data-v="'+(c.ok?2:c.up?1:0)+'" aria-label="'+TR('Karte','Card')+' '+(k+1)+'">'+(c.up||c.ok?c.s:'')+'</button>').join('')+'</div>'+
+    (st.found===8?'<p style="margin-top:14px;font-weight:700;font-size:18px">'+TR('Alle Paare gefunden, in ','All pairs found, in ')+st.moves+TR(' Zügen.',' moves.')+'</p>':'')+'<button class="btn block" id="gp-new" style="margin-top:12px">'+TR('Neu mischen','Shuffle again')+'</button>';
+    gScore(TR('Züge ','Moves ')+st.moves+' · '+TR('Paare ','Pairs ')+st.found+'/8');
+    host.querySelector('#gp-new').addEventListener('click',deal);
+    host.querySelectorAll('.gcell').forEach(b=>b.addEventListener('click',()=>{const c=st.cards[+b.dataset.k];if(lock||c.up||c.ok)return;c.up=true;st.open.push(c);gSfx(440,.25,.05);
+      if(st.open.length===2){st.moves++;if(st.open[0].s===st.open[1].s){st.open.forEach(o=>{o.ok=true;});st.open=[];st.found++;gSfx(659,.5);if(st.found===8)setTimeout(()=>gSfx(880,.9),250);}
+        else{lock=true;setTimeout(()=>{st.open.forEach(o=>{o.up=false;});st.open=[];lock=false;if(host.isConnected)draw();},900);}}
+      draw();}));};
+  if(st.cards){st.cards.forEach(c=>{if(!c.ok)c.up=false;});st.open=[];draw();}else deal();
 }
 function routineCard(r,done){
   const el=document.createElement('div');el.className='rcard';el.style.setProperty('--rc',r.color);
@@ -3665,7 +3978,7 @@ function renderVoiceWarn(){
   else w.hidden=true;
 }
 function renderSettings(){
-  $('s-voice').checked=!!S.voice;$('s-music').checked=!!S.music;$('s-sfx').checked=!!S.sfx;$('s-count').checked=!!S.count;$('s-crackle').checked=S.crackle!==false;$('s-vary').checked=S.vary!==false;
+  $('s-voice').checked=!!S.voice;$('s-music').checked=!!S.music;$('s-sfx').checked=!!S.sfx;$('s-count').checked=!!S.count;$('s-crackle').checked=S.crackle!==false;$('s-bgrun').checked=!!S.bgrun;$('s-vary').checked=S.vary!==false;
   $('s-vol').value=S.vol;$('s-rate').value=String(S.rate);$('s-prep').value=String(S.prep);
   $('s-style').innerHTML=STYLES.map(k=>'<option value="'+k+'">'+STYLE_NAME[k]+'</option>').join('')+'<option value="random">'+TR('Zufällig','Random')+'</option>';
   $('s-detail').value=S.detail;$('s-style').value=S.style;$('s-rest').value=String(S.rest);
@@ -3676,7 +3989,7 @@ function renderSettings(){
 document.querySelectorAll('[data-gm]').forEach(sl=>sl.addEventListener('change',()=>{S.gmusic[sl.dataset.gm]=sl.value;saveSettings();}));
 function renderSyncNote(){const n=$('s-sync');if(n)n.textContent=Sync.state==='synced'?TR('Dein Verlauf und Trainingstagebuch werden in deinem Konto gespeichert und sind auf allen Geräten gleich.','Your history and training log are saved in your account and are the same on all devices.'):TR('Dein Verlauf wird auf diesem Gerät gespeichert.','Your history is saved on this device.');}
 const bindSwitch=(id,key,cb)=>$(id).addEventListener('change',e=>{S[key]=e.target.checked;saveSettings();cb&&cb();});
-bindSwitch('s-voice','voice');bindSwitch('s-music','music',()=>Music.level());bindSwitch('s-sfx','sfx');bindSwitch('s-count','count');bindSwitch('s-vary','vary',()=>applyVariants(true));bindSwitch('s-crackle','crackle',()=>{if(S.crackle===false)KA.off();});
+bindSwitch('s-voice','voice');bindSwitch('s-music','music',()=>Music.level());bindSwitch('s-sfx','sfx');bindSwitch('s-count','count');bindSwitch('s-vary','vary',()=>applyVariants(true));bindSwitch('s-crackle','crackle',()=>{if(S.crackle===false)KA.off();});bindSwitch('s-bgrun','bgrun');
 $('s-vhelp').addEventListener('click',()=>openVoiceHelp());
 $('s-vol').addEventListener('input',e=>{S.vol=Number(e.target.value);saveSettings();Music.level();});
 $('s-rate').addEventListener('change',e=>{S.rate=Number(e.target.value);saveSettings();});
@@ -4393,8 +4706,8 @@ function ktRender(){
 ['rc-timers','rcl-timers'].forEach(id=>$(id).addEventListener('click',e=>{const b=e.target.closest('[data-kt]');if(b)ktCancel(b.dataset.kt);}));
 
 /* ================= Mehr, Infoseiten, Installieren, Sicherung ================= */
-const APP_VER='1.5';
-const CHANGES={'1.5':[TR('Englisch: Die ganze App gibt es jetzt auch auf Englisch, mit Übungen, Ansagen, Entspannung und Rezepten. Beim ersten Start richtet sie sich nach der Sprache des Handys. Umschalten unter Mehr › Sprache / Language','English: the whole app is now available in English too, with exercises, announcements, relaxation and recipes. On first start it follows the phone\'s language. Switch under More › Sprache / Language'),TR('Drei Radiosender ersetzt, weil die bisherigen nicht liefen: Slow House kommt jetzt von Maretimo House Radio, dazu neu egoFM Chillout und Hirschmilch Radio Chillout','Three radio stations replaced because the previous ones didn\'t play: Slow House now comes from Maretimo House Radio, plus egoFM Chillout and Hirschmilch Radio Chillout as new stations'),TR('Die App gibt Android jetzt eine dunkle Farbe für die untere Leiste vor. Das wirkt erst, wenn du die App entfernst und neu installierst, siehe Mehr › Darstellung','The app now gives Android a dark color for the bottom bar. This only takes effect when you remove the app and reinstall it, see More › Appearance'),TR('Der Startbildschirm fragt nicht mehr nach dem Vornamen. Eintragen kannst du ihn weiterhin unter Mehr › Einstellungen','The start screen no longer asks for your first name. You can still enter it under More › Settings')],'1.4':['Eigene Musik: Ordner oder einzelne Dateien vom Handy wählen und der Reihe nach oder zufällig abspielen. Geht auch als Hintergrundmusik für Routinen und Training','14 neue Radiosender, darunter ByteFM, drei Blues-Sender, Slow House, Reggae, Hip-Hop, Gregorianik, alte Musik, Barock und Meditation. Die Sender sind jetzt in Gruppen sortiert','Das Radio merkt sich die Adresse, die zuletzt lief, und verbindet dadurch schneller'],'1.3':['Darstellung unter „Mehr“: hell, dunkel oder wie das Handy, dazu fünf Farbwelten. Die Leiste oben nimmt die Farbe der App an','Eigene Routinen: Übungen filtern, auswählen und mit Zeit, Wiederholungen oder Sätzen samt Tagebuch zusammenstellen. Fertige Routinen lassen sich als Vorlage kopieren','Zwei neue Trainings nur mit Matte: Ausdauer-Zirkel (auf Wunsch ohne Springen) und Kraft ohne Geräte, mit Curl-up und Dead Bug statt Sit-ups','25 neue Übungen, darunter mehrere für den Schreibtisch. Alle Übungen haben jetzt Filter nach Art, Ort, Hilfsmittel und Körperbereich','Morgen, Abend, Couch und Büro wechseln täglich einzelne Übungen gegen gleichwertige. Abschaltbar','Gedanken-Shuffle mit über 1.100 Wörtern, die sich erst wiederholen, wenn alle dran waren','Anleitung für andere Stimmen in den Einstellungen und ein Knackschutz für die Ansagen'],'1.2.1':['Klänge besser hörbar: binaurale Beats auf 400 Hz angehoben, Klangflächen eine Oktave höher gelegt','Klänge und braunes Rauschen so laut eingestellt, wie Naturgeräusche klingen','Hinweis bei den Klängen: am besten mit Kopfhörern'],'1.2':['Neu unter „Mehr“: Wohlzeit teilen, per WhatsApp oder über das Teilen-Menü, oder den Link kopieren','Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1.1':['Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1':['Echte Naturgeräusche: Regen, Gewitter, Wellen, Bach, Wind, Kaminfeuer, Vögel, Grillen, Katzenschnurren, Café, Zug, Boot und Stadt','Sieben Rauschfarben mit Erklärung, wofür sie gedacht sind','Klänge (experimentell): binaurale Beats sowie 432- und 528-Hz-Klangflächen, mit Ampel zur Studienlage','Radio: Ambient Sleeping Pill und Radio Paradise Mellow Mix, SomaFM als Ersatz'],'1.0':['Neuer Name: Wohlzeit – Zeit für dich','Untere Leiste mit Heute, Training, Wohlfühlen, Musik und Mehr','„Heute“ schlägt passend zur Tageszeit etwas vor','Wohlfühlrezepte: Seelenfutter und Kraftfutter, mit Portionsrechner und Küchentimer','Klarere Buttons, Infos ohne Kapseln, eingerückte Unterpunkte','Daten sichern und wiederherstellen unter „Mehr“','Als App auf dem Startbildschirm installierbar']};
+const APP_VER='1.6.1';
+const CHANGES={'1.6.1':[TR('Spiele überarbeitet: Der Spielstand bleibt erhalten, dazu Pause, Neu starten und ein eigener Knopf „Musik wählen“','Games reworked: your progress is kept, plus Pause, Restart and a separate “Choose music” button'),TR('Klangbrett: Feld gedrückt halten und schieben stellt die Tonhöhe ein, bis zu 3 Schläge je Feld, eigener Ton per Mikrofon','Sound board: press and hold a field and slide to set the pitch, up to 3 hits per field, your own sound via microphone'),TR('Wolken: Herzen bleiben liegen, lassen sich stufenweise verbinden und bringen Blumen zum Blühen','Clouds: hearts stay on the ground, can be combined in steps and make flowers bloom'),TR('Turm: Figur steht jetzt im unteren Drittel, Wolken sind Podeste, alle 10 Sterne wechseln Farbe und Klang','Tower: the figure now stands in the lower third, clouds are platforms, color and sound change every 10 stars'),TR('Zen-Garten: Radierer, Welle, Moos, verschiebbare Steine, Führung für gerade Bahnen, Steuerkreuz, Bild speichern','Zen garden: eraser, wave, moss, movable stones, guide for straight tracks, d-pad, save picture'),TR('Atemballon: Steigen und Sinken passen jetzt zum Ring','Breath balloon: rising and sinking now match the ring')],'1.6':[TR('Sechs ruhige Spiele unter Wohlfühlen › Spiele: Klangbrett, Wolken, Turm, Zen-Garten, Atemballon und Paare finden. Die Farben folgen deiner Darstellung, Geräusche und Musik schaltest du oben im Spiel','Six calm games under Wellbeing › Games: sound board, clouds, tower, zen garden, breath balloon and find pairs. The colors follow your appearance setting; you switch sounds and music at the top of the game'),TR('Test: Unter Mehr › Einstellungen gibt es den Schalter „Bei Display aus weiterlaufen“ für die geführten Entspannungen','Test: under More › Settings there is the switch “Keep running with display off” for the guided relaxations')],'1.5':[TR('Englisch: Die ganze App gibt es jetzt auch auf Englisch, mit Übungen, Ansagen, Entspannung und Rezepten. Beim ersten Start richtet sie sich nach der Sprache des Handys. Umschalten unter Mehr › Sprache / Language','English: the whole app is now available in English too, with exercises, announcements, relaxation and recipes. On first start it follows the phone\'s language. Switch under More › Sprache / Language'),TR('Drei Radiosender ersetzt, weil die bisherigen nicht liefen: Slow House kommt jetzt von Maretimo House Radio, dazu neu egoFM Chillout und Hirschmilch Radio Chillout','Three radio stations replaced because the previous ones didn\'t play: Slow House now comes from Maretimo House Radio, plus egoFM Chillout and Hirschmilch Radio Chillout as new stations'),TR('Die App gibt Android jetzt eine dunkle Farbe für die untere Leiste vor. Das wirkt erst, wenn du die App entfernst und neu installierst, siehe Mehr › Darstellung','The app now gives Android a dark color for the bottom bar. This only takes effect when you remove the app and reinstall it, see More › Appearance'),TR('Der Startbildschirm fragt nicht mehr nach dem Vornamen. Eintragen kannst du ihn weiterhin unter Mehr › Einstellungen','The start screen no longer asks for your first name. You can still enter it under More › Settings')],'1.4':['Eigene Musik: Ordner oder einzelne Dateien vom Handy wählen und der Reihe nach oder zufällig abspielen. Geht auch als Hintergrundmusik für Routinen und Training','14 neue Radiosender, darunter ByteFM, drei Blues-Sender, Slow House, Reggae, Hip-Hop, Gregorianik, alte Musik, Barock und Meditation. Die Sender sind jetzt in Gruppen sortiert','Das Radio merkt sich die Adresse, die zuletzt lief, und verbindet dadurch schneller'],'1.3':['Darstellung unter „Mehr“: hell, dunkel oder wie das Handy, dazu fünf Farbwelten. Die Leiste oben nimmt die Farbe der App an','Eigene Routinen: Übungen filtern, auswählen und mit Zeit, Wiederholungen oder Sätzen samt Tagebuch zusammenstellen. Fertige Routinen lassen sich als Vorlage kopieren','Zwei neue Trainings nur mit Matte: Ausdauer-Zirkel (auf Wunsch ohne Springen) und Kraft ohne Geräte, mit Curl-up und Dead Bug statt Sit-ups','25 neue Übungen, darunter mehrere für den Schreibtisch. Alle Übungen haben jetzt Filter nach Art, Ort, Hilfsmittel und Körperbereich','Morgen, Abend, Couch und Büro wechseln täglich einzelne Übungen gegen gleichwertige. Abschaltbar','Gedanken-Shuffle mit über 1.100 Wörtern, die sich erst wiederholen, wenn alle dran waren','Anleitung für andere Stimmen in den Einstellungen und ein Knackschutz für die Ansagen'],'1.2.1':['Klänge besser hörbar: binaurale Beats auf 400 Hz angehoben, Klangflächen eine Oktave höher gelegt','Klänge und braunes Rauschen so laut eingestellt, wie Naturgeräusche klingen','Hinweis bei den Klängen: am besten mit Kopfhörern'],'1.2':['Neu unter „Mehr“: Wohlzeit teilen, per WhatsApp oder über das Teilen-Menü, oder den Link kopieren','Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1.1':['Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1':['Echte Naturgeräusche: Regen, Gewitter, Wellen, Bach, Wind, Kaminfeuer, Vögel, Grillen, Katzenschnurren, Café, Zug, Boot und Stadt','Sieben Rauschfarben mit Erklärung, wofür sie gedacht sind','Klänge (experimentell): binaurale Beats sowie 432- und 528-Hz-Klangflächen, mit Ampel zur Studienlage','Radio: Ambient Sleeping Pill und Radio Paradise Mellow Mix, SomaFM als Ersatz'],'1.0':['Neuer Name: Wohlzeit – Zeit für dich','Untere Leiste mit Heute, Training, Wohlfühlen, Musik und Mehr','„Heute“ schlägt passend zur Tageszeit etwas vor','Wohlfühlrezepte: Seelenfutter und Kraftfutter, mit Portionsrechner und Küchentimer','Klarere Buttons, Infos ohne Kapseln, eingerückte Unterpunkte','Daten sichern und wiederherstellen unter „Mehr“','Als App auf dem Startbildschirm installierbar']};
 let instPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();instPrompt=e;if(curView==='v-home')renderHome();else if(curView==='v-more')renderMore();});
 window.addEventListener('appinstalled',()=>{instPrompt=null;LS.set('rr.instHide',1);if(curView==='v-home')renderHome();});
@@ -4654,7 +4967,7 @@ function loop(now){
 requestAnimationFrame(loop);
 
 /* ================= Start ================= */
-if(window.__rrDebug)window.__rr={musOpts,LOC:()=>LOC,LOCP:()=>LOCP,RADIOS,RSTA,locApply,locFromFiles,locLoadHandle,musicPlay,musicStop,KA:()=>KA,EX,Fig,variantItems,customList,openEditor,openPicker,FLT:()=>FLT,tagsOf,ROUTINES,PL,stepsOf,goTo:j=>goTo(j),DATA,Voice,expandItems,DOC,AU,Music,AMB:()=>AMB,BR:()=>BR,TM,TMCFG,Radio,todo:()=>TODO,tmNow,tmBuild,musicFor,S,MUS,RECIPES,KT,openRecipe,openRecipes,show,fmtAmt,suggestion,backupObj};
+if(window.__rrDebug)window.__gst=GST;window.__rr={musOpts,LOC:()=>LOC,LOCP:()=>LOCP,RADIOS,RSTA,locApply,locFromFiles,locLoadHandle,musicPlay,musicStop,KA:()=>KA,EX,Fig,variantItems,customList,openEditor,openPicker,FLT:()=>FLT,tagsOf,ROUTINES,PL,stepsOf,goTo:j=>goTo(j),DATA,Voice,expandItems,DOC,AU,Music,AMB:()=>AMB,BR:()=>BR,TM,TMCFG,Radio,todo:()=>TODO,tmNow,tmBuild,musicFor,S,MUS,RECIPES,KT,openRecipe,openRecipes,show,fmtAmt,suggestion,backupObj};
 show('v-home');
 startChecks();
 Voice.load();
