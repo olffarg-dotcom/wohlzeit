@@ -100,7 +100,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .gbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .gbar .btn{min-height:44px;padding:0 12px;font-size:15px}
 .gsets{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.gsets .btn{flex:1 1 auto;min-height:44px;padding:0 12px;font-size:15px}
+.gsets .btn{flex:1 1 auto;min-height:42px;padding:0 10px;font-size:15px}
 .gsets .btn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .gpad{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}
 .gpad[hidden]{display:none}
@@ -118,8 +118,26 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .gcell.pitch i{width:9px;background:var(--ruhe)}
 .gcell.cur{outline:3px solid var(--ruhe);outline-offset:2px}
 .gpairs .gcell{font-size:30px}
+.gcell.off{opacity:.3}
+.gpage{align-self:center;font-weight:700;font-size:15px;padding:0 4px}
+#gb-mel{font:inherit;font-size:16px;min-height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);padding:0 10px;max-width:62%}
+.dice{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:22px 0 10px}
+.die{width:68px;height:68px;border-radius:16px;border:2.5px solid #26303A;background:#fff;display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);padding:9px}
+.die b{border-radius:50%;background:#26303A;margin:2.5px}
+.sol{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.scol{display:flex;flex-direction:column;min-width:0}
+.scard{appearance:none;aspect-ratio:5/7;width:100%;border-radius:7px;border:1.5px solid var(--muted);background:var(--surface);color:var(--ink);font:inherit;font-weight:700;font-size:15px;line-height:1.05;display:flex;flex-direction:column;align-items:flex-start;padding:3px 4px;min-width:0}
+.scard.red{color:#E0566F}
+.scard{position:relative;touch-action:none;user-select:none;-webkit-user-select:none}
+.sghost{position:fixed;z-index:80;pointer-events:none;opacity:.92;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35))}
+.gcol{flex:1 1 0 !important;min-width:0;padding:0 !important;border:2.5px solid #26303A !important}
+.gcol[aria-pressed="true"]{box-shadow:0 0 0 3px var(--ink)}
+.scard.back{background:color-mix(in srgb,var(--ruhe) 55%,var(--surface))}
+.scard.empty{background:transparent;border-style:dashed;border-color:var(--line);align-items:center;justify-content:center}
+.scol .scard+.scard{margin-top:-92%}
+.scol .scard.dn+.scard{margin-top:-118%}
 .gpairs .gcell[data-v="2"]{opacity:.55}
-.gback{position:fixed;left:16px;right:16px;bottom:calc(86px + env(safe-area-inset-bottom));z-index:60;--rc:var(--ruhe)}
+.gback{position:fixed;right:12px;top:calc(10px + env(safe-area-inset-top));z-index:60;--rc:var(--ruhe);min-height:44px;padding:0 14px;font-size:15px}
 .langsw{justify-self:end;display:flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden;margin:0 0 -4px}
 .langsw button{appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-size:13px;font-weight:700;padding:0 13px;min-height:36px}
 .langsw button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
@@ -3530,7 +3548,7 @@ function renderWell(){
   const m=$('w-more');m.innerHTML='';const nOpen=TODO.filter(x=>!x.done).length;
   m.appendChild(linkCard(TR('Kopf leeren','Clear your head'),TR('To-do-Liste vor dem Schlafen: aufschreiben, was ansteht, dann darf es bis morgen liegen bleiben.','To-do list before sleep: write down what\'s coming up, then it can wait until tomorrow.')+(nOpen?' '+(EN?'Currently '+nOpen+' open.':'Gerade '+nOpen+' offen.'):''),(EN?''+IC.todo+'Open list':''+IC.todo+'Liste öffnen'),'var(--ruhe)',openTodo));
   m.appendChild(linkCard(TR('Wohlfühlrezepte','Feel-good recipes'),TR('Seelenfutter zum Genießen und Kraftfutter als braves Gegenstück, mit Portionsrechner und Küchentimer.','Soul food to enjoy and power food as the well-behaved counterpart, with a serving calculator and kitchen timer.'),(EN?''+IC.book+'Open recipes':''+IC.book+'Rezepte öffnen'),'var(--morgen)',openRecipes));
-  m.appendChild(linkCard(TR('Spiele','Games'),TR('Sechs ruhige Spiele für eine Pause: Klangbrett, Wolken, Turm, Zen-Garten, Atemballon und Paare finden.','Six calm games for a break: sound board, clouds, tower, zen garden, breath balloon and find pairs.'),TR('Spiele öffnen','Open games'),'var(--ruhe)',openGames));
+  m.appendChild(linkCard(TR('Spiele','Games'),TR('Zwölf ruhige Spiele für eine Pause, vom Klangbrett über Wolken, Angeln und Minigolf bis Solitär.','Twelve calm games for a break, from the sound board to clouds, fishing and mini golf to solitaire.'),TR('Spiele öffnen','Open games'),'var(--ruhe)',openGames));
 }
 /* ================= Spiele =================
    Sechs ruhige Spiele unter Wohlfühlen › Spiele. Alle zeichnen mit den Farben der gewählten Darstellung (gCol),
@@ -3544,13 +3562,20 @@ function gCol(){const cs=getComputedStyle(document.documentElement),g=k=>cs.getP
 function gTone(f,d,v,type,drop){if(!audioInit())return;try{const c=AU.ctx,o=c.createOscillator(),g=c.createGain(),t=c.currentTime;d=d||.4;o.type=type||'sine';o.frequency.setValueAtTime(f,t);if(drop)o.frequency.exponentialRampToValueAtTime(f*drop,t+d);g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(v||.1,t+.015);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(AU.sfx);o.start(t);o.stop(t+d+.05);}catch(e){}}
 function gSfx(f,d,v,type,drop){if(S.gsfx===false)return;gTone(f,d,v||.07,type,drop);}
 const G_PENTA=[261.6,293.7,329.6,392,440,523.3,587.3,659.3,784,880];
-const G_SC=[130.8,261.6,523.2].reduce((a,b)=>a.concat([1,9/8,5/4,3/2,5/3].map(r=>b*r)),[]);
+const G_SC=[261.63,293.66,329.63,349.23,392,440,493.88,523.25,587.33,659.25,698.46,783.99,880,987.77,1046.5];
+const G_PIDX=[0,1,2,4,5,7,8,9,11,12];
 const GAMES=[
   ['board',TR('Klangbrett','Sound board'),TR('Felder antippen und eine kleine Melodie bauen. Das Lauflicht spielt sie im Kreis.','Tap fields and build a little melody. The running light plays it in a loop.'),1],
   ['clouds',TR('Wolken','Clouds'),TR('Gleich große Wolken zusammenziehen. Dunkle Wolken regnen ab und lassen Blumen wachsen. Herzen hellen Wolken auf und lassen Blumen blühen.','Drag clouds of the same size together. Dark clouds rain and make flowers grow. Hearts brighten clouds and make flowers bloom.'),1],
   ['tower',TR('Turm','Tower'),TR('Von Absatz zu Absatz schnippen, ganz ohne Zeitdruck. Wer danebenspringt, landet weich auf dem letzten Absatz.','Flick from ledge to ledge, with no time pressure at all. If you miss, you land softly on the last ledge.'),1],
   ['zen',TR('Zen-Garten','Zen garden'),TR('Linien in den Sand harken, Steine und Moos setzen. Kein Ziel, keine Punkte.','Rake lines into the sand, place stones and moss. No goal, no points.'),0],
   ['breath',TR('Atemballon','Breath balloon'),TR('Finger halten heißt einatmen, loslassen heißt ausatmen. Der Ballon folgt dem Ring im ruhigen Atemtakt.','Holding your finger means inhale, letting go means exhale. The balloon follows the ring at a calm breathing pace.'),1],
+  ['fish',TR('Angeln','Fishing'),TR('Den Haken vor die Nase eines Fisches halten und ruhig mitführen, bis er anbeißt. Tiefe Fische zählen mehr.','Hold the hook in front of a fish\'s nose and calmly move along until it bites. Deep fish count more.'),1],
+  ['run',TR('Hüpfen','Hopping'),TR('Über Büsche hüpfen, von Pilzen hochfedern, Vögeln ausweichen und Sterne sammeln. Stolpern kostet nur Tempo, es gibt kein Ende.','Hop over bushes, bounce off mushrooms, dodge birds and collect stars. Stumbling only costs speed, there is no end.'),1],
+  ['sol',TR('Solitär','Solitaire'),TR('Klondike mit einer Karte ziehen. Karten antippen oder selbst an ihren Platz ziehen.','Klondike, draw one card. Tap cards or drag them to their place yourself.'),0],
+  ['golf',TR('Minigolf','Mini golf'),TR('Acht Bahnen mit Banden und Sand. Ball wie mit einer Schleuder anstoßen.','Eight holes with walls and sand. Hit the ball like with a slingshot.'),1],
+  ['loom',TR('Weben','Weaving'),TR('Das Schiffchen über oder unter den Fäden durchziehen und Reihe für Reihe ein Muster weben.','Pull the shuttle over or under the threads and weave a pattern row by row.'),0],
+  ['dice',TR('Würfel','Dice'),TR('Ein bis sechs Würfel, echter Zufall.','One to six dice, true randomness.'),0],
   ['pairs',TR('Paare finden','Find pairs'),TR('Sechzehn Karten, acht Paare. In Ruhe aufdecken und merken.','Sixteen cards, eight pairs. Turn them over calmly and remember.'),0]
 ];
 function gBar(g){return '<div class="gbar"><button class="btn" id="g-sfx" aria-pressed="'+(S.gsfx!==false)+'">'+TR('Geräusche','Sounds')+'</button><button class="btn" id="g-mus" aria-pressed="'+!!MUS.on+'">♪ '+TR('Musik','Music')+'</button><button class="btn" id="g-msel">'+TR('Musik wählen','Choose music')+'</button>'+(g[3]?'<button class="btn" id="g-pause">'+TR('Pause','Pause')+'</button>':'')+'<button class="btn" id="g-new">'+TR('Neu starten','Restart')+'</button></div><div class="gscore" id="g-score"></div>';}
@@ -3560,10 +3585,10 @@ function gBind(body,id){
   mb.addEventListener('click',()=>{if(MUS.on)musicStop();else musicPlay();mb.setAttribute('aria-pressed',String(!!MUS.on));});
   q('#g-msel').addEventListener('click',()=>gMusicMenu(()=>openGame(id)));
   if(pb)pb.addEventListener('click',()=>{GAME.paused=!GAME.paused;pb.textContent=GAME.paused?TR('Weiter','Continue'):TR('Pause','Pause');pb.setAttribute('aria-pressed',String(GAME.paused));});
-  q('#g-new').addEventListener('click',()=>{delete GST[id];if(id==='board')LS.set('rr.gboard',null);if(id==='zen')LS.set('rr.gzen',null);openGame(id);});
+  q('#g-new').addEventListener('click',()=>{delete GST[id];if(id==='board')LS.set('rr.gboard',null);if(id==='zen')LS.set('rr.gzen',null);if(id==='loom')LS.set('rr.gloom',null);openGame(id);});
 }
 function gMusicMenu(reopen){
-  show('v-music');
+  openMusic();
   let b=document.getElementById('g-back');if(b)b.remove();
   b=document.createElement('button');b.id='g-back';b.className='btn primary gback';b.textContent='‹ '+TR('Zurück zum Spiel','Back to the game');
   const iv=setInterval(()=>{if(curView!=='v-music'){clearInterval(iv);b.remove();}},400);
@@ -3571,13 +3596,25 @@ function gMusicMenu(reopen){
   document.body.appendChild(b);
 }
 function gScore(t){const e=document.getElementById('g-score');if(e&&e.textContent!==t)e.textContent=t;}
-function gCanvas(body){const cv=document.createElement('canvas');cv.className='gcv';body.appendChild(cv);const dpr=Math.min(2,window.devicePixelRatio||1);const W=cv.clientWidth||340;const H=Math.max(300,Math.min(620,window.innerHeight-cv.getBoundingClientRect().top-28));cv.style.height=H+'px';cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);const x=cv.getContext('2d');x.scale(dpr,dpr);x.lineJoin='round';x.lineCap='round';return {cv,x,W,H};}
+function gCanvas(body,reserve){const cv=document.createElement('canvas');cv.className='gcv';body.appendChild(cv);const dpr=Math.min(2,window.devicePixelRatio||1);const W=cv.clientWidth||340;const H=Math.max(230,Math.min(620,window.innerHeight-cv.getBoundingClientRect().top-28-(reserve||0)));cv.style.height=H+'px';cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);const x=cv.getContext('2d');x.scale(dpr,dpr);x.lineJoin='round';x.lineCap='round';return {cv,x,W,H};}
 function gLoop(cv,fn){cancelAnimationFrame(GAME.raf);let last=performance.now();const step=t=>{if(!cv.isConnected||curView!=='v-page')return;const dt=Math.min(.05,(t-last)/1000);last=t;fn(GAME.paused?0:dt,t/1000);GAME.raf=requestAnimationFrame(step);};GAME.raf=requestAnimationFrame(step);}
 function gPos(cv,e){const r=cv.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top};}
 function gCap(cv,e){try{cv.setPointerCapture(e.pointerId);}catch(_){}}
 function gBlob(x,cx,cy,r,fill,line,lw){x.beginPath();x.arc(cx,cy,r,0,7);x.fillStyle=fill;x.fill();if(line){x.lineWidth=lw||2.5;x.strokeStyle=line;x.stroke();}}
 function gCloud(x,cx,cy,r,fill){const p=[[-.75,.15,.55],[-.3,-.3,.7],[.35,-.2,.62],[.8,.18,.5],[0,.25,.7]];x.lineWidth=5;x.strokeStyle=G_OL;p.forEach(q=>{x.beginPath();x.arc(cx+q[0]*r,cy+q[1]*r,q[2]*r,0,7);x.stroke();});x.fillStyle=fill;p.forEach(q=>{x.beginPath();x.arc(cx+q[0]*r,cy+q[1]*r,q[2]*r,0,7);x.fill();});}
 function gHeart(x,cx,cy,s,fill){x.beginPath();x.moveTo(cx,cy+s*.9);x.bezierCurveTo(cx-s*1.5,cy-s*.2,cx-s*.7,cy-s*1.2,cx,cy-s*.4);x.bezierCurveTo(cx+s*.7,cy-s*1.2,cx+s*1.5,cy-s*.2,cx,cy+s*.9);x.fillStyle=fill;x.fill();x.lineWidth=2.5;x.strokeStyle=G_OL;x.stroke();}
+function gPurr(d){if(S.gsfx===false||!audioInit()||performance.now()<(GAME.purrEnd||0))return;GAME.purrEnd=performance.now()+d*1000;try{const c=AU.ctx,n=c.sampleRate*2,b=c.createBuffer(1,n,c.sampleRate),ch=b.getChannelData(0);for(let i=0;i<n;i++)ch[i]=Math.random()*2-1;const s=c.createBufferSource();s.buffer=b;s.loop=true;const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=220;const g=c.createGain(),lfo=c.createOscillator(),lg=c.createGain(),out=c.createGain(),t=c.currentTime;lfo.frequency.value=24;lg.gain.value=.16;g.gain.value=.16;lfo.connect(lg);lg.connect(g.gain);out.gain.setValueAtTime(0,t);out.gain.linearRampToValueAtTime(1,t+.3);out.gain.setValueAtTime(1,t+d-.4);out.gain.linearRampToValueAtTime(0,t+d);s.connect(lp);lp.connect(g);g.connect(out);out.connect(AU.sfx);s.start(t);lfo.start(t);s.stop(t+d+.1);lfo.stop(t+d+.1);}catch(e){}}
+function gCat(x,cat,gy,t,C){const f=C.dark?'#E8D9C3':'#F3E6D2',m=cat.mode,w=cat.mode==='walk';x.save();x.translate(cat.x,gy);x.scale(cat.dir,1);
+  if(m==='roll'){x.translate(0,-13);x.rotate(Math.sin(t*5)*1.1);x.translate(0,13);}
+  x.lineWidth=2.5;x.strokeStyle=G_OL;x.fillStyle=f;
+  x.beginPath();x.moveTo(-17,-14);x.quadraticCurveTo(-32,-18,-27,-34+Math.sin(t*3)*4);x.stroke();
+  for(let k=0;k<4;k++){const lx=-11+k*7,sw=w?Math.sin(cat.ph+k*1.6)*4:0;x.beginPath();x.moveTo(lx,-8);x.lineTo(lx+sw,0);x.stroke();}
+  x.beginPath();x.ellipse(0,-14,18,10,0,0,7);x.fill();x.stroke();
+  if(m==='wave'){x.beginPath();x.moveTo(10,-18);x.lineTo(20,-34+Math.sin(t*9)*5);x.stroke();}
+  x.beginPath();x.moveTo(11,-31);x.lineTo(13,-41);x.lineTo(19,-34);x.closePath();x.fill();x.stroke();x.beginPath();x.moveTo(21,-34);x.lineTo(27,-41);x.lineTo(29,-31);x.closePath();x.fill();x.stroke();
+  gBlob(x,20,-25,10,f,G_OL,2.5);x.fillStyle=G_OL;
+  if(cat.happy>0||!w){x.lineWidth=2;x.beginPath();x.arc(16.5,-26,2.4,Math.PI,0);x.stroke();x.beginPath();x.arc(24,-26,2.4,Math.PI,0);x.stroke();}else{x.beginPath();x.arc(16.5,-26,1.8,0,7);x.arc(24,-26,1.8,0,7);x.fill();}
+  x.restore();if(cat.happy>0||!w)gHeart(x,cat.x+cat.dir*20,gy-52-Math.sin(t*4)*3,6,'#F08FA6');}
 function gNote(host,t){const p=document.createElement('p');p.className='small muted';p.style.marginTop='10px';p.textContent=t;host.appendChild(p);}
 function openGames(){
   openPage(TR('Wohlfühlen','Wellbeing'),TR('Spiele','Games'),'<p class="small muted" style="margin:0 2px 4px">'+TR('Ruhige Spiele für eine Pause. Die Farben folgen deiner Darstellung, bei dunkler Darstellung bleiben auch die Spiele dunkel. Ein angefangenes Spiel bleibt stehen, bis du „Neu starten“ wählst.','Calm games for a break. The colors follow your appearance setting; with the dark setting the games stay dark too. A game you started stays as it is until you choose “Restart.”')+'</p>'+
@@ -3587,18 +3624,30 @@ function openGames(){
 function openGame(id){
   const g=GAMES.find(x=>x[0]===id);if(!g)return;audioInit();clearInterval(GAME.iv);cancelAnimationFrame(GAME.raf);GAME.paused=false;
   openPage(TR('Spiele','Games'),g[1],gBar(g)+'<div id="g-host"></div>',body=>{gBind(body,id);const host=body.querySelector('#g-host');
-    ({board:gameBoard,clouds:gameClouds,tower:gameTower,zen:gameZen,breath:gameBreath,pairs:gamePairs})[id](host);},openGames);
+    ({board:gameBoard,clouds:gameClouds,tower:gameTower,zen:gameZen,breath:gameBreath,pairs:gamePairs,fish:gameFish,run:gameRun,sol:gameSol,dice:gameDice,golf:gameGolf,loom:gameLoom})[id](host);},openGames);
 }
 /* ---------- Klangbrett ---------- */
+const G_MEL=[
+  [TR('Alle meine Entchen','Alle meine Entchen (German folk song)'),'0123 4-4- 5555 4--- 5555 4--- 3333 2-2- 1111 0---'],
+  [TR('Freude schöner Götterfunken','Ode to Joy'),'2234 4321 0012 2-1- 2234 4321 0012 1-0-'],
+  [TR('O Tannenbaum','O Christmas Tree'),'4777 8999 -989 a6-8 7---'],
+  [TR('Bruder Jakob','Frère Jacques'),'0120 0120 234- 234- 4543 2-0- 4543 2-0- 040- 040-'],
+  [TR('Hänschen klein','Hänschen klein (German folk song)'),'422- 311- 0123 444- 422- 311- 0244 0---'],
+  [TR('Morgen kommt der Weihnachtsmann','Twinkle, Twinkle, Little Star'),'0044 554- 3322 110- 4433 221- 4433 221- 0044 554- 3322 110-'],
+  [TR('Kuckuck, Kuckuck','Cuckoo, Cuckoo'),'42-4 2-10 10--']
+];
 function gameBoard(host){
   const SETS=[[TR('Glocke','Bell'),'sine',.9,0],[TR('Marimba','Marimba'),'triangle',.28,0],[TR('Tropfen','Drops'),'sine',.3,.5],[TR('Trommel','Drum'),'sine',.22,.4],[TR('Eigener Ton','Own sound')]];
-  const mk=n=>{const c=[];for(let i=0;i<n*n;i++)c.push({v:0,n:3+Math.floor(Math.random()*8)});return c;};
-  let B=GST.board;if(!B){const sv=LS.get('rr.gboard',null);B=GST.board=(sv&&sv.cells&&sv.cells.length===sv.n*sv.n)?sv:{n:4,cells:mk(4),set:0,bpm:96};B.on=true;B.pos=-1;}
-  const save=()=>LS.set('rr.gboard',{n:B.n,cells:B.cells,set:B.set,bpm:B.bpm});
+  const rnd=()=>G_PIDX[Math.floor(Math.random()*G_PIDX.length)];
+  const mk=k=>{const c=[];for(let i=0;i<k;i++)c.push({v:0,n:rnd()});return c;};
+  let B=GST.board;if(!B){const sv=LS.get('rr.gboard',null);B=GST.board=(sv&&sv.cells&&sv.np&&sv.cells.length===sv.n*sv.n*sv.np)?sv:{n:4,np:1,cells:mk(16),set:0,bpm:96};B.on=true;B.pos=-1;B.pg=0;}
+  const PS=()=>B.n*B.n,LEN=()=>B.len||B.np*PS();
+  const save=()=>LS.set('rr.gboard',{n:B.n,np:B.np,len:B.len||0,cells:B.cells,set:B.set,bpm:B.bpm});
   if(!GAME.rec){const d=LS.get('rr.grec',null);if(d&&audioInit()){fetch(d).then(r=>r.arrayBuffer()).then(a=>AU.ctx.decodeAudioData(a)).then(b=>{GAME.rec=b;}).catch(()=>{});}}
-  const play=i=>{const f=G_SC[B.cells[i].n];if(B.set===4){if(!GAME.rec||!audioInit())return;try{const c=AU.ctx,s=c.createBufferSource(),g=c.createGain();s.buffer=GAME.rec;s.playbackRate.value=f/261.6;g.gain.value=.9;s.connect(g);g.connect(AU.sfx);s.start();}catch(e){}return;}
+  const play=i=>{const f=G_SC[B.cells[i].n];if(B.set===4){if(!GAME.rec||!audioInit())return;try{const c=AU.ctx,s=c.createBufferSource(),g=c.createGain();s.buffer=GAME.rec;s.playbackRate.value=f/261.63;g.gain.value=.9;s.connect(g);g.connect(AU.sfx);s.start();}catch(e){}return;}
     const s=SETS[B.set];gTone(f*(B.set===3?.5:1),s[2],.11,s[1],s[3]||0);};
   const cellHtml=c=>'<i style="height:'+Math.round((c.n+1)/15*78)+'%"></i>'+'●'.repeat(c.v).split('').join(' ');
+  const melody=k=>{const t=G_MEL[k][1].replace(/ /g,'');B.n=4;B.np=Math.ceil(t.length/16);B.len=t.length;B.cells=mk(16*B.np);for(let i=0;i<t.length;i++){if(t[i]!=='-'){B.cells[i].v=1;B.cells[i].n=parseInt(t[i],16);}else B.cells[i].n=7;}B.pos=-1;B.pg=0;B.on=true;save();draw();start();};
   const record=async st=>{
     if(!navigator.mediaDevices||!window.MediaRecorder){st.textContent=TR('Aufnehmen geht in diesem Browser nicht.','Recording does not work in this browser.');return;}
     try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});const mr=new MediaRecorder(stream),ch=[];st.textContent=TR('Aufnahme läuft … jetzt den Ton machen','Recording … make the sound now');
@@ -3612,36 +3661,47 @@ function gameBoard(host){
       mr.start();setTimeout(()=>{try{mr.stop();}catch(e){}},1600);
     }catch(e){st.textContent=TR('Kein Zugriff auf das Mikrofon. Erlaube ihn in den Einstellungen des Browsers.','No access to the microphone. Allow it in the browser settings.');}
   };
-  const draw=()=>{host.innerHTML='<div class="gboard" style="grid-template-columns:repeat('+B.n+',1fr)">'+B.cells.map((c,i)=>'<button class="gcell" data-i="'+i+'" data-v="'+Math.min(1,c.v)+'" aria-label="'+TR('Feld','Field')+' '+(i+1)+'">'+cellHtml(c)+'</button>').join('')+'</div>'+
+  const draw=()=>{const off=B.pg*PS(),lim=LEN();
+    host.innerHTML='<div class="gboard" style="grid-template-columns:repeat('+B.n+',1fr)">'+B.cells.slice(off,off+PS()).map((c,k)=>'<button class="gcell'+(off+k>=lim?' off':'')+'" data-i="'+(off+k)+'" data-v="'+Math.min(1,c.v)+'" aria-label="'+TR('Feld','Field')+' '+(k+1)+'">'+cellHtml(c)+'</button>').join('')+'</div>'+
+    '<div class="gsets"><button class="btn" id="gb-pp" style="flex:0 0 52px" aria-label="'+TR('Seite zurück','Previous page')+'">‹</button><span class="gpage">'+TR('Seite ','Page ')+(B.pg+1)+' / '+B.np+'</span><button class="btn" id="gb-pn" style="flex:0 0 52px" aria-label="'+TR('Seite vor','Next page')+'">›</button><button class="btn" id="gb-padd">'+TR('+ Seite','+ Page')+'</button><button class="btn" id="gb-pdel">'+TR('− Seite','− Page')+'</button></div>'+
     '<div class="card" style="margin-top:12px"><div class="seg2"><button data-n="3" aria-pressed="'+(B.n===3)+'">3 × 3</button><button data-n="4" aria-pressed="'+(B.n===4)+'">4 × 4</button></div>'+
     '<div class="gsets">'+SETS.map((s,k)=>'<button class="btn" data-set="'+k+'" aria-pressed="'+(B.set===k)+'">'+s[0]+'</button>').join('')+'</div>'+
     '<div class="set" style="border:0;padding:10px 0 0"><label for="gb-bpm">'+TR('Tempo','Tempo')+'</label><input type="range" id="gb-bpm" min="50" max="180" value="'+B.bpm+'"></div>'+
-    '<div class="gsets"><button class="btn primary" id="gb-play">'+(B.on?TR('Anhalten','Pause'):TR('Abspielen','Play'))+'</button><button class="btn" id="gb-roll">'+TR('Zufällige Höhen','Random pitches')+'</button><button class="btn" id="gb-clr">'+TR('Leeren','Clear')+'</button><button class="btn" id="gb-rec">'+TR('Ton aufnehmen','Record sound')+'</button></div>'+
-    '<p class="small muted" id="gb-st" style="margin-top:10px">'+TR('Tippen: 1, 2 oder 3 Schläge, dann wieder aus. Feld gedrückt halten und den Finger hoch oder runter schieben: Tonhöhe. Der Balken im Feld zeigt sie an.','Tap: 1, 2 or 3 hits, then off again. Press and hold a field and slide your finger up or down: pitch. The bar in the field shows it.')+'</p></div>';
+    '<div class="gsets"><button class="btn primary" id="gb-play">'+(B.on?TR('Anhalten','Pause'):TR('Abspielen','Play'))+'</button><button class="btn" id="gb-roll">'+TR('Zufällige Höhen','Random pitches')+'</button><button class="btn" id="gb-mid">'+TR('Alle auf Mitte','All to middle')+'</button><button class="btn" id="gb-clr">'+TR('Leeren','Clear')+'</button><button class="btn" id="gb-rec">'+TR('Ton aufnehmen','Record sound')+'</button></div>'+
+    '<div class="set" style="border:0;padding:10px 0 0"><label for="gb-mel">'+TR('Melodie laden','Load melody')+'</label><select id="gb-mel"><option value="">'+TR('auswählen …','choose …')+'</option>'+G_MEL.map((m,k)=>'<option value="'+k+'">'+m[0]+'</option>').join('')+'</select></div>'+
+    '<p class="small muted" id="gb-st" style="margin-top:10px">'+TR('Tippen: 1, 2 oder 3 Schläge, dann wieder aus. Feld gedrückt halten und den Finger hoch oder runter schieben: Tonhöhe. Der Balken im Feld zeigt sie an. Mehrere Seiten laufen nacheinander. Eine Melodie ersetzt das Brett und stellt es auf 4 × 4.','Tap: 1, 2 or 3 hits, then off again. Press and hold a field and slide your finger up or down: pitch. The bar in the field shows it. Several pages play one after the other. A melody replaces the board and sets it to 4 × 4.')+'</p></div>';
     host.querySelectorAll('.gcell').forEach(b=>{const i=+b.dataset.i,c=B.cells[i];let ht=0,pm=false,y0=0,n0=0;
       const upd=()=>{b.innerHTML=cellHtml(c);b.dataset.v=Math.min(1,c.v);};
       b.addEventListener('pointerdown',e=>{pm=false;y0=e.clientY;n0=c.n;gCap(b,e);ht=setTimeout(()=>{pm=true;b.classList.add('pitch');play(i);},330);});
       b.addEventListener('pointermove',e=>{if(!pm){if(Math.abs(e.clientY-y0)>14){clearTimeout(ht);pm=true;b.classList.add('pitch');}else return;}const n=Math.max(0,Math.min(14,n0+Math.round((y0-e.clientY)/13)));if(n!==c.n){c.n=n;upd();play(i);}});
       const end=cancel=>{clearTimeout(ht);b.classList.remove('pitch');if(!pm&&!cancel){c.v=(c.v+1)%4;upd();if(c.v)play(i);}pm=false;save();};
       b.addEventListener('pointerup',()=>end(false));b.addEventListener('pointercancel',()=>end(true));b.addEventListener('contextmenu',e=>e.preventDefault());});
-    host.querySelectorAll('[data-n]').forEach(b=>b.addEventListener('click',()=>{B.n=+b.dataset.n;B.cells=mk(B.n);B.pos=-1;save();draw();}));
-    host.querySelectorAll('[data-set]').forEach(b=>b.addEventListener('click',()=>{const k=+b.dataset.set;if(k===4&&!GAME.rec){host.querySelector('#gb-st').textContent=TR('Noch kein eigener Ton. Tippe auf „Ton aufnehmen“.','No own sound yet. Tap “Record sound.”');return;}B.set=k;save();draw();}));
-    host.querySelector('#gb-bpm').addEventListener('input',e=>{B.bpm=+e.target.value;save();start();});
-    host.querySelector('#gb-play').addEventListener('click',()=>{B.on=!B.on;draw();});
-    host.querySelector('#gb-roll').addEventListener('click',()=>{B.cells.forEach(c=>{c.n=3+Math.floor(Math.random()*8);});save();draw();});
-    host.querySelector('#gb-clr').addEventListener('click',()=>{B.cells.forEach(c=>{c.v=0;});save();draw();});
-    host.querySelector('#gb-rec').addEventListener('click',()=>{audioInit();record(host.querySelector('#gb-st'));});
+    const q=s=>host.querySelector(s);
+    host.querySelectorAll('[data-n]').forEach(b=>b.addEventListener('click',()=>{B.n=+b.dataset.n;B.np=1;B.len=0;B.pg=0;B.cells=mk(PS());B.pos=-1;save();draw();}));
+    host.querySelectorAll('[data-set]').forEach(b=>b.addEventListener('click',()=>{const k=+b.dataset.set;if(k===4&&!GAME.rec){q('#gb-st').textContent=TR('Noch kein eigener Ton. Tippe auf „Ton aufnehmen“.','No own sound yet. Tap “Record sound.”');return;}B.set=k;save();draw();}));
+    q('#gb-bpm').addEventListener('input',e=>{B.bpm=+e.target.value;save();start();});
+    q('#gb-play').addEventListener('click',()=>{B.on=!B.on;draw();});
+    q('#gb-roll').addEventListener('click',()=>{B.cells.forEach(c=>{c.n=rnd();});save();draw();});
+    q('#gb-mid').addEventListener('click',()=>{B.cells.forEach(c=>{c.n=7;});save();draw();});
+    q('#gb-clr').addEventListener('click',()=>{B.cells.forEach(c=>{c.v=0;});save();draw();});
+    q('#gb-rec').addEventListener('click',()=>{audioInit();record(q('#gb-st'));});
+    q('#gb-pp').addEventListener('click',()=>{B.pg=(B.pg+B.np-1)%B.np;B.on=false;draw();});
+    q('#gb-pn').addEventListener('click',()=>{B.pg=(B.pg+1)%B.np;B.on=false;draw();});
+    q('#gb-padd').addEventListener('click',()=>{if(B.np>=6)return;B.len=0;B.np++;B.cells=B.cells.concat(mk(PS()));B.pg=B.np-1;B.on=false;save();draw();});
+    q('#gb-pdel').addEventListener('click',()=>{if(B.np<=1)return;B.len=0;B.np--;B.cells.length=B.np*PS();B.pg=Math.min(B.pg,B.np-1);B.pos=-1;save();draw();});
+    q('#gb-mel').addEventListener('change',e=>{if(e.target.value!=='')melody(+e.target.value);});
   };
   const start=()=>{clearInterval(GAME.iv);const ms=60000/B.bpm/2;GAME.iv=setInterval(()=>{
     if(!host.isConnected||curView!=='v-page'){clearInterval(GAME.iv);return;}if(!B.on||GAME.paused)return;
-    B.pos=(B.pos+1)%(B.n*B.n);host.querySelectorAll('.gcell').forEach((b,i)=>b.classList.toggle('cur',i===B.pos));
+    B.pos=(B.pos+1)%LEN();const pg=Math.floor(B.pos/PS());if(pg!==B.pg){B.pg=pg;draw();}
+    const off=B.pg*PS();host.querySelectorAll('.gcell').forEach((b,i)=>b.classList.toggle('cur',off+i===B.pos));
     const p=B.pos,v=B.cells[p].v;for(let k=0;k<v;k++)setTimeout(()=>play(p),k*ms/v);},ms);};
   draw();start();gScore('');
 }
 /* ---------- Wolken ---------- */
 function gameClouds(host){
   const {cv,x,W,H}=gCanvas(host);const GR=46;
-  const st=GST.clouds||(GST.clouds={cl:[],he:[],fl:[],best:1,tC:0,tH:3});const cl=st.cl,he=st.he,fl=st.fl;let drag=null;
+  const st=GST.clouds||(GST.clouds={cl:[],he:[],fl:[],best:1,tC:0,tH:3,cat:null,tK:9});if(st.tK==null)st.tK=9;const cl=st.cl,he=st.he,fl=st.fl;let drag=null;
   const rad=c=>15+c.lv*7,hs=h=>6+h.lv*4;
   const SH=['#EEF2F5','#C9D2DB','#9DA9B8','#707D90','#4C596B'],HC=['#F6B9C6','#F08FA6','#E56A8A'];
   const addCloud=()=>{cl.push({x:30+Math.random()*(W-60),y:40+Math.random()*(H-GR-170),lv:1,dark:0,vx:(Math.random()<.5?-1:1)*(5+Math.random()*7),rain:0});};
@@ -3652,7 +3712,8 @@ function gameClouds(host){
   const drop=()=>{if(!drag)return;const d=drag;drag=null;d.hold=false;
     if('dark' in d){d.y=Math.min(d.y,H-GR-rad(d));const o=cl.find(c=>c!==d&&!c.rain&&c.lv===d.lv&&Math.hypot(c.x-d.x,c.y-d.y)<rad(c)+rad(d)*.6);
       if(o){cl.splice(cl.indexOf(d),1);o.lv++;o.dark=Math.max(o.dark,d.dark)+1;st.best=Math.max(st.best,o.lv);gSfx(G_PENTA[Math.min(9,o.lv+1)],.6);if(o.dark>=4){o.rain=3.2;gSfx(196,1.4,.05);}}}
-    else{const o=he.find(h=>h!==d&&h.lv===d.lv&&h.lv<3&&Math.hypot(h.x-d.x,h.y-d.y)<hs(h)+hs(d)+10);
+    else{if(st.cat&&Math.abs(d.x-st.cat.x)<36&&d.y>H-GR-56){he.splice(he.indexOf(d),1);st.cat.mode=Math.random()<.5?'roll':'wave';st.cat.t=3.4;gSfx(880,.6);gPurr(3.4);return;}
+      const o=he.find(h=>h!==d&&h.lv===d.lv&&h.lv<3&&Math.hypot(h.x-d.x,h.y-d.y)<hs(h)+hs(d)+10);
       if(o){he.splice(he.indexOf(d),1);o.lv++;gSfx(587+o.lv*70,.5);return;}
       const c=cl.find(c=>!c.rain&&c.dark>0&&Math.hypot(c.x-d.x,c.y-d.y)<rad(c)+14);
       if(c){c.dark=Math.max(0,c.dark-d.lv);he.splice(he.indexOf(d),1);gSfx(784,.7);return;}
@@ -3664,22 +3725,27 @@ function gameClouds(host){
     const C=gCol();
     st.tC-=dt;if(st.tC<=0){st.tC=4.5;if(cl.length<8)addCloud();}
     st.tH-=dt;if(st.tH<=0){st.tH=5+Math.random()*4;if(he.length<7)he.push({x:24+Math.random()*(W-48),y:-14,lv:1,ph:Math.random()*6});}
-    cl.forEach(c=>{if(!c.hold&&!c.rain){c.x+=c.vx*dt;if(c.x<rad(c)||c.x>W-rad(c))c.vx*=-1;}if(c.rain){c.rain-=dt;if(c.rain<=0){fl.push({x:Math.max(14,Math.min(W-14,c.x)),h:0,b:0,c:Math.floor(Math.random()*4)});c.gone=true;gSfx(523,.8);}}});
+    cl.forEach(c=>{if(!c.hold&&!c.rain){c.x+=c.vx*dt;if(c.x<rad(c)||c.x>W-rad(c))c.vx*=-1;}if(c.rain){c.rain-=dt;if(c.rain<=0){for(let k=0;k<c.lv;k++)fl.push({x:Math.max(14,Math.min(W-14,c.x+(k-(c.lv-1)/2)*24+Math.random()*10-5)),h:0,b:0,a:1,c:Math.floor(Math.random()*4)});c.gone=true;gSfx(523,.8);}}});
     for(let i=cl.length-1;i>=0;i--)if(cl[i].gone)cl.splice(i,1);
     he.forEach(h=>{const rest=H-GR-hs(h)*.9;if(!h.hold&&h.y<rest){h.y=Math.min(rest,h.y+13*dt);h.x+=Math.sin(t*1.3+h.ph)*9*dt;}});
-    fl.forEach(f=>{f.h=Math.min(1,f.h+dt*.5);});if(fl.length>30)fl.shift();
+    fl.forEach(f=>{f.h=Math.min(1,f.h+dt*.5);if(f.out)f.a=(f.a==null?1:f.a)-dt*.35;});
+    while(fl.filter(f=>!f.out).length>28)fl.find(f=>!f.out).out=true;for(let i=fl.length-1;i>=0;i--)if(fl[i].out&&fl[i].a<=0)fl.splice(i,1);
+    const gh=he.filter(h=>!h.hold&&h.y>=H-GR-hs(h)*.9-1);st.tK-=dt*(gh.length>=4?5:1);
+    if(!st.cat&&st.tK<=0){const dir=Math.random()<.5?1:-1;st.cat={x:dir>0?-34:W+34,dir,mode:'walk',t:0,ph:0,happy:0};st.tK=20+Math.random()*14;}
+    if(st.cat){const k=st.cat;k.happy=Math.max(0,k.happy-dt);if(k.mode==='walk'){k.x+=k.dir*34*dt;k.ph+=dt*9;gh.forEach(h=>{if(Math.abs(h.x-k.x)<16){he.splice(he.indexOf(h),1);k.happy=2;gPurr(2.2);}});if(k.x<-40||k.x>W+40)st.cat=null;}else{k.t-=dt;if(k.t<=0)k.mode='walk';}}
     x.clearRect(0,0,W,H);
     x.fillStyle=C.dark?'rgba(255,255,255,.05)':'rgba(0,0,0,.05)';x.fillRect(0,H-GR,W,GR);x.strokeStyle=C.ln;x.lineWidth=1.5;x.beginPath();x.moveTo(0,H-GR);x.lineTo(W,H-GR);x.stroke();
     const FC=['#F2A7B8','#F6D27A','#B9A4E8','#8FD1C2'];
-    fl.forEach(f=>{const top=H-GR-(24+f.b*7)*f.h;x.strokeStyle=C.dark?'#6FB38A':'#3F8F62';x.lineWidth=3;x.beginPath();x.moveTo(f.x,H-GR+8);x.lineTo(f.x,top);x.stroke();
+    fl.forEach(f=>{x.globalAlpha=Math.max(0,f.a==null?1:f.a);const top=H-GR-(24+f.b*7)*f.h;x.strokeStyle=C.dark?'#6FB38A':'#3F8F62';x.lineWidth=3;x.beginPath();x.moveTo(f.x,H-GR+8);x.lineTo(f.x,top);x.stroke();
       if(f.b){const pr=5+f.b*1.6;for(let k=0;k<5+f.b;k++){const a=k/(5+f.b)*6.283+t*.15;gBlob(x,f.x+Math.cos(a)*pr*1.25,top+Math.sin(a)*pr*1.25,pr*.8,FC[f.c],G_OL,1.5);}gBlob(x,f.x,top,pr*.75,'#F6D27A',G_OL,1.5);}
-      else gBlob(x,f.x,top,6*f.h+1,FC[f.c],G_OL,2);});
+      else gBlob(x,f.x,top,6*f.h+1,FC[f.c],G_OL,2);});x.globalAlpha=1;
     cl.forEach(c=>{const r=rad(c);if(c.rain){x.strokeStyle=C.dark?'#8FB8E8':'#4F86C6';x.lineWidth=2.5;for(let k=0;k<7;k++){const dx=(k-3)*r*.28,ph=((t*1.6+k*.37)%1);const y0=c.y+r*.6+ph*(H-GR-c.y-r*.6);x.beginPath();x.moveTo(c.x+dx,y0);x.lineTo(c.x+dx,y0+9);x.stroke();}x.globalAlpha=Math.max(.15,c.rain/3.2);}
       gCloud(x,c.x,c.y,r,SH[Math.min(4,c.dark)]);x.globalAlpha=1;});
+    if(st.cat)gCat(x,st.cat,H-GR+4,t,C);
     he.forEach(h=>gHeart(x,h.x,h.y,hs(h),HC[h.lv-1]));
-    gScore(TR('Blumen ','Flowers ')+fl.length+' · '+TR('blühend ','in bloom ')+fl.filter(f=>f.b).length+' · '+TR('größte Wolke ','largest cloud ')+st.best);
+    gScore(TR('Blumen ','Flowers ')+fl.filter(f=>!f.out).length+' · '+TR('blühend ','in bloom ')+fl.filter(f=>f.b).length+' · '+TR('größte Wolke ','largest cloud ')+st.best);
   });
-  gNote(host,TR('Zwei gleich große Wolken ergeben eine größere, dunklere. Sehr dunkle Wolken regnen ab. Herzen bleiben am Boden liegen: Zwei gleiche ergeben ein größeres. Ein Herz auf einer Wolke hellt sie auf, ein Herz auf einer Blume lässt sie blühen.','Two clouds of the same size make a bigger, darker one. Very dark clouds rain. Hearts stay on the ground: two of the same size make a bigger one. A heart on a cloud brightens it, a heart on a flower makes it bloom.'));
+  gNote(host,TR('Zwei gleich große Wolken ergeben eine größere, dunklere. Sehr dunkle Wolken regnen ab. Herzen bleiben am Boden liegen: Zwei gleiche ergeben ein größeres. Ein Herz auf einer Wolke hellt sie auf, ein Herz auf einer Blume lässt sie blühen. Größere Wolken lassen mehr Blumen wachsen. Ab und zu kommt eine Katze vorbei: Sie sammelt liegende Herzen ein und freut sich über ein Herz von dir.','Two clouds of the same size make a bigger, darker one. Very dark clouds rain. Hearts stay on the ground: two of the same size make a bigger one. A heart on a cloud brightens it, a heart on a flower makes it bloom. Bigger clouds make more flowers grow. Now and then a cat comes by: it collects hearts lying around and is happy about a heart from you.'));
 }
 /* ---------- Turm ---------- */
 function gameTower(host){
@@ -3732,7 +3798,8 @@ function gameZen(host){
   let Z=GST.zen;if(!Z){const sv=LS.get('rr.gzen',null);Z=GST.zen={ops:(sv&&sv.ops)||[],stones:(sv&&sv.stones)||[],moss:(sv&&sv.moss)||[],tool:'rake',wide:true,guide:false,pad:false,leaves:[]};}
   const TOOLS=[['rake',TR('Harke','Rake')],['wave',TR('Welle','Wave')],['erase',TR('Radierer','Eraser')],['stone',TR('Stein','Stone')],['moss',TR('Moos','Moss')]];
   const bar=document.createElement('div');host.appendChild(bar);
-  const {cv,x,W,H}=gCanvas(host);const pad=document.createElement('div');pad.className='gpad';host.appendChild(pad);
+  const sc=document.getElementById('g-score');if(sc)sc.hidden=true;
+  const {cv,x,W,H}=gCanvas(host,(Z.pad?178:0)+152);const pad=document.createElement('div');pad.className='gpad';host.appendChild(pad);
   let cur=null,mv=null,cx=W/2,cy=H/2,down=false,rep=0;
   const save=()=>{if(Z.ops.length>260)Z.ops.splice(0,Z.ops.length-260);LS.set('rr.gzen',{ops:Z.ops,stones:Z.stones,moss:Z.moss});};
   const path=(pts,off,wave)=>{x.beginPath();let s=0;for(let i=0;i<pts.length;i++){const a=pts[Math.max(0,i-1)],b=pts[Math.min(pts.length-1,i+1)];let dx=b[0]-a[0],dy=b[1]-a[1];const len=Math.hypot(dx,dy)||1;if(i)s+=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);const o=off+(wave?Math.sin(s/15)*6:0);const px=pts[i][0]-dy/len*o,py=pts[i][1]+dx/len*o;if(i)x.lineTo(px,py);else x.moveTo(px,py);}x.stroke();};
@@ -3767,9 +3834,10 @@ function gameZen(host){
   const end=()=>{if(mv){mv=null;save();return;}if(!down)finish();};cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
   const drawBar=()=>{bar.innerHTML='<div class="gsets" style="margin-top:0">'+TOOLS.map(t=>'<button class="btn" data-t="'+t[0]+'" aria-pressed="'+(Z.tool===t[0])+'">'+t[1]+'</button>').join('')+'</div>'+
     '<div class="gsets"><button class="btn" data-o="wide" aria-pressed="'+Z.wide+'">'+TR('Breite Harke','Wide rake')+'</button><button class="btn" data-o="guide" aria-pressed="'+Z.guide+'">'+TR('Führung','Guide')+'</button><button class="btn" data-o="pad" aria-pressed="'+Z.pad+'">'+TR('Steuerkreuz','D-pad')+'</button></div>'+
-    '<div class="gsets" style="margin-bottom:10px"><button class="btn" id="gz-clr">'+TR('Alles glätten','Smooth everything')+'</button><button class="btn" id="gz-save">'+TR('Bild speichern','Save picture')+'</button></div>';
+    '<div class="gsets" style="margin-bottom:10px"><button class="btn" id="gz-clr">'+TR('Alles glätten','Smooth everything')+'</button><button class="btn" id="gz-save">'+TR('Bild speichern','Save picture')+'</button><button class="btn" id="gz-info" style="flex:0 0 48px" aria-label="'+TR('Erklärung','Explanation')+'">?</button></div>';
+    bar.querySelector('#gz-info').addEventListener('click',()=>{const n=host.querySelector('.gnote');if(n)n.hidden=!n.hidden;});
     bar.querySelectorAll('[data-t]').forEach(b=>b.addEventListener('click',()=>{Z.tool=b.dataset.t;drawBar();}));
-    bar.querySelectorAll('[data-o]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.o;Z[k]=!Z[k];if(k==='pad'){down=false;cur=null;drawPad();}drawBar();render();}));
+    bar.querySelectorAll('[data-o]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.o;Z[k]=!Z[k];if(k==='pad'){openGame('zen');return;}drawBar();render();}));
     bar.querySelector('#gz-clr').addEventListener('click',()=>{Z.ops=[];Z.leaves=[];save();render();gSfx(294,.6,.04);});
     bar.querySelector('#gz-save').addEventListener('click',()=>{try{cv.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='zen-garten.png';document.body.appendChild(a);a.click();a.remove();});}catch(e){}});
   };
@@ -3782,8 +3850,9 @@ function gameZen(host){
       b.addEventListener('pointerdown',e=>{e.preventDefault();stop();step();rep=setInterval(step,28);});['pointerup','pointerleave','pointercancel'].forEach(k=>b.addEventListener(k,stop));b.addEventListener('contextmenu',e=>e.preventDefault());});
   };
   clearInterval(GAME.iv);GAME.iv=setInterval(()=>{if(!cv.isConnected||curView!=='v-page'){clearInterval(GAME.iv);return;}if(Z.leaves.length<5&&!cur&&!mv){Z.leaves.push({x:20+Math.random()*(W-40),y:20+Math.random()*(H-40),a:Math.random()*6,c:['#D9A05B','#C97B4A','#B8B25A'][Math.floor(Math.random()*3)]});render();}},11000);
-  drawBar();drawPad();render();gScore('');
+  drawBar();drawPad();render();
   gNote(host,TR('Führung: Linien werden gerade und halten gleichen Abstand zur letzten Bahn. Steuerkreuz: Kreis mit den Pfeilen bewegen, „Harke absetzen“ zieht die Linie. Steine lassen sich mit dem Werkzeug Stein verschieben, Moos durch Antippen wieder entfernen. Ab und zu fällt ein Blatt, das du wegharken kannst.','Guide: lines become straight and keep the same distance to the last track. D-pad: move the circle with the arrows, “Lower rake” draws the line. Stones can be moved with the Stone tool, moss is removed by tapping it. Now and then a leaf falls that you can rake away.'));
+  host.querySelector('p.small.muted:last-child').className='small muted gnote';host.querySelector('.gnote').hidden=true;
 }
 /* ---------- Atemballon ---------- */
 function gameBreath(host){
@@ -3819,6 +3888,240 @@ function gamePairs(host){
         else{lock=true;setTimeout(()=>{st.open.forEach(o=>{o.up=false;});st.open=[];lock=false;if(host.isConnected)draw();},900);}}
       draw();}));};
   if(st.cards){st.cards.forEach(c=>{if(!c.ok)c.up=false;});st.open=[];draw();}else deal();
+}
+/* ---------- Würfel ---------- */
+function gRnd(n){const a=new Uint8Array(1),lim=256-256%n;do{crypto.getRandomValues(a);}while(a[0]>=lim);return a[0]%n;}
+function gameDice(host){
+  const st=GST.dice||(GST.dice={n:2,v:[],hist:[]});let rolling=false;
+  const PIP={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
+  const die=v=>'<div class="die">'+[0,1,2,3,4,5,6,7,8].map(i=>'<b'+(v&&PIP[v].includes(i)?'':' style="visibility:hidden"')+'></b>').join('')+'</div>';
+  const draw=()=>{const sum=st.v.reduce((a,b)=>a+b,0);
+    host.innerHTML='<div class="gsets" style="margin-top:0">'+[1,2,3,4,5,6].map(k=>'<button class="btn" data-n="'+k+'" aria-pressed="'+(st.n===k)+'">'+k+'</button>').join('')+'</div>'+
+      '<div class="dice">'+(st.v.length?st.v:new Array(st.n).fill(0)).map(die).join('')+'</div>'+
+      '<p style="font-weight:700;font-size:22px;text-align:center;min-height:30px">'+(st.v.length>1?TR('Summe ','Total ')+sum:'')+'</p>'+
+      '<button class="btn primary block" id="gd-roll" style="--rc:var(--ruhe)">'+TR('Würfeln','Roll')+'</button>'+
+      (st.hist.length?'<p class="small muted" style="margin-top:12px">'+TR('Letzte Würfe: ','Last rolls: ')+st.hist.join(' · ')+'</p>':'')+
+      '<p class="small muted" style="margin-top:8px">'+TR('Jeder Wurf kommt aus dem Zufallsgenerator des Handys für Verschlüsselung. Jede Zahl ist gleich wahrscheinlich.','Each roll comes from the phone\'s random generator for encryption. Every number is equally likely.')+'</p>';
+    host.querySelectorAll('[data-n]').forEach(b=>b.addEventListener('click',()=>{if(rolling)return;st.n=+b.dataset.n;st.v=[];draw();}));
+    host.querySelector('#gd-roll').addEventListener('click',()=>{if(rolling)return;rolling=true;let k=0;const iv=setInterval(()=>{if(!host.isConnected){clearInterval(iv);return;}st.v=[];for(let i=0;i<st.n;i++)st.v.push(gRnd(6)+1);k++;gSfx(300+k*40,.08,.04,'triangle');
+      if(k>=7){clearInterval(iv);rolling=false;st.hist.unshift(st.v.join('+')+(st.n>1?'='+st.v.reduce((a,b)=>a+b,0):''));st.hist.length=Math.min(6,st.hist.length);gSfx(659,.4);}draw();},75);});
+  };
+  draw();gScore('');
+}
+/* ---------- Angeln ---------- */
+function gameFish(host){
+  const {cv,x,W,H}=gCanvas(host);const SUR=70,LN=4;
+  const st=GST.fish||(GST.fish={f:[],hx:W/2,hy:SUR+60,score:0,n:0,big:0});let last=null,hooked=null;
+  const KIND=[[1,13,'#F6D27A',46],[2,17,'#8FD1C2',36],[4,22,'#7FB7E6',28],[8,28,'#B9A4E8',20]];
+  const lane=k=>SUR+50+(H-SUR-80)*(k+.5)/LN;
+  const spawn=k=>{const d=Math.random()<.5?1:-1,kd=KIND[k];return {k,x:d>0?-40-Math.random()*120:W+40+Math.random()*120,y:lane(k)+Math.random()*16-8,d,v:kd[3]*(.8+Math.random()*.4),it:0};};
+  if(!st.f.length)for(let k=0;k<LN;k++){st.f.push(spawn(k));st.f.push(spawn(k));st.f[st.f.length-1].x+=W*.6*st.f[st.f.length-1].d*-1;}
+  cv.addEventListener('pointerdown',e=>{last=gPos(cv,e);gCap(cv,e);});
+  cv.addEventListener('pointermove',e=>{if(!last||hooked||GAME.paused)return;const p=gPos(cv,e);st.hx=Math.max(14,Math.min(W-14,st.hx+(p.x-last.x)));st.hy=Math.max(SUR+10,Math.min(H-16,st.hy+(p.y-last.y)));last=p;});
+  const up=()=>{last=null;};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+  gLoop(cv,(dt,t)=>{
+    const C=gCol();let best=null;
+    st.f.forEach(f=>{const kd=KIND[f.k];
+      if(f===hooked){f.x=st.hx;f.y=st.hy+kd[1]*.4;return;}
+      f.x+=f.d*f.v*dt;f.y+=Math.sin(t*1.1+f.x*.02)*4*dt;
+      if(f.x<-180||f.x>W+180){Object.assign(f,spawn(f.k));}
+      const ax=(st.hx-f.x)*f.d-kd[1];const near=!hooked&&ax>-2&&ax<34&&Math.abs(st.hy-f.y)<13;
+      if(near){f.it=Math.min(1,f.it+dt/(1.3+kd[0]*.45));if(f.v>14)f.v-=dt*6;if(!best||f.it>best.it)best=f;if(f.it>=1){hooked=f;gSfx(784,.5);}}
+      else f.it=Math.max(0,f.it-dt*.6);});
+    if(hooked){st.hy-=150*dt;if(st.hy<=SUR-6){const kd=KIND[hooked.k];st.score+=kd[0];st.n++;st.big=Math.max(st.big,kd[0]);gSfx(G_PENTA[4+hooked.k],.7);gSfx(G_PENTA[6+hooked.k],.9,.05);Object.assign(hooked,spawn(hooked.k));hooked=null;st.hy=SUR+50;}}
+    x.clearRect(0,0,W,H);
+    x.fillStyle=C.dark?'rgba(110,160,220,.10)':'rgba(80,140,210,.12)';x.fillRect(0,SUR,W,H-SUR);
+    x.strokeStyle=C.dark?'rgba(160,200,240,.5)':'rgba(60,120,190,.5)';x.lineWidth=2;x.beginPath();for(let px=0;px<=W;px+=8){const y=SUR+Math.sin(px*.05+t*1.5)*3;if(px)x.lineTo(px,y);else x.moveTo(px,y);}x.stroke();
+    const bx=W*.5,by=SUR-8;x.fillStyle=C.dark?'#C9A27A':'#B5895F';x.strokeStyle=G_OL;x.lineWidth=2.5;x.beginPath();x.moveTo(bx-46,by-6);x.quadraticCurveTo(bx,by+22,bx+46,by-6);x.closePath();x.fill();x.stroke();
+    gBlob(x,bx-6,by-22,11,'#FFFFFF',G_OL,2.5);x.fillStyle=G_OL;x.beginPath();x.arc(bx-9,by-23,1.8,0,7);x.arc(bx-2,by-23,1.8,0,7);x.fill();
+    x.strokeStyle=C.dark?C.mu:G_OL;x.lineWidth=2.5;x.beginPath();x.moveTo(bx+2,by-16);x.lineTo(bx+40,by-52);x.stroke();
+    x.lineWidth=1.5;x.beginPath();x.moveTo(bx+40,by-52);x.quadraticCurveTo((bx+40+st.hx)/2,Math.min(st.hy,SUR)-10,st.hx,st.hy-8);x.stroke();
+    st.f.forEach(f=>{const kd=KIND[f.k],r=kd[1];x.save();x.translate(f.x,f.y);x.scale(f.d,1);if(f===hooked)x.rotate(-1.2);
+      x.fillStyle=kd[2];x.strokeStyle=G_OL;x.lineWidth=2.5;x.beginPath();x.moveTo(-r*.8,0);x.lineTo(-r*1.7,-r*.6);x.lineTo(-r*1.7,r*.6);x.closePath();x.fill();x.stroke();
+      x.beginPath();x.ellipse(0,0,r,r*.58,0,0,7);x.fill();x.stroke();x.fillStyle=G_OL;x.beginPath();x.arc(r*.55,-r*.12,2.2,0,7);x.fill();x.restore();});
+    x.strokeStyle=C.dark?'#E9EEF2':G_OL;x.lineWidth=2.5;x.beginPath();x.arc(st.hx,st.hy,6,0,Math.PI*1.3);x.stroke();
+    if(best&&best.it>0){x.strokeStyle=C.ac;x.lineWidth=4;x.beginPath();x.arc(st.hx,st.hy,15,-Math.PI/2,-Math.PI/2+best.it*6.283);x.stroke();}
+    gScore(TR('Punkte ','Points ')+st.score+' · '+TR('Fische ','Fish ')+st.n+(st.big?' · '+TR('größter ','biggest ')+st.big:''));
+  });
+  gNote(host,TR('Finger auf der Fläche ziehen bewegt den Haken: hoch und runter für die Tiefe, seitlich für die Weite. Halte den Haken dicht vor die Nase eines Fisches und führe ihn mit. Der Ring zeigt, wie nah der Fisch am Anbeißen ist. Tiefere Fische sind größer, zählen mehr (1, 2, 4, 8 Punkte) und brauchen länger.','Dragging your finger on the area moves the hook: up and down for depth, sideways for distance. Hold the hook right in front of a fish\'s nose and move along with it. The ring shows how close the fish is to biting. Deeper fish are bigger, count more (1, 2, 4, 8 points) and take longer.'));
+}
+/* ---------- Hüpfen ---------- */
+function gameRun(host){
+  const {cv,x,W,H}=gCanvas(host);const GY=Math.round(H*.74),R=15,PX=72;
+  const st=GST.run||(GST.run={y:0,vy:0,j:0,ob:[],sr:[],sp:150,next:1.2,stars:0,streak:0,bestS:0,hit:0,dist:0,fl:0});let squash=0,held=false;
+  const ZN=[[TR('Wiese','Meadow'),'#7FB388','#6FB38A'],[TR('Wald','Forest'),'#4F9A6B','#3F8F62'],[TR('Düne','Dune'),'#D9B76A','#C9A45A'],[TR('Abendhügel','Evening hills'),'#B9A4E8','#9A86D0']];
+  cv.addEventListener('pointerdown',e=>{e.preventDefault();gCap(cv,e);if(GAME.paused)return;held=true;if(st.j<2){st.vy=st.j?330:390;st.j++;st.boost=.22;gSfx(st.j>1?440:330,.15,.05);}});
+  const rel=()=>{held=false;};cv.addEventListener('pointerup',rel);cv.addEventListener('pointercancel',rel);
+  gLoop(cv,(dt,t)=>{
+    const C=gCol();const sp=st.sp*(st.hit>0?.55:1),zi=Math.floor(st.dist/150)%ZN.length,zn=ZN[zi];
+    if(zi!==st.zi){if(st.zi!=null)[0,2,4].forEach((n,k)=>setTimeout(()=>gSfx(G_PENTA[n+zi],.5,.05),k*120));st.zi=zi;}
+    st.hit=Math.max(0,st.hit-dt);st.fl=Math.max(0,st.fl-dt);st.sp=Math.min(270,st.sp+dt*1.6);st.dist+=sp*dt/40;
+    if(held&&st.boost>0&&st.vy>0){st.vy+=900*dt;st.boost-=dt;}
+    if(st.y>0||st.vy>0){st.vy-=(st.fl>0&&st.vy<0?380:1150)*dt;st.y+=st.vy*dt;if(st.y<=0){st.y=0;st.vy=0;st.j=0;squash=1;}}
+    squash=Math.max(0,squash-dt*5);
+    st.next-=dt;if(st.next<=0){const r=Math.random();
+      if(r<.16&&st.dist>40){st.ob.push({x:W+30,w:34,h:18,mush:true});for(let k=0;k<4;k++)st.sr.push({x:W+30+50+k*34,y:150+Math.sin(k/3*Math.PI)*40});}
+      else if(r<.34&&st.dist>80)st.ob.push({x:W+30,w:30,h:16,bird:true,by:58+Math.random()*30});
+      else{const big=Math.random()<.3;st.ob.push({x:W+30,w:big?30:20,h:big?40:26});if(Math.random()<.5)for(let k=0;k<3;k++)st.sr.push({x:W+30+70+k*30,y:66+Math.sin((k+.5)/3*Math.PI)*36});}
+      st.next=1.5+Math.random()*1.5-Math.min(.5,st.sp/800);}
+    st.ob.forEach(o=>{o.x-=sp*dt*(o.bird?1.25:1);const dx=Math.abs(o.x-PX);
+      if(o.mush){if(!o.used&&dx<o.w/2+R*.6&&st.y<o.h+6&&st.vy<=0){o.used=true;st.vy=640;st.j=1;st.y=o.h;gSfx(523,.3,.06);gSfx(784,.4,.05);}}
+      else if(o.bird){if(!o.hitd&&dx<o.w/2+R*.6&&Math.abs(st.y+R-o.by)<R+8){o.hitd=true;st.hit=1;st.streak=0;st.vy=Math.min(st.vy,0);gSfx(196,.3,.05);}}
+      else if(!o.ok&&!o.hitd&&dx<o.w/2+R*.7&&st.y<o.h-4){o.hitd=true;st.hit=1.2;st.streak=0;st.sp=Math.max(140,st.sp-35);gSfx(196,.3,.05);}
+      if(!o.ok&&o.x<PX-o.w/2-R){o.ok=true;if(!o.hitd&&!o.mush){st.streak++;st.bestS=Math.max(st.bestS,st.streak);gSfx(G_PENTA[st.streak%10],.3,.05);}}});
+    st.sr.forEach(s=>{s.x-=sp*dt;if(!s.got&&Math.abs(s.x-PX)<20&&Math.abs(st.y+R-s.y)<22){s.got=true;st.stars++;gSfx(1047,.4,.05);if(st.stars%10===0){st.fl=6;gSfx(1319,.8,.05);}}});
+    st.ob=st.ob.filter(o=>o.x>-40);st.sr=st.sr.filter(s=>s.x>-20&&!s.got);
+    x.clearRect(0,0,W,H);
+    for(let k=0;k<3;k++){const cx=((k*170-st.dist*6*(k+1)*.3)%(W+120)+W+120)%(W+120)-60;gCloud(x,cx,50+k*34,16+k*3,C.dark?'#3A4654':'#EEF2F5');}
+    x.fillStyle=zn[1];x.globalAlpha=C.dark?.22:.3;for(let k=0;k<4;k++){const hx=((k*150-st.dist*10)%(W+200)+W+200)%(W+200)-100;x.beginPath();x.ellipse(hx,GY,90,34+k%2*14,0,Math.PI,0);x.fill();}x.globalAlpha=1;
+    x.strokeStyle=C.ln;x.lineWidth=2;x.beginPath();x.moveTo(0,GY);x.lineTo(W,GY);x.stroke();
+    x.fillStyle=C.dark?'rgba(255,255,255,.05)':'rgba(0,0,0,.05)';x.fillRect(0,GY,W,H-GY);
+    x.strokeStyle=C.mu;x.lineWidth=2;for(let k=0;k<8;k++){const gx=((k*60-st.dist*40)%(W+40)+W+40)%(W+40)-20;x.beginPath();x.moveTo(gx,GY+14);x.lineTo(gx+12,GY+14);x.stroke();}
+    st.ob.forEach(o=>{x.strokeStyle=G_OL;x.lineWidth=2.5;
+      if(o.mush){x.fillStyle='#F3EDE2';x.beginPath();x.rect(o.x-5,GY-10,10,12);x.fill();x.stroke();x.fillStyle='#E56A8A';x.beginPath();x.ellipse(o.x,GY-10,o.w/2,10,0,Math.PI,0);x.closePath();x.fill();x.stroke();}
+      else if(o.bird){const yb=GY-o.by,fw=Math.sin(t*10)*7;x.fillStyle='#7FB7E6';x.beginPath();x.ellipse(o.x,yb,13,8,0,0,7);x.fill();x.stroke();x.beginPath();x.moveTo(o.x-2,yb-3);x.lineTo(o.x+6,yb-12-fw);x.lineTo(o.x+8,yb-2);x.closePath();x.fill();x.stroke();x.fillStyle=G_OL;x.beginPath();x.arc(o.x-8,yb-2,1.8,0,7);x.fill();}
+      else{x.fillStyle=C.dark?zn[2]:zn[1];x.beginPath();if(x.roundRect)x.roundRect(o.x-o.w/2,GY-o.h,o.w,o.h+6,[10,10,0,0]);else x.rect(o.x-o.w/2,GY-o.h,o.w,o.h);x.fill();x.stroke();}});
+    st.sr.forEach(s=>gBlob(x,s.x,GY-s.y+Math.sin(t*3+s.x*.05)*3,8,'#F6D27A',G_OL,2));
+    x.save();x.translate(PX,GY-st.y);x.scale(1+.25*squash,1-.25*squash);if(st.hit>0)x.globalAlpha=.55+.45*Math.sin(t*30);
+    if(st.fl>0){x.strokeStyle='#F6D27A';x.lineWidth=3;x.beginPath();x.arc(0,-R,R+6+Math.sin(t*8)*2,0,7);x.stroke();}
+    gBlob(x,0,-R,R,'#FFFFFF',G_OL,3);x.fillStyle=G_OL;x.beginPath();x.arc(2,-R-2,2.2,0,7);x.arc(10,-R-2,2.2,0,7);x.fill();x.lineWidth=2;x.strokeStyle=G_OL;x.beginPath();x.arc(6,-R+4,3.5,.15*Math.PI,.85*Math.PI);x.stroke();x.restore();
+    gScore(Math.floor(st.dist)+' m · '+zn[0]+' · '+TR('Sterne ','Stars ')+st.stars+' · '+TR('ohne Stolpern ','without stumbling ')+st.streak+' ('+TR('Bestwert ','best ')+st.bestS+')');
+  });
+  gNote(host,TR('Tippen springt, länger halten springt höher, noch einmal tippen in der Luft springt ein zweites Mal. Pilze schleudern dich hoch zu den Sternen. Vögel fliegen in Kopfhöhe: darunter bleiben oder drüber springen. Alle 10 Sterne schwebst du sechs Sekunden lang sanft. Alle 150 Meter wechselt die Landschaft. Stolpern kostet nur Tempo.','Tap to jump, hold longer to jump higher, tap again in the air for a second jump. Mushrooms fling you up to the stars. Birds fly at head height: stay below or jump over. Every 10 stars you float gently for six seconds. The landscape changes every 150 meters. Stumbling only costs speed.'));
+}
+/* ---------- Solitär (Klondike, eine Karte ziehen) ---------- */
+function gameSol(host){
+  const SU=['♠','♥','♦','♣'],RK=['A','2','3','4','5','6','7','8','9','10',TR('B','J'),TR('D','Q'),'K'];
+  const red=c=>c.s===1||c.s===2;
+  const deal=()=>{const d=[];for(let s=0;s<4;s++)for(let r=0;r<13;r++)d.push({s,r,up:false});for(let i=d.length-1;i>0;i--){const j=gRnd(i+1);[d[i],d[j]]=[d[j],d[i]];}
+    const t=[];for(let i=0;i<7;i++){t.push(d.splice(0,i+1));t[i][i].up=true;}return {t,f:[[],[],[],[]],stock:d,waste:[],moves:0,hist:[],won:false};};
+  let st=GST.sol||(GST.sol=deal());
+  const snap=()=>{st.hist.push(JSON.stringify({t:st.t,f:st.f,stock:st.stock,waste:st.waste}));if(st.hist.length>150)st.hist.shift();st.moves++;};
+  const fitF=c=>st.f[c.s].length===c.r;
+  const fitT=(c,p)=>p.length?(p[p.length-1].up&&p[p.length-1].r===c.r+1&&red(p[p.length-1])!==red(c)):c.r===12;
+  const after=()=>{st.t.forEach(p=>{if(p.length&&!p[p.length-1].up)p[p.length-1].up=true;});if(st.f.every(f=>f.length===13)&&!st.won){st.won=true;[0,2,4,7,9].forEach((n,k)=>setTimeout(()=>gSfx(G_PENTA[n],.6),k*140));}draw();};
+  const pileOf=s=>s.y==='t'?st.t[s.i]:s.y==='w'?st.waste:st.f[s.i];
+  const runOf=s=>{const p=pileOf(s);return s.y==='t'?p.slice(s.k):p.slice(-1);};
+  const put=(s,dst)=>{const p=pileOf(s),run=runOf(s);if(!run.length)return false;const c=run[0];
+    if(dst.y==='f'){if(run.length!==1||!fitF(c)||s.y==='f')return false;snap();p.splice(p.length-1);st.f[c.s].push(c);gSfx(659,.3);}
+    else{const q=st.t[dst.i];if(q===p||!fitT(c,q))return false;snap();p.splice(p.length-run.length);run.forEach(k=>q.push(k));gSfx(440,.2,.05);}
+    after();return true;};
+  const auto=s=>{if(s.y==='f')return;const run=runOf(s),c=run[0];if(put(s,{y:'f'}))return;
+    const order=[0,1,2,3,4,5,6].filter(i=>st.t[i]!==pileOf(s)).sort((a,b)=>(st.t[b].length?1:0)-(st.t[a].length?1:0));
+    for(const i of order){if(c.r===12&&!st.t[i].length&&s.y==='t'&&s.k===0)continue;if(put(s,{y:'t',i}))return;}gSfx(196,.15,.03);};
+  const face=c=>'<span>'+RK[c.r]+'</span><span>'+SU[c.s]+'</span>';
+  const card=(c,attr,cls)=>'<button class="scard'+(c.up?(red(c)?' red':''):' back')+(cls||'')+'" '+attr+'>'+(c.up?face(c):'')+'</button>';
+  const draw=()=>{const w=st.waste[st.waste.length-1];if(w)w.up=true;
+    host.innerHTML='<div class="sol"><button class="scard '+(st.stock.length?'back':'empty')+'" data-a="stock" aria-label="'+TR('Stapel','Stock')+'">'+(st.stock.length?'':'↻')+'</button>'+(w?card(w,'data-y="w"'):'<button class="scard empty"></button>')+'<span></span>'+
+      st.f.map((f,i)=>f.length?card(f[f.length-1],'data-y="f" data-i="'+i+'" data-drop="f"'):'<button class="scard empty" data-drop="f"><span style="opacity:.45">'+SU[i]+'</span></button>').join('')+'</div>'+
+      '<div class="sol" style="margin-top:10px;align-items:start">'+st.t.map((p,i)=>'<div class="scol" data-drop="t" data-i="'+i+'">'+(p.length?p.map((c,k)=>card(c,(c.up?'data-y="t" data-i="'+i+'" data-k="'+k+'"':''),c.up?'':' dn')).join(''):'<button class="scard empty"></button>')+'</div>').join('')+'</div>'+
+      (st.won?'<p style="margin-top:14px;font-weight:700;font-size:18px">'+TR('Geschafft, alle Karten liegen oben.','Done, all cards are up top.')+'</p>':'')+
+      '<div class="gsets" style="margin-top:14px"><button class="btn" id="gs-undo">'+TR('Zug zurück','Undo')+'</button><button class="btn" id="gs-new">'+TR('Neu geben','New deal')+'</button></div>';
+    gScore(TR('Züge ','Moves ')+st.moves+' · '+TR('abgelegt ','placed ')+st.f.reduce((a,f)=>a+f.length,0)+'/52');
+    host.querySelector('[data-a="stock"]').addEventListener('click',()=>{if(st.stock.length){snap();const c=st.stock.pop();c.up=true;st.waste.push(c);gSfx(392,.15,.04);}else if(st.waste.length){snap();st.stock=st.waste.reverse().map(c=>(c.up=false,c));st.waste=[];}draw();});
+    host.querySelector('#gs-undo').addEventListener('click',()=>{const h=st.hist.pop();if(!h)return;Object.assign(st,JSON.parse(h));st.won=false;draw();});
+    host.querySelector('#gs-new').addEventListener('click',()=>{st=GST.sol=deal();draw();});
+  };
+  let dg=null;
+  host.addEventListener('pointerdown',e=>{const b=e.target.closest('[data-y]');if(!b||dg)return;const s={y:b.dataset.y,i:+b.dataset.i,k:+b.dataset.k};const r=b.getBoundingClientRect();
+    dg={s,x0:e.clientX,y0:e.clientY,ox:e.clientX-r.left,oy:e.clientY-r.top,w:r.width,g:null,id:e.pointerId};try{host.setPointerCapture(e.pointerId);}catch(_){}});
+  host.addEventListener('pointermove',e=>{if(!dg||e.pointerId!==dg.id)return;
+    if(!dg.g){if(Math.hypot(e.clientX-dg.x0,e.clientY-dg.y0)<9)return;const g=document.createElement('div');g.className='sghost scol';g.style.width=dg.w+'px';g.innerHTML=runOf(dg.s).map(c=>card(c,'')).join('');document.body.appendChild(g);dg.g=g;}
+    dg.g.style.left=(e.clientX-dg.ox)+'px';dg.g.style.top=(e.clientY-dg.oy)+'px';});
+  const fin=e=>{if(!dg||e.pointerId!==dg.id)return;const d=dg;dg=null;try{host.releasePointerCapture(e.pointerId);}catch(_){}
+    if(!d.g){if(e.type==='pointerup')auto(d.s);return;}d.g.remove();if(e.type!=='pointerup')return;
+    const el=document.elementFromPoint(e.clientX,e.clientY),t=el&&el.closest('[data-drop]');
+    if(!t||!put(d.s,t.dataset.drop==='f'?{y:'f'}:{y:'t',i:+t.dataset.i}))gSfx(196,.15,.03);};
+  host.addEventListener('pointerup',fin);host.addEventListener('pointercancel',fin);
+  draw();
+  const n=document.createElement('p');n.className='small muted';n.style.marginTop='10px';n.textContent=TR('Antippen: Die Karte wandert von selbst an einen passenden Platz. Ziehen: Du legst sie selbst ab, auch einen Teil einer Spalte ab der gewählten Karte. Karten von der Ablage oben lassen sich in eine Spalte zurückziehen. Stapel antippen deckt eine Karte auf. Nicht jedes Blatt ist lösbar.','Tap: the card moves by itself to a fitting place. Drag: you place it yourself, also part of a column starting from the chosen card. Cards from the foundation at the top can be dragged back into a column. Tap the stock to turn over a card. Not every deal can be solved.');host.after(n);
+}
+/* ---------- Minigolf ---------- */
+const G_HOLES=[
+  {par:2,s:[.5,1.28],h:[.5,.2],w:[]},
+  {par:3,s:[.5,1.28],h:[.5,.18],w:[[.25,.66,.5,.06]]},
+  {par:3,s:[.15,1.3],h:[.85,.15],w:[[0,.5,.65,.06],[.35,.9,.65,.06]]},
+  {par:3,s:[.25,1.3],h:[.75,1.25],w:[[.48,.3,.04,1.15]]},
+  {par:3,s:[.5,1.3],h:[.5,.15],w:[[0,.85,.35,.05],[.65,.85,.35,.05]],sand:[[.2,.45,.6,.25]]},
+  {par:3,s:[.5,1.32],h:[.5,.12],w:[[.2,.4,.12,.12],[.68,.4,.12,.12],[.44,.7,.12,.12],[.2,1,.12,.12],[.68,1,.12,.12]]},
+  {par:4,s:[.12,1.32],h:[.88,.12],w:[[.25,1.05,.75,.05],[0,.72,.75,.05],[.25,.4,.75,.05]],sand:[[.02,.42,.2,.26]]},
+  {par:4,s:[.5,1.3],h:[.5,.72],w:[[.3,.55,.4,.05],[.3,.85,.4,.05],[.3,.55,.05,.35]],sand:[[.72,.1,.24,.3]]}
+];
+function gameGolf(host){
+  const {cv,x,W,H}=gCanvas(host);const U=Math.min(W,H/1.45),OX=(W-U)/2,OY=(H-U*1.45)/2,R=7,HR=11;
+  const st=GST.golf||(GST.golf={k:0,str:[],n:0,bx:null,by:null,vx:0,vy:0,done:0});
+  const hole=()=>G_HOLES[st.k%G_HOLES.length];const P=p=>[OX+p[0]*U,OY+p[1]*U];
+  const place=()=>{const s=P(hole().s);st.bx=s[0];st.by=s[1];st.vx=st.vy=0;};if(st.bx==null)place();
+  let aim=null;
+  cv.addEventListener('pointerdown',e=>{if(GAME.paused||st.done>0||Math.hypot(st.vx,st.vy)>4)return;aim={s:gPos(cv,e),c:gPos(cv,e)};gCap(cv,e);});
+  cv.addEventListener('pointermove',e=>{if(aim)aim.c=gPos(cv,e);});
+  cv.addEventListener('pointerup',()=>{if(!aim)return;const dx=aim.s.x-aim.c.x,dy=aim.s.y-aim.c.y,len=Math.hypot(dx,dy);aim.c=null;const a=aim;aim=null;if(len<10)return;const p=Math.min(1,len/150)*760;st.vx=dx/len*p;st.vy=dy/len*p;st.n++;gSfx(392,.12,.06,'triangle');});
+  cv.addEventListener('pointercancel',()=>{aim=null;});
+  gLoop(cv,(dt,t)=>{
+    const C=gCol(),h=hole(),hp=P(h.h);
+    if(st.done>0){st.done-=dt;if(st.done<=0){st.str.push(st.n);st.n=0;st.k++;if(st.k%G_HOLES.length===0&&st.k){st.last=st.str.slice(-G_HOLES.length).reduce((a,b)=>a+b,0);}place();}}
+    else{const sub=4;for(let q=0;q<sub;q++){const d=dt/sub;st.bx+=st.vx*d;st.by+=st.vy*d;
+        if(st.bx<OX+R){st.bx=OX+R;st.vx=Math.abs(st.vx)*.8;}if(st.bx>OX+U-R){st.bx=OX+U-R;st.vx=-Math.abs(st.vx)*.8;}
+        if(st.by<OY+R){st.by=OY+R;st.vy=Math.abs(st.vy)*.8;}if(st.by>OY+U*1.45-R){st.by=OY+U*1.45-R;st.vy=-Math.abs(st.vy)*.8;}
+        h.w.forEach(w=>{const a=OX+w[0]*U-R,b=OY+w[1]*U-R,c=a+w[2]*U+2*R,e=b+w[3]*U+2*R;if(st.bx>a&&st.bx<c&&st.by>b&&st.by<e){const pen=[st.bx-a,c-st.bx,st.by-b,e-st.by],m=Math.min.apply(null,pen),i=pen.indexOf(m);
+          if(i===0){st.bx=a;st.vx=-Math.abs(st.vx)*.8;}else if(i===1){st.bx=c;st.vx=Math.abs(st.vx)*.8;}else if(i===2){st.by=b;st.vy=-Math.abs(st.vy)*.8;}else{st.by=e;st.vy=Math.abs(st.vy)*.8;}if(Math.hypot(st.vx,st.vy)>60)gSfx(294,.08,.03,'triangle');}});}
+      const inS=(h.sand||[]).some(s=>st.bx>OX+s[0]*U&&st.bx<OX+(s[0]+s[2])*U&&st.by>OY+s[1]*U&&st.by<OY+(s[1]+s[3])*U);
+      const f=Math.exp(-dt*(inS?4.2:1.25));st.vx*=f;st.vy*=f;const sp=Math.hypot(st.vx,st.vy);if(sp<7){st.vx=st.vy=0;}
+      const dh=Math.hypot(st.bx-hp[0],st.by-hp[1]);if(st.n>0&&((dh<HR&&sp<330)||(dh<HR*1.7&&sp<40))){st.bx=hp[0];st.by=hp[1];st.vx=st.vy=0;st.done=1.4;[4,7,9].forEach((n,k)=>setTimeout(()=>gSfx(G_PENTA[n],.5),k*110));}
+      else if(dh<HR*2.4&&sp>0){st.vx+=(hp[0]-st.bx)*dt*14;st.vy+=(hp[1]-st.by)*dt*14;}}
+    x.clearRect(0,0,W,H);
+    x.fillStyle=C.dark?'#234234':'#BFE3C5';x.strokeStyle=G_OL;x.lineWidth=3;x.beginPath();if(x.roundRect)x.roundRect(OX,OY,U,U*1.45,12);else x.rect(OX,OY,U,U*1.45);x.fill();x.stroke();
+    (h.sand||[]).forEach(s=>{x.fillStyle=C.dark?'#8C7A4A':'#EBD9A0';x.beginPath();if(x.roundRect)x.roundRect(OX+s[0]*U,OY+s[1]*U,s[2]*U,s[3]*U,14);else x.rect(OX+s[0]*U,OY+s[1]*U,s[2]*U,s[3]*U);x.fill();});
+    h.w.forEach(w=>{x.fillStyle=C.dark?'#69727E':'#8C9199';x.lineWidth=2.5;x.beginPath();if(x.roundRect)x.roundRect(OX+w[0]*U,OY+w[1]*U,w[2]*U,w[3]*U,5);else x.rect(OX+w[0]*U,OY+w[1]*U,w[2]*U,w[3]*U);x.fill();x.stroke();});
+    gBlob(x,hp[0],hp[1],HR,'#16201E',G_OL,2.5);x.strokeStyle=G_OL;x.lineWidth=2.5;x.beginPath();x.moveTo(hp[0],hp[1]);x.lineTo(hp[0],hp[1]-34);x.stroke();x.fillStyle='#E56A8A';x.beginPath();x.moveTo(hp[0],hp[1]-34);x.lineTo(hp[0]+18,hp[1]-27);x.lineTo(hp[0],hp[1]-20);x.closePath();x.fill();x.stroke();
+    if(aim&&aim.c){const dx=aim.s.x-aim.c.x,dy=aim.s.y-aim.c.y,len=Math.hypot(dx,dy);if(len>10){const p=Math.min(1,len/150);x.strokeStyle=C.dark?'#FFFFFF':G_OL;x.lineWidth=3;x.setLineDash([6,7]);x.beginPath();x.moveTo(st.bx,st.by);x.lineTo(st.bx+dx/len*(30+p*110),st.by+dy/len*(30+p*110));x.stroke();x.setLineDash([]);}}
+    if(st.done<=0||st.done>1.1)gBlob(x,st.bx,st.by,R*(st.done>0?.7:1),'#FFFFFF',G_OL,2.5);
+    const tot=st.str.slice(Math.floor(st.k/G_HOLES.length)*G_HOLES.length).reduce((a,b)=>a+b,0)+st.n;
+    gScore(TR('Bahn ','Hole ')+(st.k%G_HOLES.length+1)+(EN?'/'+G_HOLES.length+' · Par '+h.par+' ·':'/'+G_HOLES.length+' · Par '+h.par+' ·')+' '+TR('Schläge ','Strokes ')+st.n+' · '+TR('gesamt ','total ')+tot+(st.last?' · '+TR('letzte Runde ','last round ')+st.last:''));
+  });
+  gNote(host,TR('Irgendwo auf der Fläche den Finger aufsetzen und zurückziehen wie bei einer Schleuder: Der Ball rollt in die Gegenrichtung, je weiter du ziehst, desto fester. Die gestrichelte Linie zeigt Richtung und Stärke. Banden lassen den Ball abprallen, Sand bremst. Acht Bahnen, danach geht es wieder von vorn los.','Put your finger anywhere on the area and pull back like a slingshot: the ball rolls in the opposite direction, the farther you pull, the harder. The dashed line shows direction and strength. Walls make the ball bounce, sand slows it down. Eight holes, then it starts over.'));
+}
+/* ---------- Weben ---------- */
+function gameLoom(host){
+  const COL=['#E56A8A','#F6D27A','#8FD1C2','#7FB7E6','#B9A4E8','#F3EDE2','#3A4654'],NW=14;
+  let L=GST.loom;if(!L){const sv=LS.get('rr.gloom',null);L=GST.loom={rows:(sv&&sv.rows)||[],loose:(sv&&sv.loose)||0,c:0,side:(sv&&sv.side)||0};}
+  const save=()=>{if(L.rows.length>70)L.rows.splice(0,L.rows.length-70);LS.set('rr.gloom',{rows:L.rows,loose:L.loose,side:L.side});};
+  const bar=document.createElement('div');host.appendChild(bar);
+  const {cv,x,W,H}=gCanvas(host,70);const M=26,SY=62,gap=(W-2*M)/(NW-1),wx=j=>M+j*gap;
+  let cur=null,sh=null;
+  const render=()=>{const C=gCol(),warp=C.dark?'#C9D2DB':'#8C9199';x.clearRect(0,0,W,H);
+    x.fillStyle=C.dark?'rgba(255,255,255,.06)':'rgba(0,0,0,.05)';x.fillRect(0,SY-30,W,30);
+    x.strokeStyle=warp;x.lineWidth=3;for(let j=0;j<NW;j++){x.beginPath();x.moveTo(wx(j),8);x.lineTo(wx(j),H-8);x.stroke();}
+    const lab=(t,y)=>{x.font='600 14px system-ui,sans-serif';x.textAlign='center';const w=x.measureText(t).width+16;x.fillStyle=C.sf;x.beginPath();if(x.roundRect)x.roundRect(W/2-w/2,y-15,w,21,8);else x.rect(W/2-w/2,y-15,w,21);x.fill();x.fillStyle=C.mu;x.fillText(t,W/2,y);};
+    lab((L.side?'← ':'')+TR('oben = über den Faden','top = over the thread')+(L.side?'':' →'),SY-36);lab(TR('unten = unter den Faden','bottom = under the thread'),SY+46);
+    x.strokeStyle=C.ln;x.lineWidth=1.5;x.setLineDash([5,6]);x.beginPath();x.moveTo(0,SY);x.lineTo(W,SY);x.stroke();x.setLineDash([]);
+    let y=SY+62;const n=L.rows.length;
+    for(let r=n-1;r>=0;r--){const row=L.rows[r],lo=(n-1-r)<L.loose,hgt=lo?15:9;if(y>H-6)break;
+      x.strokeStyle=COL[row.c];x.lineWidth=hgt-2;x.lineCap='butt';
+      for(let j=0;j<NW;j++){const a=wx(j)-gap/2,b=wx(j)+gap/2;if(row.b[j]){x.beginPath();x.moveTo(Math.max(M-10,a),y);x.lineTo(Math.min(W-M+10,b),y);x.stroke();}
+        else{x.beginPath();x.moveTo(Math.max(M-10,a),y);x.lineTo(wx(j)-2.5,y);x.stroke();x.beginPath();x.moveTo(wx(j)+2.5,y);x.lineTo(Math.min(W-M+10,b),y);x.stroke();}}
+      x.lineCap='round';y+=hgt+(lo?5:0);}
+    if(cur){x.strokeStyle=COL[L.c];x.lineWidth=5;x.beginPath();cur.pts.forEach((p,i)=>{if(i)x.lineTo(p[0],p[1]);else x.moveTo(p[0],p[1]);});x.stroke();}
+    const sx=sh?sh.x:(L.side?W-14:14),sy=sh?sh.y:SY;x.save();x.translate(sx,sy);x.fillStyle='#C9A27A';x.strokeStyle=G_OL;x.lineWidth=2.5;x.beginPath();x.ellipse(0,0,20,8,0,0,7);x.fill();x.stroke();gBlob(x,0,0,4,COL[L.c],G_OL,1.5);x.restore();
+  };
+  cv.addEventListener('pointerdown',e=>{const p=gPos(cv,e);const at=L.side?W-14:14;if(Math.abs(p.x-at)>60||Math.abs(p.y-SY)>70)return;gCap(cv,e);cur={pts:[[at,SY]],b:new Array(NW).fill(null),lx:at};sh={x:p.x,y:p.y};render();});
+  cv.addEventListener('pointermove',e=>{if(!cur)return;const p=gPos(cv,e);p.y=Math.max(SY-28,Math.min(SY+28,p.y));const dir=L.side?-1:1;if((p.x-cur.lx)*dir<0){sh={x:cur.lx,y:p.y};render();return;}
+    for(let j=0;j<NW;j++){const w=wx(j);if(cur.b[j]===null&&(w-cur.lx)*dir>=0&&(p.x-w)*dir>=0){cur.b[j]=p.y<SY;gSfx(G_SC[cur.b[j]?9:5],.12,.04);}}
+    cur.lx=p.x;cur.pts.push([p.x,p.y]);sh={x:p.x,y:p.y};render();});
+  const end=()=>{if(!cur)return;const c=cur;cur=null;sh=null;if(c.b.every(v=>v!==null)){L.rows.push({c:L.c,b:c.b.map(v=>v?1:0)});L.loose++;L.side=L.side?0:1;gSfx(523,.3,.05);save();}render();};
+  cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+  const drawBar=()=>{bar.innerHTML='<div class="gsets" style="margin-top:0">'+COL.map((c,k)=>'<button class="btn gcol" data-c="'+k+'" aria-pressed="'+(L.c===k)+'" aria-label="'+TR('Farbe','Color')+' '+(k+1)+'" style="background:'+c+'"></button>').join('')+'</div>'+
+    '<div class="gsets" style="margin-bottom:10px"><button class="btn primary" id="gl-beat" style="--rc:var(--ruhe)">'+TR('Anschlagen','Beat')+'</button><button class="btn" id="gl-undo">'+TR('Reihe zurück','Undo row')+'</button><button class="btn" id="gl-save">'+TR('Bild speichern','Save picture')+'</button><button class="btn" id="gl-info" style="flex:0 0 48px" aria-label="'+TR('Erklärung','Explanation')+'">?</button></div>';
+    bar.querySelectorAll('[data-c]').forEach(b=>b.addEventListener('click',()=>{L.c=+b.dataset.c;drawBar();render();}));
+    bar.querySelector('#gl-beat').addEventListener('click',()=>{if(L.loose){L.loose=0;gSfx(196,.25,.07,'triangle');setTimeout(()=>gSfx(147,.3,.06,'triangle'),90);save();render();}});
+    bar.querySelector('#gl-undo').addEventListener('click',()=>{if(L.rows.length){L.rows.pop();L.loose=Math.max(0,L.loose-1);L.side=L.side?0:1;save();render();}});
+    bar.querySelector('#gl-save').addEventListener('click',()=>{try{cv.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='gewebe.png';document.body.appendChild(a);a.click();a.remove();});}catch(e){}});
+    bar.querySelector('#gl-info').addEventListener('click',()=>{const n=host.querySelector('.gnote');if(n)n.hidden=!n.hidden;});
+  };
+  const sc=document.getElementById('g-score');if(sc)sc.hidden=true;
+  drawBar();render();
+  gNote(host,TR('Das Schiffchen liegt am Rand. Ziehe es mit dem Finger zur anderen Seite. An jedem Kettfaden zählt, wo dein Finger gerade ist: über der gestrichelten Linie läuft der Faden über den Kettfaden und die Farbe ist zu sehen, darunter läuft er unter ihm durch. Erst wenn du die andere Seite erreichst, zählt die Reihe. „Anschlagen“ drückt die lockeren Reihen fest zusammen. Mit den Farben webst du Reihe für Reihe ein Muster.','The shuttle lies at the edge. Drag it with your finger to the other side. At each warp thread it counts where your finger is at that moment: above the dashed line the thread runs over the warp thread and the color shows, below it runs underneath. The row only counts once you reach the other side. “Beat” presses the loose rows firmly together. With the colors you weave a pattern row by row.'));
+  host.querySelector('p.small.muted:last-child').className='small muted gnote';host.querySelector('.gnote').hidden=true;
 }
 function routineCard(r,done){
   const el=document.createElement('div');el.className='rcard';el.style.setProperty('--rc',r.color);
@@ -4706,8 +5009,8 @@ function ktRender(){
 ['rc-timers','rcl-timers'].forEach(id=>$(id).addEventListener('click',e=>{const b=e.target.closest('[data-kt]');if(b)ktCancel(b.dataset.kt);}));
 
 /* ================= Mehr, Infoseiten, Installieren, Sicherung ================= */
-const APP_VER='1.6.1';
-const CHANGES={'1.6.1':[TR('Spiele überarbeitet: Der Spielstand bleibt erhalten, dazu Pause, Neu starten und ein eigener Knopf „Musik wählen“','Games reworked: your progress is kept, plus Pause, Restart and a separate “Choose music” button'),TR('Klangbrett: Feld gedrückt halten und schieben stellt die Tonhöhe ein, bis zu 3 Schläge je Feld, eigener Ton per Mikrofon','Sound board: press and hold a field and slide to set the pitch, up to 3 hits per field, your own sound via microphone'),TR('Wolken: Herzen bleiben liegen, lassen sich stufenweise verbinden und bringen Blumen zum Blühen','Clouds: hearts stay on the ground, can be combined in steps and make flowers bloom'),TR('Turm: Figur steht jetzt im unteren Drittel, Wolken sind Podeste, alle 10 Sterne wechseln Farbe und Klang','Tower: the figure now stands in the lower third, clouds are platforms, color and sound change every 10 stars'),TR('Zen-Garten: Radierer, Welle, Moos, verschiebbare Steine, Führung für gerade Bahnen, Steuerkreuz, Bild speichern','Zen garden: eraser, wave, moss, movable stones, guide for straight tracks, d-pad, save picture'),TR('Atemballon: Steigen und Sinken passen jetzt zum Ring','Breath balloon: rising and sinking now match the ring')],'1.6':[TR('Sechs ruhige Spiele unter Wohlfühlen › Spiele: Klangbrett, Wolken, Turm, Zen-Garten, Atemballon und Paare finden. Die Farben folgen deiner Darstellung, Geräusche und Musik schaltest du oben im Spiel','Six calm games under Wellbeing › Games: sound board, clouds, tower, zen garden, breath balloon and find pairs. The colors follow your appearance setting; you switch sounds and music at the top of the game'),TR('Test: Unter Mehr › Einstellungen gibt es den Schalter „Bei Display aus weiterlaufen“ für die geführten Entspannungen','Test: under More › Settings there is the switch “Keep running with display off” for the guided relaxations')],'1.5':[TR('Englisch: Die ganze App gibt es jetzt auch auf Englisch, mit Übungen, Ansagen, Entspannung und Rezepten. Beim ersten Start richtet sie sich nach der Sprache des Handys. Umschalten unter Mehr › Sprache / Language','English: the whole app is now available in English too, with exercises, announcements, relaxation and recipes. On first start it follows the phone\'s language. Switch under More › Sprache / Language'),TR('Drei Radiosender ersetzt, weil die bisherigen nicht liefen: Slow House kommt jetzt von Maretimo House Radio, dazu neu egoFM Chillout und Hirschmilch Radio Chillout','Three radio stations replaced because the previous ones didn\'t play: Slow House now comes from Maretimo House Radio, plus egoFM Chillout and Hirschmilch Radio Chillout as new stations'),TR('Die App gibt Android jetzt eine dunkle Farbe für die untere Leiste vor. Das wirkt erst, wenn du die App entfernst und neu installierst, siehe Mehr › Darstellung','The app now gives Android a dark color for the bottom bar. This only takes effect when you remove the app and reinstall it, see More › Appearance'),TR('Der Startbildschirm fragt nicht mehr nach dem Vornamen. Eintragen kannst du ihn weiterhin unter Mehr › Einstellungen','The start screen no longer asks for your first name. You can still enter it under More › Settings')],'1.4':['Eigene Musik: Ordner oder einzelne Dateien vom Handy wählen und der Reihe nach oder zufällig abspielen. Geht auch als Hintergrundmusik für Routinen und Training','14 neue Radiosender, darunter ByteFM, drei Blues-Sender, Slow House, Reggae, Hip-Hop, Gregorianik, alte Musik, Barock und Meditation. Die Sender sind jetzt in Gruppen sortiert','Das Radio merkt sich die Adresse, die zuletzt lief, und verbindet dadurch schneller'],'1.3':['Darstellung unter „Mehr“: hell, dunkel oder wie das Handy, dazu fünf Farbwelten. Die Leiste oben nimmt die Farbe der App an','Eigene Routinen: Übungen filtern, auswählen und mit Zeit, Wiederholungen oder Sätzen samt Tagebuch zusammenstellen. Fertige Routinen lassen sich als Vorlage kopieren','Zwei neue Trainings nur mit Matte: Ausdauer-Zirkel (auf Wunsch ohne Springen) und Kraft ohne Geräte, mit Curl-up und Dead Bug statt Sit-ups','25 neue Übungen, darunter mehrere für den Schreibtisch. Alle Übungen haben jetzt Filter nach Art, Ort, Hilfsmittel und Körperbereich','Morgen, Abend, Couch und Büro wechseln täglich einzelne Übungen gegen gleichwertige. Abschaltbar','Gedanken-Shuffle mit über 1.100 Wörtern, die sich erst wiederholen, wenn alle dran waren','Anleitung für andere Stimmen in den Einstellungen und ein Knackschutz für die Ansagen'],'1.2.1':['Klänge besser hörbar: binaurale Beats auf 400 Hz angehoben, Klangflächen eine Oktave höher gelegt','Klänge und braunes Rauschen so laut eingestellt, wie Naturgeräusche klingen','Hinweis bei den Klängen: am besten mit Kopfhörern'],'1.2':['Neu unter „Mehr“: Wohlzeit teilen, per WhatsApp oder über das Teilen-Menü, oder den Link kopieren','Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1.1':['Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1':['Echte Naturgeräusche: Regen, Gewitter, Wellen, Bach, Wind, Kaminfeuer, Vögel, Grillen, Katzenschnurren, Café, Zug, Boot und Stadt','Sieben Rauschfarben mit Erklärung, wofür sie gedacht sind','Klänge (experimentell): binaurale Beats sowie 432- und 528-Hz-Klangflächen, mit Ampel zur Studienlage','Radio: Ambient Sleeping Pill und Radio Paradise Mellow Mix, SomaFM als Ersatz'],'1.0':['Neuer Name: Wohlzeit – Zeit für dich','Untere Leiste mit Heute, Training, Wohlfühlen, Musik und Mehr','„Heute“ schlägt passend zur Tageszeit etwas vor','Wohlfühlrezepte: Seelenfutter und Kraftfutter, mit Portionsrechner und Küchentimer','Klarere Buttons, Infos ohne Kapseln, eingerückte Unterpunkte','Daten sichern und wiederherstellen unter „Mehr“','Als App auf dem Startbildschirm installierbar']};
+const APP_VER='1.8';
+const CHANGES={'1.8':[TR('Zwei neue Spiele: Minigolf mit acht Bahnen und Weben am Webstuhl','Two new games: mini golf with eight holes and weaving on a loom'),TR('Solitär: Karten und Teilstapel lassen sich jetzt ziehen, auch von der Ablage zurück','Solitaire: cards and partial stacks can now be dragged, also back from the foundation'),TR('Hüpfen: höher springen durch Halten, Pilze, Vögel, Schweben nach 10 Sternen und wechselnde Landschaften','Hopping: jump higher by holding, mushrooms, birds, floating after 10 stars and changing landscapes')],'1.7':[TR('Vier neue Spiele: Angeln, Hüpfen, Solitär und Würfel','Four new games: fishing, hopping, solitaire and dice'),TR('Klangbrett: volle Tonleiter, mehrere Seiten, „Alle auf Mitte“ und sieben Melodien zum Laden','Sound board: full scale, several pages, “All to middle” and seven melodies to load')],'1.6.2':[TR('„Musik wählen“ im Spiel zeigt jetzt die ganze Musikseite, der Rückweg „Zurück zum Spiel“ sitzt oben rechts','“Choose music” in a game now shows the whole music page, the way back “Back to the game” sits at the top right'),TR('Zen-Garten passt ohne Scrollen auf den Bildschirm, die Erklärung steckt hinter dem Fragezeichen','Zen garden fits on the screen without scrolling, the explanation is behind the question mark'),TR('Wolken: Größere Wolken lassen mehr Blumen wachsen, alte Blumen verblassen. Ab und zu kommt eine Katze vorbei, sammelt liegende Herzen ein und schnurrt','Clouds: bigger clouds make more flowers grow, old flowers fade. Now and then a cat comes by, collects hearts lying around and purrs')],'1.6.1':[TR('Spiele überarbeitet: Der Spielstand bleibt erhalten, dazu Pause, Neu starten und ein eigener Knopf „Musik wählen“','Games reworked: your progress is kept, plus Pause, Restart and a separate “Choose music” button'),TR('Klangbrett: Feld gedrückt halten und schieben stellt die Tonhöhe ein, bis zu 3 Schläge je Feld, eigener Ton per Mikrofon','Sound board: press and hold a field and slide to set the pitch, up to 3 hits per field, your own sound via microphone'),TR('Wolken: Herzen bleiben liegen, lassen sich stufenweise verbinden und bringen Blumen zum Blühen','Clouds: hearts stay on the ground, can be combined in steps and make flowers bloom'),TR('Turm: Figur steht jetzt im unteren Drittel, Wolken sind Podeste, alle 10 Sterne wechseln Farbe und Klang','Tower: the figure now stands in the lower third, clouds are platforms, color and sound change every 10 stars'),TR('Zen-Garten: Radierer, Welle, Moos, verschiebbare Steine, Führung für gerade Bahnen, Steuerkreuz, Bild speichern','Zen garden: eraser, wave, moss, movable stones, guide for straight tracks, d-pad, save picture'),TR('Atemballon: Steigen und Sinken passen jetzt zum Ring','Breath balloon: rising and sinking now match the ring')],'1.6':[TR('Sechs ruhige Spiele unter Wohlfühlen › Spiele: Klangbrett, Wolken, Turm, Zen-Garten, Atemballon und Paare finden. Die Farben folgen deiner Darstellung, Geräusche und Musik schaltest du oben im Spiel','Six calm games under Wellbeing › Games: sound board, clouds, tower, zen garden, breath balloon and find pairs. The colors follow your appearance setting; you switch sounds and music at the top of the game'),TR('Test: Unter Mehr › Einstellungen gibt es den Schalter „Bei Display aus weiterlaufen“ für die geführten Entspannungen','Test: under More › Settings there is the switch “Keep running with display off” for the guided relaxations')],'1.5':[TR('Englisch: Die ganze App gibt es jetzt auch auf Englisch, mit Übungen, Ansagen, Entspannung und Rezepten. Beim ersten Start richtet sie sich nach der Sprache des Handys. Umschalten unter Mehr › Sprache / Language','English: the whole app is now available in English too, with exercises, announcements, relaxation and recipes. On first start it follows the phone\'s language. Switch under More › Sprache / Language'),TR('Drei Radiosender ersetzt, weil die bisherigen nicht liefen: Slow House kommt jetzt von Maretimo House Radio, dazu neu egoFM Chillout und Hirschmilch Radio Chillout','Three radio stations replaced because the previous ones didn\'t play: Slow House now comes from Maretimo House Radio, plus egoFM Chillout and Hirschmilch Radio Chillout as new stations'),TR('Die App gibt Android jetzt eine dunkle Farbe für die untere Leiste vor. Das wirkt erst, wenn du die App entfernst und neu installierst, siehe Mehr › Darstellung','The app now gives Android a dark color for the bottom bar. This only takes effect when you remove the app and reinstall it, see More › Appearance'),TR('Der Startbildschirm fragt nicht mehr nach dem Vornamen. Eintragen kannst du ihn weiterhin unter Mehr › Einstellungen','The start screen no longer asks for your first name. You can still enter it under More › Settings')],'1.4':['Eigene Musik: Ordner oder einzelne Dateien vom Handy wählen und der Reihe nach oder zufällig abspielen. Geht auch als Hintergrundmusik für Routinen und Training','14 neue Radiosender, darunter ByteFM, drei Blues-Sender, Slow House, Reggae, Hip-Hop, Gregorianik, alte Musik, Barock und Meditation. Die Sender sind jetzt in Gruppen sortiert','Das Radio merkt sich die Adresse, die zuletzt lief, und verbindet dadurch schneller'],'1.3':['Darstellung unter „Mehr“: hell, dunkel oder wie das Handy, dazu fünf Farbwelten. Die Leiste oben nimmt die Farbe der App an','Eigene Routinen: Übungen filtern, auswählen und mit Zeit, Wiederholungen oder Sätzen samt Tagebuch zusammenstellen. Fertige Routinen lassen sich als Vorlage kopieren','Zwei neue Trainings nur mit Matte: Ausdauer-Zirkel (auf Wunsch ohne Springen) und Kraft ohne Geräte, mit Curl-up und Dead Bug statt Sit-ups','25 neue Übungen, darunter mehrere für den Schreibtisch. Alle Übungen haben jetzt Filter nach Art, Ort, Hilfsmittel und Körperbereich','Morgen, Abend, Couch und Büro wechseln täglich einzelne Übungen gegen gleichwertige. Abschaltbar','Gedanken-Shuffle mit über 1.100 Wörtern, die sich erst wiederholen, wenn alle dran waren','Anleitung für andere Stimmen in den Einstellungen und ein Knackschutz für die Ansagen'],'1.2.1':['Klänge besser hörbar: binaurale Beats auf 400 Hz angehoben, Klangflächen eine Oktave höher gelegt','Klänge und braunes Rauschen so laut eingestellt, wie Naturgeräusche klingen','Hinweis bei den Klängen: am besten mit Kopfhörern'],'1.2':['Neu unter „Mehr“: Wohlzeit teilen, per WhatsApp oder über das Teilen-Menü, oder den Link kopieren','Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1.1':['Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1':['Echte Naturgeräusche: Regen, Gewitter, Wellen, Bach, Wind, Kaminfeuer, Vögel, Grillen, Katzenschnurren, Café, Zug, Boot und Stadt','Sieben Rauschfarben mit Erklärung, wofür sie gedacht sind','Klänge (experimentell): binaurale Beats sowie 432- und 528-Hz-Klangflächen, mit Ampel zur Studienlage','Radio: Ambient Sleeping Pill und Radio Paradise Mellow Mix, SomaFM als Ersatz'],'1.0':['Neuer Name: Wohlzeit – Zeit für dich','Untere Leiste mit Heute, Training, Wohlfühlen, Musik und Mehr','„Heute“ schlägt passend zur Tageszeit etwas vor','Wohlfühlrezepte: Seelenfutter und Kraftfutter, mit Portionsrechner und Küchentimer','Klarere Buttons, Infos ohne Kapseln, eingerückte Unterpunkte','Daten sichern und wiederherstellen unter „Mehr“','Als App auf dem Startbildschirm installierbar']};
 let instPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();instPrompt=e;if(curView==='v-home')renderHome();else if(curView==='v-more')renderMore();});
 window.addEventListener('appinstalled',()=>{instPrompt=null;LS.set('rr.instHide',1);if(curView==='v-home')renderHome();});
