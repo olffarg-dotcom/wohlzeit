@@ -144,6 +144,14 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .ytbtn{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;margin:4px 0 6px;text-decoration:none;font-weight:700}
 .ytl{display:inline-block;margin-left:14px;padding:6px 0;font-weight:700;color:var(--ink);text-decoration:underline}
 .d7.fut{opacity:.4}
+#p-wt input{width:92px;height:48px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface2);color:var(--ink);font:inherit;font-size:22px;font-weight:700;text-align:center}
+#p-wt[hidden]{display:none}
+.uexf label{display:block;font-weight:700;font-size:15px;margin:12px 0 4px}
+.uexf label.uexc{font-weight:400;display:flex;gap:10px;align-items:center}
+.uexf input[type=text],.uexf select,.uexf textarea{width:100%;box-sizing:border-box;font:inherit;font-size:16px;min-height:46px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 10px}
+.uexf input[type=checkbox]{width:22px;height:22px}
+.gctl{margin-top:10px}
+.gctl .btn{min-height:54px;font-size:20px;touch-action:manipulation}
 .gback{position:fixed;right:12px;top:calc(10px + env(safe-area-inset-top));z-index:60;--rc:var(--ruhe);min-height:44px;padding:0 14px;font-size:15px}
 .langsw{justify-self:end;display:flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden;margin:0 0 -4px}
 .langsw button{appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-size:13px;font-weight:700;padding:0 13px;min-height:36px}
@@ -603,7 +611,7 @@ ol.steps li.cur{font-weight:700}
       <button class="iconbtn" data-nav="home" aria-label="Zurück"></button>
       <div class="grow"><div class="eyebrow">Tippe auf eine Übung für alle Infos</div><h2>Alle Übungen</h2></div>
     </div>
-    <div class="scroll"><div id="libflt"></div><p class="small muted" id="libcount" style="margin:-4px 2px"></p><div class="exlist" id="liblist"></div></div>
+    <div class="scroll"><button class="btn block" id="lib-add" style="margin-bottom:10px"></button><div id="libflt"></div><p class="small muted" id="libcount" style="margin:-4px 2px"></p><div class="exlist" id="liblist"></div></div>
   </section>
 
   <section class="view" id="player" aria-label="Übung läuft">
@@ -633,6 +641,12 @@ ol.steps li.cur{font-weight:700}
         <button id="p-rep-m" aria-label="Eins weniger">−</button>
         <span class="v" id="p-rep-v">0</span>
         <button id="p-rep-p" aria-label="Eins mehr">+</button>
+      </div>
+      <div class="repbox" id="p-wt" hidden>
+        <div class="lbl" id="p-wt-l"></div>
+        <button id="p-wt-m" aria-label="−2,5 kg">−</button>
+        <input id="p-wt-v" type="number" inputmode="decimal" step="0.5" min="0" max="999">
+        <button id="p-wt-p" aria-label="+2,5 kg">+</button>
       </div>
     </div>
     <div class="p-timer">
@@ -779,7 +793,6 @@ ol.steps li.cur{font-weight:700}
 
 <div class="overlay" id="ov-welcome" role="dialog" aria-modal="true" aria-labelledby="wl-t">
   <div class="sheet">
-    <div class="langsw" id="wl-lang"><button type="button" data-lang="de">DE</button><button type="button" data-lang="en">EN</button></div>
     <h2 id="wl-t">Willkommen bei Wohlzeit</h2>
     <p class="muted">Kurze Routinen für Rücken und Beweglichkeit, Training, Entspannung, Musik und Rezepte. Alles bleibt auf deinem Handy, ohne Konto und ohne Werbung.</p>
     <p class="small muted">Die Übungen ersetzen keine ärztliche oder physiotherapeutische Beratung. Bei starken oder ausstrahlenden Schmerzen, Kribbeln oder Taubheit: Übung abbrechen und abklären lassen.</p>
@@ -1015,7 +1028,7 @@ const EX={
     cues:[TR('Knöchel auf das andere Knie legen','Place your ankle on the other knee'),TR('Hand drückt das Knie sanft nach unten','Hand gently presses the knee down'),TR('Rücken gerade, aus der Hüfte vorlehnen','Back straight, lean forward from the hips')],
     tips:[TR('Lehn dich mit langem Rücken nach vorn, nicht rund.','Lean forward with a long back, not a rounded one.'),TR('Der obere Fuß bleibt angezogen. Das schützt das Knie.','The top foot stays flexed. That protects the knee.')],
     info:[TR('Das ist die Figur 4 im Sitzen. Die geht auch prima im Büro.','This is the figure 4 while seated. It works great at the office too.')],
-    frames:[{hip:[80,101],t:-72,h:-62,lF:{to:[106,135],b:-1},lN:{a:[-15,58],s:[.75,.5]},fN:20,fF:0,aN:{to:[100,100],b:1},aF:{to:[103,104],b:1}}],
+    frames:[{hip:[80,101],t:-54,h:-44,lF:{to:[106,135],b:-1},lN:{a:[-15,58],s:[.75,.5]},fN:20,fF:0,aN:{to:[100,100],b:1},aF:{to:[103,104],b:1}}],
     props:{couch:COUCH},glow:'hip'},
 
   rueckbeuge:{name:TR('Rückbeuge im Stehen','Standing back bend'),kind:'move',period:4,
@@ -1762,12 +1775,13 @@ const TAG={"armkreise": ["mob", "st", "schulter bws"], "armehoch": ["mob", "st",
 const ART_N={mob:TR('Mobilisieren','Mobility'),dehn:TR('Dehnen','Stretching'),kraft:TR('Kräftigen','Strength'),cardio:TR('Ausdauer','Cardio'),ruhe:TR('Atmen','Breathing')};
 const POS_N={st:TR('Stehen','Standing'),si:TR('Sitzen','Seated'),bo:TR('Boden','Floor')};
 const ZONE_N={nacken:TR('Nacken','Neck'),schulter:TR('Schultern','Shoulders'),bws:TR('Brustwirbelsäule','Thoracic spine'),rumpf:TR('Rumpf, unterer Rücken','Core, lower back'),huefte:TR('Hüfte, Po','Hips, glutes'),beine:TR('Beine','Legs'),arme:TR('Arme','Arms'),ganz:TR('ganzer Körper','whole body')};
-const HM_N={nichts:TR('Nichts','Nothing'),matte:TR('Matte','Mat'),moebel:TR('Stuhl oder Sofa','Chair or couch'),wand:TR('Wand oder Tür','Wall or door'),klein:TR('Handtuch, Rolle, Stab','Towel, roller, stick'),band:TR('Theraband','Resistance band'),gewicht:TR('Hantel oder Kettlebell','Dumbbell or kettlebell'),stange:TR('Klimmzugstange','Pull-up bar')};
+const HM_N={nichts:TR('Nichts','Nothing'),matte:TR('Matte','Mat'),moebel:TR('Stuhl oder Sofa','Chair or couch'),wand:TR('Wand oder Tür','Wall or door'),klein:TR('Handtuch, Rolle, Stab','Towel, roller, stick'),band:TR('Theraband','Resistance band'),gewicht:TR('Hantel oder Kettlebell','Dumbbell or kettlebell'),stange:TR('Klimmzugstange','Pull-up bar'),studio:TR('Studio-Geräte','Gym equipment')};
 const ORT_N={zuhause:TR('Zu Hause','At home'),buero:TR('Am Schreibtisch','At your desk'),unterwegs:TR('Unterwegs','On the go')};
 function hmOf(k){
+  if(EX[k]&&EX[k].hm)return EX[k].hm;
   const need=new Set();
   for(const e of eqOf(k)){if(/^evtl\./.test(e)||/je nach Stufe/.test(e))continue;
-    if(/Matte/.test(e))need.add('matte');else if(/Sofa|Stuhl|Tisch/.test(e))need.add('moebel');else if(/Wand|Tür/.test(e))need.add('wand');
+    if(/Langhantel|Hantelbank|Kabelzug|Gerät|Beinpresse|Barren|Rack/.test(e))need.add('studio');else if(/Matte/.test(e))need.add('matte');else if(/Sofa|Stuhl|Tisch/.test(e))need.add('moebel');else if(/Wand|Tür/.test(e))need.add('wand');
     else if(/Band/.test(e))need.add('band');else if(/Hantel|Kettlebell/.test(e))need.add('gewicht');else if(/Stange/.test(e))need.add('stange');else need.add('klein');}
   if(!need.size)need.add('nichts');return [...need];
 }
@@ -2220,6 +2234,45 @@ const exFeel=k=>EXX[k]?TR(EXX[k][0],EXX[k][1]):'';
 const exNoFeel=k=>EXX[k]?TR(EXX[k][2],EXX[k][3]):'';
 const ytUrl=k=>EXX[k]?'https://www.youtube.com/results?search_query='+encodeURIComponent(TR(EXX[k][4],EXX[k][5])):'';
 const ytLink=(k,cls)=>ytUrl(k)?'<a class="'+cls+'" href="'+ytUrl(k)+'" target="_blank" rel="noopener">▶ '+TR('Videos auf YouTube','Videos on YouTube')+'</a>':'';
+/* ================= Studio-Übungen =================
+   Fertige Vorlagen für das Training mit Langhantel, Kurzhanteln und Geräten. Das Gewicht wird je Satz im Tagebuch erfasst (wt).
+   [key, Name de/en, Muskeln de/en, Position, Zonen, Geräte, So geht's de/en, 3 Hinweise de/en, Wo du es spürst de/en, YouTube de/en, einseitig] */
+const GYM=[
+['s_bank','Bankdrücken','Bench press','Brust, Schulter, Trizeps','chest, shoulders, triceps','bo','schulter arme',['Langhantel','Hantelbank'],'Leg dich auf die Bank, Augen unter der Stange. Füße fest am Boden, Schulterblätter zusammen und nach unten.','Lie on the bench, eyes under the bar. Feet firmly on the floor, shoulder blades together and down.',['Stange etwas breiter als schulterbreit greifen','Kontrolliert zur unteren Brust senken','Hochdrücken, Po bleibt auf der Bank'],['Grip the bar a little wider than shoulder-width','Lower with control to the lower chest','Press up, glutes stay on the bench'],'Du spürst Brust, vordere Schulter und Trizeps.','You feel chest, front shoulder and triceps.','Bankdrücken Technik richtig','bench press proper form',0],
+['s_schraeg','Schrägbankdrücken','Incline bench press','obere Brust, Schulter','upper chest, shoulders','bo','schulter arme',['Langhantel','Hantelbank'],'Stell die Bank auf etwa 30 Grad. Schulterblätter zusammen, Füße fest am Boden.','Set the bench to about 30 degrees. Shoulder blades together, feet firmly on the floor.',['Stange zur oberen Brust senken','Ellbogen etwa 45 Grad zum Körper','Gerade nach oben drücken'],['Lower the bar to the upper chest','Elbows about 45 degrees to the body','Press straight up'],'Du spürst die obere Brust und die vordere Schulter.','You feel the upper chest and the front shoulder.','Schrägbankdrücken Technik','incline bench press form',0],
+['s_khbank','Kurzhantel-Bankdrücken','Dumbbell bench press','Brust, Schulter, Trizeps','chest, shoulders, triceps','bo','schulter arme',['Kurzhanteln','Hantelbank'],'Leg dich mit den Hanteln auf die Bank, Hanteln neben der Brust, Füße fest am Boden.','Lie on the bench with the dumbbells next to your chest, feet firmly on the floor.',['Hanteln nach oben drücken, bis die Arme fast gestreckt sind','Langsam senken, bis die Brust gedehnt ist','Handgelenke gerade halten'],['Press the dumbbells up until your arms are almost straight','Lower slowly until the chest is stretched','Keep your wrists straight'],'Du spürst die Brust, unten als Dehnung.','You feel the chest, at the bottom as a stretch.','Kurzhantel Bankdrücken Technik','dumbbell bench press form',0],
+['s_fly','Fliegende mit Kurzhanteln','Dumbbell fly','Brust','chest','bo','schulter',['Kurzhanteln','Hantelbank'],'Leg dich auf die Bank, Hanteln über der Brust, Ellbogen leicht gebeugt.','Lie on the bench, dumbbells above your chest, elbows slightly bent.',['Arme im weiten Bogen zur Seite senken','Ellbogenwinkel bleibt gleich','Im selben Bogen zurück nach oben'],['Lower your arms out to the sides in a wide arc','Elbow angle stays the same','Return up along the same arc'],'Du spürst eine Dehnung quer über die Brust.','You feel a stretch across the chest.','Fliegende Kurzhantel Brust Technik','dumbbell chest fly form',0],
+['s_kreuz','Kreuzheben','Deadlift','Rücken, Po, Beinrückseite','back, glutes, hamstrings','st','rumpf beine huefte',['Langhantel'],'Stell dich hüftbreit an die Stange, sie liegt über der Fußmitte. Greif sie schulterbreit, Rücken gerade, Brust raus.','Stand hip-width at the bar, it sits over the middle of your feet. Grip it shoulder-width, back straight, chest out.',['Bauch fest, Rücken bleibt gerade','Stange eng am Körper hochziehen','Oben Hüfte strecken, nicht zurücklehnen'],['Brace your core, back stays straight','Pull the bar up close to your body','Extend your hips at the top, do not lean back'],'Du spürst Po, Beinrückseite und den ganzen Rücken. Kein Stechen im unteren Rücken.','You feel glutes, hamstrings and the whole back. No stabbing in the lower back.','Kreuzheben Technik lernen Anfänger','deadlift proper form beginner',0],
+['s_rdl','Rumänisches Kreuzheben','Romanian deadlift','Beinrückseite, Po','hamstrings, glutes','st','beine huefte',['Langhantel'],'Steh aufrecht mit der Stange vor den Oberschenkeln, Knie leicht gebeugt.','Stand upright with the bar in front of your thighs, knees slightly bent.',['Hüfte weit nach hinten schieben','Stange eng an den Beinen bis unter die Knie','Mit dem Po zurück in den Stand'],['Push your hips far back','Bar close to your legs to below the knees','Use your glutes to return to standing'],'Du spürst eine starke Dehnung in der Beinrückseite.','You feel a strong stretch in the hamstrings.','Rumänisches Kreuzheben Technik','Romanian deadlift form',0],
+['s_squat','Kniebeuge mit Langhantel','Barbell back squat','Oberschenkel, Po','thighs, glutes','st','beine huefte',['Langhantel','Rack'],'Leg die Stange auf den oberen Rücken, nicht auf den Nacken. Füße schulterbreit, Zehen leicht nach außen.','Rest the bar on your upper back, not on your neck. Feet shoulder-width apart, toes slightly out.',['Bauch fest, tief einatmen','Hüfte nach hinten unten, Knie über die Zehen','Über die ganze Fußsohle hochdrücken'],['Brace your core, breathe in deeply','Hips back and down, knees over the toes','Push up through the whole sole'],'Du spürst vordere Oberschenkel und Po.','You feel the front of your thighs and your glutes.','Kniebeuge Langhantel Technik','barbell back squat form',0],
+['s_beinpresse','Beinpresse','Leg press','Oberschenkel, Po','thighs, glutes','si','beine',['Beinpresse'],'Setz dich in die Beinpresse, Füße schulterbreit auf die Platte, Rücken fest an der Lehne.','Sit in the leg press, feet shoulder-width on the plate, back firmly against the pad.',['Platte kontrolliert absenken','Po bleibt am Sitz','Hochdrücken, Knie nicht durchschlagen'],['Lower the plate with control','Glutes stay on the seat','Press up, do not lock your knees'],'Du spürst Oberschenkel und Po.','You feel thighs and glutes.','Beinpresse richtig ausführen','leg press proper form',0],
+['s_beinstr','Beinstrecker','Leg extension','vordere Oberschenkel','front thighs','si','beine',['Gerät'],'Setz dich ins Gerät, das Polster liegt knapp über den Füßen, die Knie an der Drehachse.','Sit in the machine, the pad sits just above your feet, knees at the pivot.',['Beine strecken, oben kurz halten','Langsam absenken','Po bleibt am Sitz'],['Extend your legs, hold briefly at the top','Lower slowly','Glutes stay on the seat'],'Du spürst die vorderen Oberschenkel.','You feel the front of your thighs.','Beinstrecker Gerät Technik','leg extension machine form',0],
+['s_beinbeug','Beinbeuger','Leg curl','Beinrückseite','hamstrings','si','beine',['Gerät'],'Stell das Gerät so ein, dass das Polster knapp über den Fersen liegt.','Set the machine so the pad sits just above your heels.',['Fersen Richtung Po ziehen','Kurz halten','Langsam zurück'],['Pull your heels toward your glutes','Hold briefly','Return slowly'],'Du spürst die Rückseite der Oberschenkel.','You feel the back of your thighs.','Beinbeuger Gerät Technik','leg curl machine form',0],
+['s_hipthrust','Hip Thrust mit Langhantel','Barbell hip thrust','Po','glutes','bo','huefte',['Langhantel','Hantelbank'],'Schulterblätter an die Bankkante, Stange gepolstert in der Hüftbeuge, Füße hüftbreit aufgestellt.','Shoulder blades against the edge of the bench, padded bar in the hip crease, feet planted hip-width.',['Über die Fersen die Hüfte hochdrücken','Oben Po fest, Rippen unten','Kontrolliert absenken'],['Push your hips up through your heels','Glutes tight at the top, ribs down','Lower with control'],'Du spürst vor allem den Po.','You feel mainly your glutes.','Hip Thrust Langhantel Technik','barbell hip thrust form',0],
+['s_lunge','Ausfallschritte mit Kurzhanteln','Dumbbell lunges','Oberschenkel, Po','thighs, glutes','st','beine huefte',['Kurzhanteln'],'Steh aufrecht, die Hanteln hängen seitlich.','Stand upright, the dumbbells hang at your sides.',['Großer Schritt, hinteres Knie Richtung Boden','Oberkörper aufrecht','Über das vordere Bein zurück'],['Big step, back knee toward the floor','Upper body upright','Return over the front leg'],'Du spürst Oberschenkel und Po des vorderen Beins.','You feel the thigh and glute of the front leg.','Ausfallschritte Kurzhanteln Technik','dumbbell lunge form',1],
+['s_wade','Wadenheben am Gerät','Machine calf raise','Waden','calves','st','beine',['Gerät'],'Stell dich mit den Fußballen auf die Kante, die Fersen hängen frei.','Stand with the balls of your feet on the edge, heels hanging free.',['Ganz hoch auf die Ballen','Oben kurz halten','Fersen langsam tief senken'],['All the way up onto the balls of your feet','Hold briefly at the top','Lower your heels slowly and deep'],'Du spürst die Waden.','You feel your calves.','Wadenheben Maschine Technik','machine calf raise form',0],
+['s_ohp','Schulterdrücken mit Langhantel','Barbell overhead press','Schultern, Trizeps','shoulders, triceps','st','schulter arme',['Langhantel'],'Steh hüftbreit, Stange auf der oberen Brust, Griff etwas breiter als schulterbreit.','Stand hip-width, bar on the upper chest, grip a little wider than shoulder-width.',['Po und Bauch fest','Stange gerade nach oben, Kopf kurz zurück','Oben Kopf unter die Stange'],['Glutes and core tight','Bar straight up, head briefly back','At the top bring your head under the bar'],'Du spürst Schultern und Trizeps.','You feel shoulders and triceps.','Schulterdrücken Langhantel stehend Technik','standing barbell overhead press form',0],
+['s_seit','Seitheben','Lateral raise','seitliche Schulter','side of the shoulders','st','schulter',['Kurzhanteln'],'Steh aufrecht, Hanteln seitlich, Ellbogen leicht gebeugt.','Stand upright, dumbbells at your sides, elbows slightly bent.',['Arme seitlich bis Schulterhöhe heben','Schultern bleiben tief','Langsam absenken'],['Raise your arms out to shoulder height','Shoulders stay low','Lower slowly'],'Du spürst die Außenseite der Schultern.','You feel the outside of the shoulders.','Seitheben Kurzhantel Technik','dumbbell lateral raise form',0],
+['s_lat','Latzug','Lat pulldown','breiter Rücken, Bizeps','lats, biceps','si','schulter arme',['Latzug-Gerät'],'Setz dich ins Gerät, Oberschenkel unter den Polstern. Greif die Stange breiter als schulterbreit.','Sit in the machine, thighs under the pads. Grip the bar wider than shoulder-width.',['Schulterblätter zuerst nach unten','Stange zur oberen Brust ziehen','Langsam nach oben lassen'],['Shoulder blades down first','Pull the bar to the upper chest','Let it go up slowly'],'Du spürst den breiten Rückenmuskel seitlich unter den Achseln.','You feel the lats at the sides below the armpits.','Latzug Technik richtig','lat pulldown proper form',0],
+['s_rowbar','Langhantelrudern','Barbell row','Rücken, Bizeps','back, biceps','st','bws arme',['Langhantel'],'Beug dich mit geradem Rücken vor, Knie leicht gebeugt, die Stange hängt unter den Schultern.','Bend forward with a straight back, knees slightly bent, the bar hangs below your shoulders.',['Stange zum Bauchnabel ziehen','Ellbogen eng, Schulterblätter zusammen','Oberkörper bleibt ruhig'],['Pull the bar to your navel','Elbows close, shoulder blades together','Upper body stays still'],'Du spürst den Rücken zwischen und unter den Schulterblättern.','You feel the back between and below the shoulder blades.','Langhantelrudern vorgebeugt Technik','bent over barbell row form',0],
+['s_cablerow','Rudern am Kabelzug','Seated cable row','Rücken, Bizeps','back, biceps','si','bws arme',['Kabelzug'],'Setz dich an den Kabelzug, Füße an die Platte, Knie leicht gebeugt, Rücken gerade.','Sit at the cable machine, feet on the plate, knees slightly bent, back straight.',['Griff zum Bauch ziehen','Schulterblätter zusammen, kurz halten','Langsam nach vorn lassen'],['Pull the handle to your abdomen','Shoulder blades together, hold briefly','Let it go forward slowly'],'Du spürst den mittleren Rücken.','You feel the mid back.','Rudern Kabelzug sitzend Technik','seated cable row form',0],
+['s_cablefp','Face Pull am Kabelzug','Cable face pull','hintere Schulter, oberer Rücken','rear shoulders, upper back','st','schulter bws',['Kabelzug'],'Stell den Kabelzug auf Kopfhöhe ein, greif das Seil und geh einen Schritt zurück.','Set the cable to head height, grip the rope and take a step back.',['Seil Richtung Stirn ziehen','Ellbogen hoch und nach außen','Langsam zurück'],['Pull the rope toward your forehead','Elbows high and out','Return slowly'],'Du spürst die hintere Schulter und den oberen Rücken.','You feel the rear shoulders and the upper back.','Face Pull Kabelzug Technik','cable face pull form',0],
+['s_curl','Langhantel-Curls','Barbell curl','Bizeps','biceps','st','arme',['Langhantel'],'Steh aufrecht, Stange schulterbreit im Untergriff vor den Oberschenkeln.','Stand upright, bar shoulder-width with an underhand grip in front of your thighs.',['Ellbogen bleiben am Körper','Stange zur Schulter beugen','Langsam senken, nicht schwingen'],['Elbows stay at your sides','Curl the bar to your shoulders','Lower slowly, do not swing'],'Du spürst den Bizeps.','You feel the biceps.','Langhantel Curls Technik','barbell curl form',0],
+['s_hammer','Hammer-Curls','Hammer curls','Bizeps, Unterarm','biceps, forearms','st','arme',['Kurzhanteln'],'Steh aufrecht, Hanteln seitlich, Daumen zeigen nach vorn.','Stand upright, dumbbells at your sides, thumbs pointing forward.',['Hanteln mit Daumen oben zur Schulter','Ellbogen bleiben am Körper','Langsam senken'],['Dumbbells to the shoulder with thumbs up','Elbows stay at your sides','Lower slowly'],'Du spürst Bizeps und Unterarm.','You feel biceps and forearms.','Hammer Curls Technik','hammer curl form',0],
+['s_tripush','Trizepsdrücken am Kabelzug','Triceps pushdown','Trizeps','triceps','st','arme',['Kabelzug'],'Stell dich vor den hohen Kabelzug, Griff auf Brusthöhe, Ellbogen am Körper.','Stand in front of the high cable, handle at chest height, elbows at your sides.',['Unterarme nach unten strecken','Ellbogen bleiben am Körper','Langsam zurück bis Brusthöhe'],['Extend your forearms downward','Elbows stay at your sides','Return slowly to chest height'],'Du spürst den Trizeps hinten am Oberarm.','You feel the triceps at the back of the upper arm.','Trizepsdrücken Kabelzug Technik','triceps pushdown form',0],
+['s_french','Trizepsstrecken über Kopf','Overhead triceps extension','Trizeps','triceps','si','arme',['Kurzhanteln'],'Setz dich aufrecht, eine Hantel mit beiden Händen über dem Kopf.','Sit upright, one dumbbell in both hands above your head.',['Hantel hinter den Kopf senken','Ellbogen zeigen nach vorn oben','Arme wieder strecken'],['Lower the dumbbell behind your head','Elbows point forward and up','Extend your arms again'],'Du spürst den Trizeps, unten als Dehnung.','You feel the triceps, at the bottom as a stretch.','Trizepsstrecken über Kopf Kurzhantel','overhead dumbbell triceps extension form',0],
+['s_dip','Dips am Barren','Parallel bar dips','Brust, Trizeps','chest, triceps','st','schulter arme',['Dip-Barren'],'Stütz dich mit gestreckten Armen auf den Barren, Schultern tief.','Support yourself on the bars with straight arms, shoulders low.',['Langsam senken, bis die Oberarme waagerecht sind','Oberkörper leicht nach vorn','Hochdrücken'],['Lower slowly until your upper arms are horizontal','Upper body slightly forward','Press up'],'Du spürst Trizeps und untere Brust.','You feel triceps and lower chest.','Dips Barren Technik','parallel bar dips form',0],
+['s_shrug','Schulterheben','Shrugs','Nacken','traps','st','nacken schulter',['Kurzhanteln'],'Steh aufrecht, Hanteln seitlich, Arme gestreckt.','Stand upright, dumbbells at your sides, arms straight.',['Schultern gerade zu den Ohren ziehen','Oben kurz halten','Langsam senken, nicht kreisen'],['Pull your shoulders straight up to your ears','Hold briefly at the top','Lower slowly, do not roll'],'Du spürst den oberen Nacken- und Schulterbereich.','You feel the upper neck and shoulder area.','Shrugs Kurzhantel Technik','dumbbell shrugs form',0]
+];
+Object.assign(EQ_EN,{'Langhantel':'Barbell','Hantelbank':'Bench','Kurzhanteln':'Dumbbells','Kabelzug':'Cable machine','Latzug-Gerät':'Lat pulldown machine','Beinpresse':'Leg press','Gerät':'Machine','Dip-Barren':'Dip bars','Rack':'Rack'});
+const WT_STAGE=()=>[TR('Dein Gewicht','Your weight')];
+const WT_TIPS=()=>[TR('Saubere Technik geht vor Gewicht. Steigere erst, wenn alle Sätze sauber sind.','Clean technique comes before weight. Only increase once all sets are clean.'),TR('Ausatmen bei der Anstrengung, nicht die Luft anhalten.','Exhale on the effort, do not hold your breath.')];
+GYM.forEach(g=>{
+  EX[g[0]]={name:TR(g[1],g[2]),kind:'strength',muscles:TR(g[3],g[4]),def:1,tempo:[[TR('hoch','up'),1],[TR('runter','down'),2]],stages:WT_STAGE(),how:TR(g[8],g[9]),cues:EN?g[11]:g[10],tips:WT_TIPS(),
+    info:[TR('Studio-Übung. Das Gewicht trägst du nach jedem Satz ein, die App zeigt dir beim nächsten Mal den letzten Wert.','Gym exercise. You enter the weight after each set, next time the app shows you the last value.')],
+    frames:[STAND],sides:!!g[16],wt:true,gym:true,nofig:true};
+  TAG[g[0]]=['kraft',g[5],g[6]];EQ[g[0]]=g[7];EXX[g[0]]=[g[12],g[13],'','',g[14],g[15]];
+});
 /* Figur 4: Der Schritt, der die Dehnung erzeugt, gehört in die Anleitung. */
 Object.assign(EX.figur4,{
   how:TR('Rückenlage, beide Füße aufgestellt. Leg einen Knöchel aufs andere Knie. Dann greifst du durch die Lücke und ziehst das untere Bein zur Brust.','Lie on your back, both feet planted. Place one ankle on the other knee. Then reach through the gap and pull the bottom leg toward your chest.'),
@@ -2253,6 +2306,8 @@ function infoHTML(key,it){
   if(tk)h+='<div class="taktbox"><span class="eyebrow">'+TR('Takt','Tempo')+'</span>'+tk+'</div>';
   if(it&&(it.dur||it.reps||it.kraft))h+='<p class="small muted">'+(EN?'In this routine: '+itemLabel(it):'In dieser Routine: '+itemLabel(it))+(it.machine?' '+(EN?'· replaces at the gym: '+it.machine:'· ersetzt im Studio: '+it.machine):'')+'</p>';
   h+=ytLink(key,'btn ytbtn');
+  if(ex.user)h+=' <button class="btn ytbtn" data-uex="'+ex.user+'">'+TR('Bearbeiten','Edit')+'</button>';
+  if(ex.wt)h+='<p class="small muted">'+TR('Gewicht: Du trägst es nach jedem Satz ein.','Weight: you enter it after each set.')+(lastKraft(key)&&lastKraft(key).w?' '+TR('Letztes Mal: ','Last time: ')+fmtKraft(key,lastKraft(key)):'')+'</p>';
   h+='<div class="isec"><h3>'+TR('So geht’s','How it works')+'</h3><ol class="steps">'+li(steps)+'</ol></div>';
   if(exFeel(key))h+='<div class="isec"><h3>'+TR('Wo du es spürst','Where you feel it')+'</h3><p>'+exFeel(key)+'</p></div>';
   if(exNoFeel(key))h+='<div class="isec"><h3>'+TR('Wenn du nichts spürst','If you feel nothing')+'</h3><p>'+exNoFeel(key)+'</p></div>';
@@ -2583,6 +2638,49 @@ function streak(){
 const isDetailed=r=>S.detail==='full'||(S.detail==='auto'&&runs(r.id)<10);
 const kraftSets=(r)=>{r=r||PL.r;if(r&&r.custom)return r.sets||3;if(r&&r.adv)return Number(DATA.kraft[(r.setKey||'h')+'s']||r.defSets||3);return DATA.kraft.sets==='auto'?(runs('kraft')<6?2:3):Number(DATA.kraft.sets);};
 const restOf=r=>r&&r.custom?(r.setRest||90):r&&r.adv?Number(DATA.kraft[(r.setKey||'h')+'r']||r.defRest||90):S.rest;
+/* ================= Eigene Übungen =================
+   DATA.uex=[{id,name,kind:'kraft'|'zeit'|'halten',mus,zone,pos,hm,sides,note,ts,del}] wird beim Start und nach jedem Speichern
+   als normale Übung u_<id> in EX, TAG, EQ und EXX eingetragen. Kraft-Übungen erfassen das Gewicht je Satz. */
+if(!Array.isArray(DATA.uex))DATA.uex=[];
+function uexRegister(){
+  Object.keys(EX).forEach(k=>{if(EX[k].user){delete EX[k];delete TAG[k];delete EQ[k];delete EXX[k];}});
+  DATA.uex.filter(u=>!u.del&&u.name).forEach(u=>{const k='u_'+u.id,note=String(u.note||'').trim();
+    const lines=note?note.split(/\n+/).map(x=>x.trim()).filter(Boolean):[];
+    const base={name:u.name,muscles:u.mus||'',how:lines[0]||TR('Eigene Übung.','Your own exercise.'),cues:lines.length>1?lines.slice(1,4):[TR('Saubere, ruhige Ausführung','Clean, calm execution'),TR('Gleichmäßig weiteratmen','Keep breathing evenly'),TR('Bei Schmerz abbrechen','Stop if it hurts')],
+      tips:WT_TIPS(),info:[TR('Von dir angelegte Übung.','Exercise you created.')],frames:[STAND],sides:!!u.sides,user:u.id,nofig:true};
+    if(u.kind==='kraft')EX[k]=Object.assign(base,{kind:'strength',def:1,tempo:[[TR('hoch','up'),1],[TR('runter','down'),2]],stages:WT_STAGE(),wt:true});
+    else EX[k]=Object.assign(base,{kind:u.kind===TR('halten','hold')?'hold':'move'});
+    if(lines.length)EX[k].steps=lines;
+    TAG[k]=[u.kind===TR('halten','hold')?'dehn':'kraft',POS_N[u.pos]?u.pos:'st',ZONE_N[u.zone]?u.zone:'ganz'];
+    EX[k].hm=[HM_N[u.hm]?u.hm:'nichts'];EQ[k]=EX[k].hm[0]==='nichts'?[]:[HM_N[EX[k].hm[0]]];
+    const yq=u.name+TR(' richtige Ausführung',' proper form');EXX[k]=['','','','',yq,yq];});
+  try{NEX=Object.keys(EX).filter(k=>EX[k].kind!=='guide').length;}catch(e){}
+}
+uexRegister();
+function openUex(id){
+  const old=DATA.uex.find(u=>u.id===id&&!u.del),u=Object.assign({id:'x'+Date.now().toString(36),name:'',kind:'kraft',mus:'',zone:'ganz',pos:'st',hm:'studio',sides:false,note:''},old||{});
+  const opt=(N,v)=>Object.keys(N).map(k=>'<option value="'+k+'"'+(k===v?' selected':'')+'>'+N[k]+'</option>').join('');
+  const KN={kraft:TR('Kraft mit Sätzen und Gewicht','Strength with sets and weight'),zeit:TR('Auf Zeit oder Wiederholungen','For time or reps'),halten:TR('Halten oder Dehnen','Hold or stretch')};
+  openPage(TR('Alle Übungen','All exercises'),old?TR('Übung bearbeiten','Edit exercise'):TR('Eigene Übung anlegen','Create your own exercise'),
+    '<div class="card uexf"><label for="ux-name">'+TR('Name','Name')+'</label><input type="text" id="ux-name" maxlength="40" value="'+escH(u.name)+'" placeholder="'+TR('z. B. Bankdrücken eng','e.g. close-grip bench press')+'">'+
+    '<label for="ux-kind">'+TR('Art','Type')+'</label><select id="ux-kind">'+opt(KN,u.kind)+'</select>'+
+    '<label for="ux-mus">'+TR('Muskeln (frei)','Muscles (free text)')+'</label><input type="text" id="ux-mus" maxlength="40" value="'+escH(u.mus)+'" placeholder="'+TR('z. B. Brust, Trizeps','e.g. chest, triceps')+'">'+
+    '<label for="ux-zone">'+TR('Körperbereich','Body area')+'</label><select id="ux-zone">'+opt(ZONE_N,u.zone)+'</select>'+
+    '<label for="ux-pos">'+TR('Position','Position')+'</label><select id="ux-pos">'+opt(POS_N,u.pos)+'</select>'+
+    '<label for="ux-hm">'+TR('Was du brauchst','What you need')+'</label><select id="ux-hm">'+opt(HM_N,u.hm)+'</select>'+
+    '<label class="uexc"><input type="checkbox" id="ux-sides"'+(u.sides?' checked':'')+'> '+TR('Einseitig: erst die eine, dann die andere Seite','One-sided: first one side, then the other')+'</label>'+
+    '<label for="ux-note">'+TR('Ausführung (eine Zeile je Schritt, freiwillig)','Execution (one line per step, optional)')+'</label><textarea id="ux-note" rows="5" maxlength="600">'+escH(u.note)+'</textarea>'+
+    '<p class="small muted" id="ux-msg">'+TR('Die Übung erscheint unter „Alle Übungen“ und in der Auswahl für eigene Routinen. Ein Bild gibt es nicht, der YouTube-Knopf sucht nach dem Namen.','The exercise appears under “All exercises” and in the selection for your own routines. There is no picture, the YouTube button searches for the name.')+'</p></div>'+
+    (old?'<button class="btn block" id="ux-del" style="margin-top:10px">'+TR('Übung löschen','Delete exercise')+'</button>':''),
+    body=>{const q=s=>body.querySelector(s);
+      $('pg-sticky').querySelector('#ux-save').addEventListener('click',()=>{const name=q('#ux-name').value.trim();if(!name){q('#ux-msg').textContent=TR('Bitte gib einen Namen ein.','Please enter a name.');q('#ux-name').focus();return;}
+        Object.assign(u,{name,kind:q('#ux-kind').value,mus:q('#ux-mus').value.trim(),zone:q('#ux-zone').value,pos:q('#ux-pos').value,hm:q('#ux-hm').value,sides:q('#ux-sides').checked,note:q('#ux-note').value,ts:Date.now()});
+        const i=DATA.uex.findIndex(x=>x.id===u.id);if(i>=0)DATA.uex[i]=u;else DATA.uex.push(u);saveLocal();uexRegister();FLT.src=['own'];openLib();});
+      if(old)q('#ux-del').addEventListener('click',()=>confirmBox(TR('Übung löschen?','Delete exercise?'),TR('Sie verschwindet auch aus deinen eigenen Routinen. Das Tagebuch bleibt erhalten.','It also disappears from your own routines. The training log is kept.'),TR('Löschen','Delete'),()=>{old.del=true;old.ts=Date.now();saveLocal();uexRegister();openLib();}));
+    },openLib,'<button class="btn primary block" id="ux-save" style="--rc:var(--brand)">'+TR('Speichern','Save')+'</button>');
+}
+const fmtKraft=(k,e)=>(e.w&&e.w.length&&EX[k]&&EX[k].wt)?e.reps.map((r,i)=>(e.w[i]>0?String(e.w[i]).replace('.',EN?'.':',')+' kg × ':'')+r).join(' · '):e.reps.join(' · ');
+function lastWeight(k,idx){const e=lastKraft(k);if(!e||!e.w||!e.w.length)return 0;return e.w[Math.min(idx,e.w.length-1)]||0;}
 const rngOf=k=>EX[k].rng||[8,15];
 const KSWITCH=8;
 const level=k=>DATA.kraft.levels[k]||EX[k].def||1;
@@ -2594,6 +2692,11 @@ function kraftHint(k){
   if(ex.timed){const t=DATA.kraft.plank;return (EN?'Goal this time: '+t+' seconds':'Ziel diesmal: '+t+' Sekunden');}
   const sameStage=e.stage===level(k);
   const [lo,hi]=rngOf(k);
+  if(ex.wt){
+    if(e.reps.every(v=>v>=hi))return TR('Alle Sätze '+hi+' geschafft: nimm diesmal etwas mehr Gewicht','All sets of '+hi+' done: take a little more weight this time');
+    if(e.reps.some(v=>v<lo))return TR('Unter '+lo+' geschafft: etwas weniger Gewicht nehmen','Fewer than '+lo+' done: take a little less weight');
+    return TR('Ziel: gleiches Gewicht, 1 Wiederholung mehr als letztes Mal','Goal: same weight, 1 rep more than last time');
+  }
   if(sameStage&&e.reps.every(v=>v>=hi))return level(k)<ex.stages.length?(EN?'All sets '+hi+': take level '+(level(k)+1):'Alle Sätze '+hi+': nimm Stufe '+(level(k)+1)):(EN?'All sets '+hi+': use more weight':'Alle Sätze '+hi+': mehr Gewicht nehmen');
   if(sameStage&&e.reps.some(v=>v<lo))return (EN?'Below '+lo+': try one level easier':'Unter '+lo+' geschafft: eine Stufe leichter probieren');
   return TR('Ziel: 1 Wiederholung mehr als letztes Mal','Goal: 1 rep more than last time');
@@ -3674,7 +3777,7 @@ function renderWell(){
   const m=$('w-more');m.innerHTML='';const nOpen=TODO.filter(x=>!x.done).length;
   m.appendChild(linkCard(TR('Kopf leeren','Clear your head'),TR('To-do-Liste vor dem Schlafen: aufschreiben, was ansteht, dann darf es bis morgen liegen bleiben.','To-do list before sleep: write down what\'s coming up, then it can wait until tomorrow.')+(nOpen?' '+(EN?'Currently '+nOpen+' open.':'Gerade '+nOpen+' offen.'):''),(EN?''+IC.todo+'Open list':''+IC.todo+'Liste öffnen'),'var(--ruhe)',openTodo));
   m.appendChild(linkCard(TR('Wohlfühlrezepte','Feel-good recipes'),TR('Seelenfutter zum Genießen und Kraftfutter als braves Gegenstück, mit Portionsrechner und Küchentimer.','Soul food to enjoy and power food as the well-behaved counterpart, with a serving calculator and kitchen timer.'),(EN?''+IC.book+'Open recipes':''+IC.book+'Rezepte öffnen'),'var(--morgen)',openRecipes));
-  m.appendChild(linkCard(TR('Spiele','Games'),TR('Zwölf ruhige Spiele für eine Pause, vom Klangbrett über Wolken, Angeln und Minigolf bis Solitär.','Twelve calm games for a break, from the sound board to clouds, fishing and mini golf to solitaire.'),TR('Spiele öffnen','Open games'),'var(--ruhe)',openGames));
+  m.appendChild(linkCard(TR('Spiele','Games'),TR('Vierzehn ruhige Spiele für eine Pause, vom Klangbrett über Wolken, Angeln und Minigolf bis Solitär.','Fourteen calm games for a break, from the sound board to clouds, fishing and mini golf to solitaire.'),TR('Spiele öffnen','Open games'),'var(--ruhe)',openGames));
 }
 /* ================= Spiele =================
    Sechs ruhige Spiele unter Wohlfühlen › Spiele. Alle zeichnen mit den Farben der gewählten Darstellung (gCol),
@@ -3699,8 +3802,10 @@ const GAMES=[
   ['fish',TR('Angeln','Fishing'),TR('Den Haken vor die Nase eines Fisches halten und ruhig mitführen, bis er anbeißt. Tiefe Fische zählen mehr.','Hold the hook in front of a fish\'s nose and calmly move along until it bites. Deep fish count more.'),1],
   ['run',TR('Hüpfen','Hopping'),TR('Über Büsche hüpfen, von Pilzen hochfedern, Vögeln ausweichen und Sterne sammeln. Stolpern kostet nur Tempo, es gibt kein Ende.','Hop over bushes, bounce off mushrooms, dodge birds and collect stars. Stumbling only costs speed, there is no end.'),1],
   ['sol',TR('Solitär','Solitaire'),TR('Klondike mit einer Karte ziehen. Karten antippen oder selbst an ihren Platz ziehen.','Klondike, draw one card. Tap cards or drag them to their place yourself.'),0],
-  ['golf',TR('Minigolf','Mini golf'),TR('Acht Bahnen mit Banden und Sand. Ball wie mit einer Schleuder anstoßen.','Eight holes with walls and sand. Hit the ball like with a slingshot.'),1],
+  ['golf',TR('Minigolf','Mini golf'),TR('40 Bahnen mit Banden und Sand, jeder Parcours wird zufällig gemischt. Ball wie mit einer Schleuder anstoßen.','40 holes with walls and sand, each course is mixed at random. Hit the ball like with a slingshot.'),1],
   ['loom',TR('Weben','Weaving'),TR('Kettfäden einfärben, das Schiffchen über oder unter den Fäden durchziehen und anschlagen: Reihe für Reihe entsteht ein Bild.','Color the warp threads, pull the shuttle over or under them and beat: row by row a picture appears.'),0],
+  ['blocks',TR('Blöcke','Blocks'),TR('Fallende Steine drehen und zu vollen Reihen legen. Das Tempo bleibt gleich.','Rotate falling pieces and lay them into full rows. The speed stays the same.'),1],
+  ['snake',TR('Schlange','Snake'),TR('Die Schlange zum Futter lenken. Am Rand kommt sie auf der anderen Seite wieder heraus.','Steer the snake to the food. At the edge it comes out again on the other side.'),1],
   ['dice',TR('Würfel','Dice'),TR('Ein bis sechs Würfel, echter Zufall.','One to six dice, true randomness.'),0],
   ['pairs',TR('Paare finden','Find pairs'),TR('Sechzehn Karten, acht Paare. In Ruhe aufdecken und merken.','Sixteen cards, eight pairs. Turn them over calmly and remember.'),0]
 ];
@@ -3750,7 +3855,7 @@ function openGames(){
 function openGame(id){
   const g=GAMES.find(x=>x[0]===id);if(!g)return;GAME.id=id;audioInit();clearInterval(GAME.iv);cancelAnimationFrame(GAME.raf);GAME.paused=false;
   openPage(TR('Spiele','Games'),g[1],gBar(g)+'<div id="g-host"></div>',body=>{gBind(body,id);const host=body.querySelector('#g-host');
-    ({board:gameBoard,clouds:gameClouds,tower:gameTower,zen:gameZen,breath:gameBreath,pairs:gamePairs,fish:gameFish,run:gameRun,sol:gameSol,dice:gameDice,golf:gameGolf,loom:gameLoom})[id](host);},openGames);
+    ({board:gameBoard,clouds:gameClouds,tower:gameTower,zen:gameZen,breath:gameBreath,pairs:gamePairs,fish:gameFish,run:gameRun,sol:gameSol,dice:gameDice,golf:gameGolf,loom:gameLoom,blocks:gameBlocks,snake:gameSnake})[id](host);},openGames);
 }
 /* ---------- Klangbrett ---------- */
 const G_MEL=[
@@ -4162,31 +4267,74 @@ function gameSol(host){
   draw();
   const n=document.createElement('p');n.className='small muted';n.style.marginTop='10px';n.textContent=TR('Antippen: Die Karte wandert von selbst an einen passenden Platz. Ziehen: Du legst sie selbst ab, auch einen Teil einer Spalte ab der gewählten Karte. Karten von der Ablage oben lassen sich in eine Spalte zurückziehen. Stapel antippen deckt eine Karte auf. Nicht jedes Blatt ist lösbar.','Tap: the card moves by itself to a fitting place. Drag: you place it yourself, also part of a column starting from the chosen card. Cards from the foundation at the top can be dragged back into a column. Tap the stock to turn over a card. Not every deal can be solved.');host.after(n);
 }
-/* ---------- Minigolf ---------- */
+/* ---------- Minigolf ----------
+   40 Bahnen (jede von einem Suchlauf als lösbar geprüft, Par = kürzeste gefundene Lösung + 1).
+   Ein Parcours sind 9 oder 18 zufällig gezogene Bahnen, nach Par sortiert. */
 const G_HOLES=[
-  {par:2,s:[.5,1.28],h:[.5,.2],w:[]},
-  {par:3,s:[.5,1.28],h:[.5,.18],w:[[.25,.66,.5,.06]]},
-  {par:3,s:[.15,1.3],h:[.85,.15],w:[[0,.5,.65,.06],[.35,.9,.65,.06]]},
-  {par:3,s:[.25,1.3],h:[.75,1.25],w:[[.48,.3,.04,1.15]]},
-  {par:3,s:[.5,1.3],h:[.5,.15],w:[[0,.85,.35,.05],[.65,.85,.35,.05]],sand:[[.2,.45,.6,.25]]},
-  {par:3,s:[.5,1.32],h:[.5,.12],w:[[.2,.4,.12,.12],[.68,.4,.12,.12],[.44,.7,.12,.12],[.2,1,.12,.12],[.68,1,.12,.12]]},
-  {par:4,s:[.12,1.32],h:[.88,.12],w:[[.25,1.05,.75,.05],[0,.72,.75,.05],[.25,.4,.75,.05]],sand:[[.02,.42,.2,.26]]},
-  {par:4,s:[.5,1.3],h:[.5,.72],w:[[.3,.55,.4,.05],[.3,.85,.4,.05],[.3,.55,.05,.35]],sand:[[.72,.1,.24,.3]]}
+  {par:2,s:[0.5,1.28],h:[0.5,0.2],w:[]},
+  {par:2,s:[0.5,1.28],h:[0.5,0.18],w:[[0.25,0.66,0.5,0.06]]},
+  {par:3,s:[0.15,1.3],h:[0.85,0.15],w:[[0,0.5,0.65,0.06],[0.35,0.9,0.65,0.06]]},
+  {par:4,s:[0.25,1.3],h:[0.75,1.25],w:[[0.48,0.3,0.04,1.15]]},
+  {par:2,s:[0.5,1.3],h:[0.5,0.15],w:[[0,0.85,0.35,0.05],[0.65,0.85,0.35,0.05]],sand:[[0.2,0.45,0.6,0.25]]},
+  {par:3,s:[0.5,1.32],h:[0.5,0.12],w:[[0.2,0.4,0.12,0.12],[0.68,0.4,0.12,0.12],[0.44,0.7,0.12,0.12],[0.2,1,0.12,0.12],[0.68,1,0.12,0.12]]},
+  {par:5,s:[0.12,1.32],h:[0.88,0.12],w:[[0.25,1.05,0.75,0.05],[0,0.72,0.75,0.05],[0.25,0.4,0.75,0.05]],sand:[[0.02,0.42,0.2,0.26]]},
+  {par:2,s:[0.5,1.3],h:[0.5,0.72],w:[[0.3,0.55,0.4,0.05],[0.3,0.85,0.4,0.05],[0.3,0.55,0.05,0.35]],sand:[[0.72,0.1,0.24,0.3]]},
+  {par:3,s:[0.1,1.35],h:[0.9,0.1],w:[[0.3,0.3,0.4,0.06],[0.3,1.05,0.4,0.06]]},
+  {par:2,s:[0.5,1.3],h:[0.5,0.12],w:[[0,0.3,0.4,0.9],[0.6,0.3,0.4,0.9]]},
+  {par:3,s:[0.15,0.12],h:[0.85,1.3],w:[[0.3,0,0.7,0.9]]},
+  {par:4,s:[0.15,1.3],h:[0.85,1.3],w:[[0.3,0.3,0.4,1.15]]},
+  {par:2,s:[0.8,1.3],h:[0.15,0.2],w:[[0,1,0.3,0.05],[0.3,0.75,0.3,0.05],[0.6,0.5,0.4,0.05]]},
+  {par:3,s:[0.5,1.32],h:[0.5,0.15],w:[],sand:[[0.1,0.3,0.8,0.8]]},
+  {par:2,s:[0.5,1.3],h:[0.5,0.12],w:[[0.3,0.25,0.1,0.1],[0.6,0.25,0.1,0.1]],sand:[[0.4,0.6,0.2,0.3]]},
+  {par:3,s:[0.25,1.3],h:[0.75,0.2],w:[[0.2,0.7,0.6,0.05],[0.475,0.45,0.05,0.55]]},
+  {par:4,s:[0.85,1.33],h:[0.85,0.15],w:[[0,1.1,0.6,0.04],[0.4,0.85,0.6,0.04],[0,0.6,0.6,0.04],[0.4,0.35,0.6,0.04]]},
+  {par:3,s:[0.5,1.3],h:[0.5,0.2],w:[[0.2,0.35,0.6,0.05]]},
+  {par:2,s:[0.5,1.3],h:[0.5,0.3],w:[[0.35,0.15,0.05,0.3],[0.6,0.15,0.05,0.3],[0.35,0.15,0.3,0.05],[0.42,0.8,0.16,0.05]]},
+  {par:2,s:[0.1,1.3],h:[0.9,0.72],w:[[0.6,0.5,0.4,0.05],[0.6,0.95,0.4,0.05]]},
+  {par:2,s:[0.5,1.32],h:[0.5,0.12],w:[[0.45,0.3,0.1,0.1],[0.45,0.6,0.1,0.1],[0.45,0.9,0.1,0.1]]},
+  {par:3,s:[0.5,1.3],h:[0.5,0.15],w:[[0.25,0.4,0.5,0.6]]},
+  {par:3,s:[0.8,1.3],h:[0.8,0.2],w:[[0.2,0.7,0.8,0.05]]},
+  {par:4,s:[0.2,1.3],h:[0.2,0.2],w:[[0,0.7,0.8,0.05]],sand:[[0.8,0.55,0.2,0.35]]},
+  {par:3,s:[0.8,1.3],h:[0.8,0.15],w:[[0.2,1,0.8,0.05],[0,0.55,0.8,0.05]]},
+  {par:2,s:[0.5,1.3],h:[0.5,0.15],w:[[0,0.4,0.38,0.05],[0.62,0.4,0.38,0.05],[0,0.9,0.25,0.05],[0.75,0.9,0.25,0.05]]},
+  {par:3,s:[0.5,1.3],h:[0.5,0.2],w:[[0.3,0.7,0.4,0.05]],sand:[[0.1,0.05,0.3,0.3],[0.6,0.05,0.3,0.3]]},
+  {par:2,s:[0.15,1.32],h:[0.85,0.12],w:[[0.15,1,0.1,0.1],[0.35,0.8,0.1,0.1],[0.55,0.6,0.1,0.1],[0.75,0.4,0.1,0.1]]},
+  {par:2,s:[0.1,1.3],h:[0.9,0.15],w:[[0,0.6,0.42,0.05],[0.58,0.6,0.42,0.05]]},
+  {par:3,s:[0.3,1.3],h:[0.7,0.15],w:[[0,0.95,0.6,0.05],[0.8,0.95,0.2,0.05],[0,0.5,0.2,0.05],[0.4,0.5,0.6,0.05]]},
+  {par:3,s:[0.5,1.3],h:[0.48,0.7],w:[[0.2,0.25,0.8,0.05],[0.2,0.25,0.05,0.85],[0.2,1.05,0.55,0.05],[0.7,0.55,0.05,0.55]]},
+  {par:2,s:[0.5,1.32],h:[0.5,0.72],w:[[0.3,0.5,0.1,0.1],[0.6,0.5,0.1,0.1],[0.3,0.85,0.1,0.1],[0.6,0.85,0.1,0.1]]},
+  {par:3,s:[0.5,1.3],h:[0.5,0.12],w:[[0.45,0.65,0.1,0.1]],sand:[[0,0.3,0.4,0.9],[0.6,0.3,0.4,0.9]]},
+  {par:2,s:[0.8,1.3],h:[0.8,0.7],w:[[0.5,0.45,0.5,0.05],[0.5,0.45,0.05,0.5]]},
+  {par:2,s:[0.5,1.3],h:[0.5,0.5],w:[[0.25,0.3,0.5,0.05],[0.7,0.3,0.05,0.5],[0.25,0.3,0.05,0.3],[0.35,0.95,0.3,0.05]]},
+  {par:2,s:[0.5,1.3],h:[0.36,0.15],w:[[0.2,0,0.05,0.5],[0.5,0,0.05,0.5],[0.8,0,0.05,0.5]]},
+  {par:4,s:[0.15,1.3],h:[0.85,0.15],w:[[0.3,0.7,0.05,0.75],[0.65,0,0.05,0.75]]},
+  {par:2,s:[0.5,1.34],h:[0.5,0.12],w:[[0.2,0.35,0.08,0.08],[0.46,0.35,0.08,0.08],[0.72,0.35,0.08,0.08],[0.2,0.65,0.08,0.08],[0.46,0.65,0.08,0.08],[0.72,0.65,0.08,0.08],[0.2,0.95,0.08,0.08],[0.46,0.95,0.08,0.08],[0.72,0.95,0.08,0.08]]},
+  {par:2,s:[0.5,1.32],h:[0.5,0.72],w:[[0.1,1.1,0.3,0.04],[0.6,1.1,0.3,0.04]],sand:[[0.25,0.5,0.5,0.45]]},
+  {par:4,s:[0.15,1.32],h:[0.15,0.2],w:[[0,1.1,0.7,0.05],[0.3,0.8,0.7,0.05],[0,0.5,0.7,0.05]],sand:[[0.75,0.1,0.2,0.3]]}
 ];
 function gameGolf(host){
+  const bar=document.createElement('div');host.appendChild(bar);
+  const mkSet=n=>{const a=G_HOLES.map((_,i)=>i);for(let i=a.length-1;i>0;i--){const j=gRnd(i+1);[a[i],a[j]]=[a[j],a[i]];}return a.slice(0,n).sort((p,q)=>G_HOLES[p].par-G_HOLES[q].par||p-q);};
+  let st=GST.golf;if(!st||!st.set)st=GST.golf={len:9,set:mkSet(9),i:0,str:[],n:0,bx:null,by:null,vx:0,vy:0,done:0,last:null};
+  const drawBar=()=>{bar.innerHTML='<div class="gsets" style="margin:0 0 10px"><button class="btn" data-len="9" aria-pressed="'+(st.len===9)+'">'+TR('9 Bahnen','9 holes')+'</button><button class="btn" data-len="18" aria-pressed="'+(st.len===18)+'">'+TR('18 Bahnen','18 holes')+'</button><button class="btn" id="gg-new">'+TR('Neuer Parcours','New course')+'</button></div>';
+    bar.querySelectorAll('[data-len]').forEach(b=>b.addEventListener('click',()=>{st.len=+b.dataset.len;fresh();drawBar();}));
+    bar.querySelector('#gg-new').addEventListener('click',()=>{fresh();});};
+  drawBar();
   const {cv,x,W,H}=gCanvas(host);const U=Math.min(W,H/1.45),OX=(W-U)/2,OY=(H-U*1.45)/2,R=7,HR=11;
-  const st=GST.golf||(GST.golf={k:0,str:[],n:0,bx:null,by:null,vx:0,vy:0,done:0});
-  const hole=()=>G_HOLES[st.k%G_HOLES.length];const P=p=>[OX+p[0]*U,OY+p[1]*U];
-  const place=()=>{const s=P(hole().s);st.bx=s[0];st.by=s[1];st.vx=st.vy=0;};if(st.bx==null)place();
+  const hole=()=>G_HOLES[st.set[st.i]];const P=p=>[OX+p[0]*U,OY+p[1]*U];
+  const place=()=>{const s=P(hole().s);st.bx=s[0];st.by=s[1];st.vx=st.vy=0;};
+  function fresh(){st.set=mkSet(st.len);st.i=0;st.str=[];st.n=0;st.done=0;place();}
+  if(st.bx==null)place();
   let aim=null;
   cv.addEventListener('pointerdown',e=>{if(GAME.paused||st.done>0||Math.hypot(st.vx,st.vy)>4)return;aim={s:gPos(cv,e),c:gPos(cv,e)};gCap(cv,e);});
   cv.addEventListener('pointermove',e=>{if(aim)aim.c=gPos(cv,e);});
-  cv.addEventListener('pointerup',()=>{if(!aim)return;const dx=aim.s.x-aim.c.x,dy=aim.s.y-aim.c.y,len=Math.hypot(dx,dy);aim.c=null;const a=aim;aim=null;if(len<10)return;const p=Math.min(1,len/150)*760;st.vx=dx/len*p;st.vy=dy/len*p;st.n++;gSfx(392,.12,.06,'triangle');});
+  cv.addEventListener('pointerup',()=>{if(!aim)return;const dx=aim.s.x-aim.c.x,dy=aim.s.y-aim.c.y,len=Math.hypot(dx,dy);aim=null;if(len<10)return;const p=Math.min(1,len/150)*760;st.vx=dx/len*p;st.vy=dy/len*p;st.n++;gSfx(392,.12,.06,'triangle');});
   cv.addEventListener('pointercancel',()=>{aim=null;});
   gLoop(cv,(dt,t)=>{
     const C=gCol(),h=hole(),hp=P(h.h);
-    if(st.done>0){st.done-=dt;if(st.done<=0){st.str.push(st.n);st.n=0;st.k++;if(st.k%G_HOLES.length===0&&st.k){st.last=st.str.slice(-G_HOLES.length).reduce((a,b)=>a+b,0);}place();}}
-    else{const sub=4;for(let q=0;q<sub;q++){const d=dt/sub;st.bx+=st.vx*d;st.by+=st.vy*d;
+    if(st.done>0){st.done-=dt;if(st.done<=0){st.str.push(st.n);st.n=0;st.i++;
+        if(st.i>=st.set.length){st.last={s:st.str.reduce((a,b)=>a+b,0),p:st.set.reduce((a,k)=>a+G_HOLES[k].par,0),n:st.set.length};[0,2,4,7,9].forEach((n,k)=>setTimeout(()=>gSfx(G_PENTA[n],.6),k*140));fresh();}else place();}}
+    else if(dt){const sub=4;for(let q=0;q<sub;q++){const d=dt/sub;st.bx+=st.vx*d;st.by+=st.vy*d;
         if(st.bx<OX+R){st.bx=OX+R;st.vx=Math.abs(st.vx)*.8;}if(st.bx>OX+U-R){st.bx=OX+U-R;st.vx=-Math.abs(st.vx)*.8;}
         if(st.by<OY+R){st.by=OY+R;st.vy=Math.abs(st.vy)*.8;}if(st.by>OY+U*1.45-R){st.by=OY+U*1.45-R;st.vy=-Math.abs(st.vy)*.8;}
         h.w.forEach(w=>{const a=OX+w[0]*U-R,b=OY+w[1]*U-R,c=a+w[2]*U+2*R,e=b+w[3]*U+2*R;if(st.bx>a&&st.bx<c&&st.by>b&&st.by<e){const pen=[st.bx-a,c-st.bx,st.by-b,e-st.by],m=Math.min.apply(null,pen),i=pen.indexOf(m);
@@ -4202,10 +4350,10 @@ function gameGolf(host){
     gBlob(x,hp[0],hp[1],HR,'#16201E',G_OL,2.5);x.strokeStyle=G_OL;x.lineWidth=2.5;x.beginPath();x.moveTo(hp[0],hp[1]);x.lineTo(hp[0],hp[1]-34);x.stroke();x.fillStyle='#E56A8A';x.beginPath();x.moveTo(hp[0],hp[1]-34);x.lineTo(hp[0]+18,hp[1]-27);x.lineTo(hp[0],hp[1]-20);x.closePath();x.fill();x.stroke();
     if(aim&&aim.c){const dx=aim.s.x-aim.c.x,dy=aim.s.y-aim.c.y,len=Math.hypot(dx,dy);if(len>10){const p=Math.min(1,len/150);x.strokeStyle=C.dark?'#FFFFFF':G_OL;x.lineWidth=3;x.setLineDash([6,7]);x.beginPath();x.moveTo(st.bx,st.by);x.lineTo(st.bx+dx/len*(30+p*110),st.by+dy/len*(30+p*110));x.stroke();x.setLineDash([]);}}
     if(st.done<=0||st.done>1.1)gBlob(x,st.bx,st.by,R*(st.done>0?.7:1),'#FFFFFF',G_OL,2.5);
-    const tot=st.str.slice(Math.floor(st.k/G_HOLES.length)*G_HOLES.length).reduce((a,b)=>a+b,0)+st.n;
-    gScore(TR('Bahn ','Hole ')+(st.k%G_HOLES.length+1)+(EN?'/'+G_HOLES.length+' · Par '+h.par+' ·':'/'+G_HOLES.length+' · Par '+h.par+' ·')+' '+TR('Schläge ','Strokes ')+st.n+' · '+TR('gesamt ','total ')+tot+(st.last?' · '+TR('letzte Runde ','last round ')+st.last:''));
+    const tot=st.str.reduce((a,b)=>a+b,0)+st.n;
+    gScore(TR('Bahn ','Hole ')+(st.i+1)+TR(' von ',' of ')+st.set.length+' '+(EN?'· Par '+h.par+' ·':'· Par '+h.par+' ·')+' '+TR('Schläge ','Strokes ')+st.n+' · '+TR('gesamt ','total ')+tot+(st.last?' · '+TR('letzter Parcours ','last course ')+st.last.s+TR(' bei Par ',' on par ')+st.last.p:''));
   });
-  gNote(host,TR('Irgendwo auf der Fläche den Finger aufsetzen und zurückziehen wie bei einer Schleuder: Der Ball rollt in die Gegenrichtung, je weiter du ziehst, desto fester. Die gestrichelte Linie zeigt Richtung und Stärke. Banden lassen den Ball abprallen, Sand bremst. Acht Bahnen, danach geht es wieder von vorn los.','Put your finger anywhere on the area and pull back like a slingshot: the ball rolls in the opposite direction, the farther you pull, the harder. The dashed line shows direction and strength. Walls make the ball bounce, sand slows it down. Eight holes, then it starts over.'));
+  gNote(host,TR('Irgendwo auf der Fläche den Finger aufsetzen und zurückziehen wie bei einer Schleuder: Der Ball rollt in die Gegenrichtung, je weiter du ziehst, desto fester. Banden lassen den Ball abprallen, Sand bremst. Jeder Parcours zieht 9 oder 18 von 40 Bahnen per Zufall, die leichteren zuerst.','Put your finger anywhere on the area and pull back like a slingshot: the ball rolls in the opposite direction, the farther you pull, the harder. Walls make the ball bounce, sand slows it down. Each course draws 9 or 18 of 40 holes at random, the easier ones first.'));
 }
 /* ---------- Weben (Bildweberei) ----------
    Kettfäden haben eigene Farben. Nach dem Anschlagen wird jede Kreuzung ein Farbfeld:
@@ -4217,12 +4365,15 @@ function gameLoom(host){
   const save=()=>{if(L.rows.length>160){L.rows.splice(0,L.rows.length-160);L.loose=Math.min(L.loose,L.rows.length);}LS.set('rr.gloom',{rows:L.rows,loose:L.loose,side:L.side,nw:L.nw,wc:L.wc});};
   const bar=document.createElement('div');host.appendChild(bar);drawBar();
   const {cv,x,W,H}=gCanvas(host,0);
-  const M=18,BEAM=30,CZ=96,FL=H-CZ,MID=H-CZ/2,NW=()=>L.nw,gap=()=>(W-2*M)/NW(),wx=j=>M+gap()*(j+.5);
+  const M=18,BEAM=46,CZ=96,FL=H-CZ,MID=H-CZ/2,NW=()=>L.nw,gap=()=>(W-2*M)/NW(),wx=j=>M+gap()*(j+.5);
   let cur=null,sh=null;
+  const lab=j=>j<26?String.fromCharCode(65+j):'A'+String.fromCharCode(65+j-26);
   const render=()=>{const C=gCol(),g=gap(),ch=Math.max(5,Math.round(g*.72)),n=L.rows.length;x.clearRect(0,0,W,H);
     // Kettbaum oben mit Farbtupfen zum Antippen
     x.fillStyle=C.dark?'rgba(255,255,255,.07)':'rgba(0,0,0,.06)';x.fillRect(0,0,W,BEAM);
-    for(let j=0;j<NW();j++)gBlob(x,wx(j),BEAM/2,Math.min(8,g*.36),COL[L.wc[j]],G_OL,1.5);
+    x.textAlign='center';x.font='700 '+(NW()>20?11:13)+'px system-ui,sans-serif';
+    for(let j=0;j<NW();j++){const hit=cur&&cur.b[j]!==null;gBlob(x,wx(j),13,Math.min(8,g*.36),COL[L.wc[j]],G_OL,1.5);if(hit){x.strokeStyle=C.ac;x.lineWidth=3;x.beginPath();x.arc(wx(j),13,Math.min(8,g*.36)+3.5,0,7);x.stroke();}
+      if(NW()<=20||j%2===0){x.fillStyle=hit?C.ink:C.mu;x.fillText(lab(j),wx(j),39);}}
     // Fertiges Gewebe: angeschlagene Reihen als Farbfelder, neueste unten
     let y=FL-6-L.loose*14;const top=y;
     for(let r=n-1-L.loose;r>=0;r--){const row=L.rows[r];y-=ch;if(y+ch<BEAM)break;
@@ -4241,6 +4392,7 @@ function gameLoom(host){
     x.fillText((L.side?'← ':'')+TR('höher = über den Faden','higher = over the thread')+(L.side?'':' →'),W/2,MID-14);x.fillText(TR('tiefer = unter den Faden','lower = under the thread'),W/2,MID+24);
     // Laufender Schuss an der Webkante, damit der Finger ihn nicht verdeckt
     if(cur){const yy=FL-6+7;x.strokeStyle=COL[L.c];x.lineWidth=4;x.lineCap='butt';for(let j=0;j<NW();j++){const v=cur.b[j];if(v===null)continue;const a=M+g*j,b=a+g;if(v){x.beginPath();x.moveTo(a,yy);x.lineTo(b,yy);x.stroke();}else{x.globalAlpha=.4;x.beginPath();x.moveTo(a,yy);x.lineTo(b,yy);x.stroke();x.globalAlpha=1;}}x.lineCap='round';}
+    if(cur){let lj=-1;for(let j=0;j<NW();j++)if(cur.b[j]!==null&&(lj<0||(L.side?j<lj:j>lj)))lj=j;if(lj>=0){const tx=lab(lj)+' '+(cur.b[lj]?'↑ '+TR('drüber','over'):'↓ '+TR('drunter','under'));x.font='700 26px system-ui,sans-serif';const w=x.measureText(tx).width+28;x.fillStyle=C.sf;x.strokeStyle=C.ln;x.lineWidth=1.5;x.beginPath();if(x.roundRect)x.roundRect(W/2-w/2,BEAM+10,w,40,12);else x.rect(W/2-w/2,BEAM+10,w,40);x.fill();x.stroke();x.fillStyle=C.ink;x.fillText(tx,W/2,BEAM+39);}}
     const sx=sh?sh.x:(L.side?W-16:16),over=sh?sh.over:true,sy=FL-6+7;
     x.save();x.translate(sx,sy);if(!over)x.globalAlpha=.55;x.fillStyle='#C9A27A';x.strokeStyle=G_OL;x.lineWidth=2.5;x.beginPath();x.ellipse(0,0,20,7,0,0,7);x.fill();x.stroke();gBlob(x,0,0,3.5,COL[L.c],G_OL,1.5);x.restore();
     if(!cur){const ax=L.side?W-16:16;x.strokeStyle=C.ac;x.lineWidth=3;x.beginPath();x.arc(ax,MID,16,0,7);x.stroke();}
@@ -4250,8 +4402,7 @@ function gameLoom(host){
     const at=L.side?W-16:16;if(p.y<FL||Math.abs(p.x-at)>70)return;gCap(cv,e);
     cur={b:new Array(NW()).fill(null),lx:at};sh={x:at,over:p.y<MID};render();});
   cv.addEventListener('pointermove',e=>{if(!cur)return;const p=gPos(cv,e),dir=L.side?-1:1,over=p.y<MID;
-    if((p.x-cur.lx)*dir<0){sh={x:cur.lx,over};render();return;}
-    for(let j=0;j<NW();j++){const w=wx(j);if(cur.b[j]===null&&(w-cur.lx)*dir>=0&&(p.x-w)*dir>=0){cur.b[j]=over;gSfx(G_SC[over?9:5],.1,.035);}}
+    for(let j=0;j<NW();j++){const pass=(p.x-wx(j))*dir>=0;if(pass&&cur.b[j]===null){cur.b[j]=over;gSfx(G_SC[over?9:5],.1,.035);}else if(!pass&&cur.b[j]!==null){cur.b[j]=null;gSfx(G_SC[3],.08,.03);}}
     cur.lx=p.x;sh={x:Math.max(16,Math.min(W-16,p.x)),over};render();});
   const end=()=>{if(!cur)return;const c=cur;cur=null;sh=null;if(c.b.every(v=>v!==null)){L.rows.push({c:L.c,b:c.b.map(v=>v?1:0)});L.loose++;L.side=L.side?0:1;gSfx(523,.3,.05);save();}render();};
   cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
@@ -4268,8 +4419,76 @@ function gameLoom(host){
   }
   const sc=document.getElementById('g-score');if(sc)sc.hidden=true;
   render();
-  gNote(host,TR('Farbe wählen und oben auf einen Tupfen tippen: Dieser Kettfaden bekommt die Farbe. Das Schiffchen ziehst du im Streifen unten zur anderen Seite. Ist dein Finger über der gestrichelten Linie, läuft der Faden über den Kettfaden, darunter unter ihm durch. Das Schiffchen selbst siehst du oben an der Webkante. „Anschlagen“ drückt die lockeren Reihen fest: Dann ist an jeder Kreuzung nur noch ein Faden zu sehen, die Schussfarbe, wo er darüber lief, sonst die Farbe der Kette. So entsteht das Bild.','Choose a color and tap a dot at the top: that warp thread gets the color. Drag the shuttle to the other side in the strip at the bottom. If your finger is above the dashed line, the thread runs over the warp thread, below it runs underneath. You see the shuttle itself at the top, at the fell line. “Beat” presses the loose rows together: then each crossing shows only one thread, the weft color where it ran over, otherwise the warp color. That is how the picture appears.'));
+  gNote(host,TR('Farbe wählen und oben auf einen Tupfen tippen: Dieser Kettfaden bekommt die Farbe. Das Schiffchen ziehst du im Streifen unten zur anderen Seite. Ist dein Finger über der gestrichelten Linie, läuft der Faden über den Kettfaden, darunter unter ihm durch. Ziehst du zurück, werden die Fäden wieder frei und du entscheidest neu. Die Buchstaben oben zeigen, bei welchem Faden du bist. Das Schiffchen selbst siehst du oben an der Webkante. „Anschlagen“ drückt die lockeren Reihen fest: Dann ist an jeder Kreuzung nur noch ein Faden zu sehen, die Schussfarbe, wo er darüber lief, sonst die Farbe der Kette. So entsteht das Bild.','Choose a color and tap a dot at the top: that warp thread gets the color. Drag the shuttle to the other side in the strip at the bottom. If your finger is above the dashed line, the thread runs over the warp thread, below it runs underneath. If you drag back, the threads become free again and you decide anew. The letters at the top show which thread you are at. You see the shuttle itself at the top, at the fell line. “Beat” presses the loose rows together: then each crossing shows only one thread, the weft color where it ran over, otherwise the warp color. That is how the picture appears.'));
   host.querySelector('p.small.muted:last-child').className='small muted gnote';host.querySelector('.gnote').hidden=true;
+}
+/* ---------- Blöcke ---------- */
+function gameBlocks(host){
+  const CW=10,CH=18,SH=[[[0,1],[1,1],[2,1],[3,1]],[[0,0],[1,0],[0,1],[1,1]],[[1,0],[0,1],[1,1],[2,1]],[[0,0],[0,1],[1,1],[2,1]],[[2,0],[0,1],[1,1],[2,1]],[[1,0],[2,0],[0,1],[1,1]],[[0,0],[1,0],[1,1],[2,1]]];
+  const COL=['#8FD1C2','#F6D27A','#B9A4E8','#7FB7E6','#F2A97A','#9BD48A','#F2A7B8'],SPD=[1.1,.7,.42];
+  const bar=document.createElement('div');host.appendChild(bar);
+  const st=GST.blocks||(GST.blocks={g:[],p:null,nx:gRnd(7),lines:0,sp:0,t:0,over:false});
+  if(!st.g.length)for(let y=0;y<CH;y++)st.g.push(new Array(CW).fill(-1));
+  const {cv,x,W,H}=gCanvas(host,84);const cs=Math.floor(Math.min((W-90)/CW,(H-8)/CH)),OX=6,OY=(H-cs*CH)/2;
+  const fits=(c,px,py)=>c.every(([a,b])=>{const X=px+a,Y=py+b;return X>=0&&X<CW&&Y<CH&&(Y<0||st.g[Y][X]<0);});
+  const spawn=()=>{const k=st.nx;st.nx=gRnd(7);st.p={k,c:SH[k].map(q=>q.slice()),x:3,y:-1};if(!fits(st.p.c,st.p.x,st.p.y+1)&&!fits(st.p.c,st.p.x,st.p.y)){st.over=true;gSfx(196,.8,.05);}};
+  const lock=()=>{const p=st.p;p.c.forEach(([a,b])=>{if(p.y+b>=0)st.g[p.y+b][p.x+a]=p.k;});let n=0;
+    for(let y=CH-1;y>=0;y--)if(st.g[y].every(v=>v>=0)){st.g.splice(y,1);st.g.unshift(new Array(CW).fill(-1));n++;y++;}
+    if(n){st.lines+=n;for(let k=0;k<n;k++)setTimeout(()=>gSfx(G_PENTA[4+k*2],.4,.06),k*90);}else gSfx(220,.12,.04,'triangle');spawn();};
+  const move=dx=>{if(st.p&&!st.over&&!GAME.paused&&fits(st.p.c,st.p.x+dx,st.p.y)){st.p.x+=dx;gSfx(440,.05,.025);}};
+  const rot=()=>{const p=st.p;if(!p||st.over||GAME.paused||p.k===1)return;const m=p.k===0?3:2,c=p.c.map(([a,b])=>[m-b,a]);for(const d of [0,-1,1,-2,2])if(fits(c,p.x+d,p.y)){p.c=c;p.x+=d;gSfx(523,.06,.03);return;}};
+  const down=()=>{const p=st.p;if(!p||st.over)return false;if(fits(p.c,p.x,p.y+1)){p.y++;return true;}lock();return false;};
+  const drop=()=>{if(GAME.paused)return;let n=0;while(n++<30&&down());};
+  const reset=()=>{st.g.forEach(r=>r.fill(-1));st.lines=0;st.over=false;st.t=0;spawn();};
+  if(!st.p&&!st.over)spawn();
+  bar.innerHTML='<div class="gsets" style="margin:0 0 10px">'+[TR('Gemütlich','Leisurely'),TR('Mittel','Medium'),TR('Flott','Brisk')].map((n,k)=>'<button class="btn" data-sp="'+k+'" aria-pressed="'+(st.sp===k)+'">'+n+'</button>').join('')+'</div>';
+  bar.querySelectorAll('[data-sp]').forEach(b=>b.addEventListener('click',()=>{st.sp=+b.dataset.sp;bar.querySelectorAll('[data-sp]').forEach(o=>o.setAttribute('aria-pressed',String(o===b)));}));
+  const pad=document.createElement('div');pad.className='gsets gctl';pad.innerHTML='<button class="btn" data-k="l" aria-label="'+TR('links','left')+'">◀</button><button class="btn" data-k="r" aria-label="'+TR('drehen','rotate')+'">⟳</button><button class="btn" data-k="d" aria-label="'+TR('fallen lassen','drop')+'">▼</button><button class="btn" data-k="R" aria-label="'+TR('rechts','right')+'">▶</button>';host.appendChild(pad);
+  pad.querySelectorAll('[data-k]').forEach(b=>b.addEventListener('click',()=>{if(st.over){reset();return;}const k=b.dataset.k;if(k==='l')move(-1);else if(k==='R')move(1);else if(k==='r')rot();else drop();}));
+  let ds=null,dc=0,mv=false;
+  cv.addEventListener('pointerdown',e=>{ds=gPos(cv,e);dc=0;mv=false;gCap(cv,e);});
+  cv.addEventListener('pointermove',e=>{if(!ds||st.over)return;const p=gPos(cv,e),n=Math.trunc((p.x-ds.x)/cs);while(dc<n){move(1);dc++;mv=true;}while(dc>n){move(-1);dc--;mv=true;}if(p.y-ds.y>cs*2.5&&!mv){drop();ds=null;}});
+  cv.addEventListener('pointerup',()=>{if(ds&&!mv){if(st.over)reset();else rot();}ds=null;});cv.addEventListener('pointercancel',()=>{ds=null;});
+  const cell=(X,Y,k,s,a)=>{x.globalAlpha=a||1;x.fillStyle=COL[k];x.strokeStyle=G_OL;x.lineWidth=2;x.beginPath();if(x.roundRect)x.roundRect(X+1.5,Y+1.5,s-3,s-3,Math.max(3,s*.22));else x.rect(X+1.5,Y+1.5,s-3,s-3);x.fill();x.stroke();x.globalAlpha=1;};
+  gLoop(cv,dt=>{const C=gCol();
+    if(!st.over&&dt){st.t+=dt;if(st.t>=SPD[st.sp]){st.t=0;down();}}
+    x.clearRect(0,0,W,H);x.fillStyle=C.dark?'rgba(255,255,255,.04)':'rgba(0,0,0,.04)';x.strokeStyle=C.ln;x.lineWidth=1.5;x.beginPath();if(x.roundRect)x.roundRect(OX,OY,cs*CW,cs*CH,8);else x.rect(OX,OY,cs*CW,cs*CH);x.fill();x.stroke();
+    for(let Y=0;Y<CH;Y++)for(let X=0;X<CW;X++)if(st.g[Y][X]>=0)cell(OX+X*cs,OY+Y*cs,st.g[Y][X],cs);
+    const p=st.p;if(p&&!st.over){let gy=p.y;while(fits(p.c,p.x,gy+1))gy++;p.c.forEach(([a,b])=>{if(gy+b>=0)cell(OX+(p.x+a)*cs,OY+(gy+b)*cs,p.k,cs,.22);});p.c.forEach(([a,b])=>{if(p.y+b>=0)cell(OX+(p.x+a)*cs,OY+(p.y+b)*cs,p.k,cs);});}
+    const nx0=OX+cs*CW+12;x.fillStyle=C.mu;x.font='600 14px system-ui,sans-serif';x.textAlign='left';x.fillText(TR('Nächster','Next'),nx0,OY+16);SH[st.nx].forEach(([a,b])=>cell(nx0+a*15,OY+26+b*15,st.nx,15));
+    if(st.over){x.fillStyle=C.sf;x.globalAlpha=.9;x.fillRect(OX,OY+cs*CH/2-44,cs*CW,88);x.globalAlpha=1;x.fillStyle=C.ink;x.textAlign='center';x.font='700 20px system-ui,sans-serif';x.fillText(TR('Feld voll','Board full'),OX+cs*CW/2,OY+cs*CH/2-6);x.font='600 15px system-ui,sans-serif';x.fillText(TR('Tippen für eine neue Runde','Tap for a new round'),OX+cs*CW/2,OY+cs*CH/2+20);}
+    gScore(TR('Reihen ','Rows ')+st.lines);});
+  gNote(host,TR('Wischen bewegt den Stein, tippen dreht ihn, nach unten wischen lässt ihn fallen. Die Knöpfe darunter tun dasselbe. Volle Reihen verschwinden. Das Tempo bleibt gleich und lässt sich oben wählen.','Swiping moves the piece, tapping rotates it, swiping down drops it. The buttons below do the same. Full rows disappear. The speed stays the same and can be chosen at the top.'));
+}
+/* ---------- Schlange ---------- */
+function gameSnake(host){
+  const bar=document.createElement('div');host.appendChild(bar);
+  const st=GST.snake||(GST.snake={s:null,d:[1,0],q:[],f:null,sp:0,t:0,over:false,best:0,n:0,gw:0,gh:0});
+  const {cv,x,W,H}=gCanvas(host,84);const GW=15,cs=Math.floor(W/GW),GH=Math.max(12,Math.floor(H/cs)),OX=(W-cs*GW)/2,OY=(H-cs*GH)/2,SPD=[.3,.2,.13];
+  const food=()=>{let f,k=0;do{f=[gRnd(GW),gRnd(GH)];}while(k++<400&&st.s.some(c=>c[0]===f[0]&&c[1]===f[1]));st.f=f;};
+  const reset=()=>{const cy=Math.floor(GH/2);st.s=[[5,cy],[4,cy],[3,cy]];st.d=[1,0];st.q=[];st.over=false;st.n=0;st.t=0;st.gw=GW;st.gh=GH;food();};
+  if(!st.s||st.gw!==GW||st.gh!==GH)reset();
+  const turn=(dx,dy)=>{if(st.over){reset();return;}const l=st.q.length?st.q[st.q.length-1]:st.d;if((l[0]===-dx&&l[1]===-dy)||(l[0]===dx&&l[1]===dy)||st.q.length>2)return;st.q.push([dx,dy]);};
+  bar.innerHTML='<div class="gsets" style="margin:0 0 10px">'+[TR('Gemütlich','Leisurely'),TR('Mittel','Medium'),TR('Flott','Brisk')].map((n,k)=>'<button class="btn" data-sp="'+k+'" aria-pressed="'+(st.sp===k)+'">'+n+'</button>').join('')+'</div>';
+  bar.querySelectorAll('[data-sp]').forEach(b=>b.addEventListener('click',()=>{st.sp=+b.dataset.sp;bar.querySelectorAll('[data-sp]').forEach(o=>o.setAttribute('aria-pressed',String(o===b)));}));
+  const pad=document.createElement('div');pad.className='gsets gctl';pad.innerHTML='<button class="btn" data-d="-1,0" aria-label="'+TR('links','left')+'">◀</button><button class="btn" data-d="0,-1" aria-label="'+TR('hoch','up')+'">▲</button><button class="btn" data-d="0,1" aria-label="'+TR('runter','down')+'">▼</button><button class="btn" data-d="1,0" aria-label="'+TR('rechts','right')+'">▶</button>';host.appendChild(pad);
+  pad.querySelectorAll('[data-d]').forEach(b=>b.addEventListener('click',()=>{const d=b.dataset.d.split(',').map(Number);turn(d[0],d[1]);}));
+  let ds=null;
+  cv.addEventListener('pointerdown',e=>{ds=gPos(cv,e);gCap(cv,e);});
+  cv.addEventListener('pointermove',e=>{if(!ds)return;const p=gPos(cv,e),dx=p.x-ds.x,dy=p.y-ds.y;if(Math.hypot(dx,dy)<22)return;if(Math.abs(dx)>Math.abs(dy))turn(dx>0?1:-1,0);else turn(0,dy>0?1:-1);ds=p;});
+  cv.addEventListener('pointerup',()=>{if(st.over)reset();ds=null;});cv.addEventListener('pointercancel',()=>{ds=null;});
+  gLoop(cv,(dt,t)=>{const C=gCol();
+    if(!st.over&&dt){st.t+=dt;if(st.t>=SPD[st.sp]){st.t=0;if(st.q.length)st.d=st.q.shift();const h=st.s[0],n=[(h[0]+st.d[0]+GW)%GW,(h[1]+st.d[1]+GH)%GH];
+        const eat=n[0]===st.f[0]&&n[1]===st.f[1];if(!eat)st.s.pop();
+        if(st.s.some(c=>c[0]===n[0]&&c[1]===n[1])){st.over=true;st.best=Math.max(st.best,st.n);gSfx(196,.8,.05);}
+        else{st.s.unshift(n);if(eat){st.n++;gSfx(G_PENTA[st.n%10],.3,.06);food();}}}}
+    x.clearRect(0,0,W,H);x.fillStyle=C.dark?'rgba(255,255,255,.04)':'rgba(0,0,0,.04)';x.strokeStyle=C.ln;x.lineWidth=1.5;x.beginPath();if(x.roundRect)x.roundRect(OX,OY,cs*GW,cs*GH,8);else x.rect(OX,OY,cs*GW,cs*GH);x.fill();x.stroke();
+    const fx=OX+(st.f[0]+.5)*cs,fy=OY+(st.f[1]+.5)*cs;gBlob(x,fx,fy+Math.sin(t*3)*1.5,cs*.34,'#E56A8A',G_OL,2);x.strokeStyle=C.dark?'#6FB38A':'#3F8F62';x.lineWidth=2.5;x.beginPath();x.moveTo(fx,fy-cs*.3);x.lineTo(fx+4,fy-cs*.5);x.stroke();
+    for(let i=st.s.length-1;i>=0;i--){const c=st.s[i];gBlob(x,OX+(c[0]+.5)*cs,OY+(c[1]+.5)*cs,cs*(i?.42:.47),i%2?'#8FD1C2':'#9BD48A',G_OL,2);}
+    const h=st.s[0],hx=OX+(h[0]+.5)*cs,hy=OY+(h[1]+.5)*cs,px=-st.d[1],py=st.d[0];x.fillStyle=G_OL;x.beginPath();x.arc(hx+st.d[0]*cs*.15+px*cs*.17,hy+st.d[1]*cs*.15+py*cs*.17,2.2,0,7);x.arc(hx+st.d[0]*cs*.15-px*cs*.17,hy+st.d[1]*cs*.15-py*cs*.17,2.2,0,7);x.fill();
+    if(st.over){x.fillStyle=C.sf;x.globalAlpha=.9;x.fillRect(OX,H/2-44,cs*GW,88);x.globalAlpha=1;x.fillStyle=C.ink;x.textAlign='center';x.font='700 20px system-ui,sans-serif';x.fillText(TR('Verknotet','Tangled up'),W/2,H/2-6);x.font='600 15px system-ui,sans-serif';x.fillText(TR('Tippen für eine neue Runde','Tap for a new round'),W/2,H/2+20);}
+    gScore(TR('Gefressen ','Eaten ')+st.n+' · '+TR('Bestwert ','Best ')+Math.max(st.best,st.n));});
+  gNote(host,TR('Wischen oder die Pfeile lenken die Schlange. Am Rand kommt sie auf der anderen Seite wieder heraus. Nur wenn sie sich selbst beißt, endet die Runde.','Swiping or the arrows steer the snake. At the edge it comes out again on the other side. The round only ends when it bites itself.'));
 }
 /* ---------- Katze in der ganzen App ----------
    Kommt selten (alle 3 bis 6 Minuten), läuft am unteren Rand durch, setzt sich, schaut zu, geht wieder.
@@ -4356,7 +4575,7 @@ function exItem(it,routines,r,lazy){
     const x=document.createElement('div');x.className='extra';
     const render=()=>{
       const lv=level(it.ex),st=stageOf(it.ex),last=lastKraft(it.ex);
-      x.innerHTML='<div class="stages" role="group" aria-label="'+TR('Stufe wählen','Choose level')+'">'+ex.stages.map((_,i)=>'<button data-s="'+(i+1)+'" aria-pressed="'+(lv===i+1)+'">'+(i+1)+'</button>').join('')+'</div>'+'<div class="stagetxt">'+(EN?'<b>Level '+lv+':</b> '+st.t:'<b>Stufe '+lv+':</b> '+st.t)+'</div>'+(last?'<div class="small muted">'+(EN?'Last time (level '+last.stage+'):':'Letztes Mal (Stufe '+last.stage+'):')+' '+last.reps.join(' · ')+(ex.timed?' s':(' '+TR('Wdh.','reps')))+'</div>':'')+(kraftHint(it.ex)?'<div class="hint">'+kraftHint(it.ex)+'</div>':'');
+      x.innerHTML='<div class="stages" role="group" aria-label="'+TR('Stufe wählen','Choose level')+'">'+ex.stages.map((_,i)=>'<button data-s="'+(i+1)+'" aria-pressed="'+(lv===i+1)+'">'+(i+1)+'</button>').join('')+'</div>'+'<div class="stagetxt">'+(EN?'<b>Level '+lv+':</b> '+st.t:'<b>Stufe '+lv+':</b> '+st.t)+'</div>'+(last?'<div class="small muted">'+(ex.wt?TR('Letztes Mal: ','Last time: '):(EN?'Last time (level '+last.stage+'):':'Letztes Mal (Stufe '+last.stage+'):')+' ')+fmtKraft(it.ex,last)+(ex.timed?' s':(' '+TR('Wdh.','reps')))+'</div>':'')+(kraftHint(it.ex)?'<div class="hint">'+kraftHint(it.ex)+'</div>':'');
       x.querySelectorAll('[data-s]').forEach(b=>b.addEventListener('click',()=>{DATA.kraft.levels[it.ex]=Number(b.dataset.s);DATA.kraft.ts=Date.now();saveLocal();render();}));
     };
     render();x.addEventListener('click',e=>e.stopPropagation());x.addEventListener('keydown',e=>e.stopPropagation());el.appendChild(x);
@@ -4443,6 +4662,8 @@ function renderLib(){
   draw(true);
 }
 function openLib(){FLT.q='';show('v-lib');renderLib();}
+$('lib-add').textContent='+ '+TR('Eigene Übung anlegen','Create your own exercise');$('lib-add').addEventListener('click',()=>openUex());
+$('inf-body').addEventListener('click',e=>{const b=e.target.closest('[data-uex]');if(b){$('ov-info').classList.remove('on');openUex(b.dataset.uex);}});
 
 function renderVoiceSelect(){
   const er=$('s-engine-row');if(er){er.hidden=!CTTS.ready;$('s-cvoice-row').hidden=!(CTTS.ready&&S.engine!=='device');$('s-voicename-row').hidden=CTTS.ready&&S.engine!=='device';}
@@ -4659,7 +4880,7 @@ function cuesFor(st,key){
   if(ci&&ci.station)return [(EN?'Level '+level(key)+': '+s.t:'Stufe '+level(key)+': '+s.t),TR('Sauber und gleichmäßig bis zum Signal','Clean and even until the signal'),ex.cues[0]];
   const c=[(EN?'Level '+level(key)+': '+s.t:'Stufe '+level(key)+': '+s.t)];
   if(ex.timed)c.push((EN?'Goal: '+DATA.kraft.plank+' seconds':'Ziel: '+DATA.kraft.plank+' Sekunden')+(last?' '+TR('· letztes Mal','· last time')+' '+last.reps.join(' · ')+' s':''));
-  else{c.push(TR('Ziel','Goal')+' '+rngOf(key).join('–')+' '+TR('Wdh.','reps')+(ex.sides?(' '+TR('je Seite','per side')):'')+(last?' '+TR('· letztes Mal','· last time')+' '+last.reps.join(' · '):''));c.push(TR('Tempo:','Tempo:')+' '+tempoOf(key).map(x=>x[1]+' s '+x[0]).join(', '));}
+  else{c.push(TR('Ziel','Goal')+' '+rngOf(key).join('–')+' '+TR('Wdh.','reps')+(ex.sides?(' '+TR('je Seite','per side')):'')+(last?' '+(EN?'· last time '+fmtKraft(key,last):'· letztes Mal '+fmtKraft(key,last)):''));c.push(TR('Tempo:','Tempo:')+' '+tempoOf(key).map(x=>x[1]+' s '+x[0]).join(', '));}
   return c;
 }
 function showRepBox(){
@@ -4670,7 +4891,10 @@ function showRepBox(){
   $('p-rep').hidden=false;
   $('p-rep-l').innerHTML=(ex.timed?(TR('Gehalten in Satz','Held in set')+' '):(TR('Wiederholungen in Satz','Reps in set')+' '))+st.set+'<small>'+ex.name+(ex.sides?(' '+TR('· schwächere Seite','· weaker side')):'')+'</small>';
   $('p-rep-v').textContent=lg.reps[idx];
+  const wb=$('p-wt');wb.hidden=!ex.wt;if(ex.wt){lg.w=lg.w||[];if(lg.w[idx]==null)lg.w[idx]=idx>0&&lg.w[idx-1]!=null?lg.w[idx-1]:lastWeight(key,idx);$('p-wt-l').textContent=TR('Gewicht in kg','Weight in kg');$('p-wt-v').value=lg.w[idx];}
 }
+function adjWt(d,abs){const {st,key,ex}=cur();if(st.kind!=='rest'||!ex.wt)return;const lg=PL.log[key],idx=st.set-1;lg.w=lg.w||[];const v=abs!=null?abs:(lg.w[idx]||0)+d;lg.w[idx]=Math.max(0,Math.min(999,Math.round(v*4)/4));if(abs==null)$('p-wt-v').value=lg.w[idx];}
+$('p-wt-m').addEventListener('click',()=>adjWt(-2.5));$('p-wt-p').addEventListener('click',()=>adjWt(2.5));$('p-wt-v').addEventListener('input',e=>{const v=parseFloat(String(e.target.value).replace(',','.'));if(!isNaN(v))adjWt(0,v);});
 function adjRep(d){
   const {st,key,ex}=cur();if(st.kind!=='rest')return;
   const lg=PL.log[key],idx=st.set-1;
@@ -4892,7 +5116,7 @@ function finish(complete){
   if(counted)recordSession(r.id,secs,complete);
   let kraftRes=null;
   if(r.items.some(it=>it.kraft)&&counted&&Object.keys(PL.log).length){
-    const items={};for(const k in PL.log){const lg=PL.log[k];const reps=lg.reps.filter(v=>v!=null);if(reps.length)items[k]={stage:lg.stage,reps};}
+    const items={};for(const k in PL.log){const lg=PL.log[k];const reps=lg.reps.filter(v=>v!=null);if(reps.length){items[k]={stage:lg.stage,reps};if(lg.w&&EX[k]&&EX[k].wt)items[k].w=reps.map((_,i)=>lg.w[i]!=null?lg.w[i]:0);}}
     const now=new Date();
     DATA.kraft.log.push({id:now.toISOString(),d:ymd(now),r:r.id,sets:kraftSets(r),items});
     const pk=items.k_plank;if(pk&&pk.reps.every(v=>v>=DATA.kraft.plank)){DATA.kraft.plank=Math.min(60,DATA.kraft.plank+5);DATA.kraft.ts=Date.now();}
@@ -4913,7 +5137,7 @@ function renderDone(r,complete,counted,secs,kraftRes){
   let html='<div class="donehero"><div class="eyebrow">'+r.title+'</div><div class="big">'+(complete?TR('Geschafft!','Done!'):counted?TR('Gut, zählt trotzdem.','Good, it still counts.'):TR('Beendet','Ended'))+'</div>'+
     '<p class="muted">'+(counted?(st===1?TR('1 Tag in Folge.','1 day in a row.'):(EN?''+st+' days in a row.':''+st+' Tage in Folge.'))+' '+(EN?'Duration '+fmtMin(secs)+'.':'Dauer '+fmtMin(secs)+'.'):TR('Ab der Hälfte zählt es für die Serie.','From halfway on it counts toward the streak.'))+'</p></div>';
   if(kraftRes){
-    html+='<div class="card"><h3>'+TR('Trainingstagebuch','Training log')+'</h3><div class="ktable" style="margin-top:8px">'+Object.keys(kraftRes).map(k=>{const e=kraftRes[k];return '<div class="krow"><span>'+EX[k].name+' <span class="muted small">'+(EN?'Level '+e.stage:'Stufe '+e.stage)+'</span></span><b>'+e.reps.join(' · ')+(EX[k].timed?' s':'')+'</b></div>';}).join('')+'</div>'+'<div class="ktable" style="margin-top:10px">'+Object.keys(kraftRes).map(k=>kraftHint(k)?'<div class="small"><b>'+EX[k].name+':</b> '+kraftHint(k)+'</div>':'').join('')+'</div>'+'<p class="small muted" style="margin-top:8px">'+TR('Nächstes Training frühestens übermorgen. Stufen änderst du unter „Übungen“.','Next workout the day after tomorrow at the earliest. You change levels under “Exercises.”')+'</p></div>';
+    html+='<div class="card"><h3>'+TR('Trainingstagebuch','Training log')+'</h3><div class="ktable" style="margin-top:8px">'+Object.keys(kraftRes).map(k=>{const e=kraftRes[k];return '<div class="krow"><span>'+EX[k].name+(EX[k].wt?'':' <span class="muted small">'+(EN?'Level '+e.stage:'Stufe '+e.stage)+'</span>')+'</span><b>'+fmtKraft(k,e)+(EX[k].timed?' s':'')+'</b></div>';}).join('')+'</div>'+'<div class="ktable" style="margin-top:10px">'+Object.keys(kraftRes).map(k=>kraftHint(k)?'<div class="small"><b>'+EX[k].name+':</b> '+kraftHint(k)+'</div>':'').join('')+'</div>'+'<p class="small muted" style="margin-top:8px">'+TR('Nächstes Training frühestens übermorgen. Stufen änderst du unter „Übungen“.','Next workout the day after tomorrow at the earliest. You change levels under “Exercises.”')+'</p></div>';
   }
   const today=ymd(new Date());
   if(r.id==='morgen'&&counted){
@@ -5188,8 +5412,8 @@ function ktRender(){
 ['rc-timers','rcl-timers'].forEach(id=>$(id).addEventListener('click',e=>{const b=e.target.closest('[data-kt]');if(b)ktCancel(b.dataset.kt);}));
 
 /* ================= Mehr, Infoseiten, Installieren, Sicherung ================= */
-const APP_VER='1.9.1';
-const CHANGES={'1.9.1':[TR('Die Wochenleiste auf „Heute“ zeigt jetzt die laufende Woche von Montag bis Sonntag. „Tage in Folge“ zählt wie bisher über die Wochengrenze','The week strip on “Today” now shows the current week from Monday to Sunday. “Days in a row” still counts across the week boundary')],'1.9':[TR('Jede Übung erklärt jetzt, wo du sie spürst und was du änderst, wenn du nichts spürst. In der ausführlichen Ansage wird das mitgesprochen','Every exercise now explains where you feel it and what to change if you feel nothing. The detailed announcement says it too'),TR('Gesäß-Dehnung (Figur 4) neu beschrieben: Das untere Bein wird zur Brust gezogen, erst das erzeugt die Dehnung','Glute stretch (figure 4) described anew: the bottom leg is pulled toward the chest, only that creates the stretch'),TR('Zu jeder Übung gibt es einen Knopf „Videos auf YouTube“, auf der Info-Seite und in der Übungsliste einer Routine','Every exercise has a “Videos on YouTube” button, on the info page and in the exercise list of a routine')],'1.8.1':[TR('Weben als Bildweberei: Kettfäden einfärben, nach dem Anschlagen zeigt jede Kreuzung nur noch einen Faden. 14, 20 oder 28 Kettfäden, gesteuert im Streifen unten','Weaving as picture weaving: color the warp threads, after beating each crossing shows only one thread. 14, 20 or 28 warp threads, controlled in the strip at the bottom'),TR('Ab und zu schaut eine Katze vorbei. Antippen macht sie froh. Ausschalten unter Mehr › Einstellungen','Now and then a cat drops by. Tapping makes it happy. Turn it off under More › Settings')],'1.8':[TR('Zwei neue Spiele: Minigolf mit acht Bahnen und Weben am Webstuhl','Two new games: mini golf with eight holes and weaving on a loom'),TR('Solitär: Karten und Teilstapel lassen sich jetzt ziehen, auch von der Ablage zurück','Solitaire: cards and partial stacks can now be dragged, also back from the foundation'),TR('Hüpfen: höher springen durch Halten, Pilze, Vögel, Schweben nach 10 Sternen und wechselnde Landschaften','Hopping: jump higher by holding, mushrooms, birds, floating after 10 stars and changing landscapes')],'1.7':[TR('Vier neue Spiele: Angeln, Hüpfen, Solitär und Würfel','Four new games: fishing, hopping, solitaire and dice'),TR('Klangbrett: volle Tonleiter, mehrere Seiten, „Alle auf Mitte“ und sieben Melodien zum Laden','Sound board: full scale, several pages, “All to middle” and seven melodies to load')],'1.6.2':[TR('„Musik wählen“ im Spiel zeigt jetzt die ganze Musikseite, der Rückweg „Zurück zum Spiel“ sitzt oben rechts','“Choose music” in a game now shows the whole music page, the way back “Back to the game” sits at the top right'),TR('Zen-Garten passt ohne Scrollen auf den Bildschirm, die Erklärung steckt hinter dem Fragezeichen','Zen garden fits on the screen without scrolling, the explanation is behind the question mark'),TR('Wolken: Größere Wolken lassen mehr Blumen wachsen, alte Blumen verblassen. Ab und zu kommt eine Katze vorbei, sammelt liegende Herzen ein und schnurrt','Clouds: bigger clouds make more flowers grow, old flowers fade. Now and then a cat comes by, collects hearts lying around and purrs')],'1.6.1':[TR('Spiele überarbeitet: Der Spielstand bleibt erhalten, dazu Pause, Neu starten und ein eigener Knopf „Musik wählen“','Games reworked: your progress is kept, plus Pause, Restart and a separate “Choose music” button'),TR('Klangbrett: Feld gedrückt halten und schieben stellt die Tonhöhe ein, bis zu 3 Schläge je Feld, eigener Ton per Mikrofon','Sound board: press and hold a field and slide to set the pitch, up to 3 hits per field, your own sound via microphone'),TR('Wolken: Herzen bleiben liegen, lassen sich stufenweise verbinden und bringen Blumen zum Blühen','Clouds: hearts stay on the ground, can be combined in steps and make flowers bloom'),TR('Turm: Figur steht jetzt im unteren Drittel, Wolken sind Podeste, alle 10 Sterne wechseln Farbe und Klang','Tower: the figure now stands in the lower third, clouds are platforms, color and sound change every 10 stars'),TR('Zen-Garten: Radierer, Welle, Moos, verschiebbare Steine, Führung für gerade Bahnen, Steuerkreuz, Bild speichern','Zen garden: eraser, wave, moss, movable stones, guide for straight tracks, d-pad, save picture'),TR('Atemballon: Steigen und Sinken passen jetzt zum Ring','Breath balloon: rising and sinking now match the ring')],'1.6':[TR('Sechs ruhige Spiele unter Wohlfühlen › Spiele: Klangbrett, Wolken, Turm, Zen-Garten, Atemballon und Paare finden. Die Farben folgen deiner Darstellung, Geräusche und Musik schaltest du oben im Spiel','Six calm games under Wellbeing › Games: sound board, clouds, tower, zen garden, breath balloon and find pairs. The colors follow your appearance setting; you switch sounds and music at the top of the game'),TR('Test: Unter Mehr › Einstellungen gibt es den Schalter „Bei Display aus weiterlaufen“ für die geführten Entspannungen','Test: under More › Settings there is the switch “Keep running with display off” for the guided relaxations')],'1.5':[TR('Englisch: Die ganze App gibt es jetzt auch auf Englisch, mit Übungen, Ansagen, Entspannung und Rezepten. Beim ersten Start richtet sie sich nach der Sprache des Handys. Umschalten unter Mehr › Sprache / Language','English: the whole app is now available in English too, with exercises, announcements, relaxation and recipes. On first start it follows the phone\'s language. Switch under More › Sprache / Language'),TR('Drei Radiosender ersetzt, weil die bisherigen nicht liefen: Slow House kommt jetzt von Maretimo House Radio, dazu neu egoFM Chillout und Hirschmilch Radio Chillout','Three radio stations replaced because the previous ones didn\'t play: Slow House now comes from Maretimo House Radio, plus egoFM Chillout and Hirschmilch Radio Chillout as new stations'),TR('Die App gibt Android jetzt eine dunkle Farbe für die untere Leiste vor. Das wirkt erst, wenn du die App entfernst und neu installierst, siehe Mehr › Darstellung','The app now gives Android a dark color for the bottom bar. This only takes effect when you remove the app and reinstall it, see More › Appearance'),TR('Der Startbildschirm fragt nicht mehr nach dem Vornamen. Eintragen kannst du ihn weiterhin unter Mehr › Einstellungen','The start screen no longer asks for your first name. You can still enter it under More › Settings')],'1.4':['Eigene Musik: Ordner oder einzelne Dateien vom Handy wählen und der Reihe nach oder zufällig abspielen. Geht auch als Hintergrundmusik für Routinen und Training','14 neue Radiosender, darunter ByteFM, drei Blues-Sender, Slow House, Reggae, Hip-Hop, Gregorianik, alte Musik, Barock und Meditation. Die Sender sind jetzt in Gruppen sortiert','Das Radio merkt sich die Adresse, die zuletzt lief, und verbindet dadurch schneller'],'1.3':['Darstellung unter „Mehr“: hell, dunkel oder wie das Handy, dazu fünf Farbwelten. Die Leiste oben nimmt die Farbe der App an','Eigene Routinen: Übungen filtern, auswählen und mit Zeit, Wiederholungen oder Sätzen samt Tagebuch zusammenstellen. Fertige Routinen lassen sich als Vorlage kopieren','Zwei neue Trainings nur mit Matte: Ausdauer-Zirkel (auf Wunsch ohne Springen) und Kraft ohne Geräte, mit Curl-up und Dead Bug statt Sit-ups','25 neue Übungen, darunter mehrere für den Schreibtisch. Alle Übungen haben jetzt Filter nach Art, Ort, Hilfsmittel und Körperbereich','Morgen, Abend, Couch und Büro wechseln täglich einzelne Übungen gegen gleichwertige. Abschaltbar','Gedanken-Shuffle mit über 1.100 Wörtern, die sich erst wiederholen, wenn alle dran waren','Anleitung für andere Stimmen in den Einstellungen und ein Knackschutz für die Ansagen'],'1.2.1':['Klänge besser hörbar: binaurale Beats auf 400 Hz angehoben, Klangflächen eine Oktave höher gelegt','Klänge und braunes Rauschen so laut eingestellt, wie Naturgeräusche klingen','Hinweis bei den Klängen: am besten mit Kopfhörern'],'1.2':['Neu unter „Mehr“: Wohlzeit teilen, per WhatsApp oder über das Teilen-Menü, oder den Link kopieren','Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1.1':['Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1':['Echte Naturgeräusche: Regen, Gewitter, Wellen, Bach, Wind, Kaminfeuer, Vögel, Grillen, Katzenschnurren, Café, Zug, Boot und Stadt','Sieben Rauschfarben mit Erklärung, wofür sie gedacht sind','Klänge (experimentell): binaurale Beats sowie 432- und 528-Hz-Klangflächen, mit Ampel zur Studienlage','Radio: Ambient Sleeping Pill und Radio Paradise Mellow Mix, SomaFM als Ersatz'],'1.0':['Neuer Name: Wohlzeit – Zeit für dich','Untere Leiste mit Heute, Training, Wohlfühlen, Musik und Mehr','„Heute“ schlägt passend zur Tageszeit etwas vor','Wohlfühlrezepte: Seelenfutter und Kraftfutter, mit Portionsrechner und Küchentimer','Klarere Buttons, Infos ohne Kapseln, eingerückte Unterpunkte','Daten sichern und wiederherstellen unter „Mehr“','Als App auf dem Startbildschirm installierbar']};
+const APP_VER='1.11';
+const CHANGES={'1.11':[TR('Eigene Übungen: Unter „Alle Übungen“ kannst du Übungen anlegen und in eigenen Routinen verwenden','Your own exercises: under “All exercises” you can create exercises and use them in your own routines'),TR('25 Studio-Übungen als Vorlagen, von Bankdrücken bis Latzug. Bei diesen und bei eigenen Kraftübungen trägst du das Gewicht je Satz ein','25 gym exercises as templates, from bench press to lat pulldown. For these and for your own strength exercises you enter the weight per set'),TR('Zwei neue Spiele: Blöcke und Schlange','Two new games: blocks and snake')],'1.10':[TR('Minigolf hat jetzt 40 Bahnen. Jeder Parcours zieht 9 oder 18 davon per Zufall','Mini golf now has 40 holes. Each course draws 9 or 18 of them at random'),TR('Weben: Das Schiffchen lässt sich zurückziehen, um einen Faden zu korrigieren. Buchstaben und Ringe zeigen, bei welchem Kettfaden du bist','Weaving: the shuttle can be dragged back to correct a thread. Letters and rings show which warp thread you are at'),TR('Die Sprache stellst du nur noch unter Mehr › Sprache / Language um. Die Farbvorgabe für die untere Leiste ist wieder entfernt, sie hatte keine Wirkung','You now change the language only under More › Sprache / Language. The color setting for the bottom bar has been removed again, it had no effect')],'1.9.1':[TR('Die Wochenleiste auf „Heute“ zeigt jetzt die laufende Woche von Montag bis Sonntag. „Tage in Folge“ zählt wie bisher über die Wochengrenze','The week strip on “Today” now shows the current week from Monday to Sunday. “Days in a row” still counts across the week boundary')],'1.9':[TR('Jede Übung erklärt jetzt, wo du sie spürst und was du änderst, wenn du nichts spürst. In der ausführlichen Ansage wird das mitgesprochen','Every exercise now explains where you feel it and what to change if you feel nothing. The detailed announcement says it too'),TR('Gesäß-Dehnung (Figur 4) neu beschrieben: Das untere Bein wird zur Brust gezogen, erst das erzeugt die Dehnung','Glute stretch (figure 4) described anew: the bottom leg is pulled toward the chest, only that creates the stretch'),TR('Zu jeder Übung gibt es einen Knopf „Videos auf YouTube“, auf der Info-Seite und in der Übungsliste einer Routine','Every exercise has a “Videos on YouTube” button, on the info page and in the exercise list of a routine')],'1.8.1':[TR('Weben als Bildweberei: Kettfäden einfärben, nach dem Anschlagen zeigt jede Kreuzung nur noch einen Faden. 14, 20 oder 28 Kettfäden, gesteuert im Streifen unten','Weaving as picture weaving: color the warp threads, after beating each crossing shows only one thread. 14, 20 or 28 warp threads, controlled in the strip at the bottom'),TR('Ab und zu schaut eine Katze vorbei. Antippen macht sie froh. Ausschalten unter Mehr › Einstellungen','Now and then a cat drops by. Tapping makes it happy. Turn it off under More › Settings')],'1.8':[TR('Zwei neue Spiele: Minigolf mit acht Bahnen und Weben am Webstuhl','Two new games: mini golf with eight holes and weaving on a loom'),TR('Solitär: Karten und Teilstapel lassen sich jetzt ziehen, auch von der Ablage zurück','Solitaire: cards and partial stacks can now be dragged, also back from the foundation'),TR('Hüpfen: höher springen durch Halten, Pilze, Vögel, Schweben nach 10 Sternen und wechselnde Landschaften','Hopping: jump higher by holding, mushrooms, birds, floating after 10 stars and changing landscapes')],'1.7':[TR('Vier neue Spiele: Angeln, Hüpfen, Solitär und Würfel','Four new games: fishing, hopping, solitaire and dice'),TR('Klangbrett: volle Tonleiter, mehrere Seiten, „Alle auf Mitte“ und sieben Melodien zum Laden','Sound board: full scale, several pages, “All to middle” and seven melodies to load')],'1.6.2':[TR('„Musik wählen“ im Spiel zeigt jetzt die ganze Musikseite, der Rückweg „Zurück zum Spiel“ sitzt oben rechts','“Choose music” in a game now shows the whole music page, the way back “Back to the game” sits at the top right'),TR('Zen-Garten passt ohne Scrollen auf den Bildschirm, die Erklärung steckt hinter dem Fragezeichen','Zen garden fits on the screen without scrolling, the explanation is behind the question mark'),TR('Wolken: Größere Wolken lassen mehr Blumen wachsen, alte Blumen verblassen. Ab und zu kommt eine Katze vorbei, sammelt liegende Herzen ein und schnurrt','Clouds: bigger clouds make more flowers grow, old flowers fade. Now and then a cat comes by, collects hearts lying around and purrs')],'1.6.1':[TR('Spiele überarbeitet: Der Spielstand bleibt erhalten, dazu Pause, Neu starten und ein eigener Knopf „Musik wählen“','Games reworked: your progress is kept, plus Pause, Restart and a separate “Choose music” button'),TR('Klangbrett: Feld gedrückt halten und schieben stellt die Tonhöhe ein, bis zu 3 Schläge je Feld, eigener Ton per Mikrofon','Sound board: press and hold a field and slide to set the pitch, up to 3 hits per field, your own sound via microphone'),TR('Wolken: Herzen bleiben liegen, lassen sich stufenweise verbinden und bringen Blumen zum Blühen','Clouds: hearts stay on the ground, can be combined in steps and make flowers bloom'),TR('Turm: Figur steht jetzt im unteren Drittel, Wolken sind Podeste, alle 10 Sterne wechseln Farbe und Klang','Tower: the figure now stands in the lower third, clouds are platforms, color and sound change every 10 stars'),TR('Zen-Garten: Radierer, Welle, Moos, verschiebbare Steine, Führung für gerade Bahnen, Steuerkreuz, Bild speichern','Zen garden: eraser, wave, moss, movable stones, guide for straight tracks, d-pad, save picture'),TR('Atemballon: Steigen und Sinken passen jetzt zum Ring','Breath balloon: rising and sinking now match the ring')],'1.6':[TR('Sechs ruhige Spiele unter Wohlfühlen › Spiele: Klangbrett, Wolken, Turm, Zen-Garten, Atemballon und Paare finden. Die Farben folgen deiner Darstellung, Geräusche und Musik schaltest du oben im Spiel','Six calm games under Wellbeing › Games: sound board, clouds, tower, zen garden, breath balloon and find pairs. The colors follow your appearance setting; you switch sounds and music at the top of the game'),TR('Test: Unter Mehr › Einstellungen gibt es den Schalter „Bei Display aus weiterlaufen“ für die geführten Entspannungen','Test: under More › Settings there is the switch “Keep running with display off” for the guided relaxations')],'1.5':[TR('Englisch: Die ganze App gibt es jetzt auch auf Englisch, mit Übungen, Ansagen, Entspannung und Rezepten. Beim ersten Start richtet sie sich nach der Sprache des Handys. Umschalten unter Mehr › Sprache / Language','English: the whole app is now available in English too, with exercises, announcements, relaxation and recipes. On first start it follows the phone\'s language. Switch under More › Sprache / Language'),TR('Drei Radiosender ersetzt, weil die bisherigen nicht liefen: Slow House kommt jetzt von Maretimo House Radio, dazu neu egoFM Chillout und Hirschmilch Radio Chillout','Three radio stations replaced because the previous ones didn\'t play: Slow House now comes from Maretimo House Radio, plus egoFM Chillout and Hirschmilch Radio Chillout as new stations'),TR('Die App gibt Android jetzt eine dunkle Farbe für die untere Leiste vor. Das wirkt erst, wenn du die App entfernst und neu installierst, siehe Mehr › Darstellung','The app now gives Android a dark color for the bottom bar. This only takes effect when you remove the app and reinstall it, see More › Appearance'),TR('Der Startbildschirm fragt nicht mehr nach dem Vornamen. Eintragen kannst du ihn weiterhin unter Mehr › Einstellungen','The start screen no longer asks for your first name. You can still enter it under More › Settings')],'1.4':['Eigene Musik: Ordner oder einzelne Dateien vom Handy wählen und der Reihe nach oder zufällig abspielen. Geht auch als Hintergrundmusik für Routinen und Training','14 neue Radiosender, darunter ByteFM, drei Blues-Sender, Slow House, Reggae, Hip-Hop, Gregorianik, alte Musik, Barock und Meditation. Die Sender sind jetzt in Gruppen sortiert','Das Radio merkt sich die Adresse, die zuletzt lief, und verbindet dadurch schneller'],'1.3':['Darstellung unter „Mehr“: hell, dunkel oder wie das Handy, dazu fünf Farbwelten. Die Leiste oben nimmt die Farbe der App an','Eigene Routinen: Übungen filtern, auswählen und mit Zeit, Wiederholungen oder Sätzen samt Tagebuch zusammenstellen. Fertige Routinen lassen sich als Vorlage kopieren','Zwei neue Trainings nur mit Matte: Ausdauer-Zirkel (auf Wunsch ohne Springen) und Kraft ohne Geräte, mit Curl-up und Dead Bug statt Sit-ups','25 neue Übungen, darunter mehrere für den Schreibtisch. Alle Übungen haben jetzt Filter nach Art, Ort, Hilfsmittel und Körperbereich','Morgen, Abend, Couch und Büro wechseln täglich einzelne Übungen gegen gleichwertige. Abschaltbar','Gedanken-Shuffle mit über 1.100 Wörtern, die sich erst wiederholen, wenn alle dran waren','Anleitung für andere Stimmen in den Einstellungen und ein Knackschutz für die Ansagen'],'1.2.1':['Klänge besser hörbar: binaurale Beats auf 400 Hz angehoben, Klangflächen eine Oktave höher gelegt','Klänge und braunes Rauschen so laut eingestellt, wie Naturgeräusche klingen','Hinweis bei den Klängen: am besten mit Kopfhörern'],'1.2':['Neu unter „Mehr“: Wohlzeit teilen, per WhatsApp oder über das Teilen-Menü, oder den Link kopieren','Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1.1':['Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1':['Echte Naturgeräusche: Regen, Gewitter, Wellen, Bach, Wind, Kaminfeuer, Vögel, Grillen, Katzenschnurren, Café, Zug, Boot und Stadt','Sieben Rauschfarben mit Erklärung, wofür sie gedacht sind','Klänge (experimentell): binaurale Beats sowie 432- und 528-Hz-Klangflächen, mit Ampel zur Studienlage','Radio: Ambient Sleeping Pill und Radio Paradise Mellow Mix, SomaFM als Ersatz'],'1.0':['Neuer Name: Wohlzeit – Zeit für dich','Untere Leiste mit Heute, Training, Wohlfühlen, Musik und Mehr','„Heute“ schlägt passend zur Tageszeit etwas vor','Wohlfühlrezepte: Seelenfutter und Kraftfutter, mit Portionsrechner und Küchentimer','Klarere Buttons, Infos ohne Kapseln, eingerückte Unterpunkte','Daten sichern und wiederherstellen unter „Mehr“','Als App auf dem Startbildschirm installierbar']};
 let instPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();instPrompt=e;if(curView==='v-home')renderHome();else if(curView==='v-more')renderMore();});
 window.addEventListener('appinstalled',()=>{instPrompt=null;LS.set('rr.instHide',1);if(curView==='v-home')renderHome();});
@@ -5221,10 +5445,11 @@ function routineToCustom(r){
 }
 /* Filter für Übungsliste und Auswahl */
 let FLT=Object.assign({art:[],ort:[],have:[],zone:[],pos:[],q:'',open:false},LS.get('rr.flt',{}));
-['art','ort','have','zone','pos'].forEach(k=>{if(!Array.isArray(FLT[k]))FLT[k]=[];});FLT.q='';
-const HAVE_N={matte:TR('Matte','Mat'),moebel:TR('Stuhl oder Sofa','Chair or couch'),wand:TR('Wand oder Tür','Wall or door'),klein:TR('Handtuch, Rolle, Stab','Towel, roller, stick'),band:TR('Theraband','Resistance band'),gewicht:TR('Hantel, Kettlebell','Dumbbell, kettlebell'),stange:TR('Klimmzugstange','Pull-up bar')};
-const FLT_GROUPS=[['art',TR('Art','Type'),ART_N],['ort',TR('Wo','Where'),ORT_N],['have',TR('Ich habe','I have'),HAVE_N],['zone',TR('Körperbereich','Body area'),ZONE_N],['pos',TR('Position','Position'),POS_N]];
-const fltCount=()=>FLT.art.length+FLT.ort.length+FLT.have.length+FLT.zone.length+FLT.pos.length;
+['art','ort','have','zone','pos','src'].forEach(k=>{if(!Array.isArray(FLT[k]))FLT[k]=[];});
+const SRC_N={own:TR('Eigene Übungen','My exercises'),gym:TR('Studio-Übungen','Gym exercises')};FLT.q='';
+const HAVE_N={matte:TR('Matte','Mat'),moebel:TR('Stuhl oder Sofa','Chair or couch'),wand:TR('Wand oder Tür','Wall or door'),klein:TR('Handtuch, Rolle, Stab','Towel, roller, stick'),band:TR('Theraband','Resistance band'),gewicht:TR('Hantel, Kettlebell','Dumbbell, kettlebell'),stange:TR('Klimmzugstange','Pull-up bar'),studio:TR('Studio-Geräte','Gym equipment')};
+const FLT_GROUPS=[['art',TR('Art','Type'),ART_N],['ort',TR('Wo','Where'),ORT_N],['have',TR('Ich habe','I have'),HAVE_N],['zone',TR('Körperbereich','Body area'),ZONE_N],['pos',TR('Position','Position'),POS_N],['src',TR('Herkunft','Source'),SRC_N]];
+const fltCount=()=>FLT.art.length+FLT.ort.length+FLT.have.length+FLT.zone.length+FLT.pos.length+FLT.src.length;
 function fltPass(k){
   const t=tagsOf(k),f=FLT;
   if(f.art.length&&!f.art.includes(t.art))return false;
@@ -5232,6 +5457,7 @@ function fltPass(k){
   if(f.have.length&&!t.hm.every(h=>h==='nichts'||f.have.includes(h)))return false;
   if(f.zone.length&&!f.zone.some(z=>t.zone.includes(z)))return false;
   if(f.pos.length&&!f.pos.includes(t.pos))return false;
+  if(f.src.length&&!((f.src.includes('own')&&EX[k].user)||(f.src.includes('gym')&&EX[k].gym)))return false;
   if(f.q){const q=f.q.toLowerCase();if(!(EX[k].name.toLowerCase().includes(q)||String(EX[k].muscles||'').toLowerCase().includes(q)))return false;}
   return true;
 }
@@ -5244,7 +5470,7 @@ function fltBind(root,onChange){
   const q=root.querySelector('.fsearch');q.addEventListener('input',()=>{FLT.q=q.value.trim();onChange(false);});
 }
 const fltKeys=()=>Object.keys(EX).filter(k=>EX[k].kind!=='guide'&&fltPass(k));
-const NEX=Object.keys(EX).filter(k=>EX[k].kind!=='guide').length;
+let NEX=Object.keys(EX).filter(k=>EX[k].kind!=='guide').length;
 /* Figuren nur animieren, wenn sie sichtbar sind */
 const LIVEOBS={io:null,map:new Map(),
   reset(){if(this.io)this.io.disconnect();this.map.clear();this.io=('IntersectionObserver' in window)?new IntersectionObserver(es=>{for(const e of es){const f=this.map.get(e.target);if(!f)continue;if(e.isIntersecting)live.add(f);else live.delete(f);}}):null;},
@@ -5338,7 +5564,7 @@ function openLang(){
 }
 function openLook(){
   const dark=()=>S.theme==='dark'||(S.theme!=='light'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);
-  const html=()=>'<div class="card"><h3>'+TR('Hell oder dunkel','Light or dark')+'</h3><div class="seg2" style="margin-top:10px">'+[['auto',TR('Wie Handy','Like phone')],['light',TR('Hell','Light')],['dark',TR('Dunkel','Dark')]].map(([v,l])=>'<button data-th="'+v+'" aria-pressed="'+(S.theme===v)+'">'+l+'</button>').join('')+'</div>'+'<p class="small muted" style="margin-top:8px">'+TR('„Wie Handy“ folgt dem dunklen Modus deines Handys.','“Like phone” follows your phone\'s dark mode.')+'</p></div>'+'<div class="card"><h3>'+TR('Farbwelt','Color theme')+'</h3><p class="small muted" style="margin-top:4px">'+TR('Ändert Hintergrund, Knöpfe und Hervorhebungen. Die Farben der Bereiche (Morgen, Abend …) bleiben gleich.','Changes background, buttons and highlights. The colors of the areas (morning, evening …) stay the same.')+'</p><div class="palrow">'+Object.keys(PAL_META).map(k=>{const m=PAL_META[k],d=dark();return '<button class="palbtn" data-pal="'+k+'" aria-pressed="'+((S.pal||'salbei')===k)+'"><i style="--a:'+(d?m[3]:m[1])+';--b:'+(d?m[4]:m[2])+'"></i>'+m[0]+'</button>';}).join('')+'</div></div>'+'<div class="card"><h3>'+TR('Leisten oben und unten','Top and bottom bars')+'</h3><p class="small muted" style="margin-top:4px">'+TR('Die Leiste oben mit Uhr und Akku nimmt die Farbe der App an. Die Leiste unten steuert Android selbst. Ab Version 1.5 gibt die App dafür eine dunkle Farbe vor. Android übernimmt sie erst, wenn du die App vom Startbildschirm entfernst und neu installierst. Sichere vorher unter Mehr › Daten sichern und setze beim Entfernen keinen Haken bei „Daten löschen“. Ob Android die Farbe dann wirklich übernimmt, ist nicht sicher.','The bar at the top with clock and battery takes on the app\'s color. The bar at the bottom is controlled by Android itself. From version 1.5 on, the app specifies a dark color for it. Android only adopts it when you remove the app from the home screen and reinstall it. Back up first under More › Back up data, and when removing, don\'t check “Delete data.” Whether Android then really adopts the color is not certain.')+'</p></div>';
+  const html=()=>'<div class="card"><h3>'+TR('Hell oder dunkel','Light or dark')+'</h3><div class="seg2" style="margin-top:10px">'+[['auto',TR('Wie Handy','Like phone')],['light',TR('Hell','Light')],['dark',TR('Dunkel','Dark')]].map(([v,l])=>'<button data-th="'+v+'" aria-pressed="'+(S.theme===v)+'">'+l+'</button>').join('')+'</div>'+'<p class="small muted" style="margin-top:8px">'+TR('„Wie Handy“ folgt dem dunklen Modus deines Handys.','“Like phone” follows your phone\'s dark mode.')+'</p></div>'+'<div class="card"><h3>'+TR('Farbwelt','Color theme')+'</h3><p class="small muted" style="margin-top:4px">'+TR('Ändert Hintergrund, Knöpfe und Hervorhebungen. Die Farben der Bereiche (Morgen, Abend …) bleiben gleich.','Changes background, buttons and highlights. The colors of the areas (morning, evening …) stay the same.')+'</p><div class="palrow">'+Object.keys(PAL_META).map(k=>{const m=PAL_META[k],d=dark();return '<button class="palbtn" data-pal="'+k+'" aria-pressed="'+((S.pal||'salbei')===k)+'"><i style="--a:'+(d?m[3]:m[1])+';--b:'+(d?m[4]:m[2])+'"></i>'+m[0]+'</button>';}).join('')+'</div></div>'+'<div class="card"><h3>'+TR('Leisten oben und unten','Top and bottom bars')+'</h3><p class="small muted" style="margin-top:4px">'+TR('Die Leiste oben mit Uhr und Akku nimmt die Farbe der App an. Die Leiste unten steuert Android selbst. Eine Farbvorgabe der App hat im Test auf einem Pixel nichts geändert. Mit der Gestensteuerung von Android wird die Leiste zu einem schmalen Strich.','The bar at the top with clock and battery takes on the app\'s color. The bar at the bottom is controlled by Android itself. A color specified by the app changed nothing in a test on a Pixel. With Android gesture navigation the bar becomes a thin line.')+'</p></div>';
   const bind=b=>{
     b.querySelectorAll('[data-th]').forEach(x=>x.addEventListener('click',()=>{S.theme=x.dataset.th;saveSettings();applyTheme();openLook();}));
     b.querySelectorAll('[data-pal]').forEach(x=>x.addEventListener('click',()=>{S.pal=x.dataset.pal;saveSettings();applyTheme();openLook();}));
@@ -5417,7 +5643,6 @@ function startChecks(){
   if(seen!==APP_VER&&CHANGES[APP_VER]){$('nw-eb').textContent='Version '+APP_VER;$('nw-list').innerHTML=CHANGES[APP_VER].map(x=>'<li>'+x+'</li>').join('');$('ov-news').classList.add('on');}
   else LS.set('rr.ver',APP_VER);
 }
-$('wl-lang').querySelectorAll('button').forEach(b=>{b.setAttribute('aria-pressed',String((b.dataset.lang==='en')===EN));b.addEventListener('click',()=>setLang(b.dataset.lang));});
 $('wl-go').addEventListener('click',()=>{saveSettings();LS.set('rr.welcome',1);LS.set('rr.ver',APP_VER);$('ov-welcome').classList.remove('on');Voice.unlock();renderHome();});
 $('nw-ok').addEventListener('click',()=>{LS.set('rr.ver',APP_VER);$('ov-news').classList.remove('on');});
 try{if(isWeb()&&navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});}catch(e){}
@@ -5449,7 +5674,7 @@ function loop(now){
 requestAnimationFrame(loop);
 
 /* ================= Start ================= */
-if(window.__rrDebug)window.__gst=GST;window.__exx=EXX;window.__cat={start:catStart,W:WCAT};window.__rr={musOpts,LOC:()=>LOC,LOCP:()=>LOCP,RADIOS,RSTA,locApply,locFromFiles,locLoadHandle,musicPlay,musicStop,KA:()=>KA,EX,Fig,variantItems,customList,openEditor,openPicker,FLT:()=>FLT,tagsOf,ROUTINES,PL,stepsOf,goTo:j=>goTo(j),DATA,Voice,expandItems,DOC,AU,Music,AMB:()=>AMB,BR:()=>BR,TM,TMCFG,Radio,todo:()=>TODO,tmNow,tmBuild,musicFor,S,MUS,RECIPES,KT,openRecipe,openRecipes,show,fmtAmt,suggestion,backupObj};
+if(window.__rrDebug)window.__gst=GST;window.__data=DATA;window.__holes=G_HOLES;window.__exx=EXX;window.__cat={start:catStart,W:WCAT};window.__rr={musOpts,LOC:()=>LOC,LOCP:()=>LOCP,RADIOS,RSTA,locApply,locFromFiles,locLoadHandle,musicPlay,musicStop,KA:()=>KA,EX,Fig,variantItems,customList,openEditor,openPicker,FLT:()=>FLT,tagsOf,ROUTINES,PL,stepsOf,goTo:j=>goTo(j),DATA,Voice,expandItems,DOC,AU,Music,AMB:()=>AMB,BR:()=>BR,TM,TMCFG,Radio,todo:()=>TODO,tmNow,tmBuild,musicFor,S,MUS,RECIPES,KT,openRecipe,openRecipes,show,fmtAmt,suggestion,backupObj};
 show('v-home');
 startChecks();
 Voice.load();
