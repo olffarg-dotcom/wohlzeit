@@ -184,6 +184,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .kt.nx{background:linear-gradient(#F9E3A0,#F2C64E);border-color:#C99A1E;box-shadow:0 0 0 3px rgba(242,198,78,.45)}.kt.hit{animation:ktHit .25s ease-out}@keyframes ktHit{0%{transform:translateY(5px)}100%{transform:none}}
 .kal-menu{flex:1;min-height:0;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start;padding:8px 0}.kal-menu .kb{white-space:normal;text-align:left;min-height:46px}
 .favrow .mixx{flex:none}.mixrow .mfrow{flex:1;min-width:0}.favpage h2.sect{margin:20px 2px 8px}.favpage .rlist{gap:8px}.favrow .fo b{display:block}.podbar input[type=range]{width:100%}.chip{appearance:none;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:99px;padding:6px 12px;font:inherit;font-size:14px;font-weight:600}.chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}.chips{display:flex;flex-wrap:wrap;gap:6px}.mrow.pdep.on{border-color:var(--brand)}
+.igbar{display:flex;align-items:center;justify-content:space-between;gap:8px}.igc{font:700 17px ui-monospace,monospace;min-width:96px}.igc:last-child{text-align:right}.igsun{appearance:none;background:none;border:0;padding:0;width:52px;height:52px;cursor:pointer}.igsun canvas{width:52px;height:52px;display:block}.pbhud{margin:0 2px 8px}.pbrow{display:flex;justify-content:space-between;gap:8px;align-items:baseline}.pbrow b{font-size:20px}
 .ggrp{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:0 12px;margin-top:10px}.ggrp>summary{list-style:none;cursor:pointer;padding:14px 4px;display:grid;gap:3px}.ggrp>summary::-webkit-details-marker{display:none}.ggrp>summary span{font-size:19px;font-weight:700}.ggrp>summary span::after{content:'▾';float:right;color:var(--muted)}.ggrp[open]>summary span::after{content:'▴'}.ggrp>summary small{color:var(--muted);font-size:14px}.ggrp[open]{padding-bottom:12px}.ggrp .lcard{margin-top:8px}
 .favrow.on{border-color:var(--rc,var(--brand));box-shadow:inset 0 0 0 1.5px var(--rc,var(--brand))}
 .mixrow{display:flex;align-items:center;gap:4px}.mixrow .mrow{flex:1;min-width:0}.mixx{appearance:none;border:0;background:none;color:var(--muted);font-size:20px;width:36px;height:40px;padding:0}
@@ -4094,7 +4095,209 @@ const WISSEN=[
  TR('Übungen wie „drei gute Dinge des Tages aufschreiben“ sind beliebt. Eine Auswertung von 27 Studien mit 3.675 Menschen fand dafür nur eine kleine Wirkung auf Niedergeschlagenheit und Angst. Als nette Gewohnheit ist die Tagesnotiz in Ordnung, als Behandlung taugt sie nicht.','Exercises such as “write down three good things of the day” are popular. A review of 27 studies with 3,675 people found only a small effect on low mood and anxiety. As a pleasant habit the daily note is fine; it is not suitable as a treatment.'),
  'Cregg & Cheavens, Journal of Happiness Studies, 2021','https://doi.org/10.1007/s10902-020-00236-6']
 ];
-const SPRQ=[['Sprichwort, schon bei Aristoteles','Proverb, already found in Aristotle'],['Sprichwort','German proverb'],['Redensart','German saying'],['Kanon, ','Round by ',1],['Laotse, Tao Te King','Laozi, Tao Te Ching'],['Epiktet, Handbüchlein','Epictetus, Enchiridion'],['Briefe an Lucilius','Letters to Lucilius',1],['Von der Kürze des Lebens','On the Shortness of Life',1],['Horaz, Oden','Horace, Odes'],['Blaise Pascal, Gedanken','Blaise Pascal, Pensées'],['Was ist Aufklärung?','What Is Enlightenment?',1],['Aphorismen','Aphorisms',1]];
+const LW=[
+["Nicht jeder Umweg bringt dich vom Ziel weg. Manche zeigen dir erst, wohin du wirklich möchtest.", "Not every detour takes you away from your goal. Some show you where you truly want to go in the first place.", "Lebensweisheit"],
+["Das Leben wird nicht dadurch reicher, dass man mehr besitzt, sondern dadurch, dass man mehr erlebt.", "Life does not become richer by owning more, but by experiencing more.", "Lebensweisheit"],
+["Wer immer nur auf den richtigen Moment wartet, übersieht oft die guten Möglichkeiten der Gegenwart.", "Those who always wait for the right moment often overlook the good opportunities of the present.", "Lebensweisheit"],
+["Jeder Tag bietet die Chance, etwas anders zu machen als gestern.", "Every day offers the chance to do something differently than yesterday.", "Lebensweisheit"],
+["Ein erfülltes Leben besteht nicht aus perfekten Tagen, sondern aus wertvollen Augenblicken.", "A fulfilled life does not consist of perfect days, but of valuable moments.", "Lebensweisheit"],
+["Manchmal ist ein kleiner Schritt in die richtige Richtung mehr wert als ein großer Plan.", "Sometimes a small step in the right direction is worth more than a grand plan.", "Lebensweisheit"],
+["Das Leben verlangt nicht, dass du alles verstehst. Es lädt dich ein, neugierig zu bleiben.", "Life does not demand that you understand everything. It invites you to stay curious.", "Lebensweisheit"],
+["Wer seinen eigenen Weg geht, muss nicht jeden Schritt erklären können.", "Those who walk their own path do not need to be able to explain every step.", "Lebensweisheit"],
+["Nicht alles, was endet, war umsonst. Manche Erfahrungen erfüllen ihren Wert erst im Rückblick.", "Not everything that ends was in vain. Some experiences only reveal their value in hindsight.", "Lebensweisheit"],
+["Das Leben lässt sich nicht zurückspulen, aber immer wieder neu gestalten.", "Life cannot be rewound, but it can always be reshaped anew.", "Lebensweisheit"],
+["Es ist nie zu spät, eine neue Richtung einzuschlagen.", "It is never too late to take a new direction.", "Lebensweisheit"],
+["Wer nur das Ziel sieht, verpasst manchmal das Schöne auf dem Weg dorthin.", "Those who only look at the destination sometimes miss the beauty along the way.", "Lebensweisheit"],
+["Das Leben wird leichter, wenn nicht jeder Tag etwas Besonderes sein muss.", "Life becomes easier when not every day has to be something special.", "Lebensweisheit"],
+["Manchmal beginnt Veränderung damit, dass man aufhört, sich selbst etwas vorzumachen.", "Sometimes change begins when you stop deceiving yourself.", "Lebensweisheit"],
+["Ein guter Lebensweg ist nicht unbedingt der kürzeste, sondern der, auf dem du dir selbst treu bleibst.", "A good path in life is not necessarily the shortest one, but the one on which you remain true to yourself.", "Lebensweisheit"],
+["Nicht jeder Verlust nimmt dir etwas Wertvolles. Manchmal schafft er Raum für Neues.", "Not every loss takes something valuable from you. Sometimes it makes room for something new.", "Lebensweisheit"],
+["Wer das Leben nur kontrollieren möchte, lässt wenig Platz für Überraschungen.", "Those who only want to control life leave little room for surprises.", "Lebensweisheit"],
+["Die Vergangenheit erklärt manches, aber sie muss nicht bestimmen, was morgen möglich ist.", "The past explains some things, but it does not have to dictate what is possible tomorrow.", "Lebensweisheit"],
+["Es gibt keinen perfekten Zeitpunkt für ein Leben, das sich richtig anfühlt.", "There is no perfect moment to start a life that feels right.", "Lebensweisheit"],
+["Vielleicht besteht Lebenskunst darin, das Unvollkommene nicht nur zu ertragen, sondern darin auch Schönes zu entdecken.", "Perhaps the art of living lies not only in enduring the imperfect, but also in discovering beauty within it.", "Lebensweisheit"],
+["Glück ist oft leiser, als wir es erwarten.", "Happiness is often quieter than we expect.", "Lebensweisheit"],
+["Wer immer nach mehr sucht, sollte gelegentlich prüfen, ob er das Vorhandene noch wahrnimmt.", "Those who are always searching for more should occasionally check whether they still notice what they already have.", "Lebensweisheit"],
+["Zufriedenheit bedeutet nicht, keine Wünsche mehr zu haben, sondern das Gute nicht zu übersehen.", "Contentment does not mean having no more wishes, but not overlooking the good.", "Lebensweisheit"],
+["Ein schöner Augenblick wird nicht weniger wertvoll, nur weil er nicht für immer bleibt.", "A beautiful moment does not become less valuable just because it does not last forever.", "Lebensweisheit"],
+["Manchmal ist das größte Glück, sich für einen Moment um nichts sorgen zu müssen.", "Sometimes the greatest happiness is not having to worry about anything for a moment.", "Lebensweisheit"],
+["Wer Freude teilen kann, hat eine Möglichkeit gefunden, sie zu vervielfachen.", "Those who can share joy have found a way to multiply it.", "Lebensweisheit"],
+["Glück lässt sich selten erzwingen, aber oft durch Aufmerksamkeit entdecken.", "Happiness can rarely be forced, but it can often be discovered through mindfulness.", "Lebensweisheit"],
+["Nicht jeder glückliche Mensch hat ein leichtes Leben. Manche haben gelernt, auch im Schwierigen Schönes zu erkennen.", "Not every happy person has an easy life. Some have learned to recognize beauty even in difficult times.", "Lebensweisheit"],
+["Es lohnt sich, die kleinen Dinge ernst zu nehmen, denn aus ihnen besteht ein großer Teil unseres Lebens.", "It is worth taking the little things seriously, because a large part of our lives is made up of them.", "Lebensweisheit"],
+["Wer seinen Wert nicht vom Applaus anderer abhängig macht, findet mehr Ruhe in sich selbst.", "Those who do not make their self-worth dependent on the applause of others find greater peace within themselves.", "Lebensweisheit"],
+["Zufriedenheit wächst nicht unbedingt mit dem Besitz, sondern häufig mit den Ansprüchen, die man loslassen kann.", "Contentment does not necessarily grow with possessions, but often with the expectations one can let go of.", "Lebensweisheit"],
+["Ein ruhiger Abend kann wertvoller sein als ein aufregender Tag.", "A quiet evening can be more valuable than an exciting day.", "Lebensweisheit"],
+["Glück braucht nicht immer einen Anlass.", "Happiness does not always need an occasion.", "Lebensweisheit"],
+["Wer das Schöne nur im Außergewöhnlichen sucht, übersieht das Besondere im Alltag.", "Those who look for beauty only in the extraordinary overlook what is special in everyday life.", "Lebensweisheit"],
+["Man muss nicht alles haben, um vieles genießen zu können.", "You do not have to have everything to be able to enjoy many things.", "Lebensweisheit"],
+["Manchmal ist glücklich sein einfach die Fähigkeit, gerade nichts vermissen zu müssen.", "Sometimes being happy is simply the ability not to miss anything right now.", "Lebensweisheit"],
+["Ein dankbarer Blick verändert nicht die Umstände, aber oft den Umgang mit ihnen.", "A grateful perspective does not change the circumstances, but often how we deal with them.", "Lebensweisheit"],
+["Freude wird nicht kleiner, wenn man sie anderen gönnt.", "Joy does not diminish when you begrudge it to no one.", "Lebensweisheit"],
+["Das Leben muss nicht immer aufregend sein, um lebenswert zu sein.", "Life does not always have to be exciting to be worth living.", "Lebensweisheit"],
+["Wer sich selbst erlaubt, zufrieden zu sein, muss nicht ständig mit anderen mithalten.", "Those who allow themselves to be content do not constantly have to keep up with others.", "Lebensweisheit"],
+["Liebe zeigt sich nicht darin, jemanden festzuhalten, sondern darin, ihm Raum zum Wachsen zu lassen.", "Love is shown not in holding someone tight, but in giving them room to grow.", "Lebensweisheit"],
+["Eine gute Beziehung besteht nicht aus zwei perfekten Menschen, sondern aus zwei Menschen, die miteinander wachsen möchten.", "A good relationship does not consist of two perfect people, but of two people who want to grow together.", "Lebensweisheit"],
+["Wer verstanden werden möchte, sollte auch bereit sein, wirklich zuzuhören.", "Those who want to be understood should also be willing to truly listen.", "Lebensweisheit"],
+["Nähe entsteht nicht allein durch gemeinsame Zeit, sondern durch echte Aufmerksamkeit.", "Closeness arises not merely from time spent together, but from genuine attention.", "Lebensweisheit"],
+["Vertrauen wächst dort, wo Worte und Taten zusammenpassen.", "Trust grows where words and actions match.", "Lebensweisheit"],
+["Liebe bedeutet nicht, immer einer Meinung zu sein, sondern respektvoll verschieden sein zu dürfen.", "Love does not mean always agreeing, but being allowed to be respectfully different.", "Lebensweisheit"],
+["Wer einen Menschen liebt, sollte nicht versuchen, ihn nach den eigenen Vorstellungen umzubauen.", "Those who love someone should not try to reshape them according to their own ideas.", "Lebensweisheit"],
+["Eine ehrliche Entschuldigung ist kein Zeichen von Schwäche, sondern von Verantwortungsbewusstsein.", "An honest apology is not a sign of weakness, but of a sense of responsibility.", "Lebensweisheit"],
+["Beziehungen brauchen nicht nur Gefühle, sondern auch Zeit, Geduld und gegenseitige Mühe.", "Relationships need not only feelings, but also time, patience, and mutual effort.", "Lebensweisheit"],
+["Manchmal ist Zuhören die liebevollste Antwort.", "Sometimes listening is the most loving answer.", "Lebensweisheit"],
+["Wer immer nur erwartet, dass der andere den ersten Schritt macht, überlässt dem Zufall, was durch eigenes Handeln entstehen könnte.", "Those who always expect the other person to take the first step leave to chance what could arise through their own action.", "Lebensweisheit"],
+["Wahre Nähe braucht keine ständige Übereinstimmung.", "True closeness does not require constant agreement.", "Lebensweisheit"],
+["Respekt zeigt sich besonders dann, wenn man unterschiedlicher Meinung ist.", "Respect is shown especially when opinions differ.", "Lebensweisheit"],
+["Eine Beziehung sollte dein Leben bereichern, nicht deine Freiheit ersetzen.", "A relationship should enrich your life, not replace your freedom.", "Lebensweisheit"],
+["Wer ehrlich miteinander spricht, gibt Missverständnissen weniger Raum.", "Those who speak honestly with one another leave less room for misunderstandings.", "Lebensweisheit"],
+["Liebe ist kein Besitzanspruch, sondern eine freiwillige Entscheidung füreinander.", "Love is not a claim of ownership, but a voluntary choice for one another.", "Lebensweisheit"],
+["Man kann einen Menschen verstehen, ohne alles gutzuheißen.", "You can understand a person without approving of everything.", "Lebensweisheit"],
+["Gute Beziehungen erkennt man nicht daran, dass es nie Streit gibt, sondern daran, wie man miteinander umgeht, wenn es schwierig wird.", "Good relationships are recognized not by the absence of arguments, but by how people treat each other when things get difficult.", "Lebensweisheit"],
+["Manchmal ist Loslassen respektvoller als Festhalten.", "Sometimes letting go is more respectful than holding on.", "Lebensweisheit"],
+["Menschen fühlen sich oft dort am wohlsten, wo sie nicht ständig beweisen müssen, dass sie wertvoll sind.", "People often feel most at ease where they do not constantly have to prove their worth.", "Lebensweisheit"],
+["Ein guter Freund muss nicht immer eine Lösung haben. Manchmal reicht es, da zu sein.", "A good friend does not always have to have a solution. Sometimes simply being there is enough.", "Lebensweisheit"],
+["Freundschaft wächst nicht durch die Anzahl gemeinsamer Jahre, sondern durch das Vertrauen, das in ihnen entsteht.", "Friendship grows not by the number of years spent together, but by the trust that develops within them.", "Lebensweisheit"],
+["Wer anderen ehrlich Gutes gönnt, macht die Welt ein wenig großzügiger.", "Those who genuinely wish others well make the world a little more generous.", "Lebensweisheit"],
+["Ein Mensch muss nicht perfekt sein, um ein wertvoller Teil deines Lebens zu werden.", "A person does not have to be perfect to become a valuable part of your life.", "Lebensweisheit"],
+["Wahre Freundschaft hält auch unterschiedliche Lebenswege aus.", "True friendship can also endure different paths in life.", "Lebensweisheit"],
+["Manchmal ist eine kleine Nachricht mehr wert als ein großes Versprechen.", "Sometimes a short message is worth more than a grand promise.", "Lebensweisheit"],
+["Menschen brauchen nicht immer Ratschläge. Oft brauchen sie jemanden, der sie ernst nimmt.", "People do not always need advice. Often they need someone who takes them seriously.", "Lebensweisheit"],
+["Wer nur dann Zeit hat, wenn es bequem ist, sollte sich fragen, welchen Stellenwert Freundschaft wirklich hat.", "Those who only have time when it is convenient should ask themselves what value friendship truly holds for them.", "Lebensweisheit"],
+["Ein freundliches Wort kostet wenig und kann trotzdem lange in Erinnerung bleiben.", "A kind word costs little and can still be remembered for a long time.", "Lebensweisheit"],
+["Man erkennt den Charakter eines Menschen oft daran, wie er mit denen umgeht, von denen er nichts erwartet.", "You can often tell a person’s character by how they treat those from whom they expect nothing.", "Lebensweisheit"],
+["Hilfsbereitschaft verliert ihren Wert nicht dadurch, dass sie niemand sieht.", "Helpfulness does not lose its value just because no one sees it.", "Lebensweisheit"],
+["Es ist möglich, freundlich zu sein und trotzdem klare Grenzen zu setzen.", "It is possible to be kind and still set clear boundaries.", "Lebensweisheit"],
+["Ein guter Umgang miteinander beginnt mit dem Gedanken, dass auch der andere eine Geschichte hat, die man nicht kennt.", "Treating each other well begins with the thought that the other person also has a story you do not know.", "Lebensweisheit"],
+["Manchmal ist es wichtiger, jemanden nicht allein zu lassen, als die richtigen Worte zu finden.", "Sometimes it is more important not to leave someone alone than to find the right words.", "Lebensweisheit"],
+["Wer Fehler anderer großzügig betrachtet, sollte sich selbst dieselbe Menschlichkeit zugestehen.", "Those who view the mistakes of others generously should grant themselves the same humanity.", "Lebensweisheit"],
+["Nicht jede Begegnung muss von Dauer sein, um Bedeutung zu haben.", "Not every encounter has to last to have meaning.", "Lebensweisheit"],
+["Ein ehrliches Interesse am Leben anderer ist eine seltene und wertvolle Form der Aufmerksamkeit.", "A genuine interest in the lives of others is a rare and valuable form of attention.", "Lebensweisheit"],
+["Freundschaft braucht keine täglichen Gespräche, aber das Gefühl, sich aufeinander verlassen zu können.", "Friendship does not need daily conversations, but the feeling of being able to rely on one another.", "Lebensweisheit"],
+["Wer andere wachsen lässt, muss keine Angst haben, selbst kleiner zu werden.", "Those who let others grow need not fear becoming smaller themselves.", "Lebensweisheit"],
+["Menschlichkeit beginnt oft dort, wo wir aufhören, Menschen vorschnell zu beurteilen.", "Humanity often begins where we stop judging people prematurely.", "Lebensweisheit"],
+["Du musst nicht jedem gefallen, um ein wertvoller Mensch zu sein.", "You do not have to please everyone to be a valuable person.", "Lebensweisheit"],
+["Selbstachtung beginnt dort, wo du deine eigenen Grenzen ernst nimmst.", "Self-respect begins where you take your own boundaries seriously.", "Lebensweisheit"],
+["Mut bedeutet nicht, keine Angst zu haben, sondern sich von ihr nicht vollständig bestimmen zu lassen.", "Courage does not mean having no fear, but not letting it completely define you.", "Lebensweisheit"],
+["Wer seinen eigenen Wert kennt, muss ihn nicht ständig verteidigen.", "Those who know their own worth do not have to constantly defend it.", "Lebensweisheit"],
+["Stärke zeigt sich nicht nur im Durchhalten, sondern manchmal auch im rechtzeitigen Aufhören.", "Strength is shown not only in persevering, but sometimes also in stopping at the right time.", "Lebensweisheit"],
+["Es ist kein Versagen, Hilfe anzunehmen.", "Accepting help is not a failure.", "Lebensweisheit"],
+["Du darfst dich verändern, auch wenn andere dich lieber so behalten würden, wie sie dich kennen.", "You are allowed to change, even if others would prefer to keep you the way they know you.", "Lebensweisheit"],
+["Nicht jede Kritik verdient deine Zustimmung, aber jede kann Anlass zum Nachdenken sein.", "Not every criticism deserves your agreement, but every one can be a reason to reflect.", "Lebensweisheit"],
+["Wer sich selbst ständig übergeht, darf sich nicht wundern, wenn ihm irgendwann die Kraft fehlt.", "Those who constantly neglect themselves should not be surprised when they eventually run out of strength.", "Lebensweisheit"],
+["Es braucht Mut, die eigenen Schwächen anzuerkennen, ohne sich von ihnen definieren zu lassen.", "It takes courage to acknowledge your own weaknesses without letting them define you.", "Lebensweisheit"],
+["Du musst nicht alles können, um etwas Wertvolles beitragen zu können.", "You do not have to be able to do everything to contribute something valuable.", "Lebensweisheit"],
+["Selbstvertrauen wächst nicht nur durch Erfolge, sondern auch durch Erfahrungen, die du überstanden hast.", "Self-confidence grows not only through successes, but also through experiences you have endured.", "Lebensweisheit"],
+["Wer sich selbst ernst nimmt, darf auch einmal Nein sagen.", "Those who take themselves seriously are also allowed to say no.", "Lebensweisheit"],
+["Ein Fehler macht dich nicht zu einem schlechten Menschen. Entscheidend ist, was du daraus machst.", "A mistake does not make you a bad person. What matters is what you make of it.", "Lebensweisheit"],
+["Du bist nicht verpflichtet, jede Erwartung anderer zu erfüllen.", "You are not obligated to fulfill every expectation of others.", "Lebensweisheit"],
+["Manchmal ist der mutigste Schritt, sich selbst einzugestehen, dass etwas nicht mehr passt.", "Sometimes the most courageous step is admitting to yourself that something no longer fits.", "Lebensweisheit"],
+["Wer immer stark sein möchte, vergisst leicht, dass auch Verletzlichkeit zum Menschsein gehört.", "Those who always want to be strong easily forget that vulnerability is also part of being human.", "Lebensweisheit"],
+["Es ist wertvoller, authentisch unvollkommen zu sein als perfekt eine fremde Rolle zu spielen.", "It is more valuable to be authentically imperfect than to perfectly play someone else’s role.", "Lebensweisheit"],
+["Du darfst stolz auf deinen Weg sein, auch wenn er anders aussieht als der anderer Menschen.", "You may be proud of your path, even if it looks different from that of other people.", "Lebensweisheit"],
+["Wer sich selbst mit Respekt behandelt, schafft eine gute Grundlage für den Umgang mit anderen.", "Those who treat themselves with respect create a good foundation for how they treat others.", "Lebensweisheit"],
+["Zeit wird nicht wertvoller, wenn man sie füllt, sondern wenn man sie bewusst erlebt.", "Time does not become more valuable when you fill it, but when you experience it consciously.", "Lebensweisheit"],
+["Nicht alles, was dringend erscheint, ist auch wirklich wichtig.", "Not everything that seems urgent is truly important.", "Lebensweisheit"],
+["Die schönsten Erinnerungen entstehen oft aus Momenten, die niemand geplant hat.", "The best memories often arise from moments that no one planned.", "Lebensweisheit"],
+["Wir können die Zeit nicht festhalten, aber wir können entscheiden, womit wir sie verbringen.", "We cannot hold on to time, but we can decide what we spend it on.", "Lebensweisheit"],
+["Wer immer nur beschäftigt ist, hat nicht automatisch ein erfülltes Leben.", "Those who are always busy do not automatically have a fulfilled life.", "Lebensweisheit"],
+["Manche Dinge verdienen unsere Zeit gerade deshalb, weil sie sich nicht beschleunigen lassen.", "Some things deserve our time precisely because they cannot be rushed.", "Lebensweisheit"],
+["Ein gemeinsamer Augenblick kann länger in Erinnerung bleiben als ein ganzes Jahr voller Routine.", "A shared moment can remain in memory longer than a whole year full of routine.", "Lebensweisheit"],
+["Das Leben wartet nicht darauf, dass alle Umstände perfekt sind.", "Life does not wait for all circumstances to be perfect.", "Lebensweisheit"],
+["Was heute selbstverständlich erscheint, kann morgen eine wertvolle Erinnerung sein.", "What seems taken for granted today can be a precious memory tomorrow.", "Lebensweisheit"],
+["Manchmal ist es klüger, einen Moment zu genießen, als ihn unbedingt festhalten zu wollen.", "Sometimes it is wiser to enjoy a moment than to insist on holding on to it.", "Lebensweisheit"],
+["Nicht jede freie Minute muss sinnvoll genutzt werden. Auch Ruhe hat ihren Wert.", "Not every free minute has to be used productively. Rest also has its value.", "Lebensweisheit"],
+["Die Zeit zeigt nicht immer, was richtig war, aber häufig, was wirklich wichtig geblieben ist.", "Time does not always show what was right, but often what has truly remained important.", "Lebensweisheit"],
+["Wer sich keine Zeit für die Menschen nimmt, die ihm wichtig sind, sollte sich fragen, wofür er seine Zeit aufspart.", "Those who do not make time for the people who matter to them should ask themselves what they are saving their time for.", "Lebensweisheit"],
+["Ein erfüllter Tag muss nicht spektakulär sein.", "A fulfilled day does not have to be spectacular.", "Lebensweisheit"],
+["Wir verlieren nicht nur Zeit, wenn wir etwas aufschieben, sondern manchmal auch Möglichkeiten.", "We lose not only time when we put something off, but sometimes also opportunities.", "Lebensweisheit"],
+["Manche Augenblicke werden erst dann kostbar, wenn sie vergangen sind.", "Some moments only become precious once they have passed.", "Lebensweisheit"],
+["Das Leben besteht nicht nur aus den großen Entscheidungen, sondern aus unzähligen kleinen Momenten dazwischen.", "Life consists not only of the big decisions, but of countless small moments in between.", "Lebensweisheit"],
+["Es ist gut, Pläne zu machen, aber noch besser, dabei das Leben nicht zu verpassen.", "It is good to make plans, but even better not to miss life in the process.", "Lebensweisheit"],
+["Die Gegenwart ist der einzige Zeitpunkt, an dem wir tatsächlich etwas verändern können.", "The present is the only moment in which we can actually change something.", "Lebensweisheit"],
+["Wer bewusst lebt, muss nicht jeden Augenblick festhalten.", "Those who live consciously do not need to hold on to every moment.", "Lebensweisheit"],
+["Wer nie seine Meinung ändert, hat vielleicht aufgehört, neue Erkenntnisse zuzulassen.", "Those who never change their mind may have stopped allowing new insights.", "Lebensweisheit"],
+["Jeder Fehler kann eine Erfahrung werden, wenn man bereit ist, aus ihm zu lernen.", "Every mistake can become an experience if you are willing to learn from it.", "Lebensweisheit"],
+["Wissen wächst durch Fragen, Weisheit auch durch die Bereitschaft, Antworten zu hinterfragen.", "Knowledge grows through questions, wisdom also through the willingness to question answers.", "Lebensweisheit"],
+["Manchmal ist eine neue Perspektive wertvoller als eine schnelle Lösung.", "Sometimes a new perspective is more valuable than a quick solution.", "Lebensweisheit"],
+["Persönliches Wachstum beginnt häufig außerhalb der eigenen Gewohnheiten.", "Personal growth often begins outside one’s own habits.", "Lebensweisheit"],
+["Wer etwas Neues lernen möchte, muss akzeptieren, zunächst Anfänger zu sein.", "Those who want to learn something new must accept being a beginner at first.", "Lebensweisheit"],
+["Eine gute Entscheidung entsteht nicht immer aus vollständiger Sicherheit, sondern oft aus sorgfältigem Abwägen.", "A good decision does not always arise from complete certainty, but often from careful weighing.", "Lebensweisheit"],
+["Wer zuhört, um zu verstehen, lernt mehr als jemand, der nur auf seine Antwort wartet.", "Those who listen to understand learn more than someone who is only waiting for their turn to speak.", "Lebensweisheit"],
+["Erfahrungen machen nicht automatisch klug. Entscheidend ist, was man aus ihnen erkennt.", "Experiences do not automatically make you wise. What matters is what you recognize from them.", "Lebensweisheit"],
+["Es ist keine Niederlage, einen Irrtum zuzugeben. Es ist eine Möglichkeit, der Wahrheit näherzukommen.", "Admitting an error is not a defeat. It is an opportunity to get closer to the truth.", "Lebensweisheit"],
+["Manchmal muss man eine alte Überzeugung loslassen, damit eine bessere entstehen kann.", "Sometimes you have to let go of an old conviction so that a better one can emerge.", "Lebensweisheit"],
+["Fortschritt bedeutet nicht, jeden Tag besser zu sein, sondern langfristig nicht stehen zu bleiben.", "Progress does not mean being better every day, but not standing still in the long run.", "Lebensweisheit"],
+["Wer nur nach Bestätigung sucht, verpasst vielleicht die Erkenntnis, die er gerade braucht.", "Those who only seek confirmation may miss the insight they currently need.", "Lebensweisheit"],
+["Neugier hält den Geist beweglich.", "Curiosity keeps the mind agile.", "Lebensweisheit"],
+["Es ist sinnvoller, eine Frage ehrlich offen zu lassen, als sie mit einer falschen Antwort zu schließen.", "It is more meaningful to leave a question honestly open than to close it with a wrong answer.", "Lebensweisheit"],
+["Wer sich weiterentwickelt, darf auch seine früheren Ansichten mit Nachsicht betrachten.", "Those who continue to develop may also look upon their earlier views with indulgence.", "Lebensweisheit"],
+["Man lernt nicht nur aus dem, was gelingt, sondern auch aus dem, was anders verläuft als erwartet.", "We learn not only from what succeeds, but also from what turns out differently than expected.", "Lebensweisheit"],
+["Die Bereitschaft, dazuzulernen, ist wertvoller als der Anspruch, alles schon zu wissen.", "The willingness to keep learning is more valuable than the claim of already knowing everything.", "Lebensweisheit"],
+["Ein kluger Mensch erkennt nicht nur, was er weiß, sondern auch, was er noch nicht weiß.", "A wise person recognizes not only what they know, but also what they do not yet know.", "Lebensweisheit"],
+["Veränderung wird leichter, wenn man sie nicht als Bedrohung, sondern als Möglichkeit betrachtet.", "Change becomes easier when you view it not as a threat, but as an opportunity.", "Lebensweisheit"],
+["Jede Entscheidung öffnet eine Tür und lässt andere zunächst geschlossen.", "Every decision opens one door and leaves others closed for the time being.", "Lebensweisheit"],
+["Wer immer allen Erwartungen gerecht werden möchte, verliert leicht den Kontakt zu den eigenen Wünschen.", "Those who always try to meet everyone’s expectations easily lose touch with their own wishes.", "Lebensweisheit"],
+["Freiheit bedeutet nicht, alles tun zu können, sondern Verantwortung für das eigene Handeln zu übernehmen.", "Freedom does not mean being able to do anything, but taking responsibility for one’s own actions.", "Lebensweisheit"],
+["Nicht zu entscheiden ist ebenfalls eine Entscheidung – häufig zugunsten des Bestehenden.", "Not deciding is also a decision – often in favor of the status quo.", "Lebensweisheit"],
+["Ein selbstbestimmtes Leben braucht nicht die Zustimmung aller.", "A self-determined life does not need everyone’s approval.", "Lebensweisheit"],
+["Wer seine Prioritäten kennt, kann leichter Nein zu Dingen sagen, die nicht zu ihnen passen.", "Those who know their priorities can more easily say no to things that do not align with them.", "Lebensweisheit"],
+["Manchmal ist eine unbequeme Wahrheit hilfreicher als eine angenehme Illusion.", "Sometimes an uncomfortable truth is more helpful than a pleasant illusion.", "Lebensweisheit"],
+["Es ist besser, eine bewusste Entscheidung zu treffen, als sich dauerhaft von Umständen treiben zu lassen.", "It is better to make a conscious decision than to let yourself be driven permanently by circumstances.", "Lebensweisheit"],
+["Wer seinen Weg selbst wählt, muss auch nicht jede Abzweigung anderen erklären.", "Those who choose their own path do not have to explain every turnoff to others.", "Lebensweisheit"],
+["Nicht jede Möglichkeit muss genutzt werden, nur weil sie sich bietet.", "Not every opportunity has to be seized just because it presents itself.", "Lebensweisheit"],
+["Verantwortung beginnt dort, wo wir unsere Entscheidungen nicht länger anderen zuschreiben.", "Responsibility begins where we no longer attribute our decisions to others.", "Lebensweisheit"],
+["Ein klares Nein kann die Voraussetzung für ein ehrliches Ja sein.", "A clear no can be the prerequisite for an honest yes.", "Lebensweisheit"],
+["Wer sich nicht festlegen möchte, bleibt manchmal genau dort stehen, wo er eigentlich nicht sein will.", "Those who do not want to commit sometimes remain standing exactly where they actually do not want to be.", "Lebensweisheit"],
+["Gute Entscheidungen berücksichtigen nicht nur, was möglich ist, sondern auch, was wirklich wichtig ist.", "Good decisions consider not only what is possible, but also what is truly important.", "Lebensweisheit"],
+["Manchmal ist weniger Auswahl hilfreich, weil sie den Blick auf das Wesentliche lenkt.", "Sometimes fewer choices are helpful because they direct the focus to what is essential.", "Lebensweisheit"],
+["Die Freiheit des Einzelnen endet dort, wo sie die Freiheit anderer verletzt.", "The freedom of the individual ends where it infringes upon the freedom of others.", "Lebensweisheit"],
+["Wer seinen eigenen Maßstab findet, muss nicht jeden fremden übernehmen.", "Those who find their own standard do not have to adopt every external one.", "Lebensweisheit"],
+["Mutige Entscheidungen sind nicht immer richtig, aber ohne Entscheidungen gibt es selten Veränderung.", "Courageous decisions are not always right, but without decisions there is rarely change.", "Lebensweisheit"],
+["Es ist in Ordnung, einen Weg zu verlassen, wenn man erkannt hat, dass er nicht mehr der richtige ist.", "It is okay to leave a path once you have realized that it is no longer the right one.", "Lebensweisheit"],
+["Wer bewusst wählt, übernimmt Verantwortung für das eigene Leben.", "Those who choose consciously take responsibility for their own life.", "Lebensweisheit"],
+["Nicht alles verdient eine Reaktion, nur weil es eine Reaktion auslöst.", "Not everything deserves a reaction just because it triggers one.", "Lebensweisheit"],
+["Gelassenheit bedeutet nicht Gleichgültigkeit, sondern zu wissen, wofür es sich lohnt, Kraft einzusetzen.", "Serenity does not mean indifference, but knowing what is worth investing energy in.", "Lebensweisheit"],
+["Manchmal wird ein Problem kleiner, wenn man ihm etwas Zeit gibt.", "Sometimes a problem becomes smaller when you give it some time.", "Lebensweisheit"],
+["Wer nicht alles persönlich nimmt, gewinnt Raum für einen klareren Blick.", "Those who do not take everything personally gain room for a clearer view.", "Lebensweisheit"],
+["Innere Ruhe entsteht nicht dadurch, dass die Welt stillsteht, sondern dadurch, dass man nicht auf alles reagieren muss.", "Inner peace arises not because the world stands still, but because you do not have to react to everything.", "Lebensweisheit"],
+["Es ist nicht deine Aufgabe, jede Meinung über dich zu korrigieren.", "It is not your job to correct every opinion about you.", "Lebensweisheit"],
+["Wer ständig vergleicht, findet selten einen ruhigen Platz für sich selbst.", "Those who constantly compare rarely find a quiet place for themselves.", "Lebensweisheit"],
+["Nicht jede Schwierigkeit lässt sich sofort lösen. Manche muss man zunächst verstehen.", "Not every difficulty can be solved immediately. Some must first be understood.", "Lebensweisheit"],
+["Ein ruhiger Geist erkennt manchmal Möglichkeiten, die im Ärger verborgen bleiben.", "A calm mind sometimes recognizes possibilities that remain hidden in anger.", "Lebensweisheit"],
+["Wer Erwartungen loslassen kann, schafft Platz für Überraschungen.", "Those who can let go of expectations make room for surprises.", "Lebensweisheit"],
+["Es ist hilfreich, zwischen dem zu unterscheiden, was man beeinflussen kann, und dem, was außerhalb der eigenen Kontrolle liegt.", "It is helpful to distinguish between what you can influence and what lies beyond your control.", "Lebensweisheit"],
+["Nicht jeder Konflikt muss gewonnen werden, damit man seinen Frieden behalten kann.", "Not every conflict has to be won in order to keep your peace.", "Lebensweisheit"],
+["Geduld bedeutet nicht, untätig zu sein, sondern dem Richtigen Zeit zu geben.", "Patience does not mean being idle, but giving the right thing time.", "Lebensweisheit"],
+["Manchmal ist Abstand keine Flucht, sondern eine Möglichkeit, wieder klarer zu sehen.", "Sometimes distance is not an escape, but an opportunity to see clearly again.", "Lebensweisheit"],
+["Wer sich selbst Pausen erlaubt, muss nicht erst erschöpft sein, um Ruhe zu verdienen.", "Those who allow themselves breaks do not have to be exhausted first to deserve rest.", "Lebensweisheit"],
+["Ein Problem wird nicht dadurch gelöst, dass man sich zusätzlich über sein Bestehen ärgert.", "A problem is not solved by also getting angry about its existence.", "Lebensweisheit"],
+["Es ist möglich, etwas wichtig zu nehmen, ohne sich davon beherrschen zu lassen.", "It is possible to take something seriously without letting it dominate you.", "Lebensweisheit"],
+["Wer nicht auf jede Provokation eingeht, entscheidet selbst, wo seine Aufmerksamkeit bleibt.", "Those who do not respond to every provocation decide for themselves where their attention remains.", "Lebensweisheit"],
+["Manchmal ist Frieden wichtiger als das letzte Wort.", "Sometimes peace is more important than the last word.", "Lebensweisheit"],
+["Gelassenheit wächst, wenn man akzeptiert, dass nicht alles nach den eigenen Vorstellungen verlaufen wird.", "Serenity grows when you accept that not everything will go according to your own expectations.", "Lebensweisheit"],
+["Hoffnung bedeutet nicht, sicher zu sein, dass alles gut wird, sondern Möglichkeiten zu erkennen, solange etwas offen ist.", "Hope does not mean being certain that everything will turn out well, but recognizing possibilities as long as something remains open.", "Lebensweisheit"],
+["Auch kleine gute Taten können eine Wirkung haben, die man selbst nie zu sehen bekommt.", "Even small good deeds can have an impact that you yourself may never get to see.", "Lebensweisheit"],
+["Die Zukunft entsteht nicht allein aus unseren Wünschen, sondern auch aus dem, was wir heute tun.", "The future is shaped not only by our wishes, but also by what we do today.", "Lebensweisheit"],
+["Wer an das Gute im Menschen glaubt, sollte trotzdem nicht auf kritisches Denken verzichten.", "Those who believe in the good in people should still not forego critical thinking.", "Lebensweisheit"],
+["Eine bessere Welt beginnt nicht mit perfekten Menschen, sondern mit Menschen, die Verantwortung übernehmen.", "A better world does not begin with perfect people, but with people who take responsibility.", "Lebensweisheit"],
+["Es ist nie bedeutungslos, jemandem das Leben ein wenig leichter zu machen.", "Making someone’s life a little easier is never meaningless.", "Lebensweisheit"],
+["Manchmal verändert ein einziger Mensch nicht die Welt, aber die Welt eines anderen Menschen.", "Sometimes a single person does not change the world, but changes the world of another person.", "Lebensweisheit"],
+["Hoffnung ist besonders wertvoll, wenn sie uns zum Handeln bewegt.", "Hope is especially valuable when it moves us to act.", "Lebensweisheit"],
+["Wer anderen Chancen zugesteht, erkennt an, dass Menschen mehr sind als ihre Vergangenheit.", "Those who grant others chances acknowledge that people are more than their past.", "Lebensweisheit"],
+["Eine kleine Verbesserung ist immer noch eine Verbesserung.", "A small improvement is still an improvement.", "Lebensweisheit"],
+["Es lohnt sich, freundlich zu bleiben, ohne dabei naiv zu werden.", "It is worth remaining kind without becoming naive.", "Lebensweisheit"],
+["Die Welt braucht nicht mehr Menschen, die immer recht haben, sondern mehr Menschen, die bereit sind, einander zu verstehen.", "The world does not need more people who are always right, but more people who are willing to understand one another.", "Lebensweisheit"],
+["Niemand muss die ganze Welt verändern, um einen Unterschied zu machen.", "No one has to change the whole world to make a difference.", "Lebensweisheit"],
+["Ein respektvoller Umgang ist keine Frage der Herkunft, des Alters oder des Ansehens.", "Respectful treatment is not a question of origin, age, or reputation.", "Lebensweisheit"],
+["Wer anderen Hoffnung gibt, sollte ihnen auch zutrauen, ihren eigenen Weg zu finden.", "Those who give others hope should also trust them to find their own way.", "Lebensweisheit"],
+["Eine gute Zukunft entsteht leichter, wenn wir nicht nur an uns selbst denken.", "A good future comes about more easily when we do not think only of ourselves.", "Lebensweisheit"],
+["Manchmal ist das Wertvollste, was wir hinterlassen, die Art, wie sich andere Menschen durch uns gefühlt haben.", "Sometimes the most valuable thing we leave behind is the way other people felt because of us.", "Lebensweisheit"],
+["Es ist ein Zeichen von Menschlichkeit, auch dann respektvoll zu bleiben, wenn man unterschiedlicher Meinung ist.", "It is a sign of humanity to remain respectful even when opinions differ.", "Lebensweisheit"],
+["Jeder Mensch trägt Erfahrungen in sich, die von außen nicht vollständig sichtbar sind.", "Every person carries experiences within them that are not completely visible from the outside.", "Lebensweisheit"],
+["Vielleicht ist ein gutes Leben am Ende weniger eine Frage dessen, was wir erreicht haben, als dessen, wie wir miteinander umgegangen sind.", "Perhaps a good life in the end is less a question of what we have achieved than of how we have treated one another.", "Lebensweisheit"]];
+(()=>{let a=SPR.length+LW.length,sd=20261116;const rnd=n=>{sd=(sd*1103515245+12345)%2147483648;return sd%n;};const all=SPR.concat(LW);for(let i=all.length-1;i>0;i--){const j=rnd(i+1);[all[i],all[j]]=[all[j],all[i]];}SPR.length=0;all.forEach(r=>SPR.push(r));})();
+const SPRQ=[['Lebensweisheit','Saying'],['Sprichwort, schon bei Aristoteles','Proverb, already found in Aristotle'],['Sprichwort','German proverb'],['Redensart','German saying'],['Kanon, ','Round by ',1],['Laotse, Tao Te King','Laozi, Tao Te Ching'],['Epiktet, Handbüchlein','Epictetus, Enchiridion'],['Briefe an Lucilius','Letters to Lucilius',1],['Von der Kürze des Lebens','On the Shortness of Life',1],['Horaz, Oden','Horace, Odes'],['Blaise Pascal, Gedanken','Blaise Pascal, Pensées'],['Was ist Aufklärung?','What Is Enlightenment?',1],['Aphorismen','Aphorisms',1]];
 const dayNo=()=>{const d=new Date();return Math.floor((Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()))/864e5);};
 function openImpulse(){
   let si=dayNo()%SPR.length,wi=dayNo()%WISSEN.length;
@@ -4105,7 +4308,7 @@ function openImpulse(){
     '<div class="card" style="--rc:var(--ruhe)"><div class="eyebrow">'+TR('Spruch des Tages','Saying of the day')+'</div><div id="im-spr">'+spr()+'</div><button class="btn" id="im-next" style="margin-top:10px">'+TR('Noch einer','Another one')+'</button></div>'+
     '<h2 class="sect">'+TR('Was Studien zeigen','What studies show')+'</h2><p class="small muted" style="margin:0 2px 8px">'+TR('Zehn Erkenntnisse aus der Forschung zu Zufriedenheit und Wohlbefinden, jeweils mit Quelle und mit dem, was die Studie nicht belegt. Die App ersetzt keine ärztliche oder therapeutische Hilfe.','Ten research findings on contentment and wellbeing, each with its source and with what the study does not show. The app does not replace medical or therapeutic help.')+'</p>'+
     '<div class="card" style="border-color:var(--ruhe)"><div class="eyebrow">'+TR('Heute','Today')+'</div>'+wis(wi)+'</div>'+WISSEN.map((w,k)=>k===wi?'':'<div class="card">'+wis(k)+'</div>').join(''),
-    b=>{b.querySelector('#im-next').addEventListener('click',()=>{si=(si+1+gRnd(SPR.length-1))%SPR.length;b.querySelector('#im-spr').innerHTML=spr();});},()=>{show('v-well');renderWell();});
+    b=>{b.querySelector('#im-next').addEventListener('click',()=>{si=(si+1+Math.floor(Math.random()*(SPR.length-1)))%SPR.length;b.querySelector('#im-spr').innerHTML=spr();});},()=>{show('v-well');renderWell();});
 }
 /* ================= Mein Tag: Tagesnotiz, Trinkzähler, alkoholfreie Tage ================= */
 const DAY=Object.assign({notes:{},drink:{},af:{},goal:6},LS.get('rr.day',{}));
@@ -4366,10 +4569,17 @@ const POD_DEF=[
   {id:'qd',name:'Quarks Daily',by:'WDR',it:1501505787,term:'Quarks Daily'},
   {id:'dw',name:'Das Wissen | SWR',by:'SWR',term:'Das Wissen SWR'},
   {id:'ac',name:'Achtsam',by:'Deutschlandfunk Nova',term:'Achtsam Deutschlandfunk Nova'},
-  {id:'mk',name:'Der Mimikama-Podcast',by:'Mimikama',term:'Mimikama Podcast'},
-  {id:'lr',name:'Die 7 Minuten Lesereise',by:'Manuel Ostwald',term:'7 Minuten Lesereise'}];
+  {id:'ki',name:'Der KI-Podcast',by:'ARD',term:'Der KI-Podcast ARD'},
+  {id:'rt',name:'ARD Radio Tatort',by:'ARD',term:'ARD Radio Tatort',note:TR('Der Sender stellt nur die letzten Folgen in die Liste, meist etwa sechs.','The broadcaster only lists the latest episodes, usually about six.')},
+  {id:'lf',name:'Lagerfeuer',by:'Lagerfeuer Kurzgeschichten Kollektiv',term:'Lagerfeuer Kurzgeschichten'},
+  {id:'ks',name:'Kurzspannung',by:'Sebastian Storbeck',term:'Kurzspannung'}];
 const PODS=Object.assign({list:null,prog:{},fe:{},speed:1,proxy:false},LS.get('rr.pods',{}));
 if(!Array.isArray(PODS.list))PODS.list=POD_DEF.map(p=>Object.assign({},p));
+if((PODS.dv||0)<2){PODS.dv=2;PODS.list=PODS.list.filter(p=>p.id!=='mk'&&p.id!=='lr');POD_DEF.forEach(d=>{if(!PODS.list.some(p=>p.id===d.id))PODS.list.push(Object.assign({},d));});
+  try{const F=LS.get('rr.fav',[]);if(Array.isArray(F)){const G=F.filter(x=>x!=='p:mk'&&x!=='p:lr'&&!(x.startsWith('e:')&&PODS.fe[x.slice(2)]&&/^(mk|lr)$/.test(PODS.fe[x.slice(2)].pid)));if(G.length!==F.length)LS.set('rr.fav',G);}}catch(e){}
+  try{for(let i=FAV.length-1;i>=0;i--)if(FAV[i]==='p:mk'||FAV[i]==='p:lr')FAV.splice(i,1);LS.set('rr.fav',FAV);}catch(e){}
+  LS.set('rr.pods',PODS);}
+PODS.list.forEach(p=>{const d=POD_DEF.find(q=>q.id===p.id);if(d&&d.note)p.note=d.note;});
 ['prog','fe'].forEach(k=>{if(!PODS[k]||typeof PODS[k]!=='object')PODS[k]={};});
 function podSave(){const ks=Object.keys(PODS.prog);if(ks.length>1500){ks.sort((a,b)=>(PODS.prog[a].ts||0)-(PODS.prog[b].ts||0)).slice(0,ks.length-1500).forEach(k=>delete PODS.prog[k]);}LS.set('rr.pods',PODS);}
 const podGet=id=>PODS.list.find(p=>p.id===id);
@@ -4479,7 +4689,7 @@ function podSecBind(host){
 const POD_F={f:'all',q:'',n:60};
 function openPod(id){
   const p=podGet(id);if(!p)return;POD_F.f='all';POD_F.q='';POD_F.n=60;
-  openPage(TR('Podcasts','Podcasts'),p.name,'<div class="podbar-host"></div><div class="card"><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;min-width:0"><b>'+escH(p.name)+'</b><div class="small muted">'+escH(p.by||'')+'</div></div>'+favStar('p:'+id)+'</div><div class="small muted" id="pd-src" style="margin-top:6px">'+TR('Folgen werden geladen …','Loading episodes …')+'</div></div><div id="pd-list"></div>',b=>{podUI(true);podList(p);},()=>{show('v-music');renderMusic();});
+  openPage(TR('Podcasts','Podcasts'),p.name,'<div class="podbar-host"></div><div class="card"><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;min-width:0"><b>'+escH(p.name)+'</b><div class="small muted">'+escH(p.by||'')+'</div></div>'+favStar('p:'+id)+'</div>'+(p.note?'<div class="small muted" style="margin-top:6px">'+escH(p.note)+'</div>':'')+'<div class="small muted" id="pd-src" style="margin-top:6px">'+TR('Folgen werden geladen …','Loading episodes …')+'</div></div><div id="pd-list"></div>',b=>{podUI(true);podList(p);},()=>{show('v-music');renderMusic();});
 }
 async function podList(p){
   const r=await podLoad(p);const host=$('pd-list'),src=$('pd-src');if(!host)return;
@@ -4559,10 +4769,14 @@ const GAMES=[
   ['river',TR('Straße und Fluss','Road and river'),TR('Erst zwischen Autos über die Straße, dann von Stamm zu Stamm über den Fluss.','First across the road between cars, then from log to log across the river.'),1],
   ['tennis',TR('Tennis','Tennis'),TR('Wie früher am Bildschirm: Schläger führen, den Gegner mit schrägen Bällen ausspielen.','Like on the old screens: guide the paddle, outplay the opponent with angled shots.'),1],
   ['oracle',TR('Orakelkugel','Oracle ball'),TR('Eine Ja-Nein-Frage stellen, schütteln, Antwort lesen.','Ask a yes-or-no question, shake, read the answer.'),0],
+  ['cube',TR('Zauberwürfel','Magic cube'),TR('Ein 3 × 3-Würfel in 3D: Reihen mit dem Finger drehen, mischen, zurücknehmen. Mit Anleitung in 7 Schritten und Hilfe für den nächsten Zug.','A 3 × 3 cube in 3D: turn rows with your finger, scramble, undo. With a 7-step guide and help for the next move.'),0],
+  ['park',TR('Ausparken','Parking lot'),TR('Autos und Laster hin und her schieben, bis das rote Auto aus der Parklücke kommt. 42 Stellungen in drei Stufen.','Slide cars and trucks back and forth until the red car gets out of the parking space. 42 positions in three levels.'),0],
+  ['igel',TR('Igel-Suche','Hedgehog hunt'),TR('Unter Laubhaufen schlafen Igel. Zahlen verraten, wie viele nebenan liegen: alles aufdecken, ohne einen zu wecken. Drei Stufen, eigene Größe, auf Wunsch ganz ohne Raten.','Hedgehogs sleep under leaf piles. Numbers tell how many lie next door: uncover everything without waking one. Three levels, custom size, and optionally no guessing at all.'),0],
+  ['pin',TR('Flipper Sternenreise','Star journey pinball'),TR('Ein Flippertisch im Weltall mit Planeten, Wurmlöchern, Sternenrampe, Missionen und sieben Stufen. Mit entspanntem Modus.','A pinball table in space with planets, wormholes, a star ramp, missions and seven ranks. With a relaxed mode.'),1],
   ['dice',TR('Würfel','Dice'),TR('Ein bis sechs Würfel, echter Zufall.','One to six dice, true randomness.'),0],
   ['pairs',TR('Paare finden','Find pairs'),TR('Sechzehn Karten, acht Paare. In Ruhe aufdecken und merken.','Sixteen cards, eight pairs. Turn them over calmly and remember.'),0]
 ];
-const GGROUPS=[[TR('Ruhig und kreativ','Calm and creative'),['board','kalimba','zen','loom','clouds','breath']],[TR('Geschick','Skill'),['run','river','tennis','golf','fish','tower','blocks','snake']],[TR('Rätsel und Karten','Puzzles and cards'),['sudoku','words','slide','pairs','sol']],[TR('Zufall','Chance'),['dice','oracle']]];
+const GGROUPS=[[TR('Ruhig und kreativ','Calm and creative'),['board','kalimba','zen','loom','clouds','breath']],[TR('Geschick','Skill'),['pin','run','river','tennis','golf','fish','tower','blocks','snake']],[TR('Rätsel und Karten','Puzzles and cards'),['sudoku','igel','cube','park','words','slide','pairs','sol']],[TR('Zufall','Chance'),['dice','oracle']]];
 let GGOPEN=LS.get('rr.ggopen',window.__rrDebug?[1,1,1,1]:[0,0,0,0]);if(!Array.isArray(GGOPEN))GGOPEN=[0,0,0,0];
 function gBar(g){return '<div class="gbar"><button class="btn" id="g-sfx" aria-pressed="'+(S.gsfx!==false)+'">'+TR('Geräusche','Sounds')+'</button><button class="btn" id="g-mus" aria-pressed="'+!!MUS.on+'">♪ '+TR('Musik','Music')+'</button><button class="btn" id="g-msel">'+TR('Musik wählen','Choose music')+'</button>'+(g[3]?'<button class="btn" id="g-pause">'+TR('Pause','Pause')+'</button>':'')+'<button class="btn" id="g-new">'+TR('Neu starten','Restart')+'</button></div><div class="gscore" id="g-score"></div>';}
 function gBind(body,id){
@@ -4571,7 +4785,7 @@ function gBind(body,id){
   mb.addEventListener('click',()=>{if(MUS.on)musicStop();else musicPlay();mb.setAttribute('aria-pressed',String(!!MUS.on));});
   q('#g-msel').addEventListener('click',()=>gMusicMenu(()=>openGame(id)));
   if(pb)pb.addEventListener('click',()=>{GAME.paused=!GAME.paused;pb.textContent=GAME.paused?TR('Weiter','Continue'):TR('Pause','Pause');pb.setAttribute('aria-pressed',String(GAME.paused));});
-  q('#g-new').addEventListener('click',()=>{delete GST[id];if(id==='board')LS.set('rr.gboard',null);if(id==='zen')LS.set('rr.gzen',null);if(id==='loom')LS.set('rr.gloom',null);if(id==='sudoku')LS.set('rr.gsud',null);if(id==='words')LS.set('rr.gws',null);if(id==='slide')LS.set('rr.gslide',null);openGame(id);});
+  q('#g-new').addEventListener('click',()=>{delete GST[id];if(id==='board')LS.set('rr.gboard',null);if(id==='zen')LS.set('rr.gzen',null);if(id==='loom')LS.set('rr.gloom',null);if(id==='sudoku')LS.set('rr.gsud',null);if(id==='words')LS.set('rr.gws',null);if(id==='slide')LS.set('rr.gslide',null);if(id==='cube')LS.set('rr.gcube',null);if(id==='igel'){const q=LS.get('rr.gigel',null);if(q){q.m=null;q.o=q.o.map(()=>0);q.t=0;q.over=0;q.hit=-1;LS.set('rr.gigel',q);}}if(id==='park'){const ps=LS.get('rr.gpark',null);if(ps){ps.cur=null;LS.set('rr.gpark',ps);}}openGame(id);});
 }
 function gMusicMenu(reopen){
   openMusic();
@@ -4625,7 +4839,643 @@ function openGames(){
 function openGame(id){
   const g=GAMES.find(x=>x[0]===id);if(!g)return;GAME.id=id;audioInit();clearInterval(GAME.iv);cancelAnimationFrame(GAME.raf);GAME.paused=false;
   openPage(TR('Spiele','Games'),g[1],gBar(g)+'<div id="g-host"></div>',body=>{gBind(body,id);const host=body.querySelector('#g-host');
-    ({board:gameBoard,clouds:gameClouds,tower:gameTower,zen:gameZen,breath:gameBreath,pairs:gamePairs,fish:gameFish,run:gameRun,sol:gameSol,dice:gameDice,golf:gameGolf,loom:gameLoom,blocks:gameBlocks,snake:gameSnake,sudoku:gameSudoku,words:gameWords,slide:gameSlide,kalimba:gameKalimba,river:gameRiver,tennis:gameTennis,oracle:gameOracle})[id](host);},openGames);
+    ({board:gameBoard,clouds:gameClouds,tower:gameTower,zen:gameZen,breath:gameBreath,pairs:gamePairs,fish:gameFish,run:gameRun,sol:gameSol,dice:gameDice,golf:gameGolf,loom:gameLoom,blocks:gameBlocks,snake:gameSnake,sudoku:gameSudoku,words:gameWords,slide:gameSlide,kalimba:gameKalimba,river:gameRiver,tennis:gameTennis,oracle:gameOracle,cube:gameCube,park:gameParking,igel:gameIgel,pin:gamePinball})[id](host);},openGames);
+}
+/* ---------- Zauberwürfel: Modell und Anfänger-Löser ---------- */
+/* Flächen: 0 U, 1 R, 2 F, 3 D, 4 L, 5 B. Farbe eines Aufklebers = Heimatfläche. Mitten bewegen sich nie. */
+const CB=(()=>{
+  const N=[[0,1,0],[1,0,0],[0,0,1],[0,-1,0],[-1,0,0],[0,0,-1]];
+  const BAS=[[[1,0,0],[0,0,1]],[[0,0,-1],[0,-1,0]],[[1,0,0],[0,-1,0]],[[1,0,0],[0,0,-1]],[[0,0,1],[0,-1,0]],[[-1,0,0],[0,-1,0]]];
+  const ST=[];
+  for(let f=0;f<6;f++){const n=N[f],[u,v]=BAS[f];for(let j=0;j<3;j++)for(let i=0;i<3;i++){const p=[0,1,2].map(k=>n[k]*1.5+u[k]*(i-1)+v[k]*(j-1));ST.push({f,i,j,p,n,c:[0,1,2].map(k=>n[k]+u[k]*(i-1)+v[k]*(j-1))});}}
+  const rot=(p,ax,s)=>{const [x,y,z]=p;if(ax===0)return [x,-s*z,s*y];if(ax===1)return [s*z,y,-s*x];return [-s*y,s*x,z];};
+  const key=(p,n)=>p.map(v=>Math.round(v*2)).join(',')+'|'+n.join(',');
+  const IDX={};ST.forEach((s,k)=>{IDX[key(s.p,s.n)]=k;});
+  /* Drehung um Achse ax (0 x,1 y,2 z), Schicht l (-1,0,1), Richtung s (+1 = mathematisch positiv) */
+  const PC={};
+  function perm(ax,l,s){const k=ax+'/'+l+'/'+s;if(PC[k])return PC[k];const P=new Int8Array(54);
+    for(let a=0;a<54;a++){const st=ST[a];if(Math.round(st.c[ax])!==l){P[a]=a;continue;}const b=IDX[key(rot(st.p,ax,s),rot(st.n,ax,s))];P[a]=b;}return PC[k]=P;}
+  /* Notation: Fläche im Uhrzeigersinn von außen = Drehung um ihre Normale mit s=-1 */
+  const FACE={U:[1,1,-1],D:[1,-1,1],R:[0,1,-1],L:[0,-1,1],F:[2,1,-1],B:[2,-1,1]};
+  function mv(c,m){const f=FACE[m[0]],t=m.length>1?(m[1]==='2'?2:-1):1;let st=c;for(let r=0;r<(t===2?2:1);r++){const P=perm(f[0],f[1],f[2]*(t===-1?-1:1));const o=new Int8Array(54);for(let a=0;a<54;a++)o[P[a]]=st[a];st=o;}return st;}
+  const solved=()=>{const c=new Int8Array(54);for(let a=0;a<54;a++)c[a]=ST[a].f;return c;};
+  const parse=s=>s.trim().split(/\s+/).filter(Boolean);
+  const run=(c,seq)=>{(typeof seq==='string'?parse(seq):seq).forEach(m=>{c=mv(c,m);});return c;};
+  const inv=seq=>parse(typeof seq==='string'?seq:seq.join(' ')).reverse().map(m=>m.length>1?(m[1]==='2'?m:m[0]):m+"'");
+  /* Würfelchen */
+  const CUB={};ST.forEach((s,k)=>{const q=s.c.join(',');(CUB[q]=CUB[q]||[]).push(k);});
+  const cubies=Object.keys(CUB).map(q=>({p:q.split(',').map(Number),s:CUB[q]})).filter(c=>c.s.length>1);
+  const isSol=(c,cb)=>cb.s.every(k=>c[k]===ST[k].f);
+  const EDG=cubies.filter(c=>c.s.length===2),COR=cubies.filter(c=>c.s.length===3);
+  const at=(f,i,j)=>f*9+j*3+i;
+  return {N,ST,mv,run,inv,solved,parse,cubies,EDG,COR,isSol,at,perm,FACE,rot};
+})();
+/* Anfängermethode mit Weiß unten (D), Gelb oben (U). Liefert Schritte [{st,seq}] */
+const CBS=(()=>{
+  const {mv,run,inv,EDG,COR,isSol,ST}=CB;
+  const ORD=['F','R','B','L'];
+  const rk=(alg,k)=>CB.parse(alg).map(m=>{const i=ORD.indexOf(m[0]);return i<0?m:ORD[(i+k)%4]+m.slice(1);});
+  const lay=y=>c=>c.p[1]===y;
+  const dE=EDG.filter(lay(-1)),dC=COR.filter(lay(-1)),mE=EDG.filter(lay(0)),uE=EDG.filter(lay(1)),uC=COR.filter(lay(1));
+  const all=(c,L)=>L.every(cb=>isSol(c,cb));
+  const G=[c=>all(c,dE),c=>all(c,dE)&&all(c,dC),c=>all(c,dE)&&all(c,dC)&&all(c,mE),
+    c=>G[2](c)&&uE.every(cb=>cb.s.every(k=>ST[k].f!==0||c[k]===0)),
+    c=>G[2](c)&&all(c,uE),
+    c=>G[4](c)&&uC.every(cb=>{const want=cb.s.map(k=>ST[k].f).sort().join(),have=cb.s.map(k=>c[k]).sort().join();return want===have;}),
+    c=>all(c,CB.cubies)];
+  /* Suche über Makros */
+  function search(c,goal,alpha,maxD){if(goal(c))return [];
+    for(let d=1;d<=maxD;d++){const path=[];const rec=(s,dd)=>{if(dd===0)return goal(s);for(let a=0;a<alpha.length;a++){if(path.length&&alpha[a].g!=null&&alpha[a].g===path[path.length-1].g)continue;path.push(alpha[a]);if(rec(run(s,alpha[a].m),dd-1))return true;path.pop();}return false;};
+      if(rec(c,d))return path.flatMap(x=>x.m);}
+    return null;}
+  const UU=['U',"U'",'U2'];
+  const MOV=['U','D','R','L','F','B'].flatMap(f=>[f,f+"'",f+'2']).map(m=>({m:[m],g:m[0]}));
+  function cross(c){const out=[];for(let n=0;n<4;n++){const done=dE.filter(cb=>isSol(c,cb));if(done.length===4)break;
+      let best=null;for(const cb of dE){if(isSol(c,cb))continue;const g=s=>done.every(x=>isSol(s,x))&&isSol(s,cb);const r=search(c,g,MOV,6);if(r&&(!best||r.length<best.length))best=r;if(best&&best.length<=2)break;}
+      if(!best)return null;c=run(c,best);out.push(...best);}
+    return {c,seq:out};}
+  const slotK=cb=>{const x=cb.p[0],z=cb.p[2];return z===1&&x===1?0:x===1&&z===-1?1:z===-1&&x===-1?2:3;}; /* vorn-rechts je Rahmen */
+  function corners(c){const out=[];const app=a=>{c=run(c,a);out.push(...a);};
+    for(let guard=0;guard<12&&!G[1](c);guard++){
+      const tgt=dC.find(cb=>!isSol(c,cb));const cols=tgt.s.map(k=>ST[k].f).sort().join();const k=slotK(tgt);const sexy=rk("R U R' U'",k);
+      let loc=COR.find(cb=>cb.s.map(q=>c[q]).sort().join()===cols);
+      if(loc.p[1]===-1){app(rk("R U R' U'",slotK(loc)));loc=COR.find(cb=>cb.s.map(q=>c[q]).sort().join()===cols);}
+      for(let u=0;u<4&&!(loc.p[0]===tgt.p[0]&&loc.p[2]===tgt.p[2]);u++){app(['U']);loc=COR.find(cb=>cb.s.map(q=>c[q]).sort().join()===cols);}
+      for(let r=0;r<6&&!isSol(c,tgt);r++)app(sexy);}
+    return G[1](c)?{c,seq:out}:null;}
+  const RI="U R U' R' U' F' U F",LI="U' L' U L U F U' F'";
+  function middle(c){const out=[];const app=a=>{c=run(c,a);out.push(...a);};
+    for(let guard=0;guard<16&&!G[2](c);guard++){
+      const e=uE.find(cb=>cb.s.every(k=>c[k]!==0));
+      if(!e){const bad=mE.find(cb=>!isSol(c,cb));app(rk(RI,slotK(bad)));continue;}
+      const side=e.s.find(k=>ST[k].f!==0),top=e.s.find(k=>ST[k].f===0),col=c[side];
+      let k=-1,us=0;for(let u=0;u<4;u++){let cc=c;for(let q=0;q<u;q++)cc=mv(cc,'U');const ed=uE.find(cb=>cb.s.some(x=>cc[x]===col&&ST[x].f===col)&&cb.s.every(x=>cc[x]!==0)&&cb.s.map(x=>cc[x]).sort().join()===e.s.map(x=>c[x]).sort().join());if(ed){us=u;break;}}
+      for(let q=0;q<us;q++)app(['U']);
+      const ff=[2,1,5,4].indexOf(col);const tc=c[uE.find(cb=>cb.s.some(x=>ST[x].f===col&&c[x]===col)&&cb.s.every(x=>c[x]!==0)).s.find(x=>ST[x].f===0)];
+      const rightCol=[2,1,5,4][(ff+1)%4];app(rk(tc===rightCol?RI:LI,ff));}
+    return G[2](c)?{c,seq:out}:null;}
+  const AL=(alg)=>[0,1,2,3].flatMap(k=>[[],['U'],["U'"],['U2']].map(u=>({m:u.concat(rk(alg,k))})));
+  const A4=AL("F R U R' U' F'"),A5=AL("R U R' U R U2 R'").concat(UU.map(m=>({m:[m],g:'U'}))),A6=AL("U R U' L' U R' U' L");
+  function orient(c){const out=[];const app=a=>{c=run(c,a);out.push(...a);};const fr=COR.find(cb=>cb.p[0]===1&&cb.p[1]===1&&cb.p[2]===1);const top=fr.s.find(k=>ST[k].f===0);
+    for(let i=0;i<4;i++){for(let r=0;r<6&&c[top]!==0;r++)app(CB.parse("R' D' R D"));app(['U']);}
+    const f=search(c,G[6],UU.map(m=>({m:[m]})),1);if(f==null)return null;app(f);return {c,seq:out};}
+  function solve(c){const steps=[];let r;
+    const push=(i,res)=>{if(!res)throw new Error('step '+i);steps.push({st:i,seq:simp(res.seq)});c=res.c;};
+    push(0,cross(c));push(1,corners(c));push(2,middle(c));
+    for(const [i,alpha,d] of [[3,A4,3],[4,A5,3],[5,A6,3]]){const s=search(c,G[i],alpha,d);if(s==null)throw new Error('step '+i);push(i,{c:run(c,s),seq:s});}
+    push(6,orient(c));return steps;}
+  function simp(seq){const o=[];const val=m=>m.length>1?(m[1]==='2'?2:3):1;
+    for(const m of seq){const l=o[o.length-1];if(l&&l[0]===m[0]){const v=(val(l)+val(m))%4;o.pop();if(v)o.push(m[0]+(v===1?'':v===2?'2':"'"));}else o.push(m);}
+    return o;}
+  return {solve,G,simp,stage:c=>{let i=0;while(i<7&&G[i](c))i++;return i;}};
+})();
+/* ---------- Zauberwürfel: 3D-Ansicht ---------- */
+const CUBE_COL=['#F7D23E','#D93B3B','#2FA35B','#F4F4F0','#F08A24','#2F6FD6'];
+const CUBE_CN=()=>[TR('gelbe','yellow'),TR('rote','red'),TR('grüne','green'),TR('weiße','white'),TR('orange','orange'),TR('blaue','blue')];
+const CUBE_STAGES=()=>[TR('Weißes Kreuz','White cross'),TR('Weiße Ecken','White corners'),TR('Mittlere Kanten','Middle edges'),TR('Gelbes Kreuz','Yellow cross'),TR('Gelbe Kanten','Yellow edges'),TR('Gelbe Ecken an ihren Platz','Yellow corners into place'),TR('Gelbe Ecken drehen','Twist yellow corners')];
+function cvMake(parent,H){const cv=document.createElement('canvas');cv.className='gcv';parent.appendChild(cv);const dpr=Math.min(2,window.devicePixelRatio||1);const W=cv.clientWidth||340;H=H||Math.min(W,420);cv.style.height=H+'px';cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);const x=cv.getContext('2d');x.scale(dpr,dpr);x.lineJoin='round';return {cv,x,W,H};}
+function cubeView(cv,x,W,H,st){
+  const V={st,anim:null,q:[],hl:-1,hlT:0,polys:[],done:null};
+  const add=(a,b,k)=>[a[0]+b[0]*k,a[1]+b[1]*k,a[2]+b[2]*k];
+  const STK=CB.ST.map((s,a)=>({a,c:s.c.map(Math.round),n:s.n}));
+  const CUBS=[];for(let i=-1;i<=1;i++)for(let j=-1;j<=1;j++)for(let k=-1;k<=1;k++){if(!i&&!j&&!k)continue;CUBS.push({c:[i,j,k],s:STK.filter(t=>t.c[0]===i&&t.c[1]===j&&t.c[2]===k)});}
+  const DIRS=[[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]];
+  const tang=d=>{const ax=d.findIndex(v=>v!==0);const o=[0,1,2].filter(i=>i!==ax);return o.map(i=>{const e=[0,0,0];e[i]=1;return e;});};
+  const rotA=(p,ax,a)=>{const c=Math.cos(a),s=Math.sin(a),[X,Y,Z]=p;if(ax===0)return [X,Y*c-Z*s,Y*s+Z*c];if(ax===1)return [X*c+Z*s,Y,-X*s+Z*c];return [X*c-Y*s,X*s+Y*c,Z];};
+  const view=p=>rotA(rotA(p,1,V.st.yaw),0,V.st.pitch);
+  const S0=Math.min(W,H)/5.6,D=10;
+  const proj=p=>{const f=D/(D-p[2]);return [W/2+p[0]*S0*f,H/2-p[1]*S0*f];};
+  const parseM=m=>{const f=CB.FACE[m[0]],h=m[1]==='2';return {ax:f[0],l:f[1],s:f[2]*(m[1]==="'"?-1:1),ang:h?Math.PI:Math.PI/2,m};};
+  V.push=(m,cb)=>{V.q.push({m,cb});};
+  V.busy=()=>!!V.anim||V.q.length>0;
+  V.tick=dt=>{if(V.hlT>0){V.hlT-=dt;if(V.hlT<=0)V.hl=-1;}
+    if(!V.anim&&V.q.length&&V.hlT<=0){const it=V.q.shift();V.anim=Object.assign(parseM(it.m),{t:0,cb:it.cb,dur:it.m[1]==='2'?.34:.22});}
+    if(V.anim){V.anim.t+=dt/V.anim.dur;if(V.anim.t>=1){const A=V.anim;V.anim=null;V.st.c=Array.from(CB.mv(Int8Array.from(V.st.c),A.m));if(A.cb)A.cb(A.m);}}
+    draw();};
+  function draw(){const C=gCol();x.clearRect(0,0,W,H);V.polys=[];
+    const A=V.anim,ang=A?A.s*A.ang*(1-Math.pow(1-Math.min(1,A.t),2)):0;
+    const inL=cb=>A&&cb.c[A.ax]===A.l;
+    const R=(cb,p)=>inL(cb)?rotA(p,A.ax,ang):p;
+    const item=cb=>{const ctr=view(R(cb,cb.c));return {cb,z:ctr[2]};};
+    let groups=[CUBS];
+    if(A){const mov=CUBS.filter(inL),sta=CUBS.filter(cb=>!inL(cb));const ax=[0,0,0];ax[A.ax]=A.l;const zm=view(ax)[2],zs=view(ax.map(v=>-v*.5))[2];groups=zm<zs?[mov,sta]:[sta,mov];}
+    groups.forEach(G=>{G.map(item).sort((p,q)=>p.z-q.z).forEach(({cb})=>{
+      DIRS.forEach(d=>{const nd=view(R(cb,d));if(nd[2]<=0.02)return;const [t1,t2]=tang(d);const ctr=add(cb.c,d,.5);
+        const quad=k=>[[-k,-k],[k,-k],[k,k],[-k,k]].map(([a,b])=>proj(view(R(cb,add(add(ctr,t1,a),t2,b)))));
+        const q1=quad(.5);x.beginPath();q1.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.closePath();x.fillStyle=C.dark?'#151a20':'#1d232a';x.fill();x.lineWidth=1;x.strokeStyle='#0d1014';x.stroke();
+        const sk=cb.s.find(t=>t.n[0]===d[0]&&t.n[1]===d[1]&&t.n[2]===d[2]);if(!sk)return;
+        const q2=quad(.42);x.beginPath();q2.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.closePath();
+        const lit=.78+.22*nd[2];x.fillStyle=CUBE_COL[V.st.c[sk.a]];x.globalAlpha=1;x.fill();
+        x.fillStyle='rgba(0,0,0,'+(1-lit).toFixed(3)+')';x.fill();
+        if(V.hl>=0&&CB.ST[sk.a].f===V.hl&&Math.sin(V.hlT*14)>-0.3){x.lineWidth=3.5;x.strokeStyle=C.dark?'#fff':'#111';x.stroke();}
+        if(!A)V.polys.push({a:sk.a,q:q2});});});});
+  }
+  const inside=(p,q)=>{let s=0;for(let i=0;i<4;i++){const a=q[i],b=q[(i+1)%4];const cr=(b[0]-a[0])*(p.y-a[1])-(b[1]-a[1])*(p.x-a[0]);if(cr!==0){if(s&&Math.sign(cr)!==s)return false;s=Math.sign(cr);}}return true;};
+  V.hit=p=>{for(let i=V.polys.length-1;i>=0;i--)if(inside(p,V.polys[i].q))return V.polys[i].a;return -1;};
+  /* Wischrichtung auf einem Aufkleber in einen Zug übersetzen */
+  V.dragMove=(a,dx,dy)=>{const s=CB.ST[a],p=s.p,n=s.n,c=s.c.map(Math.round);const p0=proj(view(p));let best=null;
+    tang(n).forEach(t=>{const p1=proj(view(add(p,t,.6)));const sx=p1[0]-p0[0],sy=p1[1]-p0[1],L=Math.hypot(sx,sy)||1;const d=(dx*sx+dy*sy)/L;if(!best||Math.abs(d)>Math.abs(best.d))best={t,d};});
+    const m=best.t.map(v=>v*Math.sign(best.d));const k=[0,1,2].find(i=>n[i]===0&&best.t[i]===0);const e=[0,0,0];e[k]=1;
+    const vel=[e[1]*p[2]-e[2]*p[1],e[2]*p[0]-e[0]*p[2],e[0]*p[1]-e[1]*p[0]];const sg=Math.sign(vel[0]*m[0]+vel[1]*m[1]+vel[2]*m[2])||1;const l=c[k];
+    if(l===0)return null;const L=Object.keys(CB.FACE).find(f=>CB.FACE[f][0]===k&&CB.FACE[f][1]===l);return sg===CB.FACE[L][2]?L:L+"'";};
+  draw();return V;
+}
+const cubeSolved=c=>c.every((v,i)=>v===CB.ST[i].f);
+function cubeMoveText(m){const fi='URFDLB'.indexOf(m[0]);const side=CUBE_CN()[fi];
+  return m[1]==='2'?TR('die '+side+' Seite halb herum (180°)','the '+side+' side half a turn (180°)'):m[1]==="'"?TR('die '+side+' Seite gegen den Uhrzeigersinn','the '+side+' side counterclockwise'):TR('die '+side+' Seite im Uhrzeigersinn','the '+side+' side clockwise');}
+function gameCube(host){
+  let st=GST.cube||LS.get('rr.gcube',null);
+  if(!st||!Array.isArray(st.c)||st.c.length!==54)st={c:Array.from(CB.solved()),hist:[],moves:0,yaw:-.62,pitch:.52,scr:false,best:0};
+  GST.cube=st;const save=()=>LS.set('rr.gcube',st);
+  host.innerHTML='<div class="gsets" style="margin:0 0 10px"><button class="btn" id="cu-mix">'+TR('Mischen','Scramble')+'</button><button class="btn" id="cu-undo">'+TR('Zurück','Undo')+'</button><button class="btn" id="cu-hint">'+TR('Nächster Schritt','Next step')+'</button></div><div id="cu-cv"></div><div id="cu-msg" class="small" style="margin-top:10px;min-height:20px"></div><div id="cu-hp"></div>'+
+    '<details class="ggrp" id="cu-guide" style="margin-top:12px"><summary><span>'+TR('So löst du ihn','How to solve it')+'</span><small>'+TR('Anfängermethode in 7 Schritten','Beginner method in 7 steps')+'</small></summary><div id="cu-gb"></div></details>';
+  const {cv,x,W,H}=cvMake(host.querySelector('#cu-cv'));const V=cubeView(cv,x,W,H,st);
+  const msg=t=>{host.querySelector('#cu-msg').textContent=t||'';};
+  const score=()=>gScore(TR('Züge ','Moves ')+st.moves+(st.best?TR(' · Bestwert ',' · Best ')+st.best:''));
+  const after=(m,fromUndo)=>{if(!fromUndo){st.hist.push(m);st.moves++;}else st.moves=Math.max(0,st.moves-1);gSfx(330+gRnd(4)*40,.06,.03,'triangle');save();score();
+    if(st.scr&&cubeSolved(st.c)){st.scr=false;if(!st.best||st.moves<st.best)st.best=st.moves;save();score();msg(TR('Gelöst in ','Solved in ')+st.moves+TR(' Zügen.',' moves.'));[0,2,4,7].forEach((k,j)=>setTimeout(()=>gSfx(G_PENTA[3+k%5]*(k>4?2:1),.5,.06),j*150));}
+    if(hintOpen)showHint();};
+  const doMove=m=>{if(V.busy())return;V.push(m,mm=>after(mm));};
+  host.querySelector('#cu-mix').addEventListener('click',()=>{if(V.busy())return;const F='URFDLB';let c=Int8Array.from(CB.solved()),last=-1,prevAx=-1;
+    for(let i=0;i<25;i++){let f;do f=gRnd(6);while(f===last||(f%3===prevAx&&f===(last+3)%6));const m=F[f]+['',"'",'2'][gRnd(3)];c=CB.mv(c,m);prevAx=f%3;last=f;}
+    st.c=Array.from(c);st.hist=[];st.moves=0;st.scr=true;save();score();msg(TR('Gemischt. Viel Ruhe beim Lösen.','Scrambled. Take your time.'));gSfx(220,.2,.05,'triangle',1.6);if(hintOpen)showHint();});
+  host.querySelector('#cu-undo').addEventListener('click',()=>{if(V.busy()||!st.hist.length)return;const m=st.hist.pop();V.push(CB.inv([m])[0],()=>after(m,true));});
+  let hintOpen=false;const hp=host.querySelector('#cu-hp');
+  let plan=null;
+  function showHint(){if(cubeSolved(st.c)){plan=null;hp.innerHTML='<div class="card" style="--rc:var(--ruhe)"><p>'+TR('Der Würfel ist gelöst. Mit „Mischen“ geht es von vorn los.','The cube is solved. “Scramble” starts again.')+'</p></div>';return;}
+    const key=st.c.join('');
+    if(!plan||plan.key!==key){let steps;try{steps=CBS.solve(Int8Array.from(st.c));}catch(e){hp.innerHTML='';return;}plan={key,seq:steps.flatMap(q=>q.seq.map(m=>({m,st:q.st})))};}
+    if(!plan.seq.length){hp.innerHTML='';return;}
+    const cur=plan.seq[0].st,rest=plan.seq.filter(q=>q.st===cur).map(q=>q.m),nx=rest.slice(0,8);
+    hp.innerHTML='<div class="card" style="--rc:var(--ruhe)"><p class="small muted" style="margin:0">'+TR('Schritt ','Step ')+(cur+1)+TR(' von 7',' of 7')+'</p><h2 style="margin:4px 0">'+CUBE_STAGES()[cur]+'</h2>'+
+      '<p style="margin:6px 0">'+TR('Als Nächstes: ','Next: ')+'<b>'+cubeMoveText(nx[0])+'</b> ('+nx[0].replace("'",'’')+').</p><p class="small muted" style="margin:0 0 8px">'+TR('Danach: ','After that: ')+(nx.slice(1).join(' ').replace(/'/g,'’')||'–')+(rest.length>8?' …':'')+' · '+TR('noch ','')+rest.length+TR(' Züge in diesem Schritt. Drehst du selbst anders weiter, rechnet die Hilfe neu.',' moves left in this step. If you turn differently yourself, the helper recalculates.')+'</p>'+
+      '<button class="btn primary block" id="cu-do" style="--rc:var(--ruhe)">'+TR('Diesen Zug zeigen','Show this move')+'</button></div>';
+    hp.querySelector('#cu-do').addEventListener('click',()=>{if(V.busy())return;const m=nx[0];V.hl='URFDLB'.indexOf(m[0]);V.hlT=1.1;V.push(m,mm=>{if(plan&&plan.seq.length&&plan.seq[0].m===mm){plan.seq.shift();plan.key=st.c.join('');}after(mm);});});}
+  host.querySelector('#cu-hint').addEventListener('click',()=>{hintOpen=!hintOpen;host.querySelector('#cu-hint').setAttribute('aria-pressed',String(hintOpen));if(hintOpen)showHint();else hp.innerHTML='';});
+  /* Bedienung */
+  let drag=null;
+  cv.addEventListener('pointerdown',e=>{gCap(cv,e);const p=gPos(cv,e);drag={p,a:V.busy()?-1:V.hit(p),used:false,last:p};});
+  cv.addEventListener('pointermove',e=>{if(!drag)return;const p=gPos(cv,e),dx=p.x-drag.p.x,dy=p.y-drag.p.y;
+    if(drag.a>=0){if(!drag.used&&Math.hypot(dx,dy)>14){drag.used=true;const m=V.dragMove(drag.a,dx,dy);if(m)doMove(m);else drag.a=-1;}if(drag.a>=0)return;}
+    st.yaw+=(p.x-drag.last.x)*.011;st.pitch=Math.max(-1.35,Math.min(1.35,st.pitch+(p.y-drag.last.y)*.011));drag.last=p;});
+  const up=()=>{if(drag&&drag.a<0)save();drag=null;};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+  /* Anleitung */
+  const G=[
+    [TR('Schreibweise','Notation'),TR('Jede Seite hat einen Buchstaben: U oben, D unten, R rechts, L links, F vorne, B hinten. Der Buchstabe allein heißt: diese Seite eine Vierteldrehung im Uhrzeigersinn, so wie du sie siehst, wenn du direkt auf sie schaust. Ein Strich (R’) heißt gegen den Uhrzeigersinn, eine 2 (R2) eine halbe Drehung. Die Mitten bewegen sich nie, sie bestimmen die Farbe ihrer Seite. Halte den Würfel bei allen Schritten mit Gelb oben und Weiß unten.','Every side has a letter: U up, D down, R right, L left, F front, B back. The letter alone means: turn that side a quarter turn clockwise, as you see it when you look straight at it. A prime (R’) means counterclockwise, a 2 (R2) a half turn. The centres never move; they set the colour of their side. Hold the cube with yellow on top and white at the bottom for all steps.'),"R U R' U'"],
+    [CUBE_STAGES()[0],TR('Bring die vier weißen Kanten nach unten, sodass ihre zweite Farbe zur Mitte der Seite passt. Einfacher Weg: Sammle die weißen Kanten zuerst oben rund um die gelbe Mitte (ein „Gänseblümchen“). Dreh dann oben, bis die zweite Farbe einer Kante über ihrer passenden Mitte steht, und dreh diese Seite zweimal (F2): Die Kante landet unten richtig. Dieser Schritt geht ohne feste Zugfolge, mit etwas Ausprobieren.','Bring the four white edges down so that their second colour matches the centre of that side. Easy way: first gather the white edges on top around the yellow centre (a “daisy”). Then turn the top until an edge’s second colour sits above its matching centre and turn that side twice (F2): the edge lands correctly at the bottom. This step has no fixed sequence; a bit of trying is enough.'),"U F2"],
+    [CUBE_STAGES()[1],TR('Such oben eine Ecke mit Weiß. Dreh oben, bis sie über ihrem Platz vorne rechts unten steht (ihre zwei anderen Farben passen zu den Mitten vorne und rechts). Dann wiederhole R U R’ U’, bis die Ecke weiß unten richtig sitzt, höchstens sechsmal. Steckt eine Ecke falsch unten, holst du sie mit einmal R U R’ U’ nach oben.','Find a corner with white on top. Turn the top until it is above its place at front right bottom (its two other colours match the front and right centres). Then repeat R U R’ U’ until the corner sits correctly with white at the bottom, at most six times. If a corner is stuck wrongly at the bottom, bring it up with one R U R’ U’.'),"U R U' R'"],
+    [CUBE_STAGES()[2],TR('Such oben eine Kante ohne Gelb. Dreh oben, bis ihre vordere Farbe zur vorderen Mitte passt. Muss sie nach rechts: U R U’ R’ U’ F’ U F. Muss sie nach links: U’ L’ U L U F U’ F’. Sitzt eine Kante verdreht in der Mitte, setzt du irgendeine gelbe Kante dorthin, dann kommt sie oben wieder heraus.','Find an edge on top without yellow. Turn the top until its front colour matches the front centre. If it has to go right: U R U’ R’ U’ F’ U F. If it has to go left: U’ L’ U L U F U’ F’. If an edge sits flipped in the middle, insert any yellow edge there; it then comes back out on top.'),"U R U' R' U' F' U F"],
+    [CUBE_STAGES()[3],TR('Ziel ist ein gelbes Kreuz oben, die Ecken sind egal. Zugfolge: F R U R’ U’ F’. Siehst du nur einen Punkt, mach sie einmal; dann siehst du einen Winkel. Halte den Winkel hinten links und mach sie noch einmal: Es entsteht eine Linie. Halte die Linie waagerecht und mach sie ein letztes Mal.','The goal is a yellow cross on top; the corners do not matter. Sequence: F R U R’ U’ F’. If you only see a dot, do it once; then you see an angle. Hold the angle at back left and do it again: a line appears. Hold the line horizontally and do it one last time.'),"F R U R' U' F'"],
+    [CUBE_STAGES()[4],TR('Jetzt sollen die Seitenfarben der gelben Kanten zu den Mitten passen. Dreh oben, bis mindestens zwei passen. Liegen die passenden hinten und rechts, mach R U R’ U R U2 R’ und danach U. Liegen sie gegenüber, mach die Folge einmal, dann hast du zwei nebeneinander.','Now the side colours of the yellow edges should match the centres. Turn the top until at least two match. If the matching ones are at the back and right, do R U R’ U R U2 R’ followed by U. If they are opposite, do the sequence once; then you have two next to each other.'),"R U R' U R U2 R' U"],
+    [CUBE_STAGES()[5],TR('Jede gelbe Ecke soll an ihrem richtigen Platz stehen, verdreht ist erlaubt. Such eine Ecke, die schon richtig steht, und halte sie vorne rechts oben. Mach U R U’ L’ U R’ U’ L, bis alle stimmen. Steht keine richtig, mach die Folge einmal von irgendwo.','Every yellow corner should be in its correct place; twisted is fine. Find a corner that is already in the right place and hold it at front right top. Do U R U’ L’ U R’ U’ L until all are right. If none is in place, do the sequence once from anywhere.'),"U R U' L' U R' U' L"],
+    [CUBE_STAGES()[6],TR('Halte eine verdrehte Ecke vorne rechts oben. Wiederhole R’ D’ R D, bis Gelb dieser Ecke oben ist. Die unteren Reihen sehen dabei durcheinander aus, das ist richtig. Dreh dann nur oben (U), bis die nächste verdrehte Ecke vorne rechts steht, und mach weiter. Nie den ganzen Würfel drehen. Zum Schluss oben passend drehen: fertig.','Hold a twisted corner at front right top. Repeat R’ D’ R D until this corner’s yellow is on top. The lower layers look scrambled meanwhile; that is correct. Then turn only the top (U) until the next twisted corner is at front right and carry on. Never turn the whole cube. Finally turn the top into place: done.'),"R' D' R D R' D' R D"]];
+  const gb=host.querySelector('#cu-gb');
+  gb.innerHTML='<div id="cu-dcv"></div><p class="small muted" id="cu-dl" style="margin:6px 2px 10px">'+TR('Bei „Vorführen“ dreht dieser kleine Würfel die Zugfolge des Schritts.','With “Demonstrate” this small cube turns the step’s sequence.')+'</p>'+
+    G.map((g,i)=>'<div class="card" style="--rc:var(--ruhe)"><p class="small muted" style="margin:0">'+(i?TR('Schritt ','Step ')+i:TR('Vorab','First'))+'</p><h2 style="margin:4px 0">'+g[0]+'</h2><p>'+g[1]+'</p><p style="font-family:ui-monospace,monospace;font-weight:700;margin:8px 0">'+g[2].replace(/'/g,'’')+'</p><button class="btn block" data-demo="'+i+'">'+TR('Vorführen','Demonstrate')+'</button></div>').join('')+
+    '<p class="small muted" style="margin:10px 2px">'+TR('Wer schneller werden möchte: Die Fridrich-Methode (CFOP) löst das Kreuz und die ersten zwei Ebenen zusammen und nutzt viele feste Zugfolgen für die letzte Ebene. Die Roux-Methode baut zwei Blöcke links und rechts und kommt mit weniger Zügen aus. Die Anleitung oben ist eigene Beschreibung der verbreiteten Anfängermethode; das Programm zum „Nächsten Schritt“ folgt denselben 7 Schritten.','If you want to get faster: the Fridrich method (CFOP) solves the cross and the first two layers together and uses many fixed sequences for the last layer. The Roux method builds two blocks left and right and needs fewer moves. The guide above is our own description of the widespread beginner method; the “Next step” helper follows the same 7 steps.')+'</p>';
+  let D=null;
+  gb.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',()=>{const g=G[+b.dataset.demo];
+    if(!D){const h=gb.querySelector('#cu-dcv');const m=cvMake(h,Math.min(260,Math.round(W*.7)));D=cubeView(m.cv,m.x,m.W,m.H,{c:Array.from(CB.solved()),yaw:-.62,pitch:.52});}
+    D.q=[];D.anim=null;const alg=CB.parse(g[2]);D.st.c=Array.from(CB.run(CB.solved(),CB.inv(alg)));gb.querySelector('#cu-dl').textContent=g[0]+': '+g[2].replace(/'/g,'’');
+    gb.querySelector('#cu-dcv').scrollIntoView({block:'nearest',behavior:'smooth'});setTimeout(()=>alg.forEach(m=>D.push(m)),600);}));
+  score();if(st.scr&&!cubeSolved(st.c))msg(TR('Wisch über eine Außenreihe, um sie zu drehen. Auf freier Fläche oder über die Mitte wischen dreht die Ansicht.','Swipe across an outer row to turn it. Swiping on empty space or across the middle turns the view.'));
+  else msg(TR('Wisch über eine Außenreihe, um sie zu drehen. Auf freier Fläche oder über die Mitte wischen dreht die Ansicht. „Mischen“ startet ein Rätsel.','Swipe across an outer row to turn it. Swiping on empty space or across the middle turns the view. “Scramble” starts a puzzle.'));
+  gLoop(cv,dt=>{V.tick(dt);if(D)D.tick(dt);});
+  if(window.__rrDebug)window.__cube={st,V,get D(){return D;},doMove,showHint};
+}
+/* ---------- Ausparken ---------- */
+/* Stellungen vorab erzeugt und mit Breitensuche geprüft: [Kodierung, kürzeste Zuganzahl bis das rote Auto frei ist].
+   Kodierung je Fahrzeug 4 Zeichen: h/v, Zeile, Spalte, Länge. Fahrzeug 0 = rotes Auto in Zeile 2, Ausgang rechts. */
+const PARK_LV=[[["h222v242h542v252h513h132v052h442h422v302",6],["h202v002h123v242v253v442v223v232",6],["h212v232h413v253v052h103v242h312h533h003v032",6],["h222h042v332v252h512h442h022h002",6],["h202v002h522h022h542v412v222v253v052h422",7],["h222h512v332v252v242h142h442v032",7],["h202v022v313v002v452h523v142v223v012v132v152",7],["h212v142v002v153v202h533v402h433v132v322v012",8],["h222v253h112v422h322h533v312v302v242h132h002",8],["h202v152v123h402v342h422h522v002h132v452h502h032",9],["h202v152h322v012v452v122h523h042h412h022v002h502",9],["h202h332h413v152v012v132h312v302v023v442",10],["h202h332v132h432h102h032h312h012v122v302v142",10],["h212h102h032v422v022v203v342v142v253h502v232",11]],[["h212v143v102h433v422h313v152v132v412",13],["h212v322v233h342v102h123v053v012h022v442",13],["h202h422v302h502h112v442v002v242h032h322h142v132v252",13],["h202v412v232v252v143v002h432h522h113v052h302h542",13],["h202v152h012v442h422v123v002v032h402h333",13],["h202v122v052v322h023v402v132v252v312h002v142h102h332",14],["h232h102h442v212h542v332v153h512v202h022v402v123",14],["h222v043v412h312h002h533v252v052v102v422h432v302",14],["h202v322h342v152v032h302h012v002v452v232v122",15],["h202v032v232v352v312v152v122v142h432v302v322",17],["h202h003v332v222v342v302h412h542h122h102h032h502",17],["h212h433h312v012v422v152h122v232v102h032v302v142v412h533",17],["h212h432h523v153v133v402h312v412v142",18],["h202v222v142h422v032h042v002v312v253h513h542h112v342",19],["h202v152h303v122h042h022h442v012h533v402v332h132",19],["h222v212h112h542v402v043v252v412v323h022v432h002v052",21],["h212v052h342v133h523h423v452h002v302h312v102h022h112v042",21]],[["h232h302v013v322h532h042v452h512v122v342v252v032v102",22],["h212h312h022v052v302v422v432v253v342v042h542v102v012v232",26],["h212h122h542v432v202v232v052h022v252v322v143h442v002",29],["h202v123h342h132h502v452h522v312v442h012v232h042h422v302",30],["h212v242h042v232v422h532v353v032h312v152v203v012v002",31],["h212v143v252h022v012h042h512v003h532h432v232h122h302v322",34],["h202v123v332h412h342h513h032v452v132v402h302v012",36],["h202h413v242v232h142h302v442h522v252v402v452v032v122h042",38],["h212v152h102h033h523v353h502v022v202v132h402h422h312v142",39],["h232v002v112h313v452h142v252v122h513v032h412v302h012",39],["h232h303h502v003v042v422h012h532v122v153h442v332v112",51]]];
+function gameParking(host){
+  let st=GST.park||LS.get('rr.gpark',null);if(!st||typeof st!=='object')st={lv:0,i:0,done:{}};if(!st.done)st.done={};GST.park=st;
+  const save=()=>LS.set('rr.gpark',st);
+  const dec=s=>{const V=[];for(let i=0;i<s.length;i+=4)V.push({h:s[i]==='h',r:+s[i+1],c:+s[i+2],len:+s[i+3]});return V;};
+  const load=()=>{const P=PARK_LV[st.lv][st.i];if(!st.cur||st.cur.id!==P[0])st.cur={id:P[0],V:dec(P[0]),moves:0,hist:[],won:false};};
+  load();
+  const LVN=()=>[TR('Leicht','Easy'),TR('Mittel','Medium'),TR('Schwer','Hard')];
+  host.innerHTML='<div class="gsets" style="margin:0 0 8px" id="pk-lv"></div><div class="gsets" style="margin:0 0 10px;flex-wrap:wrap" id="pk-list"></div><div id="pk-cv"></div><div class="gsets" style="margin-top:10px"><button class="btn" id="pk-undo">'+TR('Zurück','Undo')+'</button><button class="btn" id="pk-re">'+TR('Von vorn','Start over')+'</button><button class="btn" id="pk-next">'+TR('Nächste Stellung','Next position')+'</button></div><p id="pk-msg" style="font-weight:700;min-height:22px;margin:10px 2px 0"></p>';
+  gNote(host,TR('Die Fahrzeuge lassen sich nur vor und zurück schieben, nicht drehen. Schaff dem roten Auto einen Weg zur Ausfahrt rechts. Ein Zug ist eine Bewegung eines Fahrzeugs, egal wie weit. Alle Stellungen sind lösbar; die angegebene kleinste Zuganzahl ist mit einer vollständigen Suche geprüft.','Vehicles only slide forwards and backwards; they cannot turn. Clear a way for the red car to the exit on the right. One move is one movement of one vehicle, however far. All positions are solvable; the stated minimum number of moves was checked with a complete search.'));
+  const W0=Math.min(host.clientWidth||340,420);const {cv,x,W,H}=cvMake(host.querySelector('#pk-cv'),W0);cv.style.maxWidth=W0+'px';
+  const pad=W*.06,cs=(Math.min(W,H)-pad*2)/6,ox=(W-cs*6)/2-cs*.15,oy=(H-cs*6)/2;
+  const PAL=['#7FB3D5','#F5B041','#82C99A','#C39BD3','#B0C4DE','#76D7C4','#F7DC6F','#AAB7B8','#85C1E9','#E59866','#A9DFBF','#D2B4DE','#F8C471'];
+  const occ=(V,skip)=>{const g=new Array(36).fill(-1);V.forEach((v,i)=>{if(i===skip)return;for(let k=0;k<v.len;k++)g[(v.h?v.r:v.r+k)*6+(v.h?v.c+k:v.c)]=i;});return g;};
+  const range=i=>{const V=st.cur.V,v=V[i],g=occ(V,i);let lo=v.h?v.c:v.r,hi=lo;
+    while(lo>0&&g[v.h?v.r*6+lo-1:(lo-1)*6+v.c]<0)lo--;while(hi+v.len<6&&g[v.h?v.r*6+hi+v.len:(hi+v.len)*6+v.c]<0)hi++;return [lo,hi];};
+  let drag=null,exitAnim=0;
+  const draw=()=>{const C=gCol();x.clearRect(0,0,W,H);
+    x.fillStyle=C.dark?'#2a313a':'#e7e2d8';x.beginPath();x.roundRect(ox-6,oy-6,cs*6+12,cs*6+12,14);x.fill();
+    x.fillStyle=C.dark?'#2a313a':'#e7e2d8';x.fillRect(ox+cs*6,oy+cs*2+4,cs*.5,cs-8);
+    x.strokeStyle=C.dark?'#3b4450':'#d6cfc2';x.lineWidth=1;for(let i=1;i<6;i++){x.beginPath();x.moveTo(ox+i*cs,oy);x.lineTo(ox+i*cs,oy+cs*6);x.stroke();x.beginPath();x.moveTo(ox,oy+i*cs);x.lineTo(ox+cs*6,oy+i*cs);x.stroke();}
+    x.fillStyle=C.mu;x.font='600 '+Math.round(cs*.32)+'px system-ui';x.textAlign='center';x.textBaseline='middle';x.fillText('›',ox+cs*6.32,oy+cs*2.5);
+    st.cur.V.forEach((v,i)=>{let r=v.r,c=v.c;if(drag&&drag.i===i){if(v.h)c=drag.f;else r=drag.f;}if(i===0&&exitAnim)c+=exitAnim;
+      const X=ox+c*cs+4,Y=oy+r*cs+4,w=(v.h?v.len:1)*cs-8,h=(v.h?1:v.len)*cs-8;
+      x.fillStyle=i===0?'#E04848':PAL[i%PAL.length];x.beginPath();x.roundRect(X,Y,w,h,cs*.22);x.fill();x.lineWidth=2.5;x.strokeStyle=G_OL;x.stroke();
+      x.fillStyle='rgba(255,255,255,.45)';const wx=v.h?X+w*.62:X+w*.18,wy=v.h?Y+h*.18:Y+h*.62;x.beginPath();x.roundRect(wx,wy,v.h?w*.2:w*.64,v.h?h*.64:h*.2,4);x.fill();
+      if(i===0){x.fillStyle=G_OL;x.beginPath();x.arc(X+w*.3,Y+h*.5,cs*.07,0,7);x.fill();}});
+  };
+  const ui=()=>{const P=PARK_LV[st.lv][st.i];
+    host.querySelector('#pk-lv').innerHTML=LVN().map((n,i)=>'<button class="btn" data-lv="'+i+'" aria-pressed="'+(st.lv===i)+'">'+n+' ('+PARK_LV[i].filter(p=>st.done[p[0]]).length+'/'+PARK_LV[i].length+')</button>').join('');
+    host.querySelector('#pk-list').innerHTML=PARK_LV[st.lv].map((p,i)=>'<button class="btn pkb" data-i="'+i+'" aria-pressed="'+(st.i===i)+'" style="min-width:44px;padding:6px 8px">'+(i+1)+(st.done[p[0]]?' ✓':'')+'</button>').join('');
+    host.querySelectorAll('[data-lv]').forEach(b=>b.addEventListener('click',()=>{st.lv=+b.dataset.lv;st.i=0;st.cur=null;load();save();ui();draw();}));
+    host.querySelectorAll('.pkb').forEach(b=>b.addEventListener('click',()=>{st.i=+b.dataset.i;st.cur=null;load();save();ui();draw();}));
+    gScore(LVN()[st.lv]+' '+(st.i+1)+' · '+TR('Züge ','Moves ')+st.cur.moves+' · '+TR('kürzeste Lösung ','shortest solution ')+P[1]);
+    host.querySelector('#pk-msg').textContent=st.cur.won?(TR('Ausgeparkt in ','Out in ')+st.cur.moves+TR(' Zügen',' moves')+(st.cur.moves<=P[1]?TR(' – kürzer geht es nicht.',' – it cannot be done in fewer.'):'.')):'';};
+  const win=()=>{st.cur.won=true;st.done[st.cur.id]=Math.min(st.done[st.cur.id]||99,st.cur.moves);save();exitAnim=.001;[0,2,4,7].forEach((k,j)=>setTimeout(()=>gSfx(G_PENTA[2+k%5]*(k>4?2:1),.45,.06),j*130));ui();};
+  cv.addEventListener('pointerdown',e=>{if(st.cur.won)return;const p=gPos(cv,e),c=Math.floor((p.x-ox)/cs),r=Math.floor((p.y-oy)/cs);if(c<0||c>5||r<0||r>5)return;const g=occ(st.cur.V,-1),i=g[r*6+c];if(i<0)return;gCap(cv,e);const v=st.cur.V[i];
+    drag={i,start:v.h?p.x:p.y,f0:v.h?v.c:v.r,f:v.h?v.c:v.r,rg:range(i)};draw();});
+  cv.addEventListener('pointermove',e=>{if(!drag)return;const p=gPos(cv,e),v=st.cur.V[drag.i];const d=((v.h?p.x:p.y)-drag.start)/cs;drag.f=Math.max(drag.rg[0],Math.min(drag.rg[1],drag.f0+d));draw();});
+  const up=()=>{if(!drag)return;const v=st.cur.V[drag.i],nf=Math.round(drag.f);if(nf!==drag.f0){st.cur.hist.push([drag.i,drag.f0]);if(v.h)v.c=nf;else v.r=nf;st.cur.moves++;gSfx(294+drag.i*12,.07,.04,'triangle');}drag=null;save();
+    if(st.cur.V[0].c===4)win();else ui();draw();};
+  cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+  host.querySelector('#pk-undo').addEventListener('click',()=>{const h=st.cur.hist.pop();if(!h||st.cur.won)return;const v=st.cur.V[h[0]];if(v.h)v.c=h[1];else v.r=h[1];st.cur.moves--;save();ui();draw();});
+  host.querySelector('#pk-re').addEventListener('click',()=>{st.cur=null;load();exitAnim=0;save();ui();draw();});
+  host.querySelector('#pk-next').addEventListener('click',()=>{const L=PARK_LV[st.lv];let i=st.i;for(let k=1;k<=L.length;k++){const j=(st.i+k)%L.length;if(!st.done[L[j][0]]){i=j;break;}if(k===L.length)i=(st.i+1)%L.length;}st.i=i;st.cur=null;load();exitAnim=0;save();ui();draw();});
+  ui();draw();
+  gLoop(cv,dt=>{if(exitAnim>0&&exitAnim<3){exitAnim+=dt*5;draw();}});
+  if(window.__rrDebug)window.__park={st,range,win,dec,draw,geom:()=>({ox,oy,cs,W,H})};
+}
+/* Igel-Suche: Erzeugung und Logikprüfung (ohne Raten) */
+const IGC=(()=>{
+  const nb=(w,h,i)=>{const x=i%w,y=(i/w)|0,o=[];for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){if(!dx&&!dy)continue;const X=x+dx,Y=y+dy;if(X>=0&&Y>=0&&X<w&&Y<h)o.push(Y*w+X);}return o;};
+  function counts(w,h,m){const c=new Int8Array(w*h);for(let i=0;i<w*h;i++)if(!m[i])c[i]=nb(w,h,i).reduce((s,j)=>s+m[j],0);else c[i]=-1;return c;}
+  function place(w,h,n,first,rnd){const m=new Uint8Array(w*h),ban=new Set([first,...nb(w,h,first)]);const free=[];for(let i=0;i<w*h;i++)if(!ban.has(i))free.push(i);
+    if(free.length<n){ban.clear();ban.add(first);free.length=0;for(let i=0;i<w*h;i++)if(i!==first)free.push(i);}
+    for(let k=0;k<n;k++){const j=k+Math.floor(rnd()*(free.length-k));[free[k],free[j]]=[free[j],free[k]];m[free[k]]=1;}return m;}
+  /* reine Logik: einfache Regeln, Teilmengenregel, Gesamtzahl */
+  function solvable(w,h,n,m,first){const N=w*h,c=counts(w,h,m),st=new Int8Array(N);/*0 zu,1 offen,2 Fahne*/let opened=0;
+    const NB=[];for(let i=0;i<N;i++)NB.push(nb(w,h,i));
+    const open=i=>{const q=[i];while(q.length){const k=q.pop();if(st[k])continue;if(m[k])throw new Error("unsound");st[k]=1;opened++;if(c[k]===0)NB[k].forEach(j=>{if(!st[j])q.push(j);});}return true;};
+    open(first);let flags=0;const chk=()=>{for(let i=0;i<N;i++)if(st[i]===2&&!m[i])throw new Error("badflag");};
+    for(let guard=0;guard<10000;guard++){if(opened===N-n){chk();return true;}let prog=false;const info=[];
+      for(let i=0;i<N;i++){if(st[i]!==1||c[i]<=0)continue;let f=0;const u=[];for(const j of NB[i]){if(st[j]===2)f++;else if(st[j]===0)u.push(j);}if(!u.length)continue;const r=c[i]-f;
+        if(r===0){u.forEach(j=>open(j));prog=true;}else if(r===u.length){u.forEach(j=>{if(!st[j]){st[j]=2;flags++;}});prog=true;}else info.push({u,r,s:new Set(u)});}
+      if(prog)continue;
+      for(let a=0;a<info.length&&!prog;a++){const A=info[a];for(const j0 of A.u){for(const k of NB[j0]){}}
+        for(let b=0;b<info.length&&!prog;b++){if(a===b)continue;const B=info[b];if(A.u.length>=B.u.length)continue;if(!A.u.every(x=>B.s.has(x)))continue;const diff=B.u.filter(x=>!A.s.has(x)),dr=B.r-A.r;
+          if(dr===0){diff.forEach(j=>open(j));prog=true;}else if(dr===diff.length){diff.forEach(j=>{if(!st[j]){st[j]=2;flags++;}});prog=true;}}}
+      if(prog)continue;
+      /* Überschneidungsregel: A und B überlappen; Minen außerhalb der Schnittmenge */
+      for(let a=0;a<info.length&&!prog;a++)for(let b=0;b<info.length&&!prog;b++){if(a===b)continue;const A=info[a],B=info[b];const inter=A.u.filter(x=>B.s.has(x));if(!inter.length)continue;
+        const onlyA=A.u.filter(x=>!B.s.has(x)),onlyB=B.u.filter(x=>!A.s.has(x));
+        /* höchstens min(|inter|,B.r) Minen in der Schnittmenge -> A hat mindestens A.r - min(...) in onlyA */
+        const maxI=Math.min(inter.length,B.r,A.r);if(A.r-maxI===onlyA.length&&onlyA.length){onlyA.forEach(j=>{if(!st[j]){st[j]=2;flags++;}});
+          /* dann Schnittmenge hat genau maxI; wenn maxI===B.r ist onlyB frei */ if(maxI===B.r)onlyB.forEach(j=>open(j));prog=true;}}
+      if(prog)continue;
+      let unk=0;for(let i=0;i<N;i++)if(!st[i])unk++;const rem=n-flags;
+      if(rem===0){for(let i=0;i<N;i++)if(!st[i])open(i);continue;}
+      if(rem===unk){for(let i=0;i<N;i++)if(!st[i]){st[i]=2;flags++;}continue;}
+      return false;}
+    return false;}
+  function make(w,h,n,first,noguess,rnd,budget){rnd=rnd||Math.random;const t0=Date.now();let m,tries=0;
+    do{m=place(w,h,n,first,rnd);tries++;if(!noguess)break;let sv=false;try{sv=solvable(w,h,n,m,first);}catch(e){}if(sv)return {m,tries,ok:true};}while(Date.now()-t0<(budget||1500));
+    return {m,tries,ok:!noguess};}
+  return {nb,counts,place,solvable,make};
+})();
+/* ---------- Igel-Suche (nach dem Prinzip von Minesweeper) ---------- */
+function gameIgel(host){
+  const LV=[[9,9,10],[16,16,40],[16,30,99]];
+  const LVN=()=>[TR('Anfänger','Beginner'),TR('Fortgeschritten','Intermediate'),TR('Profi','Expert'),TR('Eigene','Custom')];
+  let st=GST.igel||LS.get('rr.gigel',null);
+  const blank=(lv,keep)=>{const k=keep||{};const d=lv<3?LV[lv]:[k.cw||12,k.ch||12,k.cn||20];return {lv,cw:k.cw||12,ch:k.ch||12,cn:k.cn||20,w:d[0],h:d[1],n:d[2],m:null,o:new Array(d[0]*d[1]).fill(0),t:0,over:0,hit:-1,ng:k.ng!==false,qm:!!k.qm,mode:k.mode||'open',best:k.best||{},zoom:!!k.zoom,gen:1};};
+  if(!st||!Array.isArray(st.o)||st.o.length!==st.w*st.h)st=blank(0,st||{});
+  GST.igel=st;const save=()=>LS.set('rr.gigel',st);
+  const N=()=>st.w*st.h,nbs=i=>IGC.nb(st.w,st.h,i);
+  let cnt=st.m?IGC.counts(st.w,st.h,Uint8Array.from(st.m)):null;
+  host.innerHTML='<div class="gsets" style="margin:0 0 8px;flex-wrap:wrap" id="ig-lv"></div><div id="ig-cus"></div>'+
+    '<div class="igbar"><div class="igc" id="ig-left"></div><button class="igsun" id="ig-sun" aria-label="'+TR('Neues Spiel','New game')+'"><canvas width="88" height="88"></canvas></button><div class="igc" id="ig-time"></div></div>'+
+    '<div class="gsets" style="margin:8px 0"><button class="btn" id="ig-mo" aria-pressed="false">'+TR('Aufdecken','Uncover')+'</button><button class="btn" id="ig-mf" aria-pressed="false">'+TR('Schild setzen','Place sign')+'</button><button class="btn" id="ig-zoom" aria-pressed="false">'+TR('Lupe','Magnify')+'</button></div>'+
+    '<div id="ig-wrap" style="overflow:auto;max-height:68vh;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);-webkit-overflow-scrolling:touch"><canvas id="ig-cv" style="display:block;touch-action:pan-x pan-y;-webkit-user-select:none;user-select:none"></canvas></div>'+
+    '<p id="ig-msg" style="font-weight:700;min-height:22px;margin:10px 2px 0"></p>'+
+    '<div class="set" style="margin-top:6px"><label for="ig-ng">'+TR('Ohne Raten','No guessing')+'<span class="hint2">'+TR('Jedes Feld lässt sich allein mit Logik lösen. Gilt ab dem nächsten Spiel.','Every board can be solved by logic alone. Applies from the next game.')+'</span></label><input type="checkbox" class="switch" id="ig-ng"></div>'+
+    '<div class="set"><label for="ig-qm">'+TR('Fragezeichen','Question marks')+'<span class="hint2">'+TR('Zweimal markieren setzt ein Fragezeichen für unsichere Felder.','Marking twice places a question mark for uncertain fields.')+'</span></label><input type="checkbox" class="switch" id="ig-qm"></div><p class="small muted" id="ig-best" style="margin:8px 2px"></p>';
+  gNote(host,TR('Unter einigen Laubhaufen schlafen Igel. Deck alle anderen Haufen auf, ohne einen Igel zu wecken. Eine Zahl sagt, wie viele Igel in den bis zu acht Nachbarfeldern schlafen. Antippen deckt auf, langes Drücken stellt ein „Psst“-Schild auf (am Rechner: Rechtsklick). Tippst du auf eine Zahl, um die schon genauso viele Schilder stehen, werden alle übrigen Nachbarn auf einmal aufgedeckt. Der erste Tipp ist immer sicher und öffnet eine Fläche. Die Sonne oben startet ein neues Spiel. Tipp: Eine 1, die nur an ein einziges verdecktes Feld grenzt, zeigt sicher auf einen Igel.','Hedgehogs sleep under some of the leaf piles. Uncover all other piles without waking a hedgehog. A number tells how many hedgehogs sleep in the up to eight neighbouring fields. Tap to uncover, press and hold to place a “Shh” sign (on a computer: right-click). If you tap a number that already has as many signs around it, all its other neighbours are uncovered at once. The first tap is always safe and opens an area. The sun at the top starts a new game. Tip: a 1 that touches only one covered field surely points to a hedgehog.'));
+  const cv=host.querySelector('#ig-cv'),wrap=host.querySelector('#ig-wrap'),x=cv.getContext('2d'),sunCv=host.querySelector('#ig-sun canvas'),sx=sunCv.getContext('2d');
+  let cs=24,face='ok';
+  const msg=t=>{host.querySelector('#ig-msg').textContent=t||'';};
+  const fmt=s=>String(Math.min(999,Math.floor(s))).padStart(3,'0');
+  const flags=()=>st.o.reduce((a,v)=>a+(v===2?1:0),0);
+  const bestKey=()=>st.lv+(st.ng?'n':'');
+  const hud=()=>{host.querySelector('#ig-left').textContent=TR('Igel ','Hedgehogs ')+(st.n-flags());host.querySelector('#ig-time').textContent='⏱ '+fmt(st.t);
+    host.querySelector('#ig-mo').setAttribute('aria-pressed',String(st.mode==='open'));host.querySelector('#ig-mf').setAttribute('aria-pressed',String(st.mode==='flag'));host.querySelector('#ig-zoom').setAttribute('aria-pressed',String(st.zoom));
+    const b=[0,1,2].map(l=>{const v=st.best[l+(st.ng?'n':'')];return LVN()[l]+' '+(v!=null?v+' s':'–');}).join(' · ');host.querySelector('#ig-best').textContent=TR('Bestzeiten','Best times')+(st.ng?TR(' (ohne Raten)',' (no guessing)'):'')+': '+b;
+    gScore(LVN()[st.lv]+' · '+st.w+' × '+st.h+' · '+st.n+TR(' Igel',' hedgehogs'));};
+  const drawSun=()=>{const C=gCol(),s=88;sx.clearRect(0,0,s,s);sx.save();sx.translate(44,44);sx.strokeStyle='#E8A33A';sx.lineWidth=5;sx.lineCap='round';
+    for(let i=0;i<10;i++){const a=i*Math.PI/5;sx.beginPath();sx.moveTo(Math.cos(a)*30,Math.sin(a)*30);sx.lineTo(Math.cos(a)*40,Math.sin(a)*40);sx.stroke();}
+    sx.fillStyle=face==='sad'?'#F2C94C':'#FFD54A';sx.beginPath();sx.arc(0,0,25,0,7);sx.fill();sx.lineWidth=3;sx.strokeStyle=G_OL;sx.stroke();sx.fillStyle=G_OL;sx.strokeStyle=G_OL;
+    if(face==='cool'){sx.fillRect(-18,-9,15,9);sx.fillRect(3,-9,15,9);sx.fillRect(-4,-7,8,3);}
+    else if(face==='sad'){sx.lineWidth=2.5;sx.beginPath();sx.arc(-9,-5,4,Math.PI,0);sx.stroke();sx.beginPath();sx.arc(9,-5,4,Math.PI,0);sx.stroke();}
+    else{sx.beginPath();sx.arc(-9,-6,face==='oh'?4:3,0,7);sx.arc(9,-6,face==='oh'?4:3,0,7);sx.fill();}
+    sx.lineWidth=3;sx.beginPath();if(face==='oh'){sx.arc(0,10,5,0,7);sx.stroke();}else if(face==='sad'){sx.arc(0,16,8,Math.PI*1.15,Math.PI*1.85);sx.stroke();}else{sx.arc(0,4,11,.2,Math.PI-.2);sx.stroke();}
+    sx.fillStyle='rgba(240,120,120,.35)';sx.beginPath();sx.arc(-16,6,4,0,7);sx.arc(16,6,4,0,7);sx.fill();sx.restore();};
+  const NUMC=['','#3A7BD5','#3A9A5B','#D9534F','#6A4FB3','#B5651D','#2A9D9F','#555','#888'];
+  const hog=(cx,cy,r,awake)=>{x.save();x.translate(cx,cy);x.lineWidth=Math.max(1.2,r*.12);x.strokeStyle=G_OL;
+    x.fillStyle='#8A5A3B';x.beginPath();const sp=7;x.moveTo(-r,r*.45);for(let k=0;k<=sp;k++){const a=Math.PI+k*Math.PI/sp,rr=k%2?r*1.05:r*.8;x.lineTo(Math.cos(a)*rr,r*.45+Math.sin(a)*rr*.9);}x.lineTo(r*.2,r*.45);x.closePath();x.fill();x.stroke();
+    x.fillStyle='#F2D7B5';x.beginPath();x.ellipse(r*.45,r*.2,r*.5,r*.32,-.2,0,7);x.fill();x.stroke();
+    x.fillStyle=G_OL;x.beginPath();x.arc(r*.95,r*.12,r*.1,0,7);x.fill();
+    if(awake){x.beginPath();x.arc(r*.45,r*.05,r*.09,0,7);x.fill();}else{x.beginPath();x.arc(r*.45,r*.08,r*.1,0,Math.PI);x.stroke();}
+    x.restore();};
+  const leaf=(i,X,Y,s,C)=>{const hsh=(i*2654435761>>>0)%3;const base=C.dark?['#8A5A2E','#7A6230','#8F4F2A'][hsh]:['#E8A15A','#D9B04F','#DD8752'][hsh];
+    x.fillStyle=base;x.beginPath();x.roundRect(X+1,Y+1,s-2,s-2,s*.28);x.fill();
+    x.fillStyle=C.dark?'rgba(0,0,0,.18)':'rgba(120,60,10,.18)';[[.32,.38,.7],[.66,.58,-.6],[.42,.72,.2]].forEach(l=>{x.beginPath();x.ellipse(X+s*l[0],Y+s*l[1],s*.18,s*.09,l[2],0,7);x.fill();});};
+  const draw=()=>{const C=gCol(),w=st.w,h=st.h;const avail=Math.max(200,wrap.clientWidth-4);const fit=Math.max(20,Math.min(44,Math.floor(avail/w)));cs=st.zoom?Math.max(34,Math.round(fit*1.6)):fit;
+    const dpr=Math.min(2,window.devicePixelRatio||1),W=cs*w,H=cs*h;if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);cv.style.width=W+'px';cv.style.height=H+'px';}
+    x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,W,H);x.lineJoin='round';x.lineCap='round';
+    for(let i=0;i<N();i++){const X=(i%w)*cs,Y=((i/w)|0)*cs,o=st.o[i];
+      const shown=o===1||(st.over===-1&&st.m&&st.m[i]&&o!==2);
+      if(shown){x.fillStyle=st.hit===i?'#F6B98A':(C.dark?'#2A3038':'#F4EEDD');x.fillRect(X,Y,cs,cs);x.strokeStyle=C.dark?'#353C46':'#E2DAC6';x.lineWidth=1;x.strokeRect(X+.5,Y+.5,cs-1,cs-1);
+        if(st.m&&st.m[i])hog(X+cs*.45,Y+cs*.52,cs*.36,st.hit===i);
+        else if(cnt&&cnt[i]>0){x.fillStyle=C.dark&&cnt[i]>=7?'#ccc':NUMC[cnt[i]];x.font='800 '+Math.round(cs*.58)+'px system-ui';x.textAlign='center';x.textBaseline='middle';x.fillText(cnt[i],X+cs/2,Y+cs/2+1);}
+        continue;}
+      leaf(i,X,Y,cs,C);
+      if(o===2){x.strokeStyle=G_OL;x.lineWidth=Math.max(1.2,cs*.07);x.beginPath();x.moveTo(X+cs*.5,Y+cs*.42);x.lineTo(X+cs*.5,Y+cs*.86);x.stroke();x.fillStyle='#FFF4D6';x.beginPath();x.roundRect(X+cs*.18,Y+cs*.16,cs*.64,cs*.32,cs*.08);x.fill();x.stroke();
+          x.fillStyle=G_OL;x.font='800 '+Math.round(cs*.24)+'px system-ui';x.textAlign='center';x.textBaseline='middle';x.fillText('zZ',X+cs*.5,Y+cs*.33);
+          if(st.over===-1&&st.m&&!st.m[i]){x.strokeStyle='#D9534F';x.lineWidth=cs*.08;x.beginPath();x.moveTo(X+cs*.2,Y+cs*.2);x.lineTo(X+cs*.8,Y+cs*.8);x.moveTo(X+cs*.8,Y+cs*.2);x.lineTo(X+cs*.2,Y+cs*.8);x.stroke();}}
+      else if(o===3){x.fillStyle=G_OL;x.font='800 '+Math.round(cs*.55)+'px system-ui';x.textAlign='center';x.textBaseline='middle';x.fillText('?',X+cs/2,Y+cs/2+1);}}
+    drawSun();hud();};
+  const timer=()=>{clearInterval(GAME.iv);GAME.iv=setInterval(()=>{if(!host.isConnected){clearInterval(GAME.iv);return;}if(st.m&&!st.over&&!GAME.paused){st.t=Math.min(999,st.t+1);hud();if(st.t%5===0)save();}},1000);};
+  const lose=i=>{st.over=-1;st.hit=i;face='sad';save();draw();msg(TR('Ein Igel ist aufgewacht und gähnt. Tipp auf die Sonne für ein neues Spiel.','A hedgehog woke up and yawns. Tap the sun for a new game.'));gSfx(330,.5,.06,'sine',.6);};
+  const checkWin=()=>{let op=0;for(let i=0;i<N();i++)if(st.o[i]===1)op++;if(op!==N()-st.n)return;st.over=1;for(let i=0;i<N();i++)if(st.m[i])st.o[i]=2;face='cool';
+    let rec=false;if(st.lv<3){const k=bestKey(),b=st.best[k];if(b==null||st.t<b){st.best[k]=st.t;rec=true;}}save();draw();
+    msg(TR('Alle Igel schlafen weiter. Geschafft in ','All hedgehogs keep sleeping. Done in ')+st.t+(st.t===1?TR(' Sekunde',' second'):TR(' Sekunden',' seconds'))+(rec?TR(' – neue Bestzeit!',' – new best time!'):'.'));[0,2,4,7].forEach((k,j)=>setTimeout(()=>gSfx(G_PENTA[2+k%5]*(k>4?2:1),.45,.06),j*130));};
+  const reveal=i=>{if(st.over||st.o[i]===1||st.o[i]===2)return;
+    if(!st.m){const r=IGC.make(st.w,st.h,st.n,i,st.ng);st.m=Array.from(r.m);cnt=IGC.counts(st.w,st.h,r.m);if(st.ng&&!r.ok)msg(TR('Hinweis: Diesmal fand sich kein Feld ganz ohne Raten.','Note: this time no board without guessing was found.'));timer();}
+    if(st.m[i]){st.o[i]=1;lose(i);return;}
+    const q=[i];while(q.length){const k=q.pop();if(st.o[k]===1||st.o[k]===2)continue;st.o[k]=1;if(cnt[k]===0)nbs(k).forEach(j=>{if(st.o[j]!==1&&st.o[j]!==2)q.push(j);});}
+    gSfx(520+gRnd(5)*30,.05,.03,'triangle');checkWin();};
+  const chord=i=>{if(!cnt||cnt[i]<=0)return;const ns=nbs(i),f=ns.filter(j=>st.o[j]===2).length;if(f!==cnt[i])return;for(const j of ns){if(st.over)break;if(st.o[j]!==1&&st.o[j]!==2)reveal(j);}};
+  const mark=i=>{if(st.over||st.o[i]===1)return;const o=st.o[i];st.o[i]=o===0?2:o===2?(st.qm?3:0):0;gSfx(o===0?440:300,.06,.04,'triangle');if(navigator.vibrate)try{navigator.vibrate(12);}catch(e){}};
+  const act=(i,alt)=>{if(st.over)return;if(st.o[i]===1){chord(i);}else if((st.mode==='flag')!==!!alt)mark(i);else reveal(i);save();draw();};
+  const cell=e=>{const r=cv.getBoundingClientRect(),X=Math.floor((e.clientX-r.left)/cs),Y=Math.floor((e.clientY-r.top)/cs);return X>=0&&Y>=0&&X<st.w&&Y<st.h?Y*st.w+X:-1;};
+  let pd=null;
+  cv.addEventListener('pointerdown',e=>{if(e.button!==0)return;const i=cell(e);if(i<0)return;pd={i,x:e.clientX,y:e.clientY,lp:false,t:setTimeout(()=>{if(!pd)return;pd.lp=true;act(pd.i,true);face=st.over?face:'ok';drawSun();},380)};if(!st.over){face='oh';drawSun();}});
+  cv.addEventListener('pointermove',e=>{if(pd&&Math.hypot(e.clientX-pd.x,e.clientY-pd.y)>10){clearTimeout(pd.t);pd=null;if(!st.over){face='ok';drawSun();}}});
+  cv.addEventListener('pointerup',()=>{if(!pd)return;clearTimeout(pd.t);const p=pd;pd=null;if(!st.over)face='ok';if(!p.lp)act(p.i,false);else drawSun();});
+  cv.addEventListener('pointercancel',()=>{if(pd)clearTimeout(pd.t);pd=null;if(!st.over){face='ok';drawSun();}});
+  cv.addEventListener('contextmenu',e=>{e.preventDefault();const i=cell(e);if(i>=0)act(i,true);});
+  const newGame=lv=>{const keep=st;st=blank(lv==null?st.lv:lv,keep);if(lv===3||keep.lv===3&&lv==null){st.cw=keep.cw;st.ch=keep.ch;st.cn=keep.cn;}GST.igel=st;cnt=null;face='ok';msg('');clearInterval(GAME.iv);save();ui();draw();};
+  const ui=()=>{host.querySelector('#ig-lv').innerHTML=LVN().map((n,i)=>'<button class="btn" data-lv="'+i+'" aria-pressed="'+(st.lv===i)+'">'+n+'</button>').join('');
+    host.querySelectorAll('[data-lv]').forEach(b=>b.addEventListener('click',()=>newGame(+b.dataset.lv)));
+    const cu=host.querySelector('#ig-cus');cu.innerHTML=st.lv===3?'<div class="gsets" style="margin:0 0 8px;align-items:end;flex-wrap:wrap"><label class="small">'+TR('Breite','Width')+'<br><input type="number" id="ig-cw" min="5" max="30" value="'+st.cw+'" style="width:64px"></label><label class="small">'+TR('Höhe','Height')+'<br><input type="number" id="ig-ch" min="5" max="40" value="'+st.ch+'" style="width:64px"></label><label class="small">'+TR('Igel','Hedgehogs')+'<br><input type="number" id="ig-cn" min="1" max="300" value="'+st.cn+'" style="width:64px"></label><button class="btn" id="ig-cok">'+TR('Übernehmen','Apply')+'</button></div>':'';
+    if(st.lv===3)cu.querySelector('#ig-cok').addEventListener('click',()=>{const v=(id,lo,hi)=>Math.max(lo,Math.min(hi,parseInt(cu.querySelector(id).value,10)||lo));st.cw=v('#ig-cw',5,30);st.ch=v('#ig-ch',5,40);st.cn=Math.min(v('#ig-cn',1,300),Math.floor(st.cw*st.ch*.8));newGame(3);});};
+  host.querySelector('#ig-sun').addEventListener('click',()=>newGame());
+  host.querySelector('#ig-mo').addEventListener('click',()=>{st.mode='open';save();hud();});
+  host.querySelector('#ig-mf').addEventListener('click',()=>{st.mode='flag';save();hud();});
+  host.querySelector('#ig-zoom').addEventListener('click',()=>{st.zoom=!st.zoom;save();draw();});
+  const ng=host.querySelector('#ig-ng'),qm=host.querySelector('#ig-qm');ng.checked=st.ng;qm.checked=st.qm;
+  ng.addEventListener('change',()=>{st.ng=ng.checked;save();hud();});qm.addEventListener('change',()=>{st.qm=qm.checked;if(!st.qm)st.o=st.o.map(v=>v===3?0:v);save();draw();});
+  if(st.over===1)face='cool';else if(st.over===-1)face='sad';
+  ui();draw();if(st.m&&!st.over)timer();
+  if(window.__rrDebug)window.__igel={get st(){return st;},act,draw,cell:i=>({x:(i%st.w+.5)*cs,y:(((i/st.w)|0)+.5)*cs}),get cnt(){return cnt;}};
+}
+/* ---------- Flipper „Sternenreise“: Tisch und Physik (ohne Zeichnen) ----------
+   Tischkoordinaten 400 × 720, y nach unten. Spielfeld x 18–352, Abschussbahn x 352–382. */
+const PINC=(()=>{
+  const R=9;
+  const v2=(x,y)=>({x,y});
+  function arcPts(cx,cy,r,a0,a1,n){const o=[];for(let i=0;i<=n;i++){const a=a0+(a1-a0)*i/n;o.push([cx+r*Math.cos(a),cy-r*Math.sin(a)]);}return o;}
+  function build(){
+    const segs=[];const S=(ax,ay,bx,by,o)=>segs.push(Object.assign({a:v2(ax,ay),b:v2(bx,by),e:.45},o||{}));
+    const poly=(pts,o)=>{for(let i=0;i<pts.length-1;i++)S(pts[i][0],pts[i][1],pts[i+1][0],pts[i+1][1],o);};
+    poly(arcPts(200,190,182,Math.PI,0,28));          /* Bogen oben */
+    S(18,190,18,730);S(382,190,382,730);            /* Außenwände */
+    S(352,200,352,730);                              /* Trennwand Abschussbahn */
+    S(382,170,350,193,{one:1});                      /* Klappe: nur von oben fest */
+    /* obere Bahnen */
+    S(158,48,158,86,{e:.3});S(212,48,212,86,{e:.3});S(104,72,104,96,{e:.3});S(266,72,266,96,{e:.3});
+    S(18,378,31,400,{e:.3});  /* Führung auf den oberen Flipper */
+    /* Energiebahn rechts */
+    S(325,262,325,410,{e:.35});
+    /* Rampeneingang (Trichter) */
+    S(78,392,84,350,{e:.3});S(124,392,118,350,{e:.3});
+    /* Außenbahnen und Rückläufe */
+    S(48,470,48,585);S(48,585,118,629);S(322,470,322,585);S(322,585,252,629);
+    S(18,662,104,700,{e:.2});S(352,662,266,700,{e:.2});  /* unten Rinnen zum Abfluss */
+    /* Schleudern */
+    poly([[70,505],[70,566],[104,588]],{e:.4});S(70,505,104,588,{e:.4,kick:330,sling:1});
+    poly([[300,505],[300,566],[266,588]],{e:.4});S(300,505,266,588,{e:.4,kick:330,sling:1});
+    /* Missionsziele an der linken Wand */
+    [0,1,2].forEach(k=>S(22,236+k*34,22,262+k*34,{e:.5,target:k}));
+    const bumpers=[[135,162],[235,162],[185,124],[185,210]].map(p=>({x:p[0],y:p[1],r:18}));
+    const posts=[[158,46],[212,46],[104,70],[266,70]].map(p=>({x:p[0],y:p[1],r:4}));
+    const flippers=[
+      {px:122,py:640,L:56,s:1,rest:.52,up:-.45,key:'L',r0:9,r1:5},
+      {px:248,py:640,L:56,s:-1,rest:.52,up:-.45,key:'R',r0:9,r1:5},
+      {px:28,py:410,L:42,s:1,rest:.6,up:-.2,key:'L',r0:7,r1:4}];
+    flippers.forEach(f=>{f.a=f.rest;f.w=0;});
+    const sens={
+      lanes:[[131,70],[185,70],[239,70]],
+      skill:[[367,560],[367,460],[367,360]],
+      energy:[338,330],inL:[80,610],inR:[290,610],kick:[33,640],
+      hole:[185,302],ramp:{x0:84,x1:118,y0:350,y1:392},
+      worm:[[[300,248],[140,446]],[[132,248],[230,446]]]};
+    const rampPath=[[101,350],[96,280],[104,180],[128,104],[160,58],[185,40],[200,52]];
+    return {segs,bumpers,posts,flippers,sens,rampPath};
+  }
+  const MISSIONS=[
+    ['tg',3,TR('Zielübung','Target practice'),TR('Triff die drei gelben Ziele links','Hit the three yellow targets on the left')],
+    ['bp',15,TR('Planetentanz','Planet dance'),TR('Triff die Planeten','Hit the planets')],
+    ['rp',2,TR('Rampenflug','Ramp flight'),TR('Fahr über die Sternenrampe','Ride the star ramp')],
+    ['en',2,TR('Tankstopp','Fuel stop'),TR('Fahr durch die Energiebahn rechts','Go through the energy lane on the right')],
+    ['wh',1,TR('Wurmlochsprung','Wormhole jump'),TR('Spring durch ein leuchtendes Wurmloch','Jump through a glowing wormhole')],
+    ['ln',1,TR('Sternenlichter','Star lights'),TR('Zünde alle drei oberen Lichter','Light all three top lights')],
+    ['bp',30,TR('Planetensturm','Planet storm'),TR('Triff die Planeten','Hit the planets')],
+    ['rp',3,TR('Rampenkette','Ramp chain'),TR('Fahr über die Sternenrampe','Ride the star ramp')],
+    ['wh',2,TR('Doppelsprung','Double jump'),TR('Spring durch leuchtende Wurmlöcher','Jump through glowing wormholes')],
+    ['tg',6,TR('Zielserie','Target series'),TR('Triff die gelben Ziele links','Hit the yellow targets on the left')]];
+  const RANKS=()=>[TR('Sternengucker','Stargazer'),TR('Kometenfänger','Comet catcher'),TR('Mondwanderer','Moon walker'),TR('Planetenhüpfer','Planet hopper'),TR('Sonnensegler','Sun sailor'),TR('Galaxienreisende','Galaxy traveller'),TR('Sternenkapitän','Star captain')];
+  const RANK_AT=[0,1,3,5,8,11,15];
+  function create(opt){
+    opt=opt||{};const T=build();const relax=!!opt.relax;const G=relax?600:900;
+    const g={T,relax,score:0,balls:3,ballNo:1,ball:null,state:'serve',plunge:0,tilt:0,tilted:false,msgs:[],
+      lanes:[0,0,0],bl:1,skill:0,tg:[0,0,0],sel:-1,selT:0,mis:null,done:0,rank:0,energy:6,eT:0,kick:1,worm:[0,0],rampN:0,extraGiven:false,
+      hold:null,ramp:null,stuck:0,time:0,over:false,ev:opt.ev||(()=>{}),inSens:{}};
+    const ev=(n,d)=>g.ev(n,d);
+    const say=t=>{g.msgs.push({t,age:0});if(g.msgs.length>3)g.msgs.shift();ev('msg',t);};
+    const add=p=>{g.score+=p;};
+    const serve=()=>{g.ball={x:367,y:690,vx:0,vy:0};g.state='serve';g.plunge=0;g.skill=0;g.tilted=false;g.tilt=0;g.rampN=0;g.extraGiven=false;};
+    serve();
+    const rankUp=()=>{let r=0;RANK_AT.forEach((v,i)=>{if(g.done>=v)r=i;});if(r>g.rank){g.rank=r;add(10000*r);say(TR('Neue Stufe: ','New rank: ')+RANKS()[r]);ev('rank',r);}};
+    const misGoal=k=>MISSIONS[k][1]+Math.ceil(MISSIONS[k][1]*.3*g.rank);
+    const prog=(type,n)=>{const m=g.mis;if(!m||MISSIONS[m.k][0]!==type)return;m.n+=n||1;if(m.n>=m.goal){const pts=5000*(g.rank+1);add(pts);g.done++;say(TR('Mission geschafft: ','Mission complete: ')+MISSIONS[m.k][2]+' +'+pts);g.mis=null;g.kick=1;ev('mission',1);rankUp();}};
+    const available=()=>MISSIONS.map((m,i)=>i).filter(i=>i<4+g.rank*2);
+    function hitTarget(k){if(g.tg[k])return;g.tg[k]=1;add(250);ev('target',k);prog('tg');
+      if(g.tg.every(Boolean)){g.tg=[0,0,0];if(!g.mis){g.sel=0;g.selT=0;say(TR('Mission wählen: ins Missionsloch in der Mitte','Choose a mission: into the mission hole in the middle'));}else add(1000);}}
+    function laneHit(k){if(g.lanes[k])return;g.lanes[k]=1;add(100);ev('lane',k);if(g.lanes.every(Boolean)){g.lanes=[0,0,0];g.bl=Math.min(3,g.bl+1);add(1000);say(TR('Planeten leuchten heller: Stufe ','Planets glow brighter: level ')+g.bl);prog('ln');}}
+    function capture(kind,d){g.hold={kind,t:0,d};g.ball.vx=g.ball.vy=0;}
+    function holeIn(){add(500);ev('hole');
+      if(g.sel>=0&&!g.mis){const av=available(),k=av[g.sel%av.length];g.mis={k,n:0,goal:misGoal(k)};g.sel=-1;g.energy=6;g.eT=0;say(TR('Mission: ','Mission: ')+MISSIONS[k][2]+' – '+MISSIONS[k][3]);ev('mstart',k);}
+      capture('hole');}
+    function drain(){ev('drain');g.mis=null;g.sel=-1;
+      if(relax){say(TR('Kugel weg – neue Kugel','Ball gone – new ball'));serve();return;}
+      g.balls--;if(g.balls<=0){g.over=true;g.state='over';ev('over',g.score);return;}g.ballNo++;say(TR('Kugel ','Ball ')+g.ballNo);serve();}
+    /* Kollisionen */
+    function segHit(b,s){const ax=s.a.x,ay=s.a.y,dx=s.b.x-ax,dy=s.b.y-ay,L2=dx*dx+dy*dy;let t=((b.x-ax)*dx+(b.y-ay)*dy)/L2;t=Math.max(0,Math.min(1,t));const qx=ax+dx*t,qy=ay+dy*t;let nx=b.x-qx,ny=b.y-qy;const d=Math.hypot(nx,ny);if(d>=R||d<1e-6)return;
+      nx/=d;ny/=d;if(s.one&&!(ny<0&&b.vy>0))return;
+      b.x=qx+nx*R;b.y=qy+ny*R;const vn=b.vx*nx+b.vy*ny;if(vn<0){b.vx-=(1+s.e)*vn*nx;b.vy-=(1+s.e)*vn*ny;
+        if(s.kick&&-vn>40){b.vx+=nx*s.kick;b.vy+=ny*s.kick;add(10);ev('sling');}
+        if(s.target!=null&&-vn>70)hitTarget(s.target);else if(-vn>120&&!s.kick)ev('wall',-vn);}}
+    function circHit(b,c,bump){let nx=b.x-c.x,ny=b.y-c.y;const d=Math.hypot(nx,ny),rr=R+c.r;if(d>=rr||d<1e-6)return;nx/=d;ny/=d;b.x=c.x+nx*rr;b.y=c.y+ny*rr;const vn=b.vx*nx+b.vy*ny;
+      if(vn<0){b.vx-=(1.5)*vn*nx;b.vy-=(1.5)*vn*ny;}
+      if(bump){b.vx+=nx*260;b.vy+=ny*260;add(100*g.bl);ev('bumper',g.bl);c.flash=.15;prog('bp');}}
+    function flipHit(b,f){const dx=f.s*Math.cos(f.a),dy=Math.sin(f.a),tx=f.px+dx*f.L,ty=f.py+dy*f.L;let t=((b.x-f.px)*dx+(b.y-f.py)*dy)/f.L;t=Math.max(0,Math.min(1,t));
+      const qx=f.px+dx*f.L*t,qy=f.py+dy*f.L*t,rad=f.r0+(f.r1-f.r0)*t;let nx=b.x-qx,ny=b.y-qy;const d=Math.hypot(nx,ny),rr=R+rad;if(d>=rr||d<1e-6)return;nx/=d;ny/=d;b.x=qx+nx*rr;b.y=qy+ny*rr;
+      const l=f.L*t,svx=f.w*l*(-f.s*Math.sin(f.a)),svy=f.w*l*Math.cos(f.a);const rvx=b.vx-svx,rvy=b.vy-svy,vn=rvx*nx+rvy*ny;
+      if(vn<0){const e=.3;b.vx-=(1+e)*vn*nx;b.vy-=(1+e)*vn*ny;}}
+    const FUP=relax?20:25,FDN=16;
+    function fl(h){for(const f of T.flippers){const tgt=f.on?f.up:f.rest,sp=f.on?FUP:FDN,old=f.a;if(f.a!==tgt){const d=tgt-f.a;f.a+=Math.sign(d)*Math.min(Math.abs(d),sp*h);}f.w=(f.a-old)/h;}}
+    const nearFlip=b=>T.flippers.some(f=>f.on&&Math.hypot(b.x-(f.px+f.s*Math.cos(f.a)*f.L*.5),b.y-(f.py+Math.sin(f.a)*f.L*.5))<f.L*.5+R+12);
+    function step(dt,inp){g.time+=dt;if(g.over)return;g.msgs.forEach(m=>m.age+=dt);g.msgs=g.msgs.filter(m=>m.age<3.2);
+      g.bumpFlash=0;T.bumpers.forEach(c=>{if(c.flash)c.flash=Math.max(0,c.flash-dt);});
+      g.tilt=Math.max(0,g.tilt-dt*(relax?.9:.5));
+      if(inp.nudge&&!g.tilted&&g.ball){const b=g.ball,n=inp.nudge;b.vx+=n==='l'?70:n==='r'?-70:0;b.vy-=n==='u'?90:30;g.tilt+=1;ev('nudge');if(g.tilt>(relax?5:3.4)){g.tilted=true;say('TILT');ev('tilt');}}
+      T.flippers.forEach(f=>{const on=!g.tilted&&!!inp[f.key];f.on=on;if(on&&!f.was&&f.L>50)ev('flip');f.was=on;});
+      /* Missionsauswahl blinkt */
+      if(g.sel>=0){g.selT+=dt;if(g.selT>1.4){g.selT=0;g.sel++;}}
+      if(g.mis){g.eT+=dt;if(g.eT>(relax?12:7)){g.eT=0;g.energy--;if(g.energy<=0){say(TR('Energie leer – Mission abgebrochen','Out of energy – mission aborted'));g.mis=null;g.energy=6;ev('mfail');}}}
+      const b=g.ball;if(!b)return;
+      if(g.state==='serve'){if(inp.plunge){g.plunge=Math.min(1,g.plunge+dt/1.3);}else if(g.plunge>0.04){const p=g.plunge;b.vy=-(520+760*p);g.state='play';
+          const sk=p>=.70&&p<=.84?3:p>=.55&&p<.95?2:1;g.skill=sk;if(sk===3){add(5000);say(TR('Volltreffer-Start! +5000','Perfect launch! +5000'));ev('skill');}else add(sk*200);g.plunge=0;ev('launch',p);}else{g.plunge=0;}
+        if(g.state==='serve'){fl(dt);b.x=367;b.y=690;b.vx=b.vy=0;return;}}
+      if(g.hold){fl(dt);g.hold.t+=dt;const h=g.hold;
+        if(h.kind==='hole'&&h.t>.9){b.x=T.sens.hole[0];b.y=T.sens.hole[1]+14;b.vx=(Math.random()-.5)*160;b.vy=260;g.hold=null;g.lastHole=g.time;ev('eject');}
+        else if(h.kind==='worm'&&h.t>.55){const q=h.d;b.x=q[0];b.y=q[1]+14;b.vx=(Math.random()-.5)*180;b.vy=200;g.hold=null;g.lastWorm=g.time;ev('eject');}
+        else if(h.kind==='ramp'){const P=T.rampPath,u=Math.min(1,h.t/1.0)*(P.length-1),i=Math.min(P.length-2,Math.floor(u)),f=u-i;b.x=P[i][0]+(P[i+1][0]-P[i][0])*f;b.y=P[i][1]+(P[i+1][1]-P[i][1])*f;
+          if(h.t>=1){g.hold=null;b.x=200;b.y=60;b.vx=20;b.vy=60;g.rampN++;add(1500);prog('rp');ev('ramp',g.rampN);
+            if(g.rampN===3){add(10000);say(TR('Rampen-Bonus +10000','Ramp bonus +10000'));}
+            if(g.rampN===5&&!g.extraGiven){g.extraGiven=true;if(!relax){g.balls++;say(TR('Extrakugel!','Extra ball!'));ev('extra');}else{add(20000);say('+20000');}}}}
+        return;}
+      const mov=T.flippers.some(f=>f.a!==(f.on?f.up:f.rest));
+      const n=Math.max(mov?10:2,Math.min(30,Math.ceil(Math.hypot(b.vx,b.vy)*dt/3)+1)),h=dt/n;
+      for(let k=0;k<n;k++){fl(h);b.vy+=G*h;b.x+=b.vx*h;b.y+=b.vy*h;
+        for(const s of T.segs)segHit(b,s);for(const c of T.bumpers)circHit(b,c,true);for(const c of T.posts)circHit(b,c,false);for(const f of T.flippers)flipHit(b,f);}
+      const sp=Math.hypot(b.vx,b.vy);if(sp>1500){b.vx*=1500/sp;b.vy*=1500/sp;}
+      if(b.x<18+R-.5)b.x=18+R;if(b.x>382-R+.5)b.x=382-R;if(b.y<8+R&&b.x>30&&b.x<370)b.y=Math.max(b.y,8+R);
+      /* Sensoren */
+      const near=(p,r)=>Math.hypot(b.x-p[0],b.y-p[1])<r;
+      const once=(key,cond,fn)=>{if(cond){if(!g.inSens[key]){g.inSens[key]=1;fn();}}else g.inSens[key]=0;};
+      T.sens.lanes.forEach((p,k)=>once('ln'+k,near(p,12),()=>laneHit(k)));
+      once('en',near(T.sens.energy,14),()=>{add(500);g.energy=6;g.eT=0;say(TR('Energie aufgefüllt','Energy refilled'));ev('energy');prog('en');});
+      once('iL',near(T.sens.inL,12),()=>{if(!g.worm[0]){g.worm[0]=1;say(TR('Blaues Wurmloch offen','Blue wormhole open'));}add(100);ev('lane');});
+      once('iR',near(T.sens.inR,12),()=>{if(!g.worm[1]){g.worm[1]=1;say(TR('Rosa Wurmloch offen','Pink wormhole open'));}add(100);ev('lane');});
+      if(g.kick&&near(T.sens.kick,14)&&b.vy>0){b.vy=-900;b.vx=10;g.kick=0;add(500);say(TR('Rückstoß!','Kickback!'));ev('kick');}
+      if(near(T.sens.hole,10)&&!(g.lastHole&&g.time-g.lastHole<.8)){holeIn();return;}
+      for(let c=0;c<2;c++)if(g.worm[c])for(let e=0;e<2;e++){const p=T.sens.worm[c][e];if(near(p,10)&&!(g.lastWorm&&g.time-g.lastWorm<.8)){g.worm[c]=0;add(2500);prog('wh');ev('worm',c);say(TR('Wurmloch-Sprung +2500','Wormhole jump +2500'));capture('worm',T.sens.worm[c][1-e]);return;}}
+      const rz=T.sens.ramp;if(b.x>rz.x0&&b.x<rz.x1&&b.y>rz.y0&&b.y<rz.y0+16&&b.vy<-150){capture('ramp');return;}
+      /* festgefahren? */
+      if(sp<12&&g.state==='play'&&!nearFlip(b)){g.stuck+=dt;if(g.stuck>3){b.vy=-280;b.vx=(Math.random()-.5)*200;g.stuck=0;ev('unstick');}}else g.stuck=0;
+      /* zurück in die Abschussbahn */
+      if(b.x>352&&b.y>670&&b.vy>=0){serveKeep();return;}
+      if(b.y>740)drain();}
+    function serveKeep(){g.ball={x:367,y:690,vx:0,vy:0};g.state='serve';g.plunge=0;}
+    return {g,step,MISSIONS,RANKS,RANK_AT,misGoal,R};
+  }
+  return {create,R,MISSIONS,RANKS};
+})();
+/* ---------- Flipper „Sternenreise“: Bedienung und Zeichnen ---------- */
+function gamePinball(host){
+  const sv=LS.get('rr.gpin',{});if(!sv.hs)sv.hs=[];const saveSv=()=>LS.set('rr.gpin',sv);
+  let P=GST.pin;const evq=[];
+  const mk=()=>{P=PINC.create({relax:!!sv.relax,ev:(n,d)=>evq.push([n,d])});GST.pin=P;return P;};
+  if(!P||P.g.over)mk();else P.g.ev=(n,d)=>evq.push([n,d]);
+  host.innerHTML='<div id="pb-cvh"></div><div id="pb-hud" class="pbhud" style="margin-top:8px"></div><div class="gsets" style="margin-top:8px"><button class="btn" id="pb-nudge">'+TR('Anstoßen','Nudge')+'</button><button class="btn" id="pb-newg">'+TR('Neues Spiel','New game')+'</button></div>'+
+    '<div class="set" style="margin-top:6px"><label for="pb-relax">'+TR('Entspannt','Relaxed')+'<span class="hint2">'+TR('Langsamere Kugel, unbegrenzt Kugeln; eine verlorene Kugel kostet nur die laufende Mission. Gilt ab dem nächsten Spiel.','Slower ball, unlimited balls; a lost ball only costs the current mission. Applies from the next game.')+'</span></label><input type="checkbox" class="switch" id="pb-relax"></div><div id="pb-hs" class="small muted" style="margin:8px 2px"></div>';
+  gNote(host,TR('Linke Bildschirmhälfte: beide linken Flipper. Rechte Hälfte: rechter Flipper. Liegt die Kugel unten rechts in der Abschussbahn, spannt die rechte Hälfte die Feder: je länger du hältst, desto kräftiger. Am besten trifft ein mittelstarker Schuss (Volltreffer-Start). Schütteln oder „Anstoßen“ stößt den Tisch an; zu oft heißt TILT und die Flipper sind bis zur nächsten Kugel gesperrt. Am Rechner: Y oder Z links, Minus oder / rechts, Leertaste Feder, X . und Pfeil hoch zum Anstoßen.\n\nSo geht es weiter: Triff die drei gelben Ziele links, dann blinkt eine Mission. Schick die Kugel ins Missionsloch in der Mitte, um sie zu starten. Missionen verbrauchen Energie, die Energiebahn rechts füllt sie wieder auf. Die oberen drei Lichter machen die Planeten wertvoller. Die Rückläufe neben den Flippern öffnen die Wurmlöcher (blau links, rosa rechts), die Kugel springt dann zum Partnerloch. Die Sternenrampe links bringt Punkte, bei 3 Fahrten einen Bonus, bei 5 eine Extrakugel. Das Licht am linken Außenkanal schießt eine verlorene Kugel einmal zurück. Geschaffte Missionen bringen dich durch 7 Stufen.','Left half of the screen: both left flippers. Right half: right flipper. When the ball sits at the bottom right in the launch lane, the right half pulls the spring: the longer you hold, the stronger. A medium-strong shot works best (perfect launch). Shaking or “Nudge” bumps the table; too often means TILT and the flippers are locked until the next ball. On a computer: Y or Z left, minus or / right, space bar spring, X . and arrow up to nudge.\n\nHow it goes on: hit the three yellow targets on the left, then a mission flashes. Send the ball into the mission hole in the middle to start it. Missions use energy; the energy lane on the right refills it. The three top lights make the planets worth more. The return lanes beside the flippers open the wormholes (blue left, pink right); the ball then jumps to the partner hole. The star ramp on the left gives points, a bonus after 3 rides and an extra ball after 5. The light at the left outer lane shoots a lost ball back once. Completed missions take you through 7 ranks.'));
+  host.lastElementChild.style.whiteSpace='pre-line';
+  const cvh=host.querySelector('#pb-cvh'),cw=cvh.clientWidth||340;const {cv,x,W,H}=cvMake(cvh,Math.round(Math.min(cw*1.8,Math.max(420,window.innerHeight-90))));cv.style.touchAction='none';
+  setTimeout(()=>{try{cv.scrollIntoView({block:'start',behavior:'smooth'});}catch(e){}},250);
+  const k=Math.min(W/400,H/720),ox=(W-400*k)/2,oy=(H-720*k)/2;
+  const STARS=[];for(let i=0;i<46;i++)STARS.push([20+Math.random()*330,20+Math.random()*680,Math.random()*1.6+.4,Math.random()*6]);
+  const inp={L:false,R:false,plunge:false,nudge:null};const ptr=new Map();const keys={};
+  const recompute=()=>{let l=false,r=false;ptr.forEach(s=>{if(s==='L')l=true;else r=true;});l=l||keys.L;r=r||keys.R;const serve=P.g.state==='serve';inp.L=l;inp.R=serve?false:r;inp.plunge=serve&&(r||keys.P);};
+  const tap=()=>{if(P.g.over){newGame();return true;}return false;};
+  cv.addEventListener('pointerdown',e=>{gCap(cv,e);if(tap())return;const p=gPos(cv,e);ptr.set(e.pointerId,p.x<W/2?'L':'R');recompute();});
+  const up=e=>{ptr.delete(e.pointerId);recompute();};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+  const kmap=e=>{const q=e.key;if(q==='y'||q==='Y'||q==='z'||q==='Z'||q==='ArrowLeft')return 'L';if(q==='-'||q==='/'||q==='ArrowRight')return 'R';if(q===' ')return 'P';return null;};
+  const kd=e=>{if(!cv.isConnected){window.removeEventListener('keydown',kd);window.removeEventListener('keyup',ku);return;}if(curView!=='v-page')return;const m=kmap(e);
+    if(m){keys[m]=true;recompute();e.preventDefault();return;}
+    if(e.key==='x'||e.key==='X')inp.nudge='l';else if(e.key==='.')inp.nudge='r';else if(e.key==='ArrowUp'){inp.nudge='u';e.preventDefault();}};
+  const ku=e=>{const m=kmap(e);if(m){keys[m]=false;recompute();}};
+  window.addEventListener('keydown',kd);window.addEventListener('keyup',ku);
+  let lastShake=0,lastA=null;
+  const dm=e=>{if(!cv.isConnected){window.removeEventListener('devicemotion',dm);return;}const a=e.accelerationIncludingGravity;if(!a||a.x==null)return;
+    if(lastA){const d=Math.hypot(a.x-lastA.x,a.y-lastA.y,(a.z||0)-(lastA.z||0));const t=performance.now();if(d>14&&t-lastShake>450&&!GAME.paused){lastShake=t;inp.nudge=Math.abs(a.x-lastA.x)>8?(a.x>lastA.x?'r':'l'):'u';}}lastA={x:a.x,y:a.y,z:a.z};};
+  if(window.DeviceMotionEvent&&typeof DeviceMotionEvent.requestPermission!=='function')window.addEventListener('devicemotion',dm);
+  host.querySelector('#pb-nudge').addEventListener('click',()=>{inp.nudge='u';});
+  const rl=host.querySelector('#pb-relax');rl.checked=!!sv.relax;rl.addEventListener('change',()=>{sv.relax=rl.checked;saveSv();});
+  const newGame=()=>{mk();ptr.clear();recompute();hsUI();};
+  host.querySelector('#pb-newg').addEventListener('click',newGame);
+  const fmtN=n=>Math.round(n).toLocaleString(EN?'en-GB':'de-DE');
+  const hsUI=()=>{const L=sv.hs.filter(h=>!!h.r===!!sv.relax).slice(0,5);host.querySelector('#pb-hs').innerHTML='<b>'+TR('Bestenliste','High scores')+(sv.relax?TR(' (entspannt)',' (relaxed)'):'')+'</b><br>'+(L.length?L.map((h,i)=>(i+1)+'. '+fmtN(h.s)+' · '+h.rk+' · '+h.d).join('<br>'):TR('Noch kein Eintrag.','No entry yet.'));};
+  hsUI();
+  let hudTxt='';
+  const hud=()=>{const g=P.g,M=PINC.MISSIONS;let m;
+    if(g.mis)m='<b>'+M[g.mis.k][2]+'</b>: '+M[g.mis.k][3]+' '+Math.min(g.mis.n,g.mis.goal)+'/'+g.mis.goal+' · '+TR('Energie ','Energy ')+'▮'.repeat(g.energy)+'<span style="opacity:.3">'+'▮'.repeat(6-g.energy)+'</span>';
+    else if(g.sel>=0){const av=M.map((q,i)=>i).filter(i=>i<4+g.rank*2),kk=av[g.sel%av.length];m=TR('Mission wählen: ','Choose mission: ')+'<b>'+M[kk][2]+'</b> – '+TR('jetzt ins Missionsloch','now into the mission hole');}
+    else m=TR('Gelbe Ziele: ','Yellow targets: ')+g.tg.filter(Boolean).length+'/3';
+    const t='<div class="pbrow"><b>'+fmtN(g.score)+'</b><span>'+(g.relax?TR('entspannt','relaxed'):TR('Kugel ','Ball ')+g.ballNo+' · '+TR('übrig ','left ')+Math.max(0,g.balls-1))+'</span></div><div class="pbrow small"><span>'+PINC.RANKS()[g.rank]+' · '+g.done+(g.done===1?TR(' Mission',' mission'):TR(' Missionen',' missions'))+'</span></div><div class="small" style="min-height:18px">'+m+'</div>';
+    if(t!==hudTxt){hudTxt=t;host.querySelector('#pb-hud').innerHTML=t;}};
+  const sfx=()=>{while(evq.length){const [n,d]=evq.shift();
+    if(n==='bumper')gSfx(G_PENTA[(d||1)+3+gRnd(3)],.18,.06);else if(n==='flip')gSfx(140,.05,.05,'triangle');else if(n==='sling')gSfx(260,.07,.05,'square',.7);
+    else if(n==='lane'||n==='target')gSfx(G_PENTA[5+gRnd(4)],.12,.05,'triangle');else if(n==='launch')gSfx(180,.25,.05,'sine',2.5);
+    else if(n==='ramp')[0,2,4].forEach((q,j)=>setTimeout(()=>gSfx(G_PENTA[4+q],.18,.05),j*70));else if(n==='hole'||n==='worm')gSfx(300,.35,.06,'sine',.5);
+    else if(n==='mission'||n==='rank'||n==='skill'||n==='extra')[0,2,4,7].forEach((q,j)=>setTimeout(()=>gSfx(G_PENTA[2+q%5]*(q>4?2:1),.4,.06),j*120));
+    else if(n==='drain')gSfx(200,.5,.06,'sine',.5);else if(n==='tilt')gSfx(110,.6,.07,'square',.8);else if(n==='energy')gSfx(G_PENTA[6],.3,.05,'triangle',1.5);
+    else if(n==='over'){const r=PINC.RANKS()[P.g.rank];sv.hs.push({s:d,d:new Date().toLocaleDateString(EN?'en-GB':'de-DE'),r:P.g.relax?1:0,rk:r});sv.hs.sort((a,b)=>b.s-a.s);sv.hs=sv.hs.slice(0,20);saveSv();hsUI();}}};
+  /* Zeichnen */
+  const T=P.g.T;
+  const draw=t=>{const C=gCol(),g=P.g,T=g.T,dk=C.dark;x.clearRect(0,0,W,H);x.save();x.translate(ox,oy);x.scale(k,k);x.lineJoin='round';x.lineCap='round';
+    const bg=dk?'#171B36':'#2B2F63',wall=dk?'#9AA6FF':'#B9C2FF';
+    x.fillStyle=bg;x.beginPath();x.moveTo(18,730);x.lineTo(18,190);x.arc(200,190,182,Math.PI,0);x.lineTo(382,730);x.closePath();x.fill();
+    STARS.forEach(s=>{x.globalAlpha=.35+.35*Math.sin(t*1.3+s[3]);x.fillStyle='#fff';x.beginPath();x.arc(s[0],s[1],s[2],0,7);x.fill();});x.globalAlpha=1;
+    /* Rampe */
+    x.strokeStyle='rgba(120,230,200,.28)';x.lineWidth=28;x.beginPath();T.rampPath.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.stroke();
+    x.strokeStyle='rgba(160,255,225,.55)';x.lineWidth=2;x.setLineDash([4,7]);x.stroke();x.setLineDash([]);
+    /* Wurmlöcher */
+    [['#5DADE2'],['#F48FB1']].forEach((c,ci)=>T.sens.worm[ci].forEach(p=>{const on=g.worm[ci];x.save();x.translate(p[0],p[1]);x.rotate(t*(on?3:.6)*(ci?-1:1));x.globalAlpha=on?1:.35;
+      for(let r=12;r>2;r-=3.5){x.strokeStyle=c[0];x.lineWidth=2.4;x.beginPath();x.arc(0,0,r,0,Math.PI*1.4);x.stroke();}x.restore();x.globalAlpha=1;}));
+    /* Missionsloch */
+    const hp=T.sens.hole,bl=g.sel>=0&&Math.sin(t*10)>0;x.fillStyle='#0B0D1C';x.beginPath();x.arc(hp[0],hp[1],11,0,7);x.fill();x.lineWidth=3;x.strokeStyle=bl?'#FFE066':(g.mis?'#7BE0B5':'#6B74C9');x.stroke();
+    /* Lichter */
+    const lamp=(p,on,c,r)=>{x.fillStyle=on?c:'rgba(255,255,255,.12)';x.beginPath();x.arc(p[0],p[1],r||5,0,7);x.fill();if(on){x.globalAlpha=.3;x.beginPath();x.arc(p[0],p[1],(r||5)*2,0,7);x.fill();x.globalAlpha=1;}};
+    T.sens.lanes.forEach((p,i)=>lamp(p,g.lanes[i],'#FFE066'));
+    T.sens.skill.forEach((p,i)=>lamp(p,g.skill>i,'#7BE0B5',4));
+    for(let i=0;i<6;i++)lamp([338,284+i*20],g.mis?i<g.energy:true,g.mis&&g.energy<=2?'#FF8A80':'#7BE0B5',3.5);
+    lamp([33,615],g.kick,'#FFB74D',5);lamp(T.sens.inL,g.worm[0],'#5DADE2',4);lamp(T.sens.inR,g.worm[1],'#F48FB1',4);
+    lamp([200,330],g.rampN>=5,'#FFE066',3);
+    /* Wände */
+    x.strokeStyle=wall;x.lineWidth=4;T.segs.forEach(s=>{if(s.target!=null||s.sling)return;x.globalAlpha=s.one?.5:1;x.beginPath();x.moveTo(s.a.x,s.a.y);x.lineTo(s.b.x,s.b.y);x.stroke();});x.globalAlpha=1;
+    /* Schleudern */
+    [[[70,505],[70,566],[104,588]],[[300,505],[300,566],[266,588]]].forEach(tr=>{x.fillStyle='rgba(244,143,177,.45)';x.beginPath();tr.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.closePath();x.fill();x.strokeStyle='#F8BBD0';x.lineWidth=4;x.beginPath();x.moveTo(tr[0][0],tr[0][1]);x.lineTo(tr[2][0],tr[2][1]);x.stroke();});
+    /* Ziele */
+    T.segs.forEach(s=>{if(s.target==null)return;const on=g.tg[s.target];x.strokeStyle=on?'#FFE066':'#B39B3A';x.lineWidth=7;x.beginPath();x.moveTo(s.a.x+2,s.a.y);x.lineTo(s.b.x+2,s.b.y);x.stroke();});
+    /* Planeten */
+    const PC=[['#7FB3D5','#D6EAF8'],['#F5B041','#FDEBD0'],['#F1948A','#FADBD8']][g.bl-1];
+    T.bumpers.forEach(c=>{x.fillStyle=c.flash?'#fff':PC[0];x.beginPath();x.arc(c.x,c.y,c.r,0,7);x.fill();x.strokeStyle=G_OL;x.lineWidth=2.5;x.stroke();
+      x.strokeStyle=PC[1];x.lineWidth=2.5;x.beginPath();x.ellipse(c.x,c.y,c.r+7,5,-.35,0,7);x.stroke();x.fillStyle='rgba(255,255,255,.5)';x.beginPath();x.arc(c.x-6,c.y-6,4,0,7);x.fill();});
+    x.fillStyle=wall;T.posts.forEach(c=>{x.beginPath();x.arc(c.x,c.y,c.r,0,7);x.fill();});
+    /* Flipper */
+    T.flippers.forEach(f=>{const dx=f.s*Math.cos(f.a),dy=Math.sin(f.a),tx=f.px+dx*f.L,ty=f.py+dy*f.L,nx=-dy,ny=dx;
+      x.fillStyle=g.tilted?'#777':'#FFB3C7';x.beginPath();x.moveTo(f.px+nx*f.r0,f.py+ny*f.r0);x.lineTo(tx+nx*f.r1,ty+ny*f.r1);x.arc(tx,ty,f.r1,Math.atan2(ny,nx),Math.atan2(-ny,-nx),f.s<0);x.lineTo(f.px-nx*f.r0,f.py-ny*f.r0);x.arc(f.px,f.py,f.r0,Math.atan2(-ny,-nx),Math.atan2(ny,nx),f.s<0);x.closePath();x.fill();x.strokeStyle=G_OL;x.lineWidth=2;x.stroke();
+      x.fillStyle=G_OL;x.beginPath();x.arc(f.px,f.py,2.5,0,7);x.fill();});
+    /* Feder und Rakete */
+    const pl=g.state==='serve'?g.plunge:0;x.strokeStyle='#CFD8DC';x.lineWidth=2.5;x.beginPath();for(let i=0;i<=8;i++){const yy=700+i*(22-pl*12)/8+pl*12;x.lineTo(i%2?360:374,yy);}x.stroke();
+    x.fillStyle='#E57373';x.fillRect(357,699+pl*12,20,5);
+    /* Kugel */
+    const b=g.ball;if(b&&!g.over){const inHole=g.hold&&g.hold.kind!=='ramp';if(!inHole){const gr=x.createRadialGradient(b.x-3,b.y-3,1,b.x,b.y,9);gr.addColorStop(0,'#fff');gr.addColorStop(1,'#B8C2D6');x.fillStyle=gr;x.beginPath();x.arc(b.x,b.y,9,0,7);x.fill();x.strokeStyle=G_OL;x.lineWidth=1.5;x.stroke();}}
+    /* Meldungen */
+    x.textAlign='center';x.textBaseline='middle';
+    x.font='800 15px system-ui';let yb=470;
+    for(let i=g.msgs.length-1;i>=0;i--){const m=g.msgs[i],a=Math.max(0,Math.min(1,(3.2-m.age)*1.5));const L=[];let cur='';m.t.split(' ').forEach(wd=>{const tt=cur?cur+' '+wd:wd;if(x.measureText(tt).width>300&&cur){L.push(cur);cur=wd;}else cur=tt;});L.push(cur);
+      const w=Math.max(...L.map(l=>x.measureText(l).width))+20,hh=L.length*19+8;yb-=hh+6;x.globalAlpha=a;x.fillStyle='rgba(10,12,30,.72)';x.beginPath();x.roundRect(185-w/2,yb,w,hh,12);x.fill();x.fillStyle='#FFF4C2';L.forEach((l,j)=>x.fillText(l,185,yb+4+9.5+j*19));}
+    x.globalAlpha=1;
+    if(g.state==='serve'&&!g.over){x.font='600 12px system-ui';x.fillStyle='rgba(255,255,255,.75)';x.fillText(TR('halten · loslassen','hold · release'),300,708);
+      x.fillStyle='rgba(255,255,255,.18)';x.fillRect(388,560,8,140);x.fillStyle=pl>=.70&&pl<=.84?'#7BE0B5':'#FFE066';x.fillRect(388,700-140*pl,8,140*pl);x.strokeStyle='#7BE0B5';x.lineWidth=1.5;x.strokeRect(387,700-140*.84,10,140*.14);}
+    if(g.over){x.fillStyle='rgba(10,12,30,.78)';x.fillRect(18,250,364,200);x.fillStyle='#FFF4C2';x.font='800 24px system-ui';x.fillText(TR('Reise beendet','Journey over'),200,295);x.font='700 20px system-ui';x.fillText(fmtN(g.score)+TR(' Punkte',' points'),200,335);
+      x.font='600 15px system-ui';x.fillText(PINC.RANKS()[g.rank],200,368);x.fillText(TR('Tippen für eine neue Reise','Tap for a new journey'),200,410);}
+    x.restore();};
+  gLoop(cv,(dt,t)=>{if(dt>0){let r=dt;while(r>1e-6){const h=Math.min(r,1/60);P.step(h,inp);inp.nudge=null;r-=h;}}recompute();sfx();draw(t);hud();});
+  if(window.__rrDebug)window.__pin={get P(){return P;},inp,newGame,sv,geom:{k,ox,oy,W,H}};
 }
 /* ---------- Klangbrett ---------- */
 const G_MEL=[
@@ -6507,8 +7357,8 @@ function ktRender(){
 ['rc-timers','rcl-timers'].forEach(id=>$(id).addEventListener('click',e=>{const b=e.target.closest('[data-kt]');if(b)ktCancel(b.dataset.kt);}));
 
 /* ================= Mehr, Infoseiten, Installieren, Sicherung ================= */
-const APP_VER='1.15';
-const CHANGES={'1.15':[TR('Favoriten haben eine eigene Seite: Stern-Knopf oben auf der Startseite, gruppiert und mit ▲▼ sortierbar','Favourites have their own page: star button at the top of the home screen, grouped and sortable with ▲▼'),TR('Mehrere Musik- und Hörbuchordner; jeder merkt sich Titel und Minute und macht dort weiter. Ein Ordner-Favorit liest den Ordner beim Antippen neu ein und spielt','Several music and audiobook folders; each remembers track and minute and resumes there. A folder favourite rescans the folder when tapped and plays'),TR('Neu unter Musik: Podcasts mit Folgenliste, Filtern, gemerkter Stelle und eigenen Podcasts','New under Music: podcasts with episode list, filters, remembered position and your own podcasts')],'1.14':[TR('Favoriten für Musik starten sofort und ohne Ausschaltzeit; nochmal antippen beendet sie. Sterne gibt es jetzt auch für eigene Musik, Atemtakt und gespeicherte Klangmischungen','Music favourites start at once and without a switch-off time; tap again to stop. There are now stars for your own music, breathing pace and saved sound mixes too'),TR('Eigene Internetradio-Sender lassen sich hinzufügen','You can add your own internet radio stations'),TR('„Mein Tag“ hat einen Knopf oben auf der Startseite','“My day” has a button at the top of the home screen'),TR('Neben der Katze gibt es Hund und Spinne, einzeln wählbar in den Einstellungen','Besides the cat there are a dog and a spider, selectable individually in the settings'),TR('Spielgruppen sind einklappbar; aus „Über den Fluss“ wurde „Straße und Fluss“ mit Autos','Game groups can be collapsed; “Across the river” became “Road and river” with cars')],'1.13':[TR('Favoriten: Stern an Routinen, Spielen, Sendern und Wohlfühl-Punkten; sie erscheinen auf der Startseite unter den Routinen','Favourites: a star on routines, games, stations and wellbeing items; they appear on the home screen below the routines'),TR('Neu unter Wohlfühlen: Problemlöser (sieben Fragen ohne Eintippen) und Persönlichkeitstest mit Datenbank und mehreren Profilen','New under Wellbeing: problem solver (seven questions without typing) and personality test with database and several profiles'),TR('Vier neue Spiele: Kalimba im Querformat, Über den Fluss, Tennis und Orakelkugel','Four new games: kalimba in landscape, Across the river, Tennis and Oracle ball'),TR('Spiele und Wohlfühlen sind in Gruppen geordnet','Games and Wellbeing are arranged in groups'),TR('MDR Kultur im Radiokatalog','MDR Kultur in the radio catalogue')],'1.12':[TR('Gewicht: steht jetzt vor jedem Satz da, in 1-kg-Schritten änderbar; das Startgewicht legst du beim Erstellen der Routine fest','Weight: now shown before every set, adjustable in 1 kg steps; you set the starting weight when creating the routine'),TR('Statistik in eigenen Routinen: letztes Training, letzte Gewichtserhöhung, Bestwert und Verlauf je Übung','Statistics in your own routines: last workout, last weight increase, best value and trend per exercise'),TR('Studio-Übungen haben eigene Figuren, eigene Übungen eine Figur in Bodybuilder-Posen','Gym exercises have their own figures, your own exercises a figure in bodybuilder poses'),TR('„Kopf leeren“ ist jetzt oben auf der Startseite; abends und nachts stehen dort auch die Einschlaf-Routinen','“Clear your head” is now at the top of the home screen; in the evening and at night the sleep routines appear there too'),TR('Neu unter Wohlfühlen: „Mein Tag“ mit Tagesnotiz, Trinkzähler und Tagen ohne Alkohol sowie „Impulse“ mit Spruch des Tages und belegtem Studienwissen','New under Wellbeing: “My day” with daily note, water counter and days without alcohol, and “Inspiration” with a saying of the day and documented research findings'),TR('Drei neue Rätsel: Sudoku, Wortsuche und Schiebepuzzle','Three new puzzles: sudoku, word search and sliding puzzle')],'1.11':[TR('Eigene Übungen: Unter „Alle Übungen“ kannst du Übungen anlegen und in eigenen Routinen verwenden','Your own exercises: under “All exercises” you can create exercises and use them in your own routines'),TR('25 Studio-Übungen als Vorlagen, von Bankdrücken bis Latzug. Bei diesen und bei eigenen Kraftübungen trägst du das Gewicht je Satz ein','25 gym exercises as templates, from bench press to lat pulldown. For these and for your own strength exercises you enter the weight per set'),TR('Zwei neue Spiele: Blöcke und Schlange','Two new games: blocks and snake')],'1.10':[TR('Minigolf hat jetzt 40 Bahnen. Jeder Parcours zieht 9 oder 18 davon per Zufall','Mini golf now has 40 holes. Each course draws 9 or 18 of them at random'),TR('Weben: Das Schiffchen lässt sich zurückziehen, um einen Faden zu korrigieren. Buchstaben und Ringe zeigen, bei welchem Kettfaden du bist','Weaving: the shuttle can be dragged back to correct a thread. Letters and rings show which warp thread you are at'),TR('Die Sprache stellst du nur noch unter Mehr › Sprache / Language um. Die Farbvorgabe für die untere Leiste ist wieder entfernt, sie hatte keine Wirkung','You now change the language only under More › Sprache / Language. The color setting for the bottom bar has been removed again, it had no effect')],'1.9.1':[TR('Die Wochenleiste auf „Heute“ zeigt jetzt die laufende Woche von Montag bis Sonntag. „Tage in Folge“ zählt wie bisher über die Wochengrenze','The week strip on “Today” now shows the current week from Monday to Sunday. “Days in a row” still counts across the week boundary')],'1.9':[TR('Jede Übung erklärt jetzt, wo du sie spürst und was du änderst, wenn du nichts spürst. In der ausführlichen Ansage wird das mitgesprochen','Every exercise now explains where you feel it and what to change if you feel nothing. The detailed announcement says it too'),TR('Gesäß-Dehnung (Figur 4) neu beschrieben: Das untere Bein wird zur Brust gezogen, erst das erzeugt die Dehnung','Glute stretch (figure 4) described anew: the bottom leg is pulled toward the chest, only that creates the stretch'),TR('Zu jeder Übung gibt es einen Knopf „Videos auf YouTube“, auf der Info-Seite und in der Übungsliste einer Routine','Every exercise has a “Videos on YouTube” button, on the info page and in the exercise list of a routine')],'1.8.1':[TR('Weben als Bildweberei: Kettfäden einfärben, nach dem Anschlagen zeigt jede Kreuzung nur noch einen Faden. 14, 20 oder 28 Kettfäden, gesteuert im Streifen unten','Weaving as picture weaving: color the warp threads, after beating each crossing shows only one thread. 14, 20 or 28 warp threads, controlled in the strip at the bottom'),TR('Ab und zu schaut eine Katze vorbei. Antippen macht sie froh. Ausschalten unter Mehr › Einstellungen','Now and then a cat drops by. Tapping makes it happy. Turn it off under More › Settings')],'1.8':[TR('Zwei neue Spiele: Minigolf mit acht Bahnen und Weben am Webstuhl','Two new games: mini golf with eight holes and weaving on a loom'),TR('Solitär: Karten und Teilstapel lassen sich jetzt ziehen, auch von der Ablage zurück','Solitaire: cards and partial stacks can now be dragged, also back from the foundation'),TR('Hüpfen: höher springen durch Halten, Pilze, Vögel, Schweben nach 10 Sternen und wechselnde Landschaften','Hopping: jump higher by holding, mushrooms, birds, floating after 10 stars and changing landscapes')],'1.7':[TR('Vier neue Spiele: Angeln, Hüpfen, Solitär und Würfel','Four new games: fishing, hopping, solitaire and dice'),TR('Klangbrett: volle Tonleiter, mehrere Seiten, „Alle auf Mitte“ und sieben Melodien zum Laden','Sound board: full scale, several pages, “All to middle” and seven melodies to load')],'1.6.2':[TR('„Musik wählen“ im Spiel zeigt jetzt die ganze Musikseite, der Rückweg „Zurück zum Spiel“ sitzt oben rechts','“Choose music” in a game now shows the whole music page, the way back “Back to the game” sits at the top right'),TR('Zen-Garten passt ohne Scrollen auf den Bildschirm, die Erklärung steckt hinter dem Fragezeichen','Zen garden fits on the screen without scrolling, the explanation is behind the question mark'),TR('Wolken: Größere Wolken lassen mehr Blumen wachsen, alte Blumen verblassen. Ab und zu kommt eine Katze vorbei, sammelt liegende Herzen ein und schnurrt','Clouds: bigger clouds make more flowers grow, old flowers fade. Now and then a cat comes by, collects hearts lying around and purrs')],'1.6.1':[TR('Spiele überarbeitet: Der Spielstand bleibt erhalten, dazu Pause, Neu starten und ein eigener Knopf „Musik wählen“','Games reworked: your progress is kept, plus Pause, Restart and a separate “Choose music” button'),TR('Klangbrett: Feld gedrückt halten und schieben stellt die Tonhöhe ein, bis zu 3 Schläge je Feld, eigener Ton per Mikrofon','Sound board: press and hold a field and slide to set the pitch, up to 3 hits per field, your own sound via microphone'),TR('Wolken: Herzen bleiben liegen, lassen sich stufenweise verbinden und bringen Blumen zum Blühen','Clouds: hearts stay on the ground, can be combined in steps and make flowers bloom'),TR('Turm: Figur steht jetzt im unteren Drittel, Wolken sind Podeste, alle 10 Sterne wechseln Farbe und Klang','Tower: the figure now stands in the lower third, clouds are platforms, color and sound change every 10 stars'),TR('Zen-Garten: Radierer, Welle, Moos, verschiebbare Steine, Führung für gerade Bahnen, Steuerkreuz, Bild speichern','Zen garden: eraser, wave, moss, movable stones, guide for straight tracks, d-pad, save picture'),TR('Atemballon: Steigen und Sinken passen jetzt zum Ring','Breath balloon: rising and sinking now match the ring')],'1.6':[TR('Sechs ruhige Spiele unter Wohlfühlen › Spiele: Klangbrett, Wolken, Turm, Zen-Garten, Atemballon und Paare finden. Die Farben folgen deiner Darstellung, Geräusche und Musik schaltest du oben im Spiel','Six calm games under Wellbeing › Games: sound board, clouds, tower, zen garden, breath balloon and find pairs. The colors follow your appearance setting; you switch sounds and music at the top of the game'),TR('Test: Unter Mehr › Einstellungen gibt es den Schalter „Bei Display aus weiterlaufen“ für die geführten Entspannungen','Test: under More › Settings there is the switch “Keep running with display off” for the guided relaxations')],'1.5':[TR('Englisch: Die ganze App gibt es jetzt auch auf Englisch, mit Übungen, Ansagen, Entspannung und Rezepten. Beim ersten Start richtet sie sich nach der Sprache des Handys. Umschalten unter Mehr › Sprache / Language','English: the whole app is now available in English too, with exercises, announcements, relaxation and recipes. On first start it follows the phone\'s language. Switch under More › Sprache / Language'),TR('Drei Radiosender ersetzt, weil die bisherigen nicht liefen: Slow House kommt jetzt von Maretimo House Radio, dazu neu egoFM Chillout und Hirschmilch Radio Chillout','Three radio stations replaced because the previous ones didn\'t play: Slow House now comes from Maretimo House Radio, plus egoFM Chillout and Hirschmilch Radio Chillout as new stations'),TR('Die App gibt Android jetzt eine dunkle Farbe für die untere Leiste vor. Das wirkt erst, wenn du die App entfernst und neu installierst, siehe Mehr › Darstellung','The app now gives Android a dark color for the bottom bar. This only takes effect when you remove the app and reinstall it, see More › Appearance'),TR('Der Startbildschirm fragt nicht mehr nach dem Vornamen. Eintragen kannst du ihn weiterhin unter Mehr › Einstellungen','The start screen no longer asks for your first name. You can still enter it under More › Settings')],'1.4':['Eigene Musik: Ordner oder einzelne Dateien vom Handy wählen und der Reihe nach oder zufällig abspielen. Geht auch als Hintergrundmusik für Routinen und Training','14 neue Radiosender, darunter ByteFM, drei Blues-Sender, Slow House, Reggae, Hip-Hop, Gregorianik, alte Musik, Barock und Meditation. Die Sender sind jetzt in Gruppen sortiert','Das Radio merkt sich die Adresse, die zuletzt lief, und verbindet dadurch schneller'],'1.3':['Darstellung unter „Mehr“: hell, dunkel oder wie das Handy, dazu fünf Farbwelten. Die Leiste oben nimmt die Farbe der App an','Eigene Routinen: Übungen filtern, auswählen und mit Zeit, Wiederholungen oder Sätzen samt Tagebuch zusammenstellen. Fertige Routinen lassen sich als Vorlage kopieren','Zwei neue Trainings nur mit Matte: Ausdauer-Zirkel (auf Wunsch ohne Springen) und Kraft ohne Geräte, mit Curl-up und Dead Bug statt Sit-ups','25 neue Übungen, darunter mehrere für den Schreibtisch. Alle Übungen haben jetzt Filter nach Art, Ort, Hilfsmittel und Körperbereich','Morgen, Abend, Couch und Büro wechseln täglich einzelne Übungen gegen gleichwertige. Abschaltbar','Gedanken-Shuffle mit über 1.100 Wörtern, die sich erst wiederholen, wenn alle dran waren','Anleitung für andere Stimmen in den Einstellungen und ein Knackschutz für die Ansagen'],'1.2.1':['Klänge besser hörbar: binaurale Beats auf 400 Hz angehoben, Klangflächen eine Oktave höher gelegt','Klänge und braunes Rauschen so laut eingestellt, wie Naturgeräusche klingen','Hinweis bei den Klängen: am besten mit Kopfhörern'],'1.2':['Neu unter „Mehr“: Wohlzeit teilen, per WhatsApp oder über das Teilen-Menü, oder den Link kopieren','Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1.1':['Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1':['Echte Naturgeräusche: Regen, Gewitter, Wellen, Bach, Wind, Kaminfeuer, Vögel, Grillen, Katzenschnurren, Café, Zug, Boot und Stadt','Sieben Rauschfarben mit Erklärung, wofür sie gedacht sind','Klänge (experimentell): binaurale Beats sowie 432- und 528-Hz-Klangflächen, mit Ampel zur Studienlage','Radio: Ambient Sleeping Pill und Radio Paradise Mellow Mix, SomaFM als Ersatz'],'1.0':['Neuer Name: Wohlzeit – Zeit für dich','Untere Leiste mit Heute, Training, Wohlfühlen, Musik und Mehr','„Heute“ schlägt passend zur Tageszeit etwas vor','Wohlfühlrezepte: Seelenfutter und Kraftfutter, mit Portionsrechner und Küchentimer','Klarere Buttons, Infos ohne Kapseln, eingerückte Unterpunkte','Daten sichern und wiederherstellen unter „Mehr“','Als App auf dem Startbildschirm installierbar']};
+const APP_VER='1.17';
+const CHANGES={'1.17':[TR('Neues Spiel Igel-Suche: Logikrätsel nach dem Prinzip von Minesweeper, mit drei Stufen, eigener Größe, Schildern, Fragezeichen, Uhr, Bestzeiten und auf Wunsch ohne Raten','New game: Hedgehog hunt, a logic puzzle on the principle of Minesweeper, with three levels, custom size, signs, question marks, timer, best times and optionally no guessing'),TR('Neues Spiel Flipper Sternenreise: Planeten, Wurmlöcher, Sternenrampe, Energie, Missionen, sieben Stufen, Anstoßen mit Tilt und entspannter Modus','New game: Star journey pinball with planets, wormholes, star ramp, energy, missions, seven ranks, nudging with tilt and a relaxed mode')],'1.16':[TR('Neues Spiel Zauberwürfel in 3D, mit Anleitung in 7 Schritten, Vorführen und Hilfe für den nächsten Zug','New game: magic cube in 3D, with a 7-step guide, demonstrations and help for the next move'),TR('Neues Spiel Ausparken mit 42 Stellungen in drei Stufen','New game: Parking lot with 42 positions in three levels'),TR('Podcasts: Der KI-Podcast, ARD Radio Tatort, Lagerfeuer und Kurzspannung neu; Mimikama und Lesereise entfernt','Podcasts: Der KI-Podcast, ARD Radio Tatort, Lagerfeuer and Kurzspannung added; Mimikama and Lesereise removed'),TR('Spruch des Tages: 200 neue Lebensweisheiten, gemischt mit den bisherigen','Saying of the day: 200 new sayings, mixed with the existing ones')],'1.15':[TR('Favoriten haben eine eigene Seite: Stern-Knopf oben auf der Startseite, gruppiert und mit ▲▼ sortierbar','Favourites have their own page: star button at the top of the home screen, grouped and sortable with ▲▼'),TR('Mehrere Musik- und Hörbuchordner; jeder merkt sich Titel und Minute und macht dort weiter. Ein Ordner-Favorit liest den Ordner beim Antippen neu ein und spielt','Several music and audiobook folders; each remembers track and minute and resumes there. A folder favourite rescans the folder when tapped and plays'),TR('Neu unter Musik: Podcasts mit Folgenliste, Filtern, gemerkter Stelle und eigenen Podcasts','New under Music: podcasts with episode list, filters, remembered position and your own podcasts')],'1.14':[TR('Favoriten für Musik starten sofort und ohne Ausschaltzeit; nochmal antippen beendet sie. Sterne gibt es jetzt auch für eigene Musik, Atemtakt und gespeicherte Klangmischungen','Music favourites start at once and without a switch-off time; tap again to stop. There are now stars for your own music, breathing pace and saved sound mixes too'),TR('Eigene Internetradio-Sender lassen sich hinzufügen','You can add your own internet radio stations'),TR('„Mein Tag“ hat einen Knopf oben auf der Startseite','“My day” has a button at the top of the home screen'),TR('Neben der Katze gibt es Hund und Spinne, einzeln wählbar in den Einstellungen','Besides the cat there are a dog and a spider, selectable individually in the settings'),TR('Spielgruppen sind einklappbar; aus „Über den Fluss“ wurde „Straße und Fluss“ mit Autos','Game groups can be collapsed; “Across the river” became “Road and river” with cars')],'1.13':[TR('Favoriten: Stern an Routinen, Spielen, Sendern und Wohlfühl-Punkten; sie erscheinen auf der Startseite unter den Routinen','Favourites: a star on routines, games, stations and wellbeing items; they appear on the home screen below the routines'),TR('Neu unter Wohlfühlen: Problemlöser (sieben Fragen ohne Eintippen) und Persönlichkeitstest mit Datenbank und mehreren Profilen','New under Wellbeing: problem solver (seven questions without typing) and personality test with database and several profiles'),TR('Vier neue Spiele: Kalimba im Querformat, Über den Fluss, Tennis und Orakelkugel','Four new games: kalimba in landscape, Across the river, Tennis and Oracle ball'),TR('Spiele und Wohlfühlen sind in Gruppen geordnet','Games and Wellbeing are arranged in groups'),TR('MDR Kultur im Radiokatalog','MDR Kultur in the radio catalogue')],'1.12':[TR('Gewicht: steht jetzt vor jedem Satz da, in 1-kg-Schritten änderbar; das Startgewicht legst du beim Erstellen der Routine fest','Weight: now shown before every set, adjustable in 1 kg steps; you set the starting weight when creating the routine'),TR('Statistik in eigenen Routinen: letztes Training, letzte Gewichtserhöhung, Bestwert und Verlauf je Übung','Statistics in your own routines: last workout, last weight increase, best value and trend per exercise'),TR('Studio-Übungen haben eigene Figuren, eigene Übungen eine Figur in Bodybuilder-Posen','Gym exercises have their own figures, your own exercises a figure in bodybuilder poses'),TR('„Kopf leeren“ ist jetzt oben auf der Startseite; abends und nachts stehen dort auch die Einschlaf-Routinen','“Clear your head” is now at the top of the home screen; in the evening and at night the sleep routines appear there too'),TR('Neu unter Wohlfühlen: „Mein Tag“ mit Tagesnotiz, Trinkzähler und Tagen ohne Alkohol sowie „Impulse“ mit Spruch des Tages und belegtem Studienwissen','New under Wellbeing: “My day” with daily note, water counter and days without alcohol, and “Inspiration” with a saying of the day and documented research findings'),TR('Drei neue Rätsel: Sudoku, Wortsuche und Schiebepuzzle','Three new puzzles: sudoku, word search and sliding puzzle')],'1.11':[TR('Eigene Übungen: Unter „Alle Übungen“ kannst du Übungen anlegen und in eigenen Routinen verwenden','Your own exercises: under “All exercises” you can create exercises and use them in your own routines'),TR('25 Studio-Übungen als Vorlagen, von Bankdrücken bis Latzug. Bei diesen und bei eigenen Kraftübungen trägst du das Gewicht je Satz ein','25 gym exercises as templates, from bench press to lat pulldown. For these and for your own strength exercises you enter the weight per set'),TR('Zwei neue Spiele: Blöcke und Schlange','Two new games: blocks and snake')],'1.10':[TR('Minigolf hat jetzt 40 Bahnen. Jeder Parcours zieht 9 oder 18 davon per Zufall','Mini golf now has 40 holes. Each course draws 9 or 18 of them at random'),TR('Weben: Das Schiffchen lässt sich zurückziehen, um einen Faden zu korrigieren. Buchstaben und Ringe zeigen, bei welchem Kettfaden du bist','Weaving: the shuttle can be dragged back to correct a thread. Letters and rings show which warp thread you are at'),TR('Die Sprache stellst du nur noch unter Mehr › Sprache / Language um. Die Farbvorgabe für die untere Leiste ist wieder entfernt, sie hatte keine Wirkung','You now change the language only under More › Sprache / Language. The color setting for the bottom bar has been removed again, it had no effect')],'1.9.1':[TR('Die Wochenleiste auf „Heute“ zeigt jetzt die laufende Woche von Montag bis Sonntag. „Tage in Folge“ zählt wie bisher über die Wochengrenze','The week strip on “Today” now shows the current week from Monday to Sunday. “Days in a row” still counts across the week boundary')],'1.9':[TR('Jede Übung erklärt jetzt, wo du sie spürst und was du änderst, wenn du nichts spürst. In der ausführlichen Ansage wird das mitgesprochen','Every exercise now explains where you feel it and what to change if you feel nothing. The detailed announcement says it too'),TR('Gesäß-Dehnung (Figur 4) neu beschrieben: Das untere Bein wird zur Brust gezogen, erst das erzeugt die Dehnung','Glute stretch (figure 4) described anew: the bottom leg is pulled toward the chest, only that creates the stretch'),TR('Zu jeder Übung gibt es einen Knopf „Videos auf YouTube“, auf der Info-Seite und in der Übungsliste einer Routine','Every exercise has a “Videos on YouTube” button, on the info page and in the exercise list of a routine')],'1.8.1':[TR('Weben als Bildweberei: Kettfäden einfärben, nach dem Anschlagen zeigt jede Kreuzung nur noch einen Faden. 14, 20 oder 28 Kettfäden, gesteuert im Streifen unten','Weaving as picture weaving: color the warp threads, after beating each crossing shows only one thread. 14, 20 or 28 warp threads, controlled in the strip at the bottom'),TR('Ab und zu schaut eine Katze vorbei. Antippen macht sie froh. Ausschalten unter Mehr › Einstellungen','Now and then a cat drops by. Tapping makes it happy. Turn it off under More › Settings')],'1.8':[TR('Zwei neue Spiele: Minigolf mit acht Bahnen und Weben am Webstuhl','Two new games: mini golf with eight holes and weaving on a loom'),TR('Solitär: Karten und Teilstapel lassen sich jetzt ziehen, auch von der Ablage zurück','Solitaire: cards and partial stacks can now be dragged, also back from the foundation'),TR('Hüpfen: höher springen durch Halten, Pilze, Vögel, Schweben nach 10 Sternen und wechselnde Landschaften','Hopping: jump higher by holding, mushrooms, birds, floating after 10 stars and changing landscapes')],'1.7':[TR('Vier neue Spiele: Angeln, Hüpfen, Solitär und Würfel','Four new games: fishing, hopping, solitaire and dice'),TR('Klangbrett: volle Tonleiter, mehrere Seiten, „Alle auf Mitte“ und sieben Melodien zum Laden','Sound board: full scale, several pages, “All to middle” and seven melodies to load')],'1.6.2':[TR('„Musik wählen“ im Spiel zeigt jetzt die ganze Musikseite, der Rückweg „Zurück zum Spiel“ sitzt oben rechts','“Choose music” in a game now shows the whole music page, the way back “Back to the game” sits at the top right'),TR('Zen-Garten passt ohne Scrollen auf den Bildschirm, die Erklärung steckt hinter dem Fragezeichen','Zen garden fits on the screen without scrolling, the explanation is behind the question mark'),TR('Wolken: Größere Wolken lassen mehr Blumen wachsen, alte Blumen verblassen. Ab und zu kommt eine Katze vorbei, sammelt liegende Herzen ein und schnurrt','Clouds: bigger clouds make more flowers grow, old flowers fade. Now and then a cat comes by, collects hearts lying around and purrs')],'1.6.1':[TR('Spiele überarbeitet: Der Spielstand bleibt erhalten, dazu Pause, Neu starten und ein eigener Knopf „Musik wählen“','Games reworked: your progress is kept, plus Pause, Restart and a separate “Choose music” button'),TR('Klangbrett: Feld gedrückt halten und schieben stellt die Tonhöhe ein, bis zu 3 Schläge je Feld, eigener Ton per Mikrofon','Sound board: press and hold a field and slide to set the pitch, up to 3 hits per field, your own sound via microphone'),TR('Wolken: Herzen bleiben liegen, lassen sich stufenweise verbinden und bringen Blumen zum Blühen','Clouds: hearts stay on the ground, can be combined in steps and make flowers bloom'),TR('Turm: Figur steht jetzt im unteren Drittel, Wolken sind Podeste, alle 10 Sterne wechseln Farbe und Klang','Tower: the figure now stands in the lower third, clouds are platforms, color and sound change every 10 stars'),TR('Zen-Garten: Radierer, Welle, Moos, verschiebbare Steine, Führung für gerade Bahnen, Steuerkreuz, Bild speichern','Zen garden: eraser, wave, moss, movable stones, guide for straight tracks, d-pad, save picture'),TR('Atemballon: Steigen und Sinken passen jetzt zum Ring','Breath balloon: rising and sinking now match the ring')],'1.6':[TR('Sechs ruhige Spiele unter Wohlfühlen › Spiele: Klangbrett, Wolken, Turm, Zen-Garten, Atemballon und Paare finden. Die Farben folgen deiner Darstellung, Geräusche und Musik schaltest du oben im Spiel','Six calm games under Wellbeing › Games: sound board, clouds, tower, zen garden, breath balloon and find pairs. The colors follow your appearance setting; you switch sounds and music at the top of the game'),TR('Test: Unter Mehr › Einstellungen gibt es den Schalter „Bei Display aus weiterlaufen“ für die geführten Entspannungen','Test: under More › Settings there is the switch “Keep running with display off” for the guided relaxations')],'1.5':[TR('Englisch: Die ganze App gibt es jetzt auch auf Englisch, mit Übungen, Ansagen, Entspannung und Rezepten. Beim ersten Start richtet sie sich nach der Sprache des Handys. Umschalten unter Mehr › Sprache / Language','English: the whole app is now available in English too, with exercises, announcements, relaxation and recipes. On first start it follows the phone\'s language. Switch under More › Sprache / Language'),TR('Drei Radiosender ersetzt, weil die bisherigen nicht liefen: Slow House kommt jetzt von Maretimo House Radio, dazu neu egoFM Chillout und Hirschmilch Radio Chillout','Three radio stations replaced because the previous ones didn\'t play: Slow House now comes from Maretimo House Radio, plus egoFM Chillout and Hirschmilch Radio Chillout as new stations'),TR('Die App gibt Android jetzt eine dunkle Farbe für die untere Leiste vor. Das wirkt erst, wenn du die App entfernst und neu installierst, siehe Mehr › Darstellung','The app now gives Android a dark color for the bottom bar. This only takes effect when you remove the app and reinstall it, see More › Appearance'),TR('Der Startbildschirm fragt nicht mehr nach dem Vornamen. Eintragen kannst du ihn weiterhin unter Mehr › Einstellungen','The start screen no longer asks for your first name. You can still enter it under More › Settings')],'1.4':['Eigene Musik: Ordner oder einzelne Dateien vom Handy wählen und der Reihe nach oder zufällig abspielen. Geht auch als Hintergrundmusik für Routinen und Training','14 neue Radiosender, darunter ByteFM, drei Blues-Sender, Slow House, Reggae, Hip-Hop, Gregorianik, alte Musik, Barock und Meditation. Die Sender sind jetzt in Gruppen sortiert','Das Radio merkt sich die Adresse, die zuletzt lief, und verbindet dadurch schneller'],'1.3':['Darstellung unter „Mehr“: hell, dunkel oder wie das Handy, dazu fünf Farbwelten. Die Leiste oben nimmt die Farbe der App an','Eigene Routinen: Übungen filtern, auswählen und mit Zeit, Wiederholungen oder Sätzen samt Tagebuch zusammenstellen. Fertige Routinen lassen sich als Vorlage kopieren','Zwei neue Trainings nur mit Matte: Ausdauer-Zirkel (auf Wunsch ohne Springen) und Kraft ohne Geräte, mit Curl-up und Dead Bug statt Sit-ups','25 neue Übungen, darunter mehrere für den Schreibtisch. Alle Übungen haben jetzt Filter nach Art, Ort, Hilfsmittel und Körperbereich','Morgen, Abend, Couch und Büro wechseln täglich einzelne Übungen gegen gleichwertige. Abschaltbar','Gedanken-Shuffle mit über 1.100 Wörtern, die sich erst wiederholen, wenn alle dran waren','Anleitung für andere Stimmen in den Einstellungen und ein Knackschutz für die Ansagen'],'1.2.1':['Klänge besser hörbar: binaurale Beats auf 400 Hz angehoben, Klangflächen eine Oktave höher gelegt','Klänge und braunes Rauschen so laut eingestellt, wie Naturgeräusche klingen','Hinweis bei den Klängen: am besten mit Kopfhörern'],'1.2':['Neu unter „Mehr“: Wohlzeit teilen, per WhatsApp oder über das Teilen-Menü, oder den Link kopieren','Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1.1':['Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1':['Echte Naturgeräusche: Regen, Gewitter, Wellen, Bach, Wind, Kaminfeuer, Vögel, Grillen, Katzenschnurren, Café, Zug, Boot und Stadt','Sieben Rauschfarben mit Erklärung, wofür sie gedacht sind','Klänge (experimentell): binaurale Beats sowie 432- und 528-Hz-Klangflächen, mit Ampel zur Studienlage','Radio: Ambient Sleeping Pill und Radio Paradise Mellow Mix, SomaFM als Ersatz'],'1.0':['Neuer Name: Wohlzeit – Zeit für dich','Untere Leiste mit Heute, Training, Wohlfühlen, Musik und Mehr','„Heute“ schlägt passend zur Tageszeit etwas vor','Wohlfühlrezepte: Seelenfutter und Kraftfutter, mit Portionsrechner und Küchentimer','Klarere Buttons, Infos ohne Kapseln, eingerückte Unterpunkte','Daten sichern und wiederherstellen unter „Mehr“','Als App auf dem Startbildschirm installierbar']};
 let instPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();instPrompt=e;if(curView==='v-home')renderHome();else if(curView==='v-more')renderMore();});
 window.addEventListener('appinstalled',()=>{instPrompt=null;LS.set('rr.instHide',1);if(curView==='v-home')renderHome();});
@@ -6772,7 +7622,7 @@ function loop(now){
 requestAnimationFrame(loop);
 
 /* ================= Start ================= */
-if(window.__rrDebug)window.__gst=GST;window.__data=DATA;window.__day=DAY;window.__D={get LOC(){return LOC;},get MUS(){return MUS;},get Radio(){return Radio;},musicPlay,musicStop,renderMusic,get FAV(){return FAV;},LS,renderFavPage,get LIB(){return LIB;}};window.__lib=()=>LIB;window.__pods=PODS;window.__podp=PODP;window.__fav=()=>FAV;window.__pet=k=>{WCAT.force=k;if(WCAT.k)catEnd();clearTimeout(WCAT.tm);catStart();};window.__mus=MUS;window.__amb=AMB;window.__pers=PERS;window.__persScore=persScore;window.__holes=G_HOLES;window.__exx=EXX;window.__cat={start:catStart,W:WCAT};window.__rr={musOpts,LOC:()=>LOC,LOCP:()=>LOCP,RADIOS,RSTA,locApply,locFromFiles,locLoadHandle,musicPlay,musicStop,KA:()=>KA,EX,Fig,variantItems,customList,openEditor,openPicker,FLT:()=>FLT,tagsOf,ROUTINES,PL,stepsOf,goTo:j=>goTo(j),DATA,Voice,expandItems,DOC,AU,Music,AMB:()=>AMB,BR:()=>BR,TM,TMCFG,Radio,todo:()=>TODO,tmNow,tmBuild,musicFor,S,MUS,RECIPES,KT,openRecipe,openRecipes,show,fmtAmt,suggestion,backupObj};
+if(window.__rrDebug)window.__gst=GST;window.__data=DATA;window.__day=DAY;window.__spr=SPR;window.CBS=CBS;window.IGC=IGC;window.PINC=PINC;window.__D={get LOC(){return LOC;},get MUS(){return MUS;},get Radio(){return Radio;},musicPlay,musicStop,renderMusic,get FAV(){return FAV;},LS,renderFavPage,get LIB(){return LIB;}};window.__lib=()=>LIB;window.__pods=PODS;window.__podp=PODP;window.__fav=()=>FAV;window.__pet=k=>{WCAT.force=k;if(WCAT.k)catEnd();clearTimeout(WCAT.tm);catStart();};window.__mus=MUS;window.__amb=AMB;window.__pers=PERS;window.__persScore=persScore;window.__holes=G_HOLES;window.__exx=EXX;window.__cat={start:catStart,W:WCAT};window.__rr={musOpts,LOC:()=>LOC,LOCP:()=>LOCP,RADIOS,RSTA,locApply,locFromFiles,locLoadHandle,musicPlay,musicStop,KA:()=>KA,EX,Fig,variantItems,customList,openEditor,openPicker,FLT:()=>FLT,tagsOf,ROUTINES,PL,stepsOf,goTo:j=>goTo(j),DATA,Voice,expandItems,DOC,AU,Music,AMB:()=>AMB,BR:()=>BR,TM,TMCFG,Radio,todo:()=>TODO,tmNow,tmBuild,musicFor,S,MUS,RECIPES,KT,openRecipe,openRecipes,show,fmtAmt,suggestion,backupObj};
 show('v-home');
 startChecks();
 Voice.load();
