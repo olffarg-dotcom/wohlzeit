@@ -184,6 +184,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .kt.nx{background:linear-gradient(#F9E3A0,#F2C64E);border-color:#C99A1E;box-shadow:0 0 0 3px rgba(242,198,78,.45)}.kt.hit{animation:ktHit .25s ease-out}@keyframes ktHit{0%{transform:translateY(5px)}100%{transform:none}}
 .kal-menu{flex:1;min-height:0;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start;padding:8px 0}.kal-menu .kb{white-space:normal;text-align:left;min-height:46px}
 .favrow .mixx{flex:none}.mixrow .mfrow{flex:1;min-width:0}.favpage h2.sect{margin:20px 2px 8px}.favpage .rlist{gap:8px}.favrow .fo b{display:block}.podbar input[type=range]{width:100%}.chip{appearance:none;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:99px;padding:6px 12px;font:inherit;font-size:14px;font-weight:600}.chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}.chips{display:flex;flex-wrap:wrap;gap:6px}.mrow.pdep.on{border-color:var(--brand)}
+.cukeys{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:8px}.cukeys .btn{padding:8px 0;min-width:0}
 .igbar{display:flex;align-items:center;justify-content:space-between;gap:8px}.igc{font:700 17px ui-monospace,monospace;min-width:96px}.igc:last-child{text-align:right}.igsun{appearance:none;background:none;border:0;padding:0;width:52px;height:52px;cursor:pointer}.igsun canvas{width:52px;height:52px;display:block}.pbhud{margin:0 2px 8px}.pbrow{display:flex;justify-content:space-between;gap:8px;align-items:baseline}.pbrow b{font-size:20px}
 .ggrp{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:0 12px;margin-top:10px}.ggrp>summary{list-style:none;cursor:pointer;padding:14px 4px;display:grid;gap:3px}.ggrp>summary::-webkit-details-marker{display:none}.ggrp>summary span{font-size:19px;font-weight:700}.ggrp>summary span::after{content:'▾';float:right;color:var(--muted)}.ggrp[open]>summary span::after{content:'▴'}.ggrp>summary small{color:var(--muted);font-size:14px}.ggrp[open]{padding-bottom:12px}.ggrp .lcard{margin-top:8px}
 .favrow.on{border-color:var(--rc,var(--brand));box-shadow:inset 0 0 0 1.5px var(--rc,var(--brand))}
@@ -4571,13 +4572,20 @@ const POD_DEF=[
   {id:'ac',name:'Achtsam',by:'Deutschlandfunk Nova',term:'Achtsam Deutschlandfunk Nova'},
   {id:'ki',name:'Der KI-Podcast',by:'ARD',term:'Der KI-Podcast ARD'},
   {id:'rt',name:'ARD Radio Tatort',by:'ARD',term:'ARD Radio Tatort',note:TR('Der Sender stellt nur die letzten Folgen in die Liste, meist etwa sechs.','The broadcaster only lists the latest episodes, usually about six.')},
-  {id:'lf',name:'Lagerfeuer',by:'Lagerfeuer Kurzgeschichten Kollektiv',term:'Lagerfeuer Kurzgeschichten'},
-  {id:'ks',name:'Kurzspannung',by:'Sebastian Storbeck',term:'Kurzspannung'}];
+  {id:'po',name:'Das Portal',by:'ARD',term:'Das Portal Science-Fiction-Hörspiele'},
+  {id:'hs',name:'ARD Hörspiel-Speicher',by:'ARD',term:'ARD Hörspiel-Speicher'},
+  {id:'sk',name:'SWR Kultur Hörspiel',by:'SWR',term:'SWR Kultur Hörspiel'},
+  {id:'gg',name:'Geschichten aus der Geschichte',by:'Richard Hemmer, Daniel Meßner',feed:'https://geschichten-aus-der-geschichte.podigee.io/feed/mp3',term:'Geschichten aus der Geschichte'},
+  {id:'ep',name:'Escape Pod',by:'Escape Artists',feed:'https://escapepod.org/feed/podcast/',it:73329293,term:'Escape Pod',note:TR('Englischsprachig: Science-Fiction-Kurzgeschichten.','In English: science fiction short stories.')}];
 const PODS=Object.assign({list:null,prog:{},fe:{},speed:1,proxy:false},LS.get('rr.pods',{}));
 if(!Array.isArray(PODS.list))PODS.list=POD_DEF.map(p=>Object.assign({},p));
 if((PODS.dv||0)<2){PODS.dv=2;PODS.list=PODS.list.filter(p=>p.id!=='mk'&&p.id!=='lr');POD_DEF.forEach(d=>{if(!PODS.list.some(p=>p.id===d.id))PODS.list.push(Object.assign({},d));});
   try{const F=LS.get('rr.fav',[]);if(Array.isArray(F)){const G=F.filter(x=>x!=='p:mk'&&x!=='p:lr'&&!(x.startsWith('e:')&&PODS.fe[x.slice(2)]&&/^(mk|lr)$/.test(PODS.fe[x.slice(2)].pid)));if(G.length!==F.length)LS.set('rr.fav',G);}}catch(e){}
   try{for(let i=FAV.length-1;i>=0;i--)if(FAV[i]==='p:mk'||FAV[i]==='p:lr')FAV.splice(i,1);LS.set('rr.fav',FAV);}catch(e){}
+  LS.set('rr.pods',PODS);}
+if((PODS.dv||0)<3){PODS.dv=3;PODS.list=PODS.list.filter(p=>p.id!=='lf'&&p.id!=='ks');POD_DEF.forEach(d=>{if(!PODS.list.some(p=>p.id===d.id))PODS.list.push(Object.assign({},d));});
+  try{const F=LS.get('rr.fav',[]);if(Array.isArray(F)){const G=F.filter(x=>x!=='p:lf'&&x!=='p:ks'&&!(x.startsWith('e:')&&PODS.fe[x.slice(2)]&&/^(lf|ks)$/.test(PODS.fe[x.slice(2)].pid)));if(G.length!==F.length)LS.set('rr.fav',G);}}catch(e){}
+  try{for(let i=FAV.length-1;i>=0;i--)if(FAV[i]==='p:lf'||FAV[i]==='p:ks')FAV.splice(i,1);LS.set('rr.fav',FAV);}catch(e){}
   LS.set('rr.pods',PODS);}
 PODS.list.forEach(p=>{const d=POD_DEF.find(q=>q.id===p.id);if(d&&d.note)p.note=d.note;});
 ['prog','fe'].forEach(k=>{if(!PODS[k]||typeof PODS[k]!=='object')PODS[k]={};});
@@ -4770,9 +4778,9 @@ const GAMES=[
   ['tennis',TR('Tennis','Tennis'),TR('Wie früher am Bildschirm: Schläger führen, den Gegner mit schrägen Bällen ausspielen.','Like on the old screens: guide the paddle, outplay the opponent with angled shots.'),1],
   ['oracle',TR('Orakelkugel','Oracle ball'),TR('Eine Ja-Nein-Frage stellen, schütteln, Antwort lesen.','Ask a yes-or-no question, shake, read the answer.'),0],
   ['cube',TR('Zauberwürfel','Magic cube'),TR('Ein 3 × 3-Würfel in 3D: Reihen mit dem Finger drehen, mischen, zurücknehmen. Mit Anleitung in 7 Schritten und Hilfe für den nächsten Zug.','A 3 × 3 cube in 3D: turn rows with your finger, scramble, undo. With a 7-step guide and help for the next move.'),0],
-  ['park',TR('Ausparken','Parking lot'),TR('Autos und Laster hin und her schieben, bis das rote Auto aus der Parklücke kommt. 42 Stellungen in drei Stufen.','Slide cars and trucks back and forth until the red car gets out of the parking space. 42 positions in three levels.'),0],
+  ['park',TR('Ausparken','Parking lot'),TR('Autos und Laster hin und her schieben, bis das rote Auto aus der Parklücke kommt. 57 Stellungen in vier Stufen.','Slide cars and trucks back and forth until the red car gets out of the parking space. 57 positions in four levels.'),0],
   ['igel',TR('Igel-Suche','Hedgehog hunt'),TR('Unter Laubhaufen schlafen Igel. Zahlen verraten, wie viele nebenan liegen: alles aufdecken, ohne einen zu wecken. Drei Stufen, eigene Größe, auf Wunsch ganz ohne Raten.','Hedgehogs sleep under leaf piles. Numbers tell how many lie next door: uncover everything without waking one. Three levels, custom size, and optionally no guessing at all.'),0],
-  ['pin',TR('Flipper Sternenreise','Star journey pinball'),TR('Ein Flippertisch im Weltall mit Planeten, Wurmlöchern, Sternenrampe, Missionen und sieben Stufen. Mit entspanntem Modus.','A pinball table in space with planets, wormholes, a star ramp, missions and seven ranks. With a relaxed mode.'),1],
+  ['pin',TR('Flipper Sternenreise','Star journey pinball'),TR('Ein Weltraum-Flippertisch nach klassischem Vorbild: Bahnwechsel, Angriffs- und Startplaneten, Startrampe, Hyperraum-Kanal, Wurmlöcher, Medaillen, Energie, 15 Missionen und neun Stufen. Mit entspanntem Modus.','A space pinball table modelled on the classics: lane change, attack and launch planets, launch ramp, hyperspace chute, wormholes, medals, energy, 15 missions and nine ranks. With a relaxed mode.'),1],
   ['dice',TR('Würfel','Dice'),TR('Ein bis sechs Würfel, echter Zufall.','One to six dice, true randomness.'),0],
   ['pairs',TR('Paare finden','Find pairs'),TR('Sechzehn Karten, acht Paare. In Ruhe aufdecken und merken.','Sixteen cards, eight pairs. Turn them over calmly and remember.'),0]
 ];
@@ -4934,60 +4942,95 @@ const CUBE_COL=['#F7D23E','#D93B3B','#2FA35B','#F4F4F0','#F08A24','#2F6FD6'];
 const CUBE_CN=()=>[TR('gelbe','yellow'),TR('rote','red'),TR('grüne','green'),TR('weiße','white'),TR('orange','orange'),TR('blaue','blue')];
 const CUBE_STAGES=()=>[TR('Weißes Kreuz','White cross'),TR('Weiße Ecken','White corners'),TR('Mittlere Kanten','Middle edges'),TR('Gelbes Kreuz','Yellow cross'),TR('Gelbe Kanten','Yellow edges'),TR('Gelbe Ecken an ihren Platz','Yellow corners into place'),TR('Gelbe Ecken drehen','Twist yellow corners')];
 function cvMake(parent,H){const cv=document.createElement('canvas');cv.className='gcv';parent.appendChild(cv);const dpr=Math.min(2,window.devicePixelRatio||1);const W=cv.clientWidth||340;H=H||Math.min(W,420);cv.style.height=H+'px';cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);const x=cv.getContext('2d');x.scale(dpr,dpr);x.lineJoin='round';return {cv,x,W,H};}
+/* Drehmatrizen (Zeilenweise 3×3) */
+const CM={rot:(ax,a)=>{const c=Math.cos(a),s=Math.sin(a);return ax===0?[1,0,0,0,c,-s,0,s,c]:ax===1?[c,0,s,0,1,0,-s,0,c]:[c,-s,0,s,c,0,0,0,1];},
+  mul:(A,B)=>{const o=new Array(9);for(let i=0;i<3;i++)for(let j=0;j<3;j++)o[i*3+j]=A[i*3]*B[j]+A[i*3+1]*B[3+j]+A[i*3+2]*B[6+j];return o;},
+  ap:(M,p)=>[M[0]*p[0]+M[1]*p[1]+M[2]*p[2],M[3]*p[0]+M[4]*p[1]+M[5]*p[2],M[6]*p[0]+M[7]*p[1]+M[8]*p[2]],
+  ortho:M=>{const n=v=>{const l=Math.hypot(...v);return v.map(q=>q/l);};const a=n([M[0],M[1],M[2]]);let b=[M[3],M[4],M[5]];const d=a[0]*b[0]+a[1]*b[1]+a[2]*b[2];b=n(b.map((q,i)=>q-d*a[i]));const c=[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];return [...a,...b,...c];}};
+CM.def=()=>CM.mul(CM.rot(0,.52),CM.rot(1,-.62));
+/* Züge intern: Flächenzug 'R',"R'",'R2' (Modellseiten) oder Mittelscheibe 'm'+Achse+'+'|'-'|'2' */
+const CUBEMV={
+  isSlice:m=>m[0]==='m',
+  inv:m=>m[0]==='m'?(m[2]==='2'?m:'m'+m[1]+(m[2]==='+'?'-':'+')):(m[1]==='2'?m:m[1]==="'"?m[0]:m+"'"),
+  /* Mittelscheibe = beide Außenschichten entgegen + ganzer Würfel; liefert Flächenzüge und Drehung W */
+  slice:m=>{const ax=+m[1],tw=m[2]==='2'?2:1,s=m[2]==='-'?-1:1;const fs=Object.keys(CB.FACE).filter(f=>CB.FACE[f][0]===ax);
+    const out=[];fs.forEach(f=>{const cs=CB.FACE[f][2];out.push(tw===2?f+'2':(-s===cs?f:f+"'"));});return {ax,s,tw,outer:out,W:CM.rot(ax,s*tw*Math.PI/2)};},
+  apply:(st,m)=>{if(m[0]==='m'){const q=CUBEMV.slice(m);let c=Int8Array.from(st.c);q.outer.forEach(o=>{c=CB.mv(c,o);});st.c=Array.from(c);st.vm=CM.ortho(CM.mul(st.vm,q.W));}else st.c=Array.from(CB.mv(Int8Array.from(st.c),m));},
+  /* Sichtbezogener Buchstabe -> Modellseite */
+  viewFace:(vm,L)=>{const dir={R:[1,0,0],L:[-1,0,0],U:[0,1,0],D:[0,-1,0],F:[0,0,1],B:[0,0,-1]}[L];let best='U',bv=-9;'URFDLB'.split('').forEach((f,i)=>{const n=CM.ap(vm,CB.N[i]);const d=n[0]*dir[0]+n[1]*dir[1]+n[2]*dir[2];if(d>bv){bv=d;best=f;}});return best;},
+  faceView:(vm,f)=>{const n=CM.ap(vm,CB.N['URFDLB'.indexOf(f)]);const a=n.map(Math.abs),i=a.indexOf(Math.max(...a));return i===0?(n[0]>0?'R':'L'):i===1?(n[1]>0?'U':'D'):(n[2]>0?'F':'B');},
+  /* Sichtbezogenes Token (z. B. "R'", "M", "E2") -> interner Zug, aufgelöst zur aktuellen Ansicht */
+  resolve:(vm,tok)=>{const L=tok[0],suf=tok.slice(1);if('MES'.includes(L)){const ref={M:'L',E:'D',S:'F'}[L];const f=CUBEMV.viewFace(vm,ref);const ax=CB.FACE[f][0],cs=CB.FACE[f][2];const s=suf==="'"?-cs:cs;return 'm'+ax+(suf==='2'?'2':(s>0?'+':'-'));}
+    return CUBEMV.viewFace(vm,L)+suf;},
+  parse:str=>{const t=str.replace(/[’´`]/g,"'").toUpperCase().match(/[URFDLBMES](2|'|)?/g);return t||[];}
+};
 function cubeView(cv,x,W,H,st){
-  const V={st,anim:null,q:[],hl:-1,hlT:0,polys:[],done:null};
+  if(!Array.isArray(st.vm)||st.vm.length!==9)st.vm=CM.def();
+  const V={st,anim:null,q:[],hl:-1,hlT:0,polys:[],plates:[],free:null};
   const add=(a,b,k)=>[a[0]+b[0]*k,a[1]+b[1]*k,a[2]+b[2]*k];
   const STK=CB.ST.map((s,a)=>({a,c:s.c.map(Math.round),n:s.n}));
   const CUBS=[];for(let i=-1;i<=1;i++)for(let j=-1;j<=1;j++)for(let k=-1;k<=1;k++){if(!i&&!j&&!k)continue;CUBS.push({c:[i,j,k],s:STK.filter(t=>t.c[0]===i&&t.c[1]===j&&t.c[2]===k)});}
   const DIRS=[[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]];
   const tang=d=>{const ax=d.findIndex(v=>v!==0);const o=[0,1,2].filter(i=>i!==ax);return o.map(i=>{const e=[0,0,0];e[i]=1;return e;});};
-  const rotA=(p,ax,a)=>{const c=Math.cos(a),s=Math.sin(a),[X,Y,Z]=p;if(ax===0)return [X,Y*c-Z*s,Y*s+Z*c];if(ax===1)return [X*c+Z*s,Y,-X*s+Z*c];return [X*c-Y*s,X*s+Y*c,Z];};
-  const view=p=>rotA(rotA(p,1,V.st.yaw),0,V.st.pitch);
-  const S0=Math.min(W,H)/5.6,D=10;
+  const rotA=(p,ax,a)=>CM.ap(CM.rot(ax,a),p);
+  const view=p=>CM.ap(V.st.vm,p);
+  const S0=Math.min(W,H)/5.9,D=10;
   const proj=p=>{const f=D/(D-p[2]);return [W/2+p[0]*S0*f,H/2-p[1]*S0*f];};
-  const parseM=m=>{const f=CB.FACE[m[0]],h=m[1]==='2';return {ax:f[0],l:f[1],s:f[2]*(m[1]==="'"?-1:1),ang:h?Math.PI:Math.PI/2,m};};
+  V.R0=S0*2.75;
+  const parseM=m=>{if(m[0]==='m'){const q=CUBEMV.slice(m);return {ax:q.ax,l:0,s:q.s,ang:q.tw*Math.PI/2,m};}const f=CB.FACE[m[0]],h=m[1]==='2';return {ax:f[0],l:f[1],s:f[2]*(m[1]==="'"?-1:1),ang:h?Math.PI:Math.PI/2,m};};
   V.push=(m,cb)=>{V.q.push({m,cb});};
   V.busy=()=>!!V.anim||V.q.length>0;
   V.tick=dt=>{if(V.hlT>0){V.hlT-=dt;if(V.hlT<=0)V.hl=-1;}
-    if(!V.anim&&V.q.length&&V.hlT<=0){const it=V.q.shift();V.anim=Object.assign(parseM(it.m),{t:0,cb:it.cb,dur:it.m[1]==='2'?.34:.22});}
-    if(V.anim){V.anim.t+=dt/V.anim.dur;if(V.anim.t>=1){const A=V.anim;V.anim=null;V.st.c=Array.from(CB.mv(Int8Array.from(V.st.c),A.m));if(A.cb)A.cb(A.m);}}
+    if(!V.anim&&V.q.length&&V.hlT<=0){const it=V.q.shift();const m=typeof it.m==='function'?it.m():it.m;if(m){V.anim=Object.assign(parseM(m),{t:0,cb:it.cb,dur:(m[1]==='2'||m[2]==='2')?.34:.22});}}
+    if(V.anim){V.anim.t+=dt/V.anim.dur;if(V.anim.t>=1){const A=V.anim;V.anim=null;CUBEMV.apply(V.st,A.m);if(A.cb)A.cb(A.m);}}
     draw();};
-  function draw(){const C=gCol();x.clearRect(0,0,W,H);V.polys=[];
+  function draw(){const C=gCol();x.clearRect(0,0,W,H);V.polys=[];V.plates=[];
+    /* freie Fläche markieren */
+    x.save();x.setLineDash([6,8]);x.lineWidth=1.5;x.strokeStyle=C.dark?'rgba(255,255,255,.22)':'rgba(0,0,0,.18)';x.beginPath();x.arc(W/2,H/2,V.R0,0,7);x.stroke();x.setLineDash([]);
+    x.fillStyle=C.dark?'rgba(255,255,255,.35)':'rgba(0,0,0,.3)';x.font='600 22px system-ui';x.textAlign='center';x.textBaseline='middle';[[22,22],[W-22,22],[22,H-22],[W-22,H-22]].forEach(p=>x.fillText('⟳',p[0],p[1]));x.restore();
     const A=V.anim,ang=A?A.s*A.ang*(1-Math.pow(1-Math.min(1,A.t),2)):0;
     const inL=cb=>A&&cb.c[A.ax]===A.l;
     const R=(cb,p)=>inL(cb)?rotA(p,A.ax,ang):p;
-    const item=cb=>{const ctr=view(R(cb,cb.c));return {cb,z:ctr[2]};};
-    let groups=[CUBS];
-    if(A){const mov=CUBS.filter(inL),sta=CUBS.filter(cb=>!inL(cb));const ax=[0,0,0];ax[A.ax]=A.l;const zm=view(ax)[2],zs=view(ax.map(v=>-v*.5))[2];groups=zm<zs?[mov,sta]:[sta,mov];}
-    groups.forEach(G=>{G.map(item).sort((p,q)=>p.z-q.z).forEach(({cb})=>{
+    const ax=A?A.ax:0;
+    const slabs=[-1,0,1].map(l=>{const e=[0,0,0];e[ax]=l;return {l,z:view(e)[2],cubs:CUBS.filter(cb=>cb.c[ax]===l)};});
+    const order=A?slabs.sort((p,q)=>p.z-q.z).map(s=>s.cubs):[CUBS];
+    order.forEach(G=>{G.map(cb=>({cb,z:view(R(cb,cb.c))[2]})).sort((p,q)=>p.z-q.z).forEach(({cb})=>{
       DIRS.forEach(d=>{const nd=view(R(cb,d));if(nd[2]<=0.02)return;const [t1,t2]=tang(d);const ctr=add(cb.c,d,.5);
         const quad=k=>[[-k,-k],[k,-k],[k,k],[-k,k]].map(([a,b])=>proj(view(R(cb,add(add(ctr,t1,a),t2,b)))));
         const q1=quad(.5);x.beginPath();q1.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.closePath();x.fillStyle=C.dark?'#151a20':'#1d232a';x.fill();x.lineWidth=1;x.strokeStyle='#0d1014';x.stroke();
+        if(!A)V.plates.push(q1);
         const sk=cb.s.find(t=>t.n[0]===d[0]&&t.n[1]===d[1]&&t.n[2]===d[2]);if(!sk)return;
         const q2=quad(.42);x.beginPath();q2.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.closePath();
-        const lit=.78+.22*nd[2];x.fillStyle=CUBE_COL[V.st.c[sk.a]];x.globalAlpha=1;x.fill();
+        const lit=.78+.22*nd[2];x.fillStyle=CUBE_COL[V.st.c[sk.a]];x.fill();
         x.fillStyle='rgba(0,0,0,'+(1-lit).toFixed(3)+')';x.fill();
         if(V.hl>=0&&CB.ST[sk.a].f===V.hl&&Math.sin(V.hlT*14)>-0.3){x.lineWidth=3.5;x.strokeStyle=C.dark?'#fff':'#111';x.stroke();}
         if(!A)V.polys.push({a:sk.a,q:q2});});});});
   }
   const inside=(p,q)=>{let s=0;for(let i=0;i<4;i++){const a=q[i],b=q[(i+1)%4];const cr=(b[0]-a[0])*(p.y-a[1])-(b[1]-a[1])*(p.x-a[0]);if(cr!==0){if(s&&Math.sign(cr)!==s)return false;s=Math.sign(cr);}}return true;};
-  V.hit=p=>{for(let i=V.polys.length-1;i>=0;i--)if(inside(p,V.polys[i].q))return V.polys[i].a;return -1;};
-  /* Wischrichtung auf einem Aufkleber in einen Zug übersetzen */
+  V.hit=p=>{for(let i=V.polys.length-1;i>=0;i--)if(inside(p,V.polys[i].q))return V.polys[i].a;for(const q of V.plates)if(inside(p,q))return -2;return -1;};
+  /* Wischrichtung auf einem Aufkleber -> Zug (auch Mittelscheiben) */
   V.dragMove=(a,dx,dy)=>{const s=CB.ST[a],p=s.p,n=s.n,c=s.c.map(Math.round);const p0=proj(view(p));let best=null;
     tang(n).forEach(t=>{const p1=proj(view(add(p,t,.6)));const sx=p1[0]-p0[0],sy=p1[1]-p0[1],L=Math.hypot(sx,sy)||1;const d=(dx*sx+dy*sy)/L;if(!best||Math.abs(d)>Math.abs(best.d))best={t,d};});
     const m=best.t.map(v=>v*Math.sign(best.d));const k=[0,1,2].find(i=>n[i]===0&&best.t[i]===0);const e=[0,0,0];e[k]=1;
     const vel=[e[1]*p[2]-e[2]*p[1],e[2]*p[0]-e[0]*p[2],e[0]*p[1]-e[1]*p[0]];const sg=Math.sign(vel[0]*m[0]+vel[1]*m[1]+vel[2]*m[2])||1;const l=c[k];
-    if(l===0)return null;const L=Object.keys(CB.FACE).find(f=>CB.FACE[f][0]===k&&CB.FACE[f][1]===l);return sg===CB.FACE[L][2]?L:L+"'";};
+    if(l===0)return 'm'+k+(sg>0?'+':'-');const L=Object.keys(CB.FACE).find(f=>CB.FACE[f][0]===k&&CB.FACE[f][1]===l);return sg===CB.FACE[L][2]?L:L+"'";};
+  V.turnView=(dx,dy)=>{V.st.vm=CM.ortho(CM.mul(CM.rot(0,dy*.011),CM.mul(CM.rot(1,dx*.011),V.st.vm)));};
   draw();return V;
 }
 const cubeSolved=c=>c.every((v,i)=>v===CB.ST[i].f);
-function cubeMoveText(m){const fi='URFDLB'.indexOf(m[0]);const side=CUBE_CN()[fi];
-  return m[1]==='2'?TR('die '+side+' Seite halb herum (180°)','the '+side+' side half a turn (180°)'):m[1]==="'"?TR('die '+side+' Seite gegen den Uhrzeigersinn','the '+side+' side counterclockwise'):TR('die '+side+' Seite im Uhrzeigersinn','the '+side+' side clockwise');}
+function cubeMoveText(m,vm){const fi='URFDLB'.indexOf(m[0]);const side=CUBE_CN()[fi];const vl=vm?CUBEMV.faceView(vm,m[0]):m[0];const pos={U:TR('oben','top'),D:TR('unten','bottom'),R:TR('rechts','right'),L:TR('links','left'),F:TR('vorne','front'),B:TR('hinten','back')}[vl];
+  const t=m[1]==='2'?TR('die '+side+' Seite ('+pos+') halb herum (180°)','the '+side+' side ('+pos+') half a turn (180°)'):m[1]==="'"?TR('die '+side+' Seite ('+pos+') gegen den Uhrzeigersinn','the '+side+' side ('+pos+') counterclockwise'):TR('die '+side+' Seite ('+pos+') im Uhrzeigersinn','the '+side+' side ('+pos+') clockwise');
+  return {t,tok:vl+(m.slice(1))};}
 function gameCube(host){
   let st=GST.cube||LS.get('rr.gcube',null);
-  if(!st||!Array.isArray(st.c)||st.c.length!==54)st={c:Array.from(CB.solved()),hist:[],moves:0,yaw:-.62,pitch:.52,scr:false,best:0};
+  if(!st||!Array.isArray(st.c)||st.c.length!==54)st={c:Array.from(CB.solved()),hist:[],moves:0,scr:false,best:0};
+  if(!Array.isArray(st.vm)||st.vm.length!==9)st.vm=(typeof st.yaw==='number')?CM.mul(CM.rot(0,st.pitch),CM.rot(1,st.yaw)):CM.def();
   GST.cube=st;const save=()=>LS.set('rr.gcube',st);
+  const KB=['U',"U'",'D',"D'",'R',"R'",'L',"L'",'F',"F'",'B',"B'",'M',"M'",'E',"E'",'S',"S'"];
   host.innerHTML='<div class="gsets" style="margin:0 0 10px"><button class="btn" id="cu-mix">'+TR('Mischen','Scramble')+'</button><button class="btn" id="cu-undo">'+TR('Zurück','Undo')+'</button><button class="btn" id="cu-hint">'+TR('Nächster Schritt','Next step')+'</button></div><div id="cu-cv"></div><div id="cu-msg" class="small" style="margin-top:10px;min-height:20px"></div><div id="cu-hp"></div>'+
+    '<details class="ggrp" id="cu-keys" style="margin-top:12px"><summary><span>'+TR('Züge per Knopf','Moves by button')+'</span><small>'+TR('U D R L F B M E S, auch ganze Folgen','U D R L F B M E S, also whole sequences')+'</small></summary><div class="cukeys">'+KB.map(k=>'<button class="btn" data-ck="'+k+'">'+k.replace("'",'’')+'</button>').join('')+'</div>'+
+    '<div class="gsets" style="margin-top:8px;flex-wrap:wrap"><input type="text" id="cu-seq" placeholder="R U R’ U’" autocomplete="off" autocapitalize="characters" spellcheck="false" style="flex:1;min-width:140px"><button class="btn" id="cu-play">'+TR('Abspielen','Play')+'</button><button class="btn" id="cu-reset">'+TR('Ansicht zurücksetzen','Reset view')+'</button></div>'+
+    '<p class="small muted" style="margin:8px 2px">'+TR('Die Buchstaben gelten für die Seite, die gerade oben, rechts, vorne usw. liegt. M dreht die mittlere senkrechte Scheibe wie L, E die waagerechte wie D, S die vordere Mittelscheibe wie F. „Ansicht zurücksetzen“ stellt Grün nach vorne und Gelb nach oben, so wie in der Anleitung.','Letters refer to the side that is currently on top, right, front and so on. M turns the middle vertical slice like L, E the horizontal one like D, S the front middle slice like F. “Reset view” puts green in front and yellow on top, as in the guide.')+'</p></details>'+
     '<details class="ggrp" id="cu-guide" style="margin-top:12px"><summary><span>'+TR('So löst du ihn','How to solve it')+'</span><small>'+TR('Anfängermethode in 7 Schritten','Beginner method in 7 steps')+'</small></summary><div id="cu-gb"></div></details>';
   const {cv,x,W,H}=cvMake(host.querySelector('#cu-cv'));const V=cubeView(cv,x,W,H,st);
   const msg=t=>{host.querySelector('#cu-msg').textContent=t||'';};
@@ -4996,32 +5039,36 @@ function gameCube(host){
     if(st.scr&&cubeSolved(st.c)){st.scr=false;if(!st.best||st.moves<st.best)st.best=st.moves;save();score();msg(TR('Gelöst in ','Solved in ')+st.moves+TR(' Zügen.',' moves.'));[0,2,4,7].forEach((k,j)=>setTimeout(()=>gSfx(G_PENTA[3+k%5]*(k>4?2:1),.5,.06),j*150));}
     if(hintOpen)showHint();};
   const doMove=m=>{if(V.busy())return;V.push(m,mm=>after(mm));};
-  host.querySelector('#cu-mix').addEventListener('click',()=>{if(V.busy())return;const F='URFDLB';let c=Int8Array.from(CB.solved()),last=-1,prevAx=-1;
-    for(let i=0;i<25;i++){let f;do f=gRnd(6);while(f===last||(f%3===prevAx&&f===(last+3)%6));const m=F[f]+['',"'",'2'][gRnd(3)];c=CB.mv(c,m);prevAx=f%3;last=f;}
+  const queueTok=tok=>{V.push(()=>CUBEMV.resolve(st.vm,tok),mm=>after(mm));};
+  host.querySelector('#cu-mix').addEventListener('click',()=>{if(V.busy())return;const F='URFDLB';let c=Int8Array.from(CB.solved()),last=-1;
+    for(let i=0;i<25;i++){let f;do f=gRnd(6);while(f===last||f===(last+3)%6);const m=F[f]+['',"'",'2'][gRnd(3)];c=CB.mv(c,m);last=f;}
     st.c=Array.from(c);st.hist=[];st.moves=0;st.scr=true;save();score();msg(TR('Gemischt. Viel Ruhe beim Lösen.','Scrambled. Take your time.'));gSfx(220,.2,.05,'triangle',1.6);if(hintOpen)showHint();});
-  host.querySelector('#cu-undo').addEventListener('click',()=>{if(V.busy()||!st.hist.length)return;const m=st.hist.pop();V.push(CB.inv([m])[0],()=>after(m,true));});
+  host.querySelector('#cu-undo').addEventListener('click',()=>{if(V.busy()||!st.hist.length)return;const m=st.hist.pop();V.push(CUBEMV.inv(m),()=>after(m,true));});
+  host.querySelectorAll('[data-ck]').forEach(b=>b.addEventListener('click',()=>{if(V.q.length>2)return;queueTok(b.dataset.ck);}));
+  host.querySelector('#cu-play').addEventListener('click',()=>{const t=CUBEMV.parse(host.querySelector('#cu-seq').value);if(!t.length){msg(TR('Keine gültigen Züge erkannt. Beispiel: R U R’ U’','No valid moves found. Example: R U R’ U’'));return;}t.forEach(queueTok);});
+  host.querySelector('#cu-reset').addEventListener('click',()=>{if(V.busy())return;st.vm=CM.def();save();});
   let hintOpen=false;const hp=host.querySelector('#cu-hp');
   let plan=null;
   function showHint(){if(cubeSolved(st.c)){plan=null;hp.innerHTML='<div class="card" style="--rc:var(--ruhe)"><p>'+TR('Der Würfel ist gelöst. Mit „Mischen“ geht es von vorn los.','The cube is solved. “Scramble” starts again.')+'</p></div>';return;}
     const key=st.c.join('');
     if(!plan||plan.key!==key){let steps;try{steps=CBS.solve(Int8Array.from(st.c));}catch(e){hp.innerHTML='';return;}plan={key,seq:steps.flatMap(q=>q.seq.map(m=>({m,st:q.st})))};}
     if(!plan.seq.length){hp.innerHTML='';return;}
-    const cur=plan.seq[0].st,rest=plan.seq.filter(q=>q.st===cur).map(q=>q.m),nx=rest.slice(0,8);
+    const cur=plan.seq[0].st,rest=plan.seq.filter(q=>q.st===cur).map(q=>q.m),nx=rest.slice(0,8);const d0=cubeMoveText(nx[0],st.vm);
     hp.innerHTML='<div class="card" style="--rc:var(--ruhe)"><p class="small muted" style="margin:0">'+TR('Schritt ','Step ')+(cur+1)+TR(' von 7',' of 7')+'</p><h2 style="margin:4px 0">'+CUBE_STAGES()[cur]+'</h2>'+
-      '<p style="margin:6px 0">'+TR('Als Nächstes: ','Next: ')+'<b>'+cubeMoveText(nx[0])+'</b> ('+nx[0].replace("'",'’')+').</p><p class="small muted" style="margin:0 0 8px">'+TR('Danach: ','After that: ')+(nx.slice(1).join(' ').replace(/'/g,'’')||'–')+(rest.length>8?' …':'')+' · '+TR('noch ','')+rest.length+TR(' Züge in diesem Schritt. Drehst du selbst anders weiter, rechnet die Hilfe neu.',' moves left in this step. If you turn differently yourself, the helper recalculates.')+'</p>'+
+      '<p style="margin:6px 0">'+TR('Als Nächstes: ','Next: ')+'<b>'+d0.t+'</b> ('+d0.tok.replace("'",'’')+').</p><p class="small muted" style="margin:0 0 8px">'+TR('Danach: ','After that: ')+(nx.slice(1).map(m=>cubeMoveText(m,st.vm).tok).join(' ').replace(/'/g,'’')||'–')+(rest.length>8?' …':'')+' · '+TR('noch ','')+rest.length+TR(' Züge in diesem Schritt. Drehst du selbst anders weiter, rechnet die Hilfe neu. Die Buchstaben beziehen sich auf die jetzige Ansicht.',' moves left in this step. If you turn differently yourself, the helper recalculates. The letters refer to the current view.')+'</p>'+
       '<button class="btn primary block" id="cu-do" style="--rc:var(--ruhe)">'+TR('Diesen Zug zeigen','Show this move')+'</button></div>';
     hp.querySelector('#cu-do').addEventListener('click',()=>{if(V.busy())return;const m=nx[0];V.hl='URFDLB'.indexOf(m[0]);V.hlT=1.1;V.push(m,mm=>{if(plan&&plan.seq.length&&plan.seq[0].m===mm){plan.seq.shift();plan.key=st.c.join('');}after(mm);});});}
   host.querySelector('#cu-hint').addEventListener('click',()=>{hintOpen=!hintOpen;host.querySelector('#cu-hint').setAttribute('aria-pressed',String(hintOpen));if(hintOpen)showHint();else hp.innerHTML='';});
-  /* Bedienung */
+  /* Bedienung: auf dem Würfel nur Scheiben drehen, Ansicht nur auf freier Fläche */
   let drag=null;
-  cv.addEventListener('pointerdown',e=>{gCap(cv,e);const p=gPos(cv,e);drag={p,a:V.busy()?-1:V.hit(p),used:false,last:p};});
+  cv.addEventListener('pointerdown',e=>{gCap(cv,e);const p=gPos(cv,e);const h=V.busy()?-2:V.hit(p);drag={p,a:h,used:false,last:p,view:h===-1&&!V.anim};});
   cv.addEventListener('pointermove',e=>{if(!drag)return;const p=gPos(cv,e),dx=p.x-drag.p.x,dy=p.y-drag.p.y;
-    if(drag.a>=0){if(!drag.used&&Math.hypot(dx,dy)>14){drag.used=true;const m=V.dragMove(drag.a,dx,dy);if(m)doMove(m);else drag.a=-1;}if(drag.a>=0)return;}
-    st.yaw+=(p.x-drag.last.x)*.011;st.pitch=Math.max(-1.35,Math.min(1.35,st.pitch+(p.y-drag.last.y)*.011));drag.last=p;});
-  const up=()=>{if(drag&&drag.a<0)save();drag=null;};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+    if(drag.a>=0){if(!drag.used&&Math.hypot(dx,dy)>14){drag.used=true;const m=V.dragMove(drag.a,dx,dy);if(m)doMove(m);}return;}
+    if(drag.view){V.turnView(p.x-drag.last.x,p.y-drag.last.y);drag.last=p;}});
+  const up=()=>{if(drag&&drag.view)save();drag=null;};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
   /* Anleitung */
   const G=[
-    [TR('Schreibweise','Notation'),TR('Jede Seite hat einen Buchstaben: U oben, D unten, R rechts, L links, F vorne, B hinten. Der Buchstabe allein heißt: diese Seite eine Vierteldrehung im Uhrzeigersinn, so wie du sie siehst, wenn du direkt auf sie schaust. Ein Strich (R’) heißt gegen den Uhrzeigersinn, eine 2 (R2) eine halbe Drehung. Die Mitten bewegen sich nie, sie bestimmen die Farbe ihrer Seite. Halte den Würfel bei allen Schritten mit Gelb oben und Weiß unten.','Every side has a letter: U up, D down, R right, L left, F front, B back. The letter alone means: turn that side a quarter turn clockwise, as you see it when you look straight at it. A prime (R’) means counterclockwise, a 2 (R2) a half turn. The centres never move; they set the colour of their side. Hold the cube with yellow on top and white at the bottom for all steps.'),"R U R' U'"],
+    [TR('Schreibweise','Notation'),TR('Jede Seite hat einen Buchstaben: U oben, D unten, R rechts, L links, F vorne, B hinten. Der Buchstabe allein heißt: diese Seite eine Vierteldrehung im Uhrzeigersinn, so wie du sie siehst, wenn du direkt auf sie schaust. Ein Strich (R’) heißt gegen den Uhrzeigersinn, eine 2 (R2) eine halbe Drehung. Bei diesen Außendrehungen bewegen sich die Mitten nie, sie bestimmen die Farbe ihrer Seite. Halte den Würfel bei allen Schritten mit Gelb oben und Weiß unten.','Every side has a letter: U up, D down, R right, L left, F front, B back. The letter alone means: turn that side a quarter turn clockwise, as you see it when you look straight at it. A prime (R’) means counterclockwise, a 2 (R2) a half turn. With these outer turns the centres never move; they set the colour of their side. Hold the cube with yellow on top and white at the bottom for all steps.'),"R U R' U'"],
     [CUBE_STAGES()[0],TR('Bring die vier weißen Kanten nach unten, sodass ihre zweite Farbe zur Mitte der Seite passt. Einfacher Weg: Sammle die weißen Kanten zuerst oben rund um die gelbe Mitte (ein „Gänseblümchen“). Dreh dann oben, bis die zweite Farbe einer Kante über ihrer passenden Mitte steht, und dreh diese Seite zweimal (F2): Die Kante landet unten richtig. Dieser Schritt geht ohne feste Zugfolge, mit etwas Ausprobieren.','Bring the four white edges down so that their second colour matches the centre of that side. Easy way: first gather the white edges on top around the yellow centre (a “daisy”). Then turn the top until an edge’s second colour sits above its matching centre and turn that side twice (F2): the edge lands correctly at the bottom. This step has no fixed sequence; a bit of trying is enough.'),"U F2"],
     [CUBE_STAGES()[1],TR('Such oben eine Ecke mit Weiß. Dreh oben, bis sie über ihrem Platz vorne rechts unten steht (ihre zwei anderen Farben passen zu den Mitten vorne und rechts). Dann wiederhole R U R’ U’, bis die Ecke weiß unten richtig sitzt, höchstens sechsmal. Steckt eine Ecke falsch unten, holst du sie mit einmal R U R’ U’ nach oben.','Find a corner with white on top. Turn the top until it is above its place at front right bottom (its two other colours match the front and right centres). Then repeat R U R’ U’ until the corner sits correctly with white at the bottom, at most six times. If a corner is stuck wrongly at the bottom, bring it up with one R U R’ U’.'),"U R U' R'"],
     [CUBE_STAGES()[2],TR('Such oben eine Kante ohne Gelb. Dreh oben, bis ihre vordere Farbe zur vorderen Mitte passt. Muss sie nach rechts: U R U’ R’ U’ F’ U F. Muss sie nach links: U’ L’ U L U F U’ F’. Sitzt eine Kante verdreht in der Mitte, setzt du irgendeine gelbe Kante dorthin, dann kommt sie oben wieder heraus.','Find an edge on top without yellow. Turn the top until its front colour matches the front centre. If it has to go right: U R U’ R’ U’ F’ U F. If it has to go left: U’ L’ U L U F U’ F’. If an edge sits flipped in the middle, insert any yellow edge there; it then comes back out on top.'),"U R U' R' U' F' U F"],
@@ -5035,25 +5082,25 @@ function gameCube(host){
     '<p class="small muted" style="margin:10px 2px">'+TR('Wer schneller werden möchte: Die Fridrich-Methode (CFOP) löst das Kreuz und die ersten zwei Ebenen zusammen und nutzt viele feste Zugfolgen für die letzte Ebene. Die Roux-Methode baut zwei Blöcke links und rechts und kommt mit weniger Zügen aus. Die Anleitung oben ist eigene Beschreibung der verbreiteten Anfängermethode; das Programm zum „Nächsten Schritt“ folgt denselben 7 Schritten.','If you want to get faster: the Fridrich method (CFOP) solves the cross and the first two layers together and uses many fixed sequences for the last layer. The Roux method builds two blocks left and right and needs fewer moves. The guide above is our own description of the widespread beginner method; the “Next step” helper follows the same 7 steps.')+'</p>';
   let D=null;
   gb.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',()=>{const g=G[+b.dataset.demo];
-    if(!D){const h=gb.querySelector('#cu-dcv');const m=cvMake(h,Math.min(260,Math.round(W*.7)));D=cubeView(m.cv,m.x,m.W,m.H,{c:Array.from(CB.solved()),yaw:-.62,pitch:.52});}
+    if(!D){const h=gb.querySelector('#cu-dcv');const m=cvMake(h,Math.min(260,Math.round(W*.7)));D=cubeView(m.cv,m.x,m.W,m.H,{c:Array.from(CB.solved()),vm:CM.def()});}
     D.q=[];D.anim=null;const alg=CB.parse(g[2]);D.st.c=Array.from(CB.run(CB.solved(),CB.inv(alg)));gb.querySelector('#cu-dl').textContent=g[0]+': '+g[2].replace(/'/g,'’');
     gb.querySelector('#cu-dcv').scrollIntoView({block:'nearest',behavior:'smooth'});setTimeout(()=>alg.forEach(m=>D.push(m)),600);}));
-  score();if(st.scr&&!cubeSolved(st.c))msg(TR('Wisch über eine Außenreihe, um sie zu drehen. Auf freier Fläche oder über die Mitte wischen dreht die Ansicht.','Swipe across an outer row to turn it. Swiping on empty space or across the middle turns the view.'));
-  else msg(TR('Wisch über eine Außenreihe, um sie zu drehen. Auf freier Fläche oder über die Mitte wischen dreht die Ansicht. „Mischen“ startet ein Rätsel.','Swipe across an outer row to turn it. Swiping on empty space or across the middle turns the view. “Scramble” starts a puzzle.'));
+  score();if(st.scr&&!cubeSolved(st.c))msg(TR('Wisch über eine Reihe des Würfels, um genau diese Scheibe zu drehen, auch die mittlere. Die Ansicht drehst du nur auf der freien Fläche außerhalb des gestrichelten Kreises.','Swipe across a row of the cube to turn exactly that slice, including the middle one. You turn the view only on the free area outside the dashed circle.'));
+  else msg(TR('Wisch über eine Reihe des Würfels, um genau diese Scheibe zu drehen, auch die mittlere. Die Ansicht drehst du nur auf der freien Fläche außerhalb des gestrichelten Kreises. „Mischen“ startet ein Rätsel.','Swipe across a row of the cube to turn exactly that slice, including the middle one. You turn the view only on the free area outside the dashed circle. “Scramble” starts a puzzle.'));
   gLoop(cv,dt=>{V.tick(dt);if(D)D.tick(dt);});
   if(window.__rrDebug)window.__cube={st,V,get D(){return D;},doMove,showHint};
 }
 /* ---------- Ausparken ---------- */
 /* Stellungen vorab erzeugt und mit Breitensuche geprüft: [Kodierung, kürzeste Zuganzahl bis das rote Auto frei ist].
    Kodierung je Fahrzeug 4 Zeichen: h/v, Zeile, Spalte, Länge. Fahrzeug 0 = rotes Auto in Zeile 2, Ausgang rechts. */
-const PARK_LV=[[["h222v242h542v252h513h132v052h442h422v302",6],["h202v002h123v242v253v442v223v232",6],["h212v232h413v253v052h103v242h312h533h003v032",6],["h222h042v332v252h512h442h022h002",6],["h202v002h522h022h542v412v222v253v052h422",7],["h222h512v332v252v242h142h442v032",7],["h202v022v313v002v452h523v142v223v012v132v152",7],["h212v142v002v153v202h533v402h433v132v322v012",8],["h222v253h112v422h322h533v312v302v242h132h002",8],["h202v152v123h402v342h422h522v002h132v452h502h032",9],["h202v152h322v012v452v122h523h042h412h022v002h502",9],["h202h332h413v152v012v132h312v302v023v442",10],["h202h332v132h432h102h032h312h012v122v302v142",10],["h212h102h032v422v022v203v342v142v253h502v232",11]],[["h212v143v102h433v422h313v152v132v412",13],["h212v322v233h342v102h123v053v012h022v442",13],["h202h422v302h502h112v442v002v242h032h322h142v132v252",13],["h202v412v232v252v143v002h432h522h113v052h302h542",13],["h202v152h012v442h422v123v002v032h402h333",13],["h202v122v052v322h023v402v132v252v312h002v142h102h332",14],["h232h102h442v212h542v332v153h512v202h022v402v123",14],["h222v043v412h312h002h533v252v052v102v422h432v302",14],["h202v322h342v152v032h302h012v002v452v232v122",15],["h202v032v232v352v312v152v122v142h432v302v322",17],["h202h003v332v222v342v302h412h542h122h102h032h502",17],["h212h433h312v012v422v152h122v232v102h032v302v142v412h533",17],["h212h432h523v153v133v402h312v412v142",18],["h202v222v142h422v032h042v002v312v253h513h542h112v342",19],["h202v152h303v122h042h022h442v012h533v402v332h132",19],["h222v212h112h542v402v043v252v412v323h022v432h002v052",21],["h212v052h342v133h523h423v452h002v302h312v102h022h112v042",21]],[["h232h302v013v322h532h042v452h512v122v342v252v032v102",22],["h212h312h022v052v302v422v432v253v342v042h542v102v012v232",26],["h212h122h542v432v202v232v052h022v252v322v143h442v002",29],["h202v123h342h132h502v452h522v312v442h012v232h042h422v302",30],["h212v242h042v232v422h532v353v032h312v152v203v012v002",31],["h212v143v252h022v012h042h512v003h532h432v232h122h302v322",34],["h202v123v332h412h342h513h032v452v132v402h302v012",36],["h202h413v242v232h142h302v442h522v252v402v452v032v122h042",38],["h212v152h102h033h523v353h502v022v202v132h402h422h312v142",39],["h232v002v112h313v452h142v252v122h513v032h412v302h012",39],["h232h303h502v003v042v422h012h532v122v153h442v332v112",51]]];
+const PARK_LV=[[["h222v242h542v252h513h132v052h442h422v302",6],["h202v002h123v242v253v442v223v232",6],["h212v232h413v253v052h103v242h312h533h003v032",6],["h222h042v332v252h512h442h022h002",6],["h202v002h522h022h542v412v222v253v052h422",7],["h222h512v332v252v242h142h442v032",7],["h202v022v313v002v452h523v142v223v012v132v152",7],["h212v142v002v153v202h533v402h433v132v322v012",8],["h222v253h112v422h322h533v312v302v242h132h002",8],["h202v152v123h402v342h422h522v002h132v452h502h032",9],["h202v152h322v012v452v122h523h042h412h022v002h502",9],["h202h332h413v152v012v132h312v302v023v442",10],["h202h332v132h432h102h032h312h012v122v302v142",10],["h212h102h032v422v022v203v342v142v253h502v232",11]],[["h212v143v102h433v422h313v152v132v412",13],["h212v322v233h342v102h123v053v012h022v442",13],["h202h422v302h502h112v442v002v242h032h322h142v132v252",13],["h202v412v232v252v143v002h432h522h113v052h302h542",13],["h202v152h012v442h422v123v002v032h402h333",13],["h202v122v052v322h023v402v132v252v312h002v142h102h332",14],["h232h102h442v212h542v332v153h512v202h022v402v123",14],["h222v043v412h312h002h533v252v052v102v422h432v302",14],["h202v322h342v152v032h302h012v002v452v232v122",15],["h202v032v232v352v312v152v122v142h432v302v322",17],["h202h003v332v222v342v302h412h542h122h102h032h502",17],["h212h433h312v012v422v152h122v232v102h032v302v142v412h533",17],["h212h432h523v153v133v402h312v412v142",18],["h202v222v142h422v032h042v002v312v253h513h542h112v342",19],["h202v152h303v122h042h022h442v012h533v402v332h132",19],["h222v212h112h542v402v043v252v412v323h022v432h002v052",21],["h212v052h342v133h523h423v452h002v302h312v102h022h112v042",21]],[["h232h302v013v322h532h042v452h512v122v342v252v032v102",22],["h212h132h112h322v242v102h023h002h502v422v312v053h433",24],["h202h402h132h422v122v232v152h342h012v002v442h032",24],["h222v322v353v013h532h432h302h122v143h512v152h032v102",25],["h202h413h332h502v302v442v222v002v452h042h522v252h022h142",25],["h202v023v342v152h422v142v352v032h042h522h542v412v402",25],["h212h312h022v052v302v422v432v253v342v042h542v102v012v232",26],["h202v153h113v402h412h012v142h542h332h033v222h512v432",27],["h202v052v232h022v243v422v252v042h312v002v122h542v012v432",27],["h212h122h542v432v202v232v052h022v252v322v143h442v002",29],["h212h133v232h422h002v022h402v353h523v102v342h302",29],["h202v123h342h132h502v452h522v312v442h012v232h042h422v302",30],["h232h012h403v222v432h302v153h542h042h332h442v002h122h502",30],["h232v422v032v343v103h322h502v122h042v113v152v452",30]],[["h212v143v252h022v012h042h512v003h532h432v232h122h302v322",34],["h232v402h532h442v042v002h512h022v052v012v332v252v123h302",35],["h212v143v012h042h512v003h532v232h302v322v253h022h432h122",36],["h202v123v332h412h342h513h032v452v132v402h302v012",36],["h202h332v312v442h142h012v353h522h033v132v002h502v222",37],["h202v133v122h013h502v442v302h312h422h142h342h042",37],["h202v033v122h422h003h502v352h332h042v442v302h142h312",38],["h202v233v122h003h502v052h032v442v302h312h412h342v452h132",38],["h202h413v242v232h142h302v442h522v252v402v452v032v122h042",38],["h212v152h102h033h523v353h502v022v202v132h402h422h312v142",39],["h232v002v112h313v452h142v252v122h513v032h412v302h012",39],["h232h303h502v003v042v422h012h532v122v153h442v332v112",51]]];
 function gameParking(host){
-  let st=GST.park||LS.get('rr.gpark',null);if(!st||typeof st!=='object')st={lv:0,i:0,done:{}};if(!st.done)st.done={};GST.park=st;
+  let st=GST.park||LS.get('rr.gpark',null);if(!st||typeof st!=='object')st={lv:0,i:0,done:{}};if(!(st.lv>=0&&st.lv<PARK_LV.length))st.lv=0;if(!st.done)st.done={};GST.park=st;
   const save=()=>LS.set('rr.gpark',st);
   const dec=s=>{const V=[];for(let i=0;i<s.length;i+=4)V.push({h:s[i]==='h',r:+s[i+1],c:+s[i+2],len:+s[i+3]});return V;};
   const load=()=>{const P=PARK_LV[st.lv][st.i];if(!st.cur||st.cur.id!==P[0])st.cur={id:P[0],V:dec(P[0]),moves:0,hist:[],won:false};};
   load();
-  const LVN=()=>[TR('Leicht','Easy'),TR('Mittel','Medium'),TR('Schwer','Hard')];
+  const LVN=()=>[TR('Leicht','Easy'),TR('Mittel','Medium'),TR('Schwer','Hard'),TR('Meister','Master')];
   host.innerHTML='<div class="gsets" style="margin:0 0 8px" id="pk-lv"></div><div class="gsets" style="margin:0 0 10px;flex-wrap:wrap" id="pk-list"></div><div id="pk-cv"></div><div class="gsets" style="margin-top:10px"><button class="btn" id="pk-undo">'+TR('Zurück','Undo')+'</button><button class="btn" id="pk-re">'+TR('Von vorn','Start over')+'</button><button class="btn" id="pk-next">'+TR('Nächste Stellung','Next position')+'</button></div><p id="pk-msg" style="font-weight:700;min-height:22px;margin:10px 2px 0"></p>';
   gNote(host,TR('Die Fahrzeuge lassen sich nur vor und zurück schieben, nicht drehen. Schaff dem roten Auto einen Weg zur Ausfahrt rechts. Ein Zug ist eine Bewegung eines Fahrzeugs, egal wie weit. Alle Stellungen sind lösbar; die angegebene kleinste Zuganzahl ist mit einer vollständigen Suche geprüft.','Vehicles only slide forwards and backwards; they cannot turn. Clear a way for the red car to the exit on the right. One move is one movement of one vehicle, however far. All positions are solvable; the stated minimum number of moves was checked with a complete search.'));
   const W0=Math.min(host.clientWidth||340,420);const {cv,x,W,H}=cvMake(host.querySelector('#pk-cv'),W0);cv.style.maxWidth=W0+'px';
@@ -5077,8 +5124,8 @@ function gameParking(host){
   const ui=()=>{const P=PARK_LV[st.lv][st.i];
     host.querySelector('#pk-lv').innerHTML=LVN().map((n,i)=>'<button class="btn" data-lv="'+i+'" aria-pressed="'+(st.lv===i)+'">'+n+' ('+PARK_LV[i].filter(p=>st.done[p[0]]).length+'/'+PARK_LV[i].length+')</button>').join('');
     host.querySelector('#pk-list').innerHTML=PARK_LV[st.lv].map((p,i)=>'<button class="btn pkb" data-i="'+i+'" aria-pressed="'+(st.i===i)+'" style="min-width:44px;padding:6px 8px">'+(i+1)+(st.done[p[0]]?' ✓':'')+'</button>').join('');
-    host.querySelectorAll('[data-lv]').forEach(b=>b.addEventListener('click',()=>{st.lv=+b.dataset.lv;st.i=0;st.cur=null;load();save();ui();draw();}));
-    host.querySelectorAll('.pkb').forEach(b=>b.addEventListener('click',()=>{st.i=+b.dataset.i;st.cur=null;load();save();ui();draw();}));
+    host.querySelectorAll('[data-lv]').forEach(b=>b.addEventListener('click',()=>{st.lv=+b.dataset.lv;st.i=0;st.cur=null;exitAnim=0;load();save();ui();draw();}));
+    host.querySelectorAll('.pkb').forEach(b=>b.addEventListener('click',()=>{st.i=+b.dataset.i;st.cur=null;exitAnim=0;load();save();ui();draw();}));
     gScore(LVN()[st.lv]+' '+(st.i+1)+' · '+TR('Züge ','Moves ')+st.cur.moves+' · '+TR('kürzeste Lösung ','shortest solution ')+P[1]);
     host.querySelector('#pk-msg').textContent=st.cur.won?(TR('Ausgeparkt in ','Out in ')+st.cur.moves+TR(' Zügen',' moves')+(st.cur.moves<=P[1]?TR(' – kürzer geht es nicht.',' – it cannot be done in fewer.'):'.')):'';};
   const win=()=>{st.cur.won=true;st.done[st.cur.id]=Math.min(st.done[st.cur.id]||99,st.cur.moves);save();exitAnim=.001;[0,2,4,7].forEach((k,j)=>setTimeout(()=>gSfx(G_PENTA[2+k%5]*(k>4?2:1),.45,.06),j*130));ui();};
@@ -5093,7 +5140,7 @@ function gameParking(host){
   host.querySelector('#pk-next').addEventListener('click',()=>{const L=PARK_LV[st.lv];let i=st.i;for(let k=1;k<=L.length;k++){const j=(st.i+k)%L.length;if(!st.done[L[j][0]]){i=j;break;}if(k===L.length)i=(st.i+1)%L.length;}st.i=i;st.cur=null;load();exitAnim=0;save();ui();draw();});
   ui();draw();
   gLoop(cv,dt=>{if(exitAnim>0&&exitAnim<3){exitAnim+=dt*5;draw();}});
-  if(window.__rrDebug)window.__park={st,range,win,dec,draw,geom:()=>({ox,oy,cs,W,H})};
+  if(window.__rrDebug)window.__park={st,range,win,dec,draw,geom:()=>({ox,oy,cs,W,H}),get ex(){return exitAnim;}};
 }
 /* Igel-Suche: Erzeugung und Logikprüfung (ohne Raten) */
 const IGC=(()=>{
@@ -5229,148 +5276,179 @@ function gameIgel(host){
   if(window.__rrDebug)window.__igel={get st(){return st;},act,draw,cell:i=>({x:(i%st.w+.5)*cs,y:(((i/st.w)|0)+.5)*cs}),get cnt(){return cnt;}};
 }
 /* ---------- Flipper „Sternenreise“: Tisch und Physik (ohne Zeichnen) ----------
-   Tischkoordinaten 400 × 720, y nach unten. Spielfeld x 18–352, Abschussbahn x 352–382. */
+   Tischkoordinaten 400 × 720, y nach unten. Spielfeld x 18–352, Abschussbahn x 352–382.
+   Aufbau und Regeln angelehnt an klassische Weltraum-Flippertische; eigenes Aussehen und eigene Namen. */
 const PINC=(()=>{
   const R=9;
   const v2=(x,y)=>({x,y});
   function arcPts(cx,cy,r,a0,a1,n){const o=[];for(let i=0;i<=n;i++){const a=a0+(a1-a0)*i/n;o.push([cx+r*Math.cos(a),cy-r*Math.sin(a)]);}return o;}
   function build(){
-    const segs=[];const S=(ax,ay,bx,by,o)=>segs.push(Object.assign({a:v2(ax,ay),b:v2(bx,by),e:.45},o||{}));
+    const segs=[];const S=(ax,ay,bx,by,o)=>{const s=Object.assign({a:v2(ax,ay),b:v2(bx,by),e:.45},o||{});segs.push(s);return s;};
     const poly=(pts,o)=>{for(let i=0;i<pts.length-1;i++)S(pts[i][0],pts[i][1],pts[i+1][0],pts[i+1][1],o);};
-    poly(arcPts(200,190,182,Math.PI,0,28));          /* Bogen oben */
-    S(18,190,18,730);S(382,190,382,730);            /* Außenwände */
-    S(352,200,352,730);                              /* Trennwand Abschussbahn */
-    S(382,170,350,193,{one:1});                      /* Klappe: nur von oben fest */
-    /* obere Bahnen */
-    S(158,48,158,86,{e:.3});S(212,48,212,86,{e:.3});S(104,72,104,96,{e:.3});S(266,72,266,96,{e:.3});
-    S(18,378,31,400,{e:.3});  /* Führung auf den oberen Flipper */
-    /* Energiebahn rechts */
-    S(325,262,325,410,{e:.35});
-    /* Rampeneingang (Trichter) */
-    S(78,392,84,350,{e:.3});S(124,392,118,350,{e:.3});
-    /* Außenbahnen und Rückläufe */
+    poly(arcPts(200,190,182,Math.PI,0,32));
+    S(18,190,18,730);S(382,190,382,730);S(352,200,352,730);
+    S(382,170,350,193,{one:1});
+    /* obere Wiedereintrittsbahnen */
+    [128,163,198,233].forEach(xx=>S(xx,62,xx,90,{e:.3}));
+    /* Energiekanal rechts mit Ablenker ins Spielfeld */
+    S(325,262,325,340,{e:.35});S(352,365,305,420,{e:.35});
+    /* Trichter Startrampe und Hyperraum-Kanal */
+    S(108,400,114,362,{e:.3});S(152,400,146,362,{e:.3});
+    S(236,300,242,262,{e:.3});S(284,300,278,262,{e:.3});
+    /* Außenbahnen, Rückläufe, Abfluss */
     S(48,470,48,585);S(48,585,118,629);S(322,470,322,585);S(322,585,252,629);
-    S(18,662,104,700,{e:.2});S(352,662,266,700,{e:.2});  /* unten Rinnen zum Abfluss */
+    S(18,662,104,700,{e:.2});S(352,662,266,700,{e:.2});
+    S(18,378,31,400,{e:.3});
     /* Schleudern */
-    poly([[70,505],[70,566],[104,588]],{e:.4});S(70,505,104,588,{e:.4,kick:330,sling:1});
-    poly([[300,505],[300,566],[266,588]],{e:.4});S(300,505,266,588,{e:.4,kick:330,sling:1});
-    /* Missionsziele an der linken Wand */
-    [0,1,2].forEach(k=>S(22,236+k*34,22,262+k*34,{e:.5,target:k}));
-    const bumpers=[[135,162],[235,162],[185,124],[185,210]].map(p=>({x:p[0],y:p[1],r:18}));
-    const posts=[[158,46],[212,46],[104,70],[266,70]].map(p=>({x:p[0],y:p[1],r:4}));
+    poly([[70,505],[70,566],[104,588]],{e:.4});S(70,505,104,588,{e:.4,kick:260,sling:1});
+    poly([[300,505],[300,566],[266,588]],{e:.4});S(300,505,266,588,{e:.4,kick:260,sling:1});
+    /* Ziele */
+    [0,1,2].forEach(k=>S(22,222+k*26,22,244+k*26,{e:.5,tgt:'kl',i:k}));            /* Rückstoß-Ziele links */
+    [0,1,2].forEach(k=>S(154+k*22,232,172+k*22,232,{e:.5,tgt:'mi',i:k}));          /* Missionsziele Mitte */
+    [0,1,2].forEach(k=>S(296,290+k*22,296,308+k*22,{e:.45,tgt:'md',i:k,drop:1}));  /* Medaillen-Fallziele */
+    const bumpers=[[155,130,17,'a'],[210,130,17,'a'],[182,172,17,'a'],[95,122,16,'a'],[60,300,13,'l'],[96,282,13,'l'],[78,336,13,'l']].map(p=>({x:p[0],y:p[1],r:p[2],k:p[3]}));
+    const posts=[[128,60],[163,60],[198,60],[233,60]].map(p=>({x:p[0],y:p[1],r:4}));
+    const spots=[...[[268,412],[254,428],[240,444]].map((p,i)=>({x:p[0],y:p[1],r:6,tgt:'kr',i})),...[[70,425],[86,441],[102,457]].map((p,i)=>({x:p[0],y:p[1],r:6,tgt:'bo',i}))];
     const flippers=[
       {px:122,py:640,L:56,s:1,rest:.52,up:-.45,key:'L',r0:9,r1:5},
       {px:248,py:640,L:56,s:-1,rest:.52,up:-.45,key:'R',r0:9,r1:5},
       {px:28,py:410,L:42,s:1,rest:.6,up:-.2,key:'L',r0:7,r1:4}];
     flippers.forEach(f=>{f.a=f.rest;f.w=0;});
+    const post={x:185,y:676,r:7};
     const sens={
-      lanes:[[131,70],[185,70],[239,70]],
+      lanes:[[145.5,76],[180.5,76],[215.5,76]],
       skill:[[367,560],[367,460],[367,360]],
-      energy:[338,330],inL:[80,610],inR:[290,610],kick:[33,640],
-      hole:[185,302],ramp:{x0:84,x1:118,y0:350,y1:392},
-      worm:[[[300,248],[140,446]],[[132,248],[230,446]]]};
-    const rampPath=[[101,350],[96,280],[104,180],[128,104],[160,58],[185,40],[200,52]];
-    return {segs,bumpers,posts,flippers,sens,rampPath};
+      fuel:[338,330],inL:[80,610],inR:[290,610],outL:[33,600],outR:[337,600],kickL:[33,640],kickR:[337,640],
+      lr:{x0:114,x1:146,y0:362},hs:{x0:242,x1:278,y0:262},kick:[312,222],gw:[195,370],
+      worm:[[128,300],[215,300],[215,470]]};
+    const lrPath=[[130,370],[124,300],[112,220],[92,160],[64,140],[46,166],[54,226],[64,238]];
+    const hsPath=[[260,270],[262,200],[272,130],[292,82],[322,82],[338,122],[330,176],[312,222]];
+    return {segs,bumpers,posts,spots,flippers,post,sens,lrPath,hsPath};
   }
-  const MISSIONS=[
-    ['tg',3,TR('Zielübung','Target practice'),TR('Triff die drei gelben Ziele links','Hit the three yellow targets on the left')],
-    ['bp',15,TR('Planetentanz','Planet dance'),TR('Triff die Planeten','Hit the planets')],
-    ['rp',2,TR('Rampenflug','Ramp flight'),TR('Fahr über die Sternenrampe','Ride the star ramp')],
-    ['en',2,TR('Tankstopp','Fuel stop'),TR('Fahr durch die Energiebahn rechts','Go through the energy lane on the right')],
-    ['wh',1,TR('Wurmlochsprung','Wormhole jump'),TR('Spring durch ein leuchtendes Wurmloch','Jump through a glowing wormhole')],
-    ['ln',1,TR('Sternenlichter','Star lights'),TR('Zünde alle drei oberen Lichter','Light all three top lights')],
-    ['bp',30,TR('Planetensturm','Planet storm'),TR('Triff die Planeten','Hit the planets')],
-    ['rp',3,TR('Rampenkette','Ramp chain'),TR('Fahr über die Sternenrampe','Ride the star ramp')],
-    ['wh',2,TR('Doppelsprung','Double jump'),TR('Spring durch leuchtende Wurmlöcher','Jump through glowing wormholes')],
-    ['tg',6,TR('Zielserie','Target series'),TR('Triff die gelben Ziele links','Hit the yellow targets on the left')]];
-  const RANKS=()=>[TR('Sternengucker','Stargazer'),TR('Kometenfänger','Comet catcher'),TR('Mondwanderer','Moon walker'),TR('Planetenhüpfer','Planet hopper'),TR('Sonnensegler','Sun sailor'),TR('Galaxienreisende','Galaxy traveller'),TR('Sternenkapitän','Star captain')];
-  const RANK_AT=[0,1,3,5,8,11,15];
+  /* Missionen: [Ziel-Gruppe 0 oben,1 Mitte,2 unten][Stufe] -> [Name, Schritte [[Typ,Anzahl,Text]]] */
+  const EVT=()=>({bp:TR('Angriffs-Planeten treffen','hit attack planets'),lb:TR('Startplaneten treffen','hit launch planets'),ln:TR('durch die oberen Bahnen','through the top lanes'),lr:TR('über die Startrampe','up the launch ramp'),hs:TR('in den Hyperraum-Kanal','into the hyperspace chute'),en:TR('durch den Energiekanal','through the energy lane'),wh:TR('durch ein leuchtendes Wurmloch','through a glowing wormhole'),md:TR('Medaillenziele treffen','hit medal targets'),sl:TR('Schleudern treffen','hit slingshots'),kt:TR('Rückstoß-Ziele treffen','hit kickback targets'),bo:TR('Booster-Ziele treffen','hit booster targets'),gw:TR('in den Schwerkraftsog','into the gravity well')});
+  const MIS=()=>[
+    [[TR('Starttraining','Launch training'),[['lr',3]]],[TR('Wissenschaftsflug','Science flight'),[['md',3],['hs',1]]],[TR('Hyperraumsprung','Hyperspace jump'),[['hs',2]]],[TR('Rettungsflug','Rescue flight'),[['kt',3],['lr',2],['hs',1]]],[TR('Große Reise','Grand voyage'),[['lr',2],['hs',2],['wh',2]]]],
+    [[TR('Wiedereintritt','Re-entry training'),[['ln',3]]],[TR('Tankflug','Fuel run'),[['en',2],['lr',1]]],[TR('Wurmlochreise','Wormhole trip'),[['wh',2]]],[TR('Sternenpost','Star mail'),[['ln',3],['wh',1],['lr',1]]],[TR('Schwarzes Loch','Black hole'),[['hs',3],['gw',1]]]],
+    [[TR('Zielübung','Target practice'),[['bp',8]]],[TR('Planetentanz','Planet dance'),[['bp',15],['lb',5]]],[TR('Asteroidenfeld','Asteroid field'),[['sl',10],['bp',10]]],[TR('Medaillenjagd','Medal hunt'),[['md',6],['bo',3]]],[TR('Flottenmanöver','Fleet manoeuvre'),[['bp',25],['md',6],['lr',2]]]]];
+  const RANKS=()=>[TR('Sternengucker','Stargazer'),TR('Kometenfänger','Comet catcher'),TR('Mondwanderer','Moon walker'),TR('Planetenhüpfer','Planet hopper'),TR('Sonnensegler','Sun sailor'),TR('Nebelflieger','Nebula flyer'),TR('Galaxienreisende','Galaxy traveller'),TR('Sternenkapitän','Star captain'),TR('Flottenkapitän','Fleet captain')];
+  const RANK_AT=[0,2,4,7,10,14,18,23,28];
+  const TIER=r=>r<1?0:r<3?1:r<5?2:r<7?3:4;
+  const BCOL=[500,1000,1500,2000];
   function create(opt){
-    opt=opt||{};const T=build();const relax=!!opt.relax;const G=relax?600:900;
-    const g={T,relax,score:0,balls:3,ballNo:1,ball:null,state:'serve',plunge:0,tilt:0,tilted:false,msgs:[],
-      lanes:[0,0,0],bl:1,skill:0,tg:[0,0,0],sel:-1,selT:0,mis:null,done:0,rank:0,energy:6,eT:0,kick:1,worm:[0,0],rampN:0,extraGiven:false,
-      hold:null,ramp:null,stuck:0,time:0,over:false,ev:opt.ev||(()=>{}),inSens:{}};
+    opt=opt||{};const T=build();const relax=!!opt.relax;const G=relax?420:620,VMAX=relax?850:1100;
+    const g={T,relax,score:0,balls:3,ballNo:1,ball:null,state:'serve',plunge:0,tilt:0,tilted:false,msgs:[],time:0,over:false,ev:opt.ev||(()=>{}),inSens:{},
+      lanes:[0,0,0],blv:0,blvT:0,skill:0,mtg:[0,0,0],msel:-1,mis:null,done:0,rank:0,fuel:6,fT:0,kL:1,kR:1,klt:[0,0,0],krt:[0,0,0],
+      worm:[0,0,0],hs:0,post:0,gw:0,saveT:0,md:[0,0,0],mdT:0,medal:0,bo:[0,0,0],fm:1,reflex:{lr:0,hs:0},xb:0,hold:null,stuck:0,lastHole:0,lastWorm:0};
     const ev=(n,d)=>g.ev(n,d);
     const say=t=>{g.msgs.push({t,age:0});if(g.msgs.length>3)g.msgs.shift();ev('msg',t);};
-    const add=p=>{g.score+=p;};
-    const serve=()=>{g.ball={x:367,y:690,vx:0,vy:0};g.state='serve';g.plunge=0;g.skill=0;g.tilted=false;g.tilt=0;g.rampN=0;g.extraGiven=false;};
+    const add=p=>{g.score+=p*g.fm;};
+    const serve=()=>{g.ball={x:367,y:690,vx:0,vy:0};g.state='serve';g.plunge=0;g.skill=0;g.tilted=false;g.tilt=0;};
     serve();
-    const rankUp=()=>{let r=0;RANK_AT.forEach((v,i)=>{if(g.done>=v)r=i;});if(r>g.rank){g.rank=r;add(10000*r);say(TR('Neue Stufe: ','New rank: ')+RANKS()[r]);ev('rank',r);}};
-    const misGoal=k=>MISSIONS[k][1]+Math.ceil(MISSIONS[k][1]*.3*g.rank);
-    const prog=(type,n)=>{const m=g.mis;if(!m||MISSIONS[m.k][0]!==type)return;m.n+=n||1;if(m.n>=m.goal){const pts=5000*(g.rank+1);add(pts);g.done++;say(TR('Mission geschafft: ','Mission complete: ')+MISSIONS[m.k][2]+' +'+pts);g.mis=null;g.kick=1;ev('mission',1);rankUp();}};
-    const available=()=>MISSIONS.map((m,i)=>i).filter(i=>i<4+g.rank*2);
-    function hitTarget(k){if(g.tg[k])return;g.tg[k]=1;add(250);ev('target',k);prog('tg');
-      if(g.tg.every(Boolean)){g.tg=[0,0,0];if(!g.mis){g.sel=0;g.selT=0;say(TR('Mission wählen: ins Missionsloch in der Mitte','Choose a mission: into the mission hole in the middle'));}else add(1000);}}
-    function laneHit(k){if(g.lanes[k])return;g.lanes[k]=1;add(100);ev('lane',k);if(g.lanes.every(Boolean)){g.lanes=[0,0,0];g.bl=Math.min(3,g.bl+1);add(1000);say(TR('Planeten leuchten heller: Stufe ','Planets glow brighter: level ')+g.bl);prog('ln');}}
+    g.misInfo=()=>{if(!g.mis)return null;const M=MIS()[g.mis.grp][g.mis.tier];const s=M[1][g.mis.step];return {name:M[0],step:g.mis.step+1,steps:M[1].length,type:s[0],n:g.mis.n,goal:g.mis.goal,text:EVT()[s[0]]};};
+    g.selInfo=()=>g.msel<0?null:MIS()[g.msel][TIER(g.rank)][0];
+    const goalOf=(c)=>c+Math.floor(c*.25*Math.max(0,g.rank-TIER(g.rank)*2));
+    const rankUp=()=>{let r=0;RANK_AT.forEach((v,i)=>{if(g.done>=v)r=i;});if(r>g.rank){g.rank=r;add(100000*r);say(TR('Neue Stufe: ','New rank: ')+RANKS()[r]);ev('rank',r);}};
+    function prog(type,n){const m=g.mis;if(!m)return;const M=MIS()[m.grp][m.tier];if(M[1][m.step][0]!==type)return;m.n+=n||1;if(m.n<m.goal){ev('mprog');return;}
+      m.step++;if(m.step<M[1].length){m.n=0;m.goal=goalOf(M[1][m.step][1]);add(25000);say(TR('Nächster Schritt: ','Next step: ')+EVT()[M[1][m.step][0]]);ev('mprog');return;}
+      const pts=250000*(m.tier+1);add(pts);g.done++;say(TR('Mission geschafft: ','Mission complete: ')+M[0]);g.mis=null;ev('mission');rankUp();}
+    const startMission=()=>{const tier=TIER(g.rank),M=MIS()[g.msel][tier];g.mis={grp:g.msel,tier,step:0,n:0,goal:goalOf(M[1][0][1])};g.msel=-1;g.fuel=6;g.fT=0;say(TR('Mission: ','Mission: ')+M[0]+' – '+EVT()[M[1][0][0]]);ev('mstart');};
+    const reentry=k=>{add(500);ev('lane');prog('ln');if(!g.lanes[k]){g.lanes[k]=1;if(g.lanes.every(Boolean)){g.lanes=[0,0,0];if(g.blv<3)g.blv++;g.blvT=60;add(5000);say(TR('Angriffs-Planeten: Stufe ','Attack planets: level ')+(g.blv+1));ev('upgrade');}}};
+    function hitTgt(t,i){
+      if(t==='kl'||t==='kr'){const A=t==='kl'?g.klt:g.krt;if(A[i])return;A[i]=1;add(1000);ev('target');prog('kt');if(A.every(Boolean)){A.fill(0);if(t==='kl'){g.kL=1;say(TR('Rückstoß links bereit','Left kickback ready'));}else{g.kR=1;say(TR('Rückstoß rechts bereit','Right kickback ready'));}}}
+      else if(t==='mi'){g.mtg[i]=1;g.msel=i;add(2500);ev('target');if(!g.mis)say(TR('Gewählt: ','Selected: ')+g.selInfo()+TR(' – über die Startrampe annehmen',' – accept via the launch ramp'));}
+      else if(t==='md'){if(g.md[i])return;g.md[i]=1;add(5000);ev('target');prog('md');if(g.md.every(Boolean)){g.medal++;g.mdT=2;add(10000*g.medal);const nm=[TR('Bronze','Bronze'),TR('Silber','Silver'),TR('Gold','Gold')][Math.min(2,g.medal-1)];say(TR('Medaille: ','Medal: ')+nm);ev('medal');
+          if(g.medal>=3){g.medal=0;if(!relax){g.balls++;say(TR('Extrakugel!','Extra ball!'));ev('extra');}else add(100000);}}}
+      else if(t==='bo'){if(g.bo[i])return;g.bo[i]=1;add(1500);ev('target');prog('bo');if(g.bo.every(Boolean)){g.bo=[0,0,0];if(g.fm<5)g.fm++;say(TR('Punkte-Booster ×','Score booster ×')+g.fm);ev('upgrade');}}}
     function capture(kind,d){g.hold={kind,t:0,d};g.ball.vx=g.ball.vy=0;}
-    function holeIn(){add(500);ev('hole');
-      if(g.sel>=0&&!g.mis){const av=available(),k=av[g.sel%av.length];g.mis={k,n:0,goal:misGoal(k)};g.sel=-1;g.energy=6;g.eT=0;say(TR('Mission: ','Mission: ')+MISSIONS[k][2]+' – '+MISSIONS[k][3]);ev('mstart',k);}
-      capture('hole');}
-    function drain(){ev('drain');g.mis=null;g.sel=-1;
-      if(relax){say(TR('Kugel weg – neue Kugel','Ball gone – new ball'));serve();return;}
+    function launchRamp(){add(5000);ev('ramp');prog('lr');
+      if(g.reflex.lr>0){add(25000);say(TR('Reflexschuss +25 000','Reflex shot +25,000'));}g.reflex.lr=5;
+      if(g.mis){g.fuel=6;g.fT=0;}
+      if(g.msel>=0&&!g.mis)startMission();capture('lr');}
+    function hyper(){g.hs++;ev('ramp');prog('hs');if(g.reflex.hs>0){add(25000);say(TR('Reflexschuss +25 000','Reflex shot +25,000'));}g.reflex.hs=5;
+      const L=g.hs;if(L===1){add(10000);say(TR('Hyperraum +10 000','Hyperspace +10,000'));}else if(L===2){add(50000);say(TR('Jackpot +50 000','Jackpot +50,000'));}
+      else if(L===3){add(75000);g.post=60;say(TR('Bonus und Mittelpfosten für 60 s','Bonus and centre post for 60 s'));}
+      else if(L===4){g.xb=1;add(25000);say(TR('Extrakugel-Licht in den Außenbahnen','Extra ball light in the outer lanes'));}
+      else{g.gw=25;g.hs=0;say(TR('Schwerkraftsog aktiv','Gravity well active'));ev('gw');}
+      capture('hs');}
+    function drain(){ev('drain');
+      if(g.saveT>0){say(TR('Kugel gerettet','Ball saved'));serve();return;}
+      g.fm=1;g.bo=[0,0,0];g.hs=0;g.gw=0;
+      if(relax){if(g.mis){g.mis=null;say(TR('Kugel weg – Mission beendet','Ball gone – mission ended'));}else say(TR('Neue Kugel','New ball'));serve();return;}
       g.balls--;if(g.balls<=0){g.over=true;g.state='over';ev('over',g.score);return;}g.ballNo++;say(TR('Kugel ','Ball ')+g.ballNo);serve();}
-    /* Kollisionen */
-    function segHit(b,s){const ax=s.a.x,ay=s.a.y,dx=s.b.x-ax,dy=s.b.y-ay,L2=dx*dx+dy*dy;let t=((b.x-ax)*dx+(b.y-ay)*dy)/L2;t=Math.max(0,Math.min(1,t));const qx=ax+dx*t,qy=ay+dy*t;let nx=b.x-qx,ny=b.y-qy;const d=Math.hypot(nx,ny);if(d>=R||d<1e-6)return;
+    function segHit(b,s){if(s.drop&&g.md[s.i])return;const ax=s.a.x,ay=s.a.y,dx=s.b.x-ax,dy=s.b.y-ay,L2=dx*dx+dy*dy;let t=((b.x-ax)*dx+(b.y-ay)*dy)/L2;t=Math.max(0,Math.min(1,t));const qx=ax+dx*t,qy=ay+dy*t;let nx=b.x-qx,ny=b.y-qy;const d=Math.hypot(nx,ny);if(d>=R||d<1e-6)return;
       nx/=d;ny/=d;if(s.one&&!(ny<0&&b.vy>0))return;
       b.x=qx+nx*R;b.y=qy+ny*R;const vn=b.vx*nx+b.vy*ny;if(vn<0){b.vx-=(1+s.e)*vn*nx;b.vy-=(1+s.e)*vn*ny;
-        if(s.kick&&-vn>40){b.vx+=nx*s.kick;b.vy+=ny*s.kick;add(10);ev('sling');}
-        if(s.target!=null&&-vn>70)hitTarget(s.target);else if(-vn>120&&!s.kick)ev('wall',-vn);}}
-    function circHit(b,c,bump){let nx=b.x-c.x,ny=b.y-c.y;const d=Math.hypot(nx,ny),rr=R+c.r;if(d>=rr||d<1e-6)return;nx/=d;ny/=d;b.x=c.x+nx*rr;b.y=c.y+ny*rr;const vn=b.vx*nx+b.vy*ny;
-      if(vn<0){b.vx-=(1.5)*vn*nx;b.vy-=(1.5)*vn*ny;}
-      if(bump){b.vx+=nx*260;b.vy+=ny*260;add(100*g.bl);ev('bumper',g.bl);c.flash=.15;prog('bp');}}
-    function flipHit(b,f){const dx=f.s*Math.cos(f.a),dy=Math.sin(f.a),tx=f.px+dx*f.L,ty=f.py+dy*f.L;let t=((b.x-f.px)*dx+(b.y-f.py)*dy)/f.L;t=Math.max(0,Math.min(1,t));
+        if(s.kick&&-vn>40){b.vx+=nx*s.kick;b.vy+=ny*s.kick;add(100);ev('sling');prog('sl');}
+        if(s.tgt&&-vn>60)hitTgt(s.tgt,s.i);else if(-vn>120&&!s.kick)ev('wall',-vn);}}
+    function circHit(b,c,kind){let nx=b.x-c.x,ny=b.y-c.y;const d=Math.hypot(nx,ny),rr=R+c.r;if(d>=rr||d<1e-6)return;nx/=d;ny/=d;b.x=c.x+nx*rr;b.y=c.y+ny*rr;const vn=b.vx*nx+b.vy*ny;
+      if(vn<0){b.vx-=1.5*vn*nx;b.vy-=1.5*vn*ny;}
+      if(kind==='a'){b.vx+=nx*200;b.vy+=ny*200;add(BCOL[g.blv]);ev('bumper',g.blv);c.flash=.15;prog('bp');}
+      else if(kind==='l'){b.vx+=nx*160;b.vy+=ny*160;add(1000);ev('bumper',1);c.flash=.15;prog('lb');}
+      else if(c.tgt&&-vn>50){hitTgt(c.tgt,c.i);c.flash=.2;}}
+    function flipHit(b,f){const dx=f.s*Math.cos(f.a),dy=Math.sin(f.a);let t=((b.x-f.px)*dx+(b.y-f.py)*dy)/f.L;t=Math.max(0,Math.min(1,t));
       const qx=f.px+dx*f.L*t,qy=f.py+dy*f.L*t,rad=f.r0+(f.r1-f.r0)*t;let nx=b.x-qx,ny=b.y-qy;const d=Math.hypot(nx,ny),rr=R+rad;if(d>=rr||d<1e-6)return;nx/=d;ny/=d;b.x=qx+nx*rr;b.y=qy+ny*rr;
       const l=f.L*t,svx=f.w*l*(-f.s*Math.sin(f.a)),svy=f.w*l*Math.cos(f.a);const rvx=b.vx-svx,rvy=b.vy-svy,vn=rvx*nx+rvy*ny;
-      if(vn<0){const e=.3;b.vx-=(1+e)*vn*nx;b.vy-=(1+e)*vn*ny;}}
-    const FUP=relax?20:25,FDN=16;
+      if(vn<0){const e=.25;b.vx-=(1+e)*vn*nx;b.vy-=(1+e)*vn*ny;}}
+    const FUP=relax?15:19,FDN=13;
     function fl(h){for(const f of T.flippers){const tgt=f.on?f.up:f.rest,sp=f.on?FUP:FDN,old=f.a;if(f.a!==tgt){const d=tgt-f.a;f.a+=Math.sign(d)*Math.min(Math.abs(d),sp*h);}f.w=(f.a-old)/h;}}
     const nearFlip=b=>T.flippers.some(f=>f.on&&Math.hypot(b.x-(f.px+f.s*Math.cos(f.a)*f.L*.5),b.y-(f.py+Math.sin(f.a)*f.L*.5))<f.L*.5+R+12);
-    function step(dt,inp){g.time+=dt;if(g.over)return;g.msgs.forEach(m=>m.age+=dt);g.msgs=g.msgs.filter(m=>m.age<3.2);
-      g.bumpFlash=0;T.bumpers.forEach(c=>{if(c.flash)c.flash=Math.max(0,c.flash-dt);});
+    function step(dt,inp){g.time+=dt;if(g.over)return;g.msgs.forEach(m=>m.age+=dt);g.msgs=g.msgs.filter(m=>m.age<3.4);
+      T.bumpers.concat(T.spots).forEach(c=>{if(c.flash)c.flash=Math.max(0,c.flash-dt);});
       g.tilt=Math.max(0,g.tilt-dt*(relax?.9:.5));
-      if(inp.nudge&&!g.tilted&&g.ball){const b=g.ball,n=inp.nudge;b.vx+=n==='l'?70:n==='r'?-70:0;b.vy-=n==='u'?90:30;g.tilt+=1;ev('nudge');if(g.tilt>(relax?5:3.4)){g.tilted=true;say('TILT');ev('tilt');}}
-      T.flippers.forEach(f=>{const on=!g.tilted&&!!inp[f.key];f.on=on;if(on&&!f.was&&f.L>50)ev('flip');f.was=on;});
-      /* Missionsauswahl blinkt */
-      if(g.sel>=0){g.selT+=dt;if(g.selT>1.4){g.selT=0;g.sel++;}}
-      if(g.mis){g.eT+=dt;if(g.eT>(relax?12:7)){g.eT=0;g.energy--;if(g.energy<=0){say(TR('Energie leer – Mission abgebrochen','Out of energy – mission aborted'));g.mis=null;g.energy=6;ev('mfail');}}}
+      ['lr','hs'].forEach(k=>{g.reflex[k]=Math.max(0,g.reflex[k]-dt);});
+      if(g.blvT>0){g.blvT-=dt;if(g.blvT<=0&&g.blv>0){g.blv--;g.blvT=g.blv?60:0;}}
+      if(g.post>0)g.post=Math.max(0,g.post-dt);if(g.gw>0){g.gw=Math.max(0,g.gw-dt);}
+      if(g.mdT>0){g.mdT-=dt;if(g.mdT<=0)g.md=[0,0,0];}
+      if(g.saveT>0&&g.state==='play'&&!g.hold)g.saveT=Math.max(0,g.saveT-dt);
+      if(inp.nudge&&!g.tilted&&g.ball){const b=g.ball,n=inp.nudge;b.vx+=n==='l'?60:n==='r'?-60:0;b.vy-=n==='u'?80:25;g.tilt+=1;ev('nudge');if(g.tilt>(relax?5:3.4)){g.tilted=true;say('TILT');ev('tilt');}}
+      T.flippers.forEach(f=>{const on=!g.tilted&&!!inp[f.key];if(on&&!f.was&&f.L>50){ev('flip');
+          /* Bahnwechsel: Lichter der oberen Bahnen verschieben */
+          if(f.key==='L')g.lanes=[g.lanes[1],g.lanes[2],g.lanes[0]];else g.lanes=[g.lanes[2],g.lanes[0],g.lanes[1]];}f.on=on;f.was=on;});
+      if(g.mis){g.fT+=dt;if(g.fT>(relax?14:8)){g.fT=0;g.fuel--;if(g.fuel<=0){say(TR('Energie leer – Mission abgebrochen','Out of energy – mission aborted'));g.mis=null;g.fuel=6;ev('mfail');}}}
       const b=g.ball;if(!b)return;
-      if(g.state==='serve'){if(inp.plunge){g.plunge=Math.min(1,g.plunge+dt/1.3);}else if(g.plunge>0.04){const p=g.plunge;b.vy=-(520+760*p);g.state='play';
-          const sk=p>=.70&&p<=.84?3:p>=.55&&p<.95?2:1;g.skill=sk;if(sk===3){add(5000);say(TR('Volltreffer-Start! +5000','Perfect launch! +5000'));ev('skill');}else add(sk*200);g.plunge=0;ev('launch',p);}else{g.plunge=0;}
-        if(g.state==='serve'){fl(dt);b.x=367;b.y=690;b.vx=b.vy=0;return;}}
+      if(g.state==='serve'){fl(dt);if(inp.plunge){g.plunge=Math.min(1,g.plunge+dt/1.3);}else if(g.plunge>0.04){const p=g.plunge;b.vy=-(450+620*p)*(relax?.84:1);g.state='play';g.saveT=relax?20:10;
+          const sk=p>=.70&&p<=.84?3:p>=.55&&p<.95?2:1;g.skill=sk;if(sk===3){add(75000);say(TR('Volltreffer-Start! +75 000','Perfect launch! +75,000'));ev('skill');}else add(sk*5000);g.plunge=0;ev('launch',p);}else g.plunge=0;
+        if(g.state==='serve'){b.x=367;b.y=690;b.vx=b.vy=0;return;}}
       if(g.hold){fl(dt);g.hold.t+=dt;const h=g.hold;
-        if(h.kind==='hole'&&h.t>.9){b.x=T.sens.hole[0];b.y=T.sens.hole[1]+14;b.vx=(Math.random()-.5)*160;b.vy=260;g.hold=null;g.lastHole=g.time;ev('eject');}
-        else if(h.kind==='worm'&&h.t>.55){const q=h.d;b.x=q[0];b.y=q[1]+14;b.vx=(Math.random()-.5)*180;b.vy=200;g.hold=null;g.lastWorm=g.time;ev('eject');}
-        else if(h.kind==='ramp'){const P=T.rampPath,u=Math.min(1,h.t/1.0)*(P.length-1),i=Math.min(P.length-2,Math.floor(u)),f=u-i;b.x=P[i][0]+(P[i+1][0]-P[i][0])*f;b.y=P[i][1]+(P[i+1][1]-P[i][1])*f;
-          if(h.t>=1){g.hold=null;b.x=200;b.y=60;b.vx=20;b.vy=60;g.rampN++;add(1500);prog('rp');ev('ramp',g.rampN);
-            if(g.rampN===3){add(10000);say(TR('Rampen-Bonus +10000','Ramp bonus +10000'));}
-            if(g.rampN===5&&!g.extraGiven){g.extraGiven=true;if(!relax){g.balls++;say(TR('Extrakugel!','Extra ball!'));ev('extra');}else{add(20000);say('+20000');}}}}
+        const path=(P,dur)=>{const u=Math.min(1,h.t/dur)*(P.length-1),i=Math.min(P.length-2,Math.floor(u)),f=u-i;b.x=P[i][0]+(P[i+1][0]-P[i][0])*f;b.y=P[i][1]+(P[i+1][1]-P[i][1])*f;return h.t>=dur;};
+        if(h.kind==='lr'){if(path(T.lrPath,1.1)){g.hold=null;b.vx=30;b.vy=60;}}
+        else if(h.kind==='hs'){if(path(T.hsPath,1.0)){if(h.t>1.6){g.hold=null;b.x=T.sens.kick[0];b.y=T.sens.kick[1];b.vx=-150-Math.random()*60;b.vy=120;g.lastHole=g.time;ev('eject');}}}
+        else if(h.kind==='worm'&&h.t>.6){const q=h.d;b.x=q[0];b.y=q[1]+13;b.vx=(Math.random()-.5)*160;b.vy=150;g.hold=null;g.lastWorm=g.time;ev('eject');}
+        else if(h.kind==='gw'&&h.t>1){const a=Math.random()*Math.PI*2;b.vx=Math.cos(a)*420;b.vy=Math.sin(a)*420-100;g.hold=null;g.gw=0;ev('eject');}
         return;}
+      const x0=b.x,y0=b.y;
       const mov=T.flippers.some(f=>f.a!==(f.on?f.up:f.rest));
       const n=Math.max(mov?10:2,Math.min(30,Math.ceil(Math.hypot(b.vx,b.vy)*dt/3)+1)),h=dt/n;
-      for(let k=0;k<n;k++){fl(h);b.vy+=G*h;b.x+=b.vx*h;b.y+=b.vy*h;
-        for(const s of T.segs)segHit(b,s);for(const c of T.bumpers)circHit(b,c,true);for(const c of T.posts)circHit(b,c,false);for(const f of T.flippers)flipHit(b,f);}
-      const sp=Math.hypot(b.vx,b.vy);if(sp>1500){b.vx*=1500/sp;b.vy*=1500/sp;}
+      for(let k=0;k<n;k++){fl(h);b.vy+=G*h;
+        if(g.gw>0){const dx=T.sens.gw[0]-b.x,dy=T.sens.gw[1]-b.y,d=Math.hypot(dx,dy)||1;const a=Math.min(900,90000/Math.max(60,d));b.vx+=dx/d*a*h;b.vy+=dy/d*a*h;}
+        b.x+=b.vx*h;b.y+=b.vy*h;
+        for(const s of T.segs)segHit(b,s);for(const c of T.bumpers)circHit(b,c,c.k);for(const c of T.posts)circHit(b,c,null);for(const c of T.spots)circHit(b,c,null);
+        if(g.post>0)circHit(b,T.post,null);for(const f of T.flippers)flipHit(b,f);}
+      const sp=Math.hypot(b.vx,b.vy);if(sp>VMAX){b.vx*=VMAX/sp;b.vy*=VMAX/sp;}
       if(b.x<18+R-.5)b.x=18+R;if(b.x>382-R+.5)b.x=382-R;if(b.y<8+R&&b.x>30&&b.x<370)b.y=Math.max(b.y,8+R);
-      /* Sensoren */
-      const near=(p,r)=>Math.hypot(b.x-p[0],b.y-p[1])<r;
+      const near=(p,r)=>{const dx=b.x-x0,dy=b.y-y0,L2=dx*dx+dy*dy;let u=L2?((p[0]-x0)*dx+(p[1]-y0)*dy)/L2:1;u=Math.max(0,Math.min(1,u));return Math.hypot(x0+dx*u-p[0],y0+dy*u-p[1])<r;};
+      const cross=(z)=>{const ln=z.y0+8;if(!(y0>=ln&&b.y<ln&&b.vy<-140))return false;const u=(y0-ln)/(y0-b.y||1),xc=x0+(b.x-x0)*u;return xc>z.x0&&xc<z.x1;};
       const once=(key,cond,fn)=>{if(cond){if(!g.inSens[key]){g.inSens[key]=1;fn();}}else g.inSens[key]=0;};
-      T.sens.lanes.forEach((p,k)=>once('ln'+k,near(p,12),()=>laneHit(k)));
-      once('en',near(T.sens.energy,14),()=>{add(500);g.energy=6;g.eT=0;say(TR('Energie aufgefüllt','Energy refilled'));ev('energy');prog('en');});
-      once('iL',near(T.sens.inL,12),()=>{if(!g.worm[0]){g.worm[0]=1;say(TR('Blaues Wurmloch offen','Blue wormhole open'));}add(100);ev('lane');});
-      once('iR',near(T.sens.inR,12),()=>{if(!g.worm[1]){g.worm[1]=1;say(TR('Rosa Wurmloch offen','Pink wormhole open'));}add(100);ev('lane');});
-      if(g.kick&&near(T.sens.kick,14)&&b.vy>0){b.vy=-900;b.vx=10;g.kick=0;add(500);say(TR('Rückstoß!','Kickback!'));ev('kick');}
-      if(near(T.sens.hole,10)&&!(g.lastHole&&g.time-g.lastHole<.8)){holeIn();return;}
-      for(let c=0;c<2;c++)if(g.worm[c])for(let e=0;e<2;e++){const p=T.sens.worm[c][e];if(near(p,10)&&!(g.lastWorm&&g.time-g.lastWorm<.8)){g.worm[c]=0;add(2500);prog('wh');ev('worm',c);say(TR('Wurmloch-Sprung +2500','Wormhole jump +2500'));capture('worm',T.sens.worm[c][1-e]);return;}}
-      const rz=T.sens.ramp;if(b.x>rz.x0&&b.x<rz.x1&&b.y>rz.y0&&b.y<rz.y0+16&&b.vy<-150){capture('ramp');return;}
-      /* festgefahren? */
-      if(sp<12&&g.state==='play'&&!nearFlip(b)){g.stuck+=dt;if(g.stuck>3){b.vy=-280;b.vx=(Math.random()-.5)*200;g.stuck=0;ev('unstick');}}else g.stuck=0;
-      /* zurück in die Abschussbahn */
-      if(b.x>352&&b.y>670&&b.vy>=0){serveKeep();return;}
+      T.sens.lanes.forEach((p,k)=>once('ln'+k,near(p,12),()=>reentry(k)));
+      once('fu',near(T.sens.fuel,14),()=>{add(5000);if(g.mis){g.fuel=Math.min(6,g.fuel+3);g.fT=0;say(TR('Energie +3','Energy +3'));}g.worm[1]=1;ev('energy');prog('en');});
+      once('iL',near(T.sens.inL,12),()=>{if(!g.worm[0]){g.worm[0]=1;say(TR('Gelbes Wurmloch offen','Yellow wormhole open'));}add(1000);ev('lane');});
+      once('iR',near(T.sens.inR,12),()=>{if(!g.worm[2]){g.worm[2]=1;say(TR('Rotes Wurmloch offen','Red wormhole open'));}add(1000);ev('lane');});
+      once('oL',near(T.sens.outL,14),()=>{if(g.xb){g.xb=0;if(!relax){g.balls++;say(TR('Extrakugel!','Extra ball!'));ev('extra');}else add(100000);}});
+      once('oR',near(T.sens.outR,14),()=>{if(g.xb){g.xb=0;if(!relax){g.balls++;say(TR('Extrakugel!','Extra ball!'));ev('extra');}else add(100000);}});
+      if(g.kL&&near(T.sens.kickL,14)&&b.vy>0){b.vy=-820;b.vx=12;g.kL=0;add(5000);say(TR('Rückstoß!','Kickback!'));ev('kick');}
+      if(g.kR&&near(T.sens.kickR,14)&&b.vy>0){b.vy=-820;b.vx=-12;g.kR=0;add(5000);say(TR('Rückstoß!','Kickback!'));ev('kick');}
+      if(g.gw>0&&near(T.sens.gw,13)){add(50000);say(TR('Schwerkraftsog +50 000','Gravity well +50,000'));prog('gw');capture('gw');return;}
+      for(let c=0;c<3;c++){const p=T.sens.worm[c];if(g.worm[c]&&near(p,10)&&g.time-g.lastWorm>.8){g.worm[c]=0;const others=[0,1,2].filter(q=>q!==c),dst=others[Math.floor(Math.random()*2)];const dbl=g.worm[dst];add(dbl?25000:10000);if(dbl)g.worm[dst]=0;
+          prog('wh');ev('worm',c);say(dbl?TR('Doppelsprung +25 000','Double jump +25,000'):TR('Wurmloch-Sprung +10 000','Wormhole jump +10,000'));capture('worm',T.sens.worm[dst]);return;}}
+      if(cross(T.sens.lr)){launchRamp();return;}
+      if(cross(T.sens.hs)){hyper();return;}
+      if(sp<12&&g.state==='play'&&!nearFlip(b)){g.stuck+=dt;if(g.stuck>3){b.vy=-260;b.vx=(Math.random()-.5)*200;g.stuck=0;ev('unstick');}}else g.stuck=0;
+      if(b.x>352&&b.y>670&&b.vy>=0){g.ball={x:367,y:690,vx:0,vy:0};g.state='serve';g.plunge=0;return;}
       if(b.y>740)drain();}
-    function serveKeep(){g.ball={x:367,y:690,vx:0,vy:0};g.state='serve';g.plunge=0;}
-    return {g,step,MISSIONS,RANKS,RANK_AT,misGoal,R};
+    return {g,step,R,RANKS,RANK_AT,MIS,EVT,TIER,BCOL};
   }
-  return {create,R,MISSIONS,RANKS};
+  return {create,R,RANKS,RANK_AT,MIS,EVT,TIER};
 })();
 /* ---------- Flipper „Sternenreise“: Bedienung und Zeichnen ---------- */
 function gamePinball(host){
@@ -5380,7 +5458,7 @@ function gamePinball(host){
   if(!P||P.g.over)mk();else P.g.ev=(n,d)=>evq.push([n,d]);
   host.innerHTML='<div id="pb-cvh"></div><div id="pb-hud" class="pbhud" style="margin-top:8px"></div><div class="gsets" style="margin-top:8px"><button class="btn" id="pb-nudge">'+TR('Anstoßen','Nudge')+'</button><button class="btn" id="pb-newg">'+TR('Neues Spiel','New game')+'</button></div>'+
     '<div class="set" style="margin-top:6px"><label for="pb-relax">'+TR('Entspannt','Relaxed')+'<span class="hint2">'+TR('Langsamere Kugel, unbegrenzt Kugeln; eine verlorene Kugel kostet nur die laufende Mission. Gilt ab dem nächsten Spiel.','Slower ball, unlimited balls; a lost ball only costs the current mission. Applies from the next game.')+'</span></label><input type="checkbox" class="switch" id="pb-relax"></div><div id="pb-hs" class="small muted" style="margin:8px 2px"></div>';
-  gNote(host,TR('Linke Bildschirmhälfte: beide linken Flipper. Rechte Hälfte: rechter Flipper. Liegt die Kugel unten rechts in der Abschussbahn, spannt die rechte Hälfte die Feder: je länger du hältst, desto kräftiger. Am besten trifft ein mittelstarker Schuss (Volltreffer-Start). Schütteln oder „Anstoßen“ stößt den Tisch an; zu oft heißt TILT und die Flipper sind bis zur nächsten Kugel gesperrt. Am Rechner: Y oder Z links, Minus oder / rechts, Leertaste Feder, X . und Pfeil hoch zum Anstoßen.\n\nSo geht es weiter: Triff die drei gelben Ziele links, dann blinkt eine Mission. Schick die Kugel ins Missionsloch in der Mitte, um sie zu starten. Missionen verbrauchen Energie, die Energiebahn rechts füllt sie wieder auf. Die oberen drei Lichter machen die Planeten wertvoller. Die Rückläufe neben den Flippern öffnen die Wurmlöcher (blau links, rosa rechts), die Kugel springt dann zum Partnerloch. Die Sternenrampe links bringt Punkte, bei 3 Fahrten einen Bonus, bei 5 eine Extrakugel. Das Licht am linken Außenkanal schießt eine verlorene Kugel einmal zurück. Geschaffte Missionen bringen dich durch 7 Stufen.','Left half of the screen: both left flippers. Right half: right flipper. When the ball sits at the bottom right in the launch lane, the right half pulls the spring: the longer you hold, the stronger. A medium-strong shot works best (perfect launch). Shaking or “Nudge” bumps the table; too often means TILT and the flippers are locked until the next ball. On a computer: Y or Z left, minus or / right, space bar spring, X . and arrow up to nudge.\n\nHow it goes on: hit the three yellow targets on the left, then a mission flashes. Send the ball into the mission hole in the middle to start it. Missions use energy; the energy lane on the right refills it. The three top lights make the planets worth more. The return lanes beside the flippers open the wormholes (blue left, pink right); the ball then jumps to the partner hole. The star ramp on the left gives points, a bonus after 3 rides and an extra ball after 5. The light at the left outer lane shoots a lost ball back once. Completed missions take you through 7 ranks.'));
+  gNote(host,TR('Bedienung: Linke Bildschirmhälfte bewegt beide linken Flipper, rechte Hälfte den rechten. Liegt die Kugel unten rechts in der Abschussbahn, spannt die rechte Hälfte die Feder; ein mittelstarker Schuss zündet alle drei Lichter (Volltreffer-Start). Schütteln oder „Anstoßen“ stößt den Tisch an, zu oft heißt TILT. Am Rechner: Y oder Z links, Minus oder / rechts, Leertaste Feder, X . und Pfeil hoch zum Anstoßen. Nach dem Abschuss schützt dich der Kugelschutz einige Sekunden.\n\nDer Tisch: Oben liegen drei Bahnen. Rollt die Kugel durch eine dunkle Bahn, leuchtet sie; mit jedem Flipperdruck wandern die Lichter weiter, so kannst du dunkle Bahnen unter die Kugel schieben. Alle drei hell machen die vier Angriffs-Planeten eine Farbe wertvoller (blau, grün, gelb, rot); nach 60 Sekunden fallen sie eine Stufe zurück. Die drei Missionsziele in der Mitte wählen eine Mission; über die violette Startrampe links nimmst du sie an. Missionen verbrauchen Energie: Der Energiekanal rechts gibt drei Lichter zurück, die Startrampe füllt sie ganz. Die Rampe endet bei den drei Startplaneten.\n\nDer türkise Hyperraum-Kanal (gut vom linken Flipper) zählt hoch: 1 Hyperraum, 2 Jackpot, 3 Bonus und Mittelpfosten zwischen den Flippern für 60 Sekunden, 4 Extrakugel-Licht in den Außenbahnen, 5 Schwerkraftsog zur Mitte. Dieselbe Rampe innerhalb von 5 Sekunden noch einmal ist ein Reflexschuss. Die drei Fallziele rechts geben Medaillen (Bronze, Silber, Gold = Extrakugel). Die Rückläufe neben den Flippern öffnen das gelbe und rote Wurmloch, der Energiekanal das grüne; die Kugel springt zu einem anderen Wurmloch. Die Ziele an der linken Wand und die drei Punkte rechts laden die Rückstöße in den Außenbahnen wieder auf, die drei Punkte links erhöhen den Punkte-Booster. Der Kreis in der Mitte zeigt innen den Fortschritt der Mission und außen den Weg zur nächsten der neun Stufen.','Controls: the left half of the screen moves both left flippers, the right half the right one. When the ball sits at the bottom right in the launch lane, the right half pulls the spring; a medium-strong shot lights all three lights (perfect launch). Shaking or “Nudge” bumps the table; too often means TILT. On a computer: Y or Z left, minus or / right, space bar spring, X . and arrow up to nudge. After the launch the ball save protects you for a few seconds.\n\nThe table: at the top there are three lanes. When the ball rolls through a dark lane, it lights up; each flipper press shifts the lights along, so you can move dark lanes under the ball. All three lit make the four attack planets one colour more valuable (blue, green, yellow, red); after 60 seconds they drop back one level. The three mission targets in the middle choose a mission; you accept it via the violet launch ramp on the left. Missions use energy: the energy lane on the right gives back three lights, the launch ramp fills them completely. The ramp ends at the three launch planets.\n\nThe turquoise hyperspace chute (good from the left flipper) counts up: 1 hyperspace, 2 jackpot, 3 bonus and centre post between the flippers for 60 seconds, 4 extra ball light in the outer lanes, 5 gravity well towards the middle. The same ramp again within 5 seconds is a reflex shot. The three drop targets on the right give medals (bronze, silver, gold = extra ball). The return lanes beside the flippers open the yellow and red wormhole, the energy lane the green one; the ball jumps to another wormhole. The targets on the left wall and the three dots on the right recharge the kickbacks in the outer lanes; the three dots on the left raise the score booster. The circle in the middle shows the mission progress inside and the way to the next of the nine ranks outside.'));
   host.lastElementChild.style.whiteSpace='pre-line';
   const cvh=host.querySelector('#pb-cvh'),cw=cvh.clientWidth||340;const {cv,x,W,H}=cvMake(cvh,Math.round(Math.min(cw*1.8,Math.max(420,window.innerHeight-90))));cv.style.touchAction='none';
   setTimeout(()=>{try{cv.scrollIntoView({block:'start',behavior:'smooth'});}catch(e){}},250);
@@ -5409,69 +5487,87 @@ function gamePinball(host){
   const hsUI=()=>{const L=sv.hs.filter(h=>!!h.r===!!sv.relax).slice(0,5);host.querySelector('#pb-hs').innerHTML='<b>'+TR('Bestenliste','High scores')+(sv.relax?TR(' (entspannt)',' (relaxed)'):'')+'</b><br>'+(L.length?L.map((h,i)=>(i+1)+'. '+fmtN(h.s)+' · '+h.rk+' · '+h.d).join('<br>'):TR('Noch kein Eintrag.','No entry yet.'));};
   hsUI();
   let hudTxt='';
-  const hud=()=>{const g=P.g,M=PINC.MISSIONS;let m;
-    if(g.mis)m='<b>'+M[g.mis.k][2]+'</b>: '+M[g.mis.k][3]+' '+Math.min(g.mis.n,g.mis.goal)+'/'+g.mis.goal+' · '+TR('Energie ','Energy ')+'▮'.repeat(g.energy)+'<span style="opacity:.3">'+'▮'.repeat(6-g.energy)+'</span>';
-    else if(g.sel>=0){const av=M.map((q,i)=>i).filter(i=>i<4+g.rank*2),kk=av[g.sel%av.length];m=TR('Mission wählen: ','Choose mission: ')+'<b>'+M[kk][2]+'</b> – '+TR('jetzt ins Missionsloch','now into the mission hole');}
-    else m=TR('Gelbe Ziele: ','Yellow targets: ')+g.tg.filter(Boolean).length+'/3';
-    const t='<div class="pbrow"><b>'+fmtN(g.score)+'</b><span>'+(g.relax?TR('entspannt','relaxed'):TR('Kugel ','Ball ')+g.ballNo+' · '+TR('übrig ','left ')+Math.max(0,g.balls-1))+'</span></div><div class="pbrow small"><span>'+PINC.RANKS()[g.rank]+' · '+g.done+(g.done===1?TR(' Mission',' mission'):TR(' Missionen',' missions'))+'</span></div><div class="small" style="min-height:18px">'+m+'</div>';
+  const hud=()=>{const g=P.g;let m;const mi=g.misInfo();
+    if(mi)m='<b>'+mi.name+'</b> ('+mi.step+'/'+mi.steps+'): '+mi.text+' '+Math.min(mi.n,mi.goal)+'/'+mi.goal+' · '+TR('Energie ','Energy ')+'▮'.repeat(g.fuel)+'<span style="opacity:.3">'+'▮'.repeat(6-g.fuel)+'</span>';
+    else if(g.msel>=0)m=TR('Gewählt: ','Selected: ')+'<b>'+g.selInfo()+'</b> – '+TR('über die Startrampe annehmen','accept via the launch ramp');
+    else m=TR('Missionsziel in der Mitte treffen, um eine Mission zu wählen','Hit a mission target in the middle to choose a mission');
+    const ex=[g.fm>1?'×'+g.fm:'',g.saveT>0?TR('Kugelschutz','Ball save'):'',g.post>0?TR('Mittelpfosten','Centre post'):'',g.gw>0?TR('Schwerkraftsog','Gravity well'):''].filter(Boolean).join(' · ');
+    const t='<div class="pbrow"><b>'+fmtN(g.score)+'</b><span>'+(g.relax?TR('entspannt','relaxed'):TR('Kugel ','Ball ')+g.ballNo+' · '+TR('übrig ','left ')+Math.max(0,g.balls-1))+'</span></div><div class="pbrow small"><span>'+PINC.RANKS()[g.rank]+' · '+g.done+(g.done===1?TR(' Mission',' mission'):TR(' Missionen',' missions'))+'</span><span>'+ex+'</span></div><div class="small" style="min-height:18px">'+m+'</div>';
     if(t!==hudTxt){hudTxt=t;host.querySelector('#pb-hud').innerHTML=t;}};
   const sfx=()=>{while(evq.length){const [n,d]=evq.shift();
     if(n==='bumper')gSfx(G_PENTA[(d||1)+3+gRnd(3)],.18,.06);else if(n==='flip')gSfx(140,.05,.05,'triangle');else if(n==='sling')gSfx(260,.07,.05,'square',.7);
     else if(n==='lane'||n==='target')gSfx(G_PENTA[5+gRnd(4)],.12,.05,'triangle');else if(n==='launch')gSfx(180,.25,.05,'sine',2.5);
     else if(n==='ramp')[0,2,4].forEach((q,j)=>setTimeout(()=>gSfx(G_PENTA[4+q],.18,.05),j*70));else if(n==='hole'||n==='worm')gSfx(300,.35,.06,'sine',.5);
     else if(n==='mission'||n==='rank'||n==='skill'||n==='extra')[0,2,4,7].forEach((q,j)=>setTimeout(()=>gSfx(G_PENTA[2+q%5]*(q>4?2:1),.4,.06),j*120));
-    else if(n==='drain')gSfx(200,.5,.06,'sine',.5);else if(n==='tilt')gSfx(110,.6,.07,'square',.8);else if(n==='energy')gSfx(G_PENTA[6],.3,.05,'triangle',1.5);
+    else if(n==='upgrade'||n==='medal'||n==='mprog')[0,4].forEach((q,j)=>setTimeout(()=>gSfx(G_PENTA[5+q%5],.25,.05),j*90));else if(n==='gw'||n==='eject')gSfx(240,.3,.05,'sine',.6);else if(n==='drain')gSfx(200,.5,.06,'sine',.5);else if(n==='tilt')gSfx(110,.6,.07,'square',.8);else if(n==='energy')gSfx(G_PENTA[6],.3,.05,'triangle',1.5);
     else if(n==='over'){const r=PINC.RANKS()[P.g.rank];sv.hs.push({s:d,d:new Date().toLocaleDateString(EN?'en-GB':'de-DE'),r:P.g.relax?1:0,rk:r});sv.hs.sort((a,b)=>b.s-a.s);sv.hs=sv.hs.slice(0,20);saveSv();hsUI();}}};
   /* Zeichnen */
   const T=P.g.T;
+  /* Zeichnen */
+  const BPAL=[['#6FA8DC','#D6EAF8'],['#7BC67E','#DFF5E1'],['#F5C542','#FFF3C4'],['#EF6F6C','#FADBD8']];
+  const WCOL=['#FFD54F','#7BE0B5','#FF8A80'];
   const draw=t=>{const C=gCol(),g=P.g,T=g.T,dk=C.dark;x.clearRect(0,0,W,H);x.save();x.translate(ox,oy);x.scale(k,k);x.lineJoin='round';x.lineCap='round';
     const bg=dk?'#171B36':'#2B2F63',wall=dk?'#9AA6FF':'#B9C2FF';
     x.fillStyle=bg;x.beginPath();x.moveTo(18,730);x.lineTo(18,190);x.arc(200,190,182,Math.PI,0);x.lineTo(382,730);x.closePath();x.fill();
     STARS.forEach(s=>{x.globalAlpha=.35+.35*Math.sin(t*1.3+s[3]);x.fillStyle='#fff';x.beginPath();x.arc(s[0],s[1],s[2],0,7);x.fill();});x.globalAlpha=1;
-    /* Rampe */
-    x.strokeStyle='rgba(120,230,200,.28)';x.lineWidth=28;x.beginPath();T.rampPath.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.stroke();
-    x.strokeStyle='rgba(160,255,225,.55)';x.lineWidth=2;x.setLineDash([4,7]);x.stroke();x.setLineDash([]);
-    /* Wurmlöcher */
-    [['#5DADE2'],['#F48FB1']].forEach((c,ci)=>T.sens.worm[ci].forEach(p=>{const on=g.worm[ci];x.save();x.translate(p[0],p[1]);x.rotate(t*(on?3:.6)*(ci?-1:1));x.globalAlpha=on?1:.35;
-      for(let r=12;r>2;r-=3.5){x.strokeStyle=c[0];x.lineWidth=2.4;x.beginPath();x.arc(0,0,r,0,Math.PI*1.4);x.stroke();}x.restore();x.globalAlpha=1;}));
-    /* Missionsloch */
-    const hp=T.sens.hole,bl=g.sel>=0&&Math.sin(t*10)>0;x.fillStyle='#0B0D1C';x.beginPath();x.arc(hp[0],hp[1],11,0,7);x.fill();x.lineWidth=3;x.strokeStyle=bl?'#FFE066':(g.mis?'#7BE0B5':'#6B74C9');x.stroke();
-    /* Lichter */
     const lamp=(p,on,c,r)=>{x.fillStyle=on?c:'rgba(255,255,255,.12)';x.beginPath();x.arc(p[0],p[1],r||5,0,7);x.fill();if(on){x.globalAlpha=.3;x.beginPath();x.arc(p[0],p[1],(r||5)*2,0,7);x.fill();x.globalAlpha=1;}};
+    const tri=(cx,cy,on,c)=>{x.fillStyle=on?c:'rgba(255,255,255,.14)';x.beginPath();x.moveTo(cx,cy-5);x.lineTo(cx+5,cy+4);x.lineTo(cx-5,cy+4);x.closePath();x.fill();};
+    /* Fortschrittskreis in der Mitte */
+    const gc=T.sens.gw,mi=g.misInfo(),fr=mi?Math.min(1,(mi.step-1+mi.n/mi.goal)/mi.steps):0;const RA=PINC.RANK_AT,nx=RA[g.rank+1],rf=nx?Math.min(1,(g.done-RA[g.rank])/(nx-RA[g.rank])):1;
+    x.fillStyle=g.gw>0?'rgba(120,200,255,.25)':'rgba(120,140,255,.12)';x.beginPath();x.arc(gc[0],gc[1],40,0,7);x.fill();
+    for(let i=0;i<12;i++){const a=-Math.PI/2+i*Math.PI/6;lamp([gc[0]+Math.cos(a)*32,gc[1]+Math.sin(a)*32],i<Math.round(rf*12),'#B39DDB',3.2);}
+    for(let i=0;i<8;i++){const a=-Math.PI/2+i*Math.PI/4;lamp([gc[0]+Math.cos(a)*18,gc[1]+Math.sin(a)*18],i<Math.round(fr*8),'#FFB74D',3);}
+    if(g.gw>0){x.save();x.translate(gc[0],gc[1]);x.rotate(t*4);x.strokeStyle='rgba(160,220,255,.8)';x.lineWidth=2;for(let r=6;r<40;r+=8){x.beginPath();x.arc(0,0,r,0,Math.PI*1.3);x.stroke();}x.restore();}
+    else{x.fillStyle='rgba(255,255,255,.25)';x.beginPath();x.arc(gc[0],gc[1],5,0,7);x.fill();}
+    /* Rampen */
+    const band=(P0,c1,c2)=>{x.strokeStyle=c1;x.lineWidth=26;x.beginPath();P0.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.stroke();x.strokeStyle=c2;x.lineWidth=2;x.setLineDash([4,7]);x.stroke();x.setLineDash([]);};
+    band(T.lrPath,'rgba(179,136,255,.30)','rgba(220,190,255,.6)');band(T.hsPath,'rgba(100,230,220,.26)','rgba(170,255,245,.6)');
+    tri(130,412,g.reflex.lr>0,'#FFE066');tri(130,424,g.msel>=0&&!g.mis,'#FFE066');tri(130,436,!!g.mis,'#FFE066');
+    for(let i=0;i<5;i++)lamp([246+i*7,312],g.hs>i,'#64E3D6',2.8);
+    lamp([260,322],g.reflex.hs>0,'#FFE066',3);
+    x.fillStyle='#0B0D1C';x.beginPath();x.arc(T.sens.kick[0],T.sens.kick[1],10,0,7);x.fill();x.strokeStyle='#64E3D6';x.lineWidth=2.5;x.stroke();
+    /* Wurmlöcher */
+    T.sens.worm.forEach((p,ci)=>{const on=g.worm[ci];x.save();x.translate(p[0],p[1]);x.rotate(t*(on?3:.6)*(ci%2?-1:1));x.globalAlpha=on?1:.33;for(let r=12;r>2;r-=3.5){x.strokeStyle=WCOL[ci];x.lineWidth=2.4;x.beginPath();x.arc(0,0,r,0,Math.PI*1.4);x.stroke();}x.restore();x.globalAlpha=1;});
+    /* Lichter */
     T.sens.lanes.forEach((p,i)=>lamp(p,g.lanes[i],'#FFE066'));
     T.sens.skill.forEach((p,i)=>lamp(p,g.skill>i,'#7BE0B5',4));
-    for(let i=0;i<6;i++)lamp([338,284+i*20],g.mis?i<g.energy:true,g.mis&&g.energy<=2?'#FF8A80':'#7BE0B5',3.5);
-    lamp([33,615],g.kick,'#FFB74D',5);lamp(T.sens.inL,g.worm[0],'#5DADE2',4);lamp(T.sens.inR,g.worm[1],'#F48FB1',4);
-    lamp([200,330],g.rampN>=5,'#FFE066',3);
+    for(let i=0;i<6;i++)lamp([338,272+i*12],g.mis?i<g.fuel:false,g.mis&&g.fuel<=2?'#FF8A80':'#7BE0B5',3.2);
+    lamp([33,640],g.kL,'#FFB74D',5);lamp([337,640],g.kR,'#FFB74D',5);lamp([33,600],g.xb,'#FFE066',4);lamp([337,600],g.xb,'#FFE066',4);
+    lamp(T.sens.inL,g.worm[0],WCOL[0],4);lamp(T.sens.inR,g.worm[2],WCOL[2],4);
+    for(let i=0;i<3;i++)lamp([310,300+i*14],g.medal>i,['#CD7F32','#C0C0C0','#FFD700'][i],3.5);
+    for(let i=0;i<4;i++)lamp([60+i*12,470],g.fm>i+1,'#F48FB1',3);
+    if(g.saveT>0)lamp([185,700],Math.sin(t*8)>0,'#7BE0B5',4);
     /* Wände */
-    x.strokeStyle=wall;x.lineWidth=4;T.segs.forEach(s=>{if(s.target!=null||s.sling)return;x.globalAlpha=s.one?.5:1;x.beginPath();x.moveTo(s.a.x,s.a.y);x.lineTo(s.b.x,s.b.y);x.stroke();});x.globalAlpha=1;
+    x.strokeStyle=wall;x.lineWidth=4;T.segs.forEach(s=>{if(s.tgt||s.sling)return;x.globalAlpha=s.one?.5:1;x.beginPath();x.moveTo(s.a.x,s.a.y);x.lineTo(s.b.x,s.b.y);x.stroke();});x.globalAlpha=1;
     /* Schleudern */
     [[[70,505],[70,566],[104,588]],[[300,505],[300,566],[266,588]]].forEach(tr=>{x.fillStyle='rgba(244,143,177,.45)';x.beginPath();tr.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.closePath();x.fill();x.strokeStyle='#F8BBD0';x.lineWidth=4;x.beginPath();x.moveTo(tr[0][0],tr[0][1]);x.lineTo(tr[2][0],tr[2][1]);x.stroke();});
     /* Ziele */
-    T.segs.forEach(s=>{if(s.target==null)return;const on=g.tg[s.target];x.strokeStyle=on?'#FFE066':'#B39B3A';x.lineWidth=7;x.beginPath();x.moveTo(s.a.x+2,s.a.y);x.lineTo(s.b.x+2,s.b.y);x.stroke();});
+    T.segs.forEach(s=>{if(!s.tgt)return;let c,on;if(s.tgt==='kl'){on=g.klt[s.i];c='#FFB74D';}else if(s.tgt==='mi'){on=g.msel===s.i||(g.mis&&g.mis.grp===s.i);c=['#FF8A80','#FFE066','#80D8FF'][s.i];}else{on=!g.md[s.i];c='#CE93D8';if(!on){x.strokeStyle='rgba(206,147,216,.25)';x.lineWidth=3;x.beginPath();x.moveTo(s.a.x+3,s.a.y);x.lineTo(s.b.x+3,s.b.y);x.stroke();return;}}
+      x.strokeStyle=on?c:'rgba(255,255,255,.35)';x.lineWidth=7;x.beginPath();x.moveTo(s.a.x,s.a.y);x.lineTo(s.b.x,s.b.y);x.stroke();});
+    T.spots.forEach(c=>{const on=c.tgt==='kr'?g.krt[c.i]:g.bo[c.i];x.fillStyle=c.flash?'#fff':on?(c.tgt==='kr'?'#FFB74D':'#F48FB1'):'rgba(255,255,255,.3)';x.beginPath();x.arc(c.x,c.y,c.r,0,7);x.fill();x.strokeStyle=G_OL;x.lineWidth=1.5;x.stroke();});
     /* Planeten */
-    const PC=[['#7FB3D5','#D6EAF8'],['#F5B041','#FDEBD0'],['#F1948A','#FADBD8']][g.bl-1];
-    T.bumpers.forEach(c=>{x.fillStyle=c.flash?'#fff':PC[0];x.beginPath();x.arc(c.x,c.y,c.r,0,7);x.fill();x.strokeStyle=G_OL;x.lineWidth=2.5;x.stroke();
-      x.strokeStyle=PC[1];x.lineWidth=2.5;x.beginPath();x.ellipse(c.x,c.y,c.r+7,5,-.35,0,7);x.stroke();x.fillStyle='rgba(255,255,255,.5)';x.beginPath();x.arc(c.x-6,c.y-6,4,0,7);x.fill();});
+    T.bumpers.forEach(c=>{const P2=c.k==='a'?BPAL[g.blv]:['#B388FF','#E1D0FF'];x.fillStyle=c.flash?'#fff':P2[0];x.beginPath();x.arc(c.x,c.y,c.r,0,7);x.fill();x.strokeStyle=G_OL;x.lineWidth=2.5;x.stroke();
+      x.strokeStyle=P2[1];x.lineWidth=2.5;x.beginPath();x.ellipse(c.x,c.y,c.r+6,4.5,-.35,0,7);x.stroke();x.fillStyle='rgba(255,255,255,.5)';x.beginPath();x.arc(c.x-c.r*.35,c.y-c.r*.35,c.r*.22,0,7);x.fill();});
     x.fillStyle=wall;T.posts.forEach(c=>{x.beginPath();x.arc(c.x,c.y,c.r,0,7);x.fill();});
+    if(g.post>0){x.fillStyle='#FFE066';x.beginPath();x.arc(T.post.x,T.post.y,T.post.r,0,7);x.fill();x.strokeStyle=G_OL;x.lineWidth=2;x.stroke();}
     /* Flipper */
-    T.flippers.forEach(f=>{const dx=f.s*Math.cos(f.a),dy=Math.sin(f.a),tx=f.px+dx*f.L,ty=f.py+dy*f.L,nx=-dy,ny=dx;
-      x.fillStyle=g.tilted?'#777':'#FFB3C7';x.beginPath();x.moveTo(f.px+nx*f.r0,f.py+ny*f.r0);x.lineTo(tx+nx*f.r1,ty+ny*f.r1);x.arc(tx,ty,f.r1,Math.atan2(ny,nx),Math.atan2(-ny,-nx),f.s<0);x.lineTo(f.px-nx*f.r0,f.py-ny*f.r0);x.arc(f.px,f.py,f.r0,Math.atan2(-ny,-nx),Math.atan2(ny,nx),f.s<0);x.closePath();x.fill();x.strokeStyle=G_OL;x.lineWidth=2;x.stroke();
+    T.flippers.forEach(f=>{const dx=f.s*Math.cos(f.a),dy=Math.sin(f.a),tx=f.px+dx*f.L,ty=f.py+dy*f.L,nx2=-dy,ny2=dx;
+      x.fillStyle=g.tilted?'#777':'#FFB3C7';x.beginPath();x.moveTo(f.px+nx2*f.r0,f.py+ny2*f.r0);x.lineTo(tx+nx2*f.r1,ty+ny2*f.r1);x.arc(tx,ty,f.r1,Math.atan2(ny2,nx2),Math.atan2(-ny2,-nx2),f.s<0);x.lineTo(f.px-nx2*f.r0,f.py-ny2*f.r0);x.arc(f.px,f.py,f.r0,Math.atan2(-ny2,-nx2),Math.atan2(ny2,nx2),f.s<0);x.closePath();x.fill();x.strokeStyle=G_OL;x.lineWidth=2;x.stroke();
       x.fillStyle=G_OL;x.beginPath();x.arc(f.px,f.py,2.5,0,7);x.fill();});
-    /* Feder und Rakete */
+    /* Feder */
     const pl=g.state==='serve'?g.plunge:0;x.strokeStyle='#CFD8DC';x.lineWidth=2.5;x.beginPath();for(let i=0;i<=8;i++){const yy=700+i*(22-pl*12)/8+pl*12;x.lineTo(i%2?360:374,yy);}x.stroke();
     x.fillStyle='#E57373';x.fillRect(357,699+pl*12,20,5);
     /* Kugel */
-    const b=g.ball;if(b&&!g.over){const inHole=g.hold&&g.hold.kind!=='ramp';if(!inHole){const gr=x.createRadialGradient(b.x-3,b.y-3,1,b.x,b.y,9);gr.addColorStop(0,'#fff');gr.addColorStop(1,'#B8C2D6');x.fillStyle=gr;x.beginPath();x.arc(b.x,b.y,9,0,7);x.fill();x.strokeStyle=G_OL;x.lineWidth=1.5;x.stroke();}}
+    const b=g.ball;if(b&&!g.over){const hidden=g.hold&&(g.hold.kind==='worm'||(g.hold.kind==='hs'&&g.hold.t>1));if(!hidden){const gr=x.createRadialGradient(b.x-3,b.y-3,1,b.x,b.y,9);gr.addColorStop(0,'#fff');gr.addColorStop(1,'#B8C2D6');x.fillStyle=gr;x.beginPath();x.arc(b.x,b.y,9,0,7);x.fill();x.strokeStyle=G_OL;x.lineWidth=1.5;x.stroke();}}
     /* Meldungen */
     x.textAlign='center';x.textBaseline='middle';
-    x.font='800 15px system-ui';let yb=470;
-    for(let i=g.msgs.length-1;i>=0;i--){const m=g.msgs[i],a=Math.max(0,Math.min(1,(3.2-m.age)*1.5));const L=[];let cur='';m.t.split(' ').forEach(wd=>{const tt=cur?cur+' '+wd:wd;if(x.measureText(tt).width>300&&cur){L.push(cur);cur=wd;}else cur=tt;});L.push(cur);
-      const w=Math.max(...L.map(l=>x.measureText(l).width))+20,hh=L.length*19+8;yb-=hh+6;x.globalAlpha=a;x.fillStyle='rgba(10,12,30,.72)';x.beginPath();x.roundRect(185-w/2,yb,w,hh,12);x.fill();x.fillStyle='#FFF4C2';L.forEach((l,j)=>x.fillText(l,185,yb+4+9.5+j*19));}
+    x.font='800 15px system-ui';let yb=490;
+    for(let i=g.msgs.length-1;i>=0;i--){const m=g.msgs[i],a=Math.max(0,Math.min(1,(3.4-m.age)*1.5));const Lw=[];let cur='';m.t.split(' ').forEach(wd=>{const tt=cur?cur+' '+wd:wd;if(x.measureText(tt).width>300&&cur){Lw.push(cur);cur=wd;}else cur=tt;});Lw.push(cur);
+      const w=Math.max(...Lw.map(l=>x.measureText(l).width))+20,hh=Lw.length*19+8;yb-=hh+6;x.globalAlpha=a;x.fillStyle='rgba(10,12,30,.72)';x.beginPath();x.roundRect(185-w/2,yb,w,hh,12);x.fill();x.fillStyle='#FFF4C2';Lw.forEach((l,j)=>x.fillText(l,185,yb+4+9.5+j*19));}
     x.globalAlpha=1;
-    if(g.state==='serve'&&!g.over){x.font='600 12px system-ui';x.fillStyle='rgba(255,255,255,.75)';x.fillText(TR('halten · loslassen','hold · release'),300,708);
+    if(g.state==='serve'&&!g.over){x.font='600 12px system-ui';x.fillStyle='rgba(255,255,255,.75)';x.fillText(TR('halten · loslassen','hold · release'),300,712);
       x.fillStyle='rgba(255,255,255,.18)';x.fillRect(388,560,8,140);x.fillStyle=pl>=.70&&pl<=.84?'#7BE0B5':'#FFE066';x.fillRect(388,700-140*pl,8,140*pl);x.strokeStyle='#7BE0B5';x.lineWidth=1.5;x.strokeRect(387,700-140*.84,10,140*.14);}
-    if(g.over){x.fillStyle='rgba(10,12,30,.78)';x.fillRect(18,250,364,200);x.fillStyle='#FFF4C2';x.font='800 24px system-ui';x.fillText(TR('Reise beendet','Journey over'),200,295);x.font='700 20px system-ui';x.fillText(fmtN(g.score)+TR(' Punkte',' points'),200,335);
+    if(g.over){x.fillStyle='rgba(10,12,30,.8)';x.fillRect(18,250,364,200);x.fillStyle='#FFF4C2';x.font='800 24px system-ui';x.fillText(TR('Reise beendet','Journey over'),200,295);x.font='700 20px system-ui';x.fillText(fmtN(g.score)+TR(' Punkte',' points'),200,335);
       x.font='600 15px system-ui';x.fillText(PINC.RANKS()[g.rank],200,368);x.fillText(TR('Tippen für eine neue Reise','Tap for a new journey'),200,410);}
     x.restore();};
   gLoop(cv,(dt,t)=>{if(dt>0){let r=dt;while(r>1e-6){const h=Math.min(r,1/60);P.step(h,inp);inp.nudge=null;r-=h;}}recompute();sfx();draw(t);hud();});
@@ -7357,8 +7453,8 @@ function ktRender(){
 ['rc-timers','rcl-timers'].forEach(id=>$(id).addEventListener('click',e=>{const b=e.target.closest('[data-kt]');if(b)ktCancel(b.dataset.kt);}));
 
 /* ================= Mehr, Infoseiten, Installieren, Sicherung ================= */
-const APP_VER='1.17';
-const CHANGES={'1.17':[TR('Neues Spiel Igel-Suche: Logikrätsel nach dem Prinzip von Minesweeper, mit drei Stufen, eigener Größe, Schildern, Fragezeichen, Uhr, Bestzeiten und auf Wunsch ohne Raten','New game: Hedgehog hunt, a logic puzzle on the principle of Minesweeper, with three levels, custom size, signs, question marks, timer, best times and optionally no guessing'),TR('Neues Spiel Flipper Sternenreise: Planeten, Wurmlöcher, Sternenrampe, Energie, Missionen, sieben Stufen, Anstoßen mit Tilt und entspannter Modus','New game: Star journey pinball with planets, wormholes, star ramp, energy, missions, seven ranks, nudging with tilt and a relaxed mode')],'1.16':[TR('Neues Spiel Zauberwürfel in 3D, mit Anleitung in 7 Schritten, Vorführen und Hilfe für den nächsten Zug','New game: magic cube in 3D, with a 7-step guide, demonstrations and help for the next move'),TR('Neues Spiel Ausparken mit 42 Stellungen in drei Stufen','New game: Parking lot with 42 positions in three levels'),TR('Podcasts: Der KI-Podcast, ARD Radio Tatort, Lagerfeuer und Kurzspannung neu; Mimikama und Lesereise entfernt','Podcasts: Der KI-Podcast, ARD Radio Tatort, Lagerfeuer and Kurzspannung added; Mimikama and Lesereise removed'),TR('Spruch des Tages: 200 neue Lebensweisheiten, gemischt mit den bisherigen','Saying of the day: 200 new sayings, mixed with the existing ones')],'1.15':[TR('Favoriten haben eine eigene Seite: Stern-Knopf oben auf der Startseite, gruppiert und mit ▲▼ sortierbar','Favourites have their own page: star button at the top of the home screen, grouped and sortable with ▲▼'),TR('Mehrere Musik- und Hörbuchordner; jeder merkt sich Titel und Minute und macht dort weiter. Ein Ordner-Favorit liest den Ordner beim Antippen neu ein und spielt','Several music and audiobook folders; each remembers track and minute and resumes there. A folder favourite rescans the folder when tapped and plays'),TR('Neu unter Musik: Podcasts mit Folgenliste, Filtern, gemerkter Stelle und eigenen Podcasts','New under Music: podcasts with episode list, filters, remembered position and your own podcasts')],'1.14':[TR('Favoriten für Musik starten sofort und ohne Ausschaltzeit; nochmal antippen beendet sie. Sterne gibt es jetzt auch für eigene Musik, Atemtakt und gespeicherte Klangmischungen','Music favourites start at once and without a switch-off time; tap again to stop. There are now stars for your own music, breathing pace and saved sound mixes too'),TR('Eigene Internetradio-Sender lassen sich hinzufügen','You can add your own internet radio stations'),TR('„Mein Tag“ hat einen Knopf oben auf der Startseite','“My day” has a button at the top of the home screen'),TR('Neben der Katze gibt es Hund und Spinne, einzeln wählbar in den Einstellungen','Besides the cat there are a dog and a spider, selectable individually in the settings'),TR('Spielgruppen sind einklappbar; aus „Über den Fluss“ wurde „Straße und Fluss“ mit Autos','Game groups can be collapsed; “Across the river” became “Road and river” with cars')],'1.13':[TR('Favoriten: Stern an Routinen, Spielen, Sendern und Wohlfühl-Punkten; sie erscheinen auf der Startseite unter den Routinen','Favourites: a star on routines, games, stations and wellbeing items; they appear on the home screen below the routines'),TR('Neu unter Wohlfühlen: Problemlöser (sieben Fragen ohne Eintippen) und Persönlichkeitstest mit Datenbank und mehreren Profilen','New under Wellbeing: problem solver (seven questions without typing) and personality test with database and several profiles'),TR('Vier neue Spiele: Kalimba im Querformat, Über den Fluss, Tennis und Orakelkugel','Four new games: kalimba in landscape, Across the river, Tennis and Oracle ball'),TR('Spiele und Wohlfühlen sind in Gruppen geordnet','Games and Wellbeing are arranged in groups'),TR('MDR Kultur im Radiokatalog','MDR Kultur in the radio catalogue')],'1.12':[TR('Gewicht: steht jetzt vor jedem Satz da, in 1-kg-Schritten änderbar; das Startgewicht legst du beim Erstellen der Routine fest','Weight: now shown before every set, adjustable in 1 kg steps; you set the starting weight when creating the routine'),TR('Statistik in eigenen Routinen: letztes Training, letzte Gewichtserhöhung, Bestwert und Verlauf je Übung','Statistics in your own routines: last workout, last weight increase, best value and trend per exercise'),TR('Studio-Übungen haben eigene Figuren, eigene Übungen eine Figur in Bodybuilder-Posen','Gym exercises have their own figures, your own exercises a figure in bodybuilder poses'),TR('„Kopf leeren“ ist jetzt oben auf der Startseite; abends und nachts stehen dort auch die Einschlaf-Routinen','“Clear your head” is now at the top of the home screen; in the evening and at night the sleep routines appear there too'),TR('Neu unter Wohlfühlen: „Mein Tag“ mit Tagesnotiz, Trinkzähler und Tagen ohne Alkohol sowie „Impulse“ mit Spruch des Tages und belegtem Studienwissen','New under Wellbeing: “My day” with daily note, water counter and days without alcohol, and “Inspiration” with a saying of the day and documented research findings'),TR('Drei neue Rätsel: Sudoku, Wortsuche und Schiebepuzzle','Three new puzzles: sudoku, word search and sliding puzzle')],'1.11':[TR('Eigene Übungen: Unter „Alle Übungen“ kannst du Übungen anlegen und in eigenen Routinen verwenden','Your own exercises: under “All exercises” you can create exercises and use them in your own routines'),TR('25 Studio-Übungen als Vorlagen, von Bankdrücken bis Latzug. Bei diesen und bei eigenen Kraftübungen trägst du das Gewicht je Satz ein','25 gym exercises as templates, from bench press to lat pulldown. For these and for your own strength exercises you enter the weight per set'),TR('Zwei neue Spiele: Blöcke und Schlange','Two new games: blocks and snake')],'1.10':[TR('Minigolf hat jetzt 40 Bahnen. Jeder Parcours zieht 9 oder 18 davon per Zufall','Mini golf now has 40 holes. Each course draws 9 or 18 of them at random'),TR('Weben: Das Schiffchen lässt sich zurückziehen, um einen Faden zu korrigieren. Buchstaben und Ringe zeigen, bei welchem Kettfaden du bist','Weaving: the shuttle can be dragged back to correct a thread. Letters and rings show which warp thread you are at'),TR('Die Sprache stellst du nur noch unter Mehr › Sprache / Language um. Die Farbvorgabe für die untere Leiste ist wieder entfernt, sie hatte keine Wirkung','You now change the language only under More › Sprache / Language. The color setting for the bottom bar has been removed again, it had no effect')],'1.9.1':[TR('Die Wochenleiste auf „Heute“ zeigt jetzt die laufende Woche von Montag bis Sonntag. „Tage in Folge“ zählt wie bisher über die Wochengrenze','The week strip on “Today” now shows the current week from Monday to Sunday. “Days in a row” still counts across the week boundary')],'1.9':[TR('Jede Übung erklärt jetzt, wo du sie spürst und was du änderst, wenn du nichts spürst. In der ausführlichen Ansage wird das mitgesprochen','Every exercise now explains where you feel it and what to change if you feel nothing. The detailed announcement says it too'),TR('Gesäß-Dehnung (Figur 4) neu beschrieben: Das untere Bein wird zur Brust gezogen, erst das erzeugt die Dehnung','Glute stretch (figure 4) described anew: the bottom leg is pulled toward the chest, only that creates the stretch'),TR('Zu jeder Übung gibt es einen Knopf „Videos auf YouTube“, auf der Info-Seite und in der Übungsliste einer Routine','Every exercise has a “Videos on YouTube” button, on the info page and in the exercise list of a routine')],'1.8.1':[TR('Weben als Bildweberei: Kettfäden einfärben, nach dem Anschlagen zeigt jede Kreuzung nur noch einen Faden. 14, 20 oder 28 Kettfäden, gesteuert im Streifen unten','Weaving as picture weaving: color the warp threads, after beating each crossing shows only one thread. 14, 20 or 28 warp threads, controlled in the strip at the bottom'),TR('Ab und zu schaut eine Katze vorbei. Antippen macht sie froh. Ausschalten unter Mehr › Einstellungen','Now and then a cat drops by. Tapping makes it happy. Turn it off under More › Settings')],'1.8':[TR('Zwei neue Spiele: Minigolf mit acht Bahnen und Weben am Webstuhl','Two new games: mini golf with eight holes and weaving on a loom'),TR('Solitär: Karten und Teilstapel lassen sich jetzt ziehen, auch von der Ablage zurück','Solitaire: cards and partial stacks can now be dragged, also back from the foundation'),TR('Hüpfen: höher springen durch Halten, Pilze, Vögel, Schweben nach 10 Sternen und wechselnde Landschaften','Hopping: jump higher by holding, mushrooms, birds, floating after 10 stars and changing landscapes')],'1.7':[TR('Vier neue Spiele: Angeln, Hüpfen, Solitär und Würfel','Four new games: fishing, hopping, solitaire and dice'),TR('Klangbrett: volle Tonleiter, mehrere Seiten, „Alle auf Mitte“ und sieben Melodien zum Laden','Sound board: full scale, several pages, “All to middle” and seven melodies to load')],'1.6.2':[TR('„Musik wählen“ im Spiel zeigt jetzt die ganze Musikseite, der Rückweg „Zurück zum Spiel“ sitzt oben rechts','“Choose music” in a game now shows the whole music page, the way back “Back to the game” sits at the top right'),TR('Zen-Garten passt ohne Scrollen auf den Bildschirm, die Erklärung steckt hinter dem Fragezeichen','Zen garden fits on the screen without scrolling, the explanation is behind the question mark'),TR('Wolken: Größere Wolken lassen mehr Blumen wachsen, alte Blumen verblassen. Ab und zu kommt eine Katze vorbei, sammelt liegende Herzen ein und schnurrt','Clouds: bigger clouds make more flowers grow, old flowers fade. Now and then a cat comes by, collects hearts lying around and purrs')],'1.6.1':[TR('Spiele überarbeitet: Der Spielstand bleibt erhalten, dazu Pause, Neu starten und ein eigener Knopf „Musik wählen“','Games reworked: your progress is kept, plus Pause, Restart and a separate “Choose music” button'),TR('Klangbrett: Feld gedrückt halten und schieben stellt die Tonhöhe ein, bis zu 3 Schläge je Feld, eigener Ton per Mikrofon','Sound board: press and hold a field and slide to set the pitch, up to 3 hits per field, your own sound via microphone'),TR('Wolken: Herzen bleiben liegen, lassen sich stufenweise verbinden und bringen Blumen zum Blühen','Clouds: hearts stay on the ground, can be combined in steps and make flowers bloom'),TR('Turm: Figur steht jetzt im unteren Drittel, Wolken sind Podeste, alle 10 Sterne wechseln Farbe und Klang','Tower: the figure now stands in the lower third, clouds are platforms, color and sound change every 10 stars'),TR('Zen-Garten: Radierer, Welle, Moos, verschiebbare Steine, Führung für gerade Bahnen, Steuerkreuz, Bild speichern','Zen garden: eraser, wave, moss, movable stones, guide for straight tracks, d-pad, save picture'),TR('Atemballon: Steigen und Sinken passen jetzt zum Ring','Breath balloon: rising and sinking now match the ring')],'1.6':[TR('Sechs ruhige Spiele unter Wohlfühlen › Spiele: Klangbrett, Wolken, Turm, Zen-Garten, Atemballon und Paare finden. Die Farben folgen deiner Darstellung, Geräusche und Musik schaltest du oben im Spiel','Six calm games under Wellbeing › Games: sound board, clouds, tower, zen garden, breath balloon and find pairs. The colors follow your appearance setting; you switch sounds and music at the top of the game'),TR('Test: Unter Mehr › Einstellungen gibt es den Schalter „Bei Display aus weiterlaufen“ für die geführten Entspannungen','Test: under More › Settings there is the switch “Keep running with display off” for the guided relaxations')],'1.5':[TR('Englisch: Die ganze App gibt es jetzt auch auf Englisch, mit Übungen, Ansagen, Entspannung und Rezepten. Beim ersten Start richtet sie sich nach der Sprache des Handys. Umschalten unter Mehr › Sprache / Language','English: the whole app is now available in English too, with exercises, announcements, relaxation and recipes. On first start it follows the phone\'s language. Switch under More › Sprache / Language'),TR('Drei Radiosender ersetzt, weil die bisherigen nicht liefen: Slow House kommt jetzt von Maretimo House Radio, dazu neu egoFM Chillout und Hirschmilch Radio Chillout','Three radio stations replaced because the previous ones didn\'t play: Slow House now comes from Maretimo House Radio, plus egoFM Chillout and Hirschmilch Radio Chillout as new stations'),TR('Die App gibt Android jetzt eine dunkle Farbe für die untere Leiste vor. Das wirkt erst, wenn du die App entfernst und neu installierst, siehe Mehr › Darstellung','The app now gives Android a dark color for the bottom bar. This only takes effect when you remove the app and reinstall it, see More › Appearance'),TR('Der Startbildschirm fragt nicht mehr nach dem Vornamen. Eintragen kannst du ihn weiterhin unter Mehr › Einstellungen','The start screen no longer asks for your first name. You can still enter it under More › Settings')],'1.4':['Eigene Musik: Ordner oder einzelne Dateien vom Handy wählen und der Reihe nach oder zufällig abspielen. Geht auch als Hintergrundmusik für Routinen und Training','14 neue Radiosender, darunter ByteFM, drei Blues-Sender, Slow House, Reggae, Hip-Hop, Gregorianik, alte Musik, Barock und Meditation. Die Sender sind jetzt in Gruppen sortiert','Das Radio merkt sich die Adresse, die zuletzt lief, und verbindet dadurch schneller'],'1.3':['Darstellung unter „Mehr“: hell, dunkel oder wie das Handy, dazu fünf Farbwelten. Die Leiste oben nimmt die Farbe der App an','Eigene Routinen: Übungen filtern, auswählen und mit Zeit, Wiederholungen oder Sätzen samt Tagebuch zusammenstellen. Fertige Routinen lassen sich als Vorlage kopieren','Zwei neue Trainings nur mit Matte: Ausdauer-Zirkel (auf Wunsch ohne Springen) und Kraft ohne Geräte, mit Curl-up und Dead Bug statt Sit-ups','25 neue Übungen, darunter mehrere für den Schreibtisch. Alle Übungen haben jetzt Filter nach Art, Ort, Hilfsmittel und Körperbereich','Morgen, Abend, Couch und Büro wechseln täglich einzelne Übungen gegen gleichwertige. Abschaltbar','Gedanken-Shuffle mit über 1.100 Wörtern, die sich erst wiederholen, wenn alle dran waren','Anleitung für andere Stimmen in den Einstellungen und ein Knackschutz für die Ansagen'],'1.2.1':['Klänge besser hörbar: binaurale Beats auf 400 Hz angehoben, Klangflächen eine Oktave höher gelegt','Klänge und braunes Rauschen so laut eingestellt, wie Naturgeräusche klingen','Hinweis bei den Klängen: am besten mit Kopfhörern'],'1.2':['Neu unter „Mehr“: Wohlzeit teilen, per WhatsApp oder über das Teilen-Menü, oder den Link kopieren','Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1.1':['Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1':['Echte Naturgeräusche: Regen, Gewitter, Wellen, Bach, Wind, Kaminfeuer, Vögel, Grillen, Katzenschnurren, Café, Zug, Boot und Stadt','Sieben Rauschfarben mit Erklärung, wofür sie gedacht sind','Klänge (experimentell): binaurale Beats sowie 432- und 528-Hz-Klangflächen, mit Ampel zur Studienlage','Radio: Ambient Sleeping Pill und Radio Paradise Mellow Mix, SomaFM als Ersatz'],'1.0':['Neuer Name: Wohlzeit – Zeit für dich','Untere Leiste mit Heute, Training, Wohlfühlen, Musik und Mehr','„Heute“ schlägt passend zur Tageszeit etwas vor','Wohlfühlrezepte: Seelenfutter und Kraftfutter, mit Portionsrechner und Küchentimer','Klarere Buttons, Infos ohne Kapseln, eingerückte Unterpunkte','Daten sichern und wiederherstellen unter „Mehr“','Als App auf dem Startbildschirm installierbar']};
+const APP_VER='1.18';
+const CHANGES={'1.18':[TR('Zauberwürfel: Auf dem Würfel drehst du jetzt genau die berührte Scheibe, auch die mittlere; die Ansicht drehst du nur noch außerhalb des Kreises. Neu: Zug-Knöpfe und ein Feld für ganze Zugfolgen','Magic cube: on the cube you now turn exactly the slice you touch, including the middle one; you turn the view only outside the circle. New: move buttons and a field for whole sequences'),TR('Flipper neu gebaut nach klassischem Vorbild, langsamer, mit Kugelschutz und Rückstoß auf beiden Seiten','Pinball rebuilt modelled on the classics, slower, with ball save and kickbacks on both sides'),TR('Ausparken: Fehler beim Wechsel nach einem Sieg behoben, neue Stufe Meister','Parking lot: bug when switching after a win fixed, new Master level'),TR('Podcasts: Das Portal, ARD Hörspiel-Speicher, SWR Kultur Hörspiel, Geschichten aus der Geschichte und Escape Pod neu; Lagerfeuer und Kurzspannung entfernt','Podcasts: Das Portal, ARD Hörspiel-Speicher, SWR Kultur Hörspiel, Geschichten aus der Geschichte and Escape Pod added; Lagerfeuer and Kurzspannung removed')],'1.17':[TR('Neues Spiel Igel-Suche: Logikrätsel nach dem Prinzip von Minesweeper, mit drei Stufen, eigener Größe, Schildern, Fragezeichen, Uhr, Bestzeiten und auf Wunsch ohne Raten','New game: Hedgehog hunt, a logic puzzle on the principle of Minesweeper, with three levels, custom size, signs, question marks, timer, best times and optionally no guessing'),TR('Neues Spiel Flipper Sternenreise: Planeten, Wurmlöcher, Sternenrampe, Energie, Missionen, sieben Stufen, Anstoßen mit Tilt und entspannter Modus','New game: Star journey pinball with planets, wormholes, star ramp, energy, missions, seven ranks, nudging with tilt and a relaxed mode')],'1.16':[TR('Neues Spiel Zauberwürfel in 3D, mit Anleitung in 7 Schritten, Vorführen und Hilfe für den nächsten Zug','New game: magic cube in 3D, with a 7-step guide, demonstrations and help for the next move'),TR('Neues Spiel Ausparken mit 42 Stellungen in drei Stufen','New game: Parking lot with 42 positions in three levels'),TR('Podcasts: Der KI-Podcast, ARD Radio Tatort, Lagerfeuer und Kurzspannung neu; Mimikama und Lesereise entfernt','Podcasts: Der KI-Podcast, ARD Radio Tatort, Lagerfeuer and Kurzspannung added; Mimikama and Lesereise removed'),TR('Spruch des Tages: 200 neue Lebensweisheiten, gemischt mit den bisherigen','Saying of the day: 200 new sayings, mixed with the existing ones')],'1.15':[TR('Favoriten haben eine eigene Seite: Stern-Knopf oben auf der Startseite, gruppiert und mit ▲▼ sortierbar','Favourites have their own page: star button at the top of the home screen, grouped and sortable with ▲▼'),TR('Mehrere Musik- und Hörbuchordner; jeder merkt sich Titel und Minute und macht dort weiter. Ein Ordner-Favorit liest den Ordner beim Antippen neu ein und spielt','Several music and audiobook folders; each remembers track and minute and resumes there. A folder favourite rescans the folder when tapped and plays'),TR('Neu unter Musik: Podcasts mit Folgenliste, Filtern, gemerkter Stelle und eigenen Podcasts','New under Music: podcasts with episode list, filters, remembered position and your own podcasts')],'1.14':[TR('Favoriten für Musik starten sofort und ohne Ausschaltzeit; nochmal antippen beendet sie. Sterne gibt es jetzt auch für eigene Musik, Atemtakt und gespeicherte Klangmischungen','Music favourites start at once and without a switch-off time; tap again to stop. There are now stars for your own music, breathing pace and saved sound mixes too'),TR('Eigene Internetradio-Sender lassen sich hinzufügen','You can add your own internet radio stations'),TR('„Mein Tag“ hat einen Knopf oben auf der Startseite','“My day” has a button at the top of the home screen'),TR('Neben der Katze gibt es Hund und Spinne, einzeln wählbar in den Einstellungen','Besides the cat there are a dog and a spider, selectable individually in the settings'),TR('Spielgruppen sind einklappbar; aus „Über den Fluss“ wurde „Straße und Fluss“ mit Autos','Game groups can be collapsed; “Across the river” became “Road and river” with cars')],'1.13':[TR('Favoriten: Stern an Routinen, Spielen, Sendern und Wohlfühl-Punkten; sie erscheinen auf der Startseite unter den Routinen','Favourites: a star on routines, games, stations and wellbeing items; they appear on the home screen below the routines'),TR('Neu unter Wohlfühlen: Problemlöser (sieben Fragen ohne Eintippen) und Persönlichkeitstest mit Datenbank und mehreren Profilen','New under Wellbeing: problem solver (seven questions without typing) and personality test with database and several profiles'),TR('Vier neue Spiele: Kalimba im Querformat, Über den Fluss, Tennis und Orakelkugel','Four new games: kalimba in landscape, Across the river, Tennis and Oracle ball'),TR('Spiele und Wohlfühlen sind in Gruppen geordnet','Games and Wellbeing are arranged in groups'),TR('MDR Kultur im Radiokatalog','MDR Kultur in the radio catalogue')],'1.12':[TR('Gewicht: steht jetzt vor jedem Satz da, in 1-kg-Schritten änderbar; das Startgewicht legst du beim Erstellen der Routine fest','Weight: now shown before every set, adjustable in 1 kg steps; you set the starting weight when creating the routine'),TR('Statistik in eigenen Routinen: letztes Training, letzte Gewichtserhöhung, Bestwert und Verlauf je Übung','Statistics in your own routines: last workout, last weight increase, best value and trend per exercise'),TR('Studio-Übungen haben eigene Figuren, eigene Übungen eine Figur in Bodybuilder-Posen','Gym exercises have their own figures, your own exercises a figure in bodybuilder poses'),TR('„Kopf leeren“ ist jetzt oben auf der Startseite; abends und nachts stehen dort auch die Einschlaf-Routinen','“Clear your head” is now at the top of the home screen; in the evening and at night the sleep routines appear there too'),TR('Neu unter Wohlfühlen: „Mein Tag“ mit Tagesnotiz, Trinkzähler und Tagen ohne Alkohol sowie „Impulse“ mit Spruch des Tages und belegtem Studienwissen','New under Wellbeing: “My day” with daily note, water counter and days without alcohol, and “Inspiration” with a saying of the day and documented research findings'),TR('Drei neue Rätsel: Sudoku, Wortsuche und Schiebepuzzle','Three new puzzles: sudoku, word search and sliding puzzle')],'1.11':[TR('Eigene Übungen: Unter „Alle Übungen“ kannst du Übungen anlegen und in eigenen Routinen verwenden','Your own exercises: under “All exercises” you can create exercises and use them in your own routines'),TR('25 Studio-Übungen als Vorlagen, von Bankdrücken bis Latzug. Bei diesen und bei eigenen Kraftübungen trägst du das Gewicht je Satz ein','25 gym exercises as templates, from bench press to lat pulldown. For these and for your own strength exercises you enter the weight per set'),TR('Zwei neue Spiele: Blöcke und Schlange','Two new games: blocks and snake')],'1.10':[TR('Minigolf hat jetzt 40 Bahnen. Jeder Parcours zieht 9 oder 18 davon per Zufall','Mini golf now has 40 holes. Each course draws 9 or 18 of them at random'),TR('Weben: Das Schiffchen lässt sich zurückziehen, um einen Faden zu korrigieren. Buchstaben und Ringe zeigen, bei welchem Kettfaden du bist','Weaving: the shuttle can be dragged back to correct a thread. Letters and rings show which warp thread you are at'),TR('Die Sprache stellst du nur noch unter Mehr › Sprache / Language um. Die Farbvorgabe für die untere Leiste ist wieder entfernt, sie hatte keine Wirkung','You now change the language only under More › Sprache / Language. The color setting for the bottom bar has been removed again, it had no effect')],'1.9.1':[TR('Die Wochenleiste auf „Heute“ zeigt jetzt die laufende Woche von Montag bis Sonntag. „Tage in Folge“ zählt wie bisher über die Wochengrenze','The week strip on “Today” now shows the current week from Monday to Sunday. “Days in a row” still counts across the week boundary')],'1.9':[TR('Jede Übung erklärt jetzt, wo du sie spürst und was du änderst, wenn du nichts spürst. In der ausführlichen Ansage wird das mitgesprochen','Every exercise now explains where you feel it and what to change if you feel nothing. The detailed announcement says it too'),TR('Gesäß-Dehnung (Figur 4) neu beschrieben: Das untere Bein wird zur Brust gezogen, erst das erzeugt die Dehnung','Glute stretch (figure 4) described anew: the bottom leg is pulled toward the chest, only that creates the stretch'),TR('Zu jeder Übung gibt es einen Knopf „Videos auf YouTube“, auf der Info-Seite und in der Übungsliste einer Routine','Every exercise has a “Videos on YouTube” button, on the info page and in the exercise list of a routine')],'1.8.1':[TR('Weben als Bildweberei: Kettfäden einfärben, nach dem Anschlagen zeigt jede Kreuzung nur noch einen Faden. 14, 20 oder 28 Kettfäden, gesteuert im Streifen unten','Weaving as picture weaving: color the warp threads, after beating each crossing shows only one thread. 14, 20 or 28 warp threads, controlled in the strip at the bottom'),TR('Ab und zu schaut eine Katze vorbei. Antippen macht sie froh. Ausschalten unter Mehr › Einstellungen','Now and then a cat drops by. Tapping makes it happy. Turn it off under More › Settings')],'1.8':[TR('Zwei neue Spiele: Minigolf mit acht Bahnen und Weben am Webstuhl','Two new games: mini golf with eight holes and weaving on a loom'),TR('Solitär: Karten und Teilstapel lassen sich jetzt ziehen, auch von der Ablage zurück','Solitaire: cards and partial stacks can now be dragged, also back from the foundation'),TR('Hüpfen: höher springen durch Halten, Pilze, Vögel, Schweben nach 10 Sternen und wechselnde Landschaften','Hopping: jump higher by holding, mushrooms, birds, floating after 10 stars and changing landscapes')],'1.7':[TR('Vier neue Spiele: Angeln, Hüpfen, Solitär und Würfel','Four new games: fishing, hopping, solitaire and dice'),TR('Klangbrett: volle Tonleiter, mehrere Seiten, „Alle auf Mitte“ und sieben Melodien zum Laden','Sound board: full scale, several pages, “All to middle” and seven melodies to load')],'1.6.2':[TR('„Musik wählen“ im Spiel zeigt jetzt die ganze Musikseite, der Rückweg „Zurück zum Spiel“ sitzt oben rechts','“Choose music” in a game now shows the whole music page, the way back “Back to the game” sits at the top right'),TR('Zen-Garten passt ohne Scrollen auf den Bildschirm, die Erklärung steckt hinter dem Fragezeichen','Zen garden fits on the screen without scrolling, the explanation is behind the question mark'),TR('Wolken: Größere Wolken lassen mehr Blumen wachsen, alte Blumen verblassen. Ab und zu kommt eine Katze vorbei, sammelt liegende Herzen ein und schnurrt','Clouds: bigger clouds make more flowers grow, old flowers fade. Now and then a cat comes by, collects hearts lying around and purrs')],'1.6.1':[TR('Spiele überarbeitet: Der Spielstand bleibt erhalten, dazu Pause, Neu starten und ein eigener Knopf „Musik wählen“','Games reworked: your progress is kept, plus Pause, Restart and a separate “Choose music” button'),TR('Klangbrett: Feld gedrückt halten und schieben stellt die Tonhöhe ein, bis zu 3 Schläge je Feld, eigener Ton per Mikrofon','Sound board: press and hold a field and slide to set the pitch, up to 3 hits per field, your own sound via microphone'),TR('Wolken: Herzen bleiben liegen, lassen sich stufenweise verbinden und bringen Blumen zum Blühen','Clouds: hearts stay on the ground, can be combined in steps and make flowers bloom'),TR('Turm: Figur steht jetzt im unteren Drittel, Wolken sind Podeste, alle 10 Sterne wechseln Farbe und Klang','Tower: the figure now stands in the lower third, clouds are platforms, color and sound change every 10 stars'),TR('Zen-Garten: Radierer, Welle, Moos, verschiebbare Steine, Führung für gerade Bahnen, Steuerkreuz, Bild speichern','Zen garden: eraser, wave, moss, movable stones, guide for straight tracks, d-pad, save picture'),TR('Atemballon: Steigen und Sinken passen jetzt zum Ring','Breath balloon: rising and sinking now match the ring')],'1.6':[TR('Sechs ruhige Spiele unter Wohlfühlen › Spiele: Klangbrett, Wolken, Turm, Zen-Garten, Atemballon und Paare finden. Die Farben folgen deiner Darstellung, Geräusche und Musik schaltest du oben im Spiel','Six calm games under Wellbeing › Games: sound board, clouds, tower, zen garden, breath balloon and find pairs. The colors follow your appearance setting; you switch sounds and music at the top of the game'),TR('Test: Unter Mehr › Einstellungen gibt es den Schalter „Bei Display aus weiterlaufen“ für die geführten Entspannungen','Test: under More › Settings there is the switch “Keep running with display off” for the guided relaxations')],'1.5':[TR('Englisch: Die ganze App gibt es jetzt auch auf Englisch, mit Übungen, Ansagen, Entspannung und Rezepten. Beim ersten Start richtet sie sich nach der Sprache des Handys. Umschalten unter Mehr › Sprache / Language','English: the whole app is now available in English too, with exercises, announcements, relaxation and recipes. On first start it follows the phone\'s language. Switch under More › Sprache / Language'),TR('Drei Radiosender ersetzt, weil die bisherigen nicht liefen: Slow House kommt jetzt von Maretimo House Radio, dazu neu egoFM Chillout und Hirschmilch Radio Chillout','Three radio stations replaced because the previous ones didn\'t play: Slow House now comes from Maretimo House Radio, plus egoFM Chillout and Hirschmilch Radio Chillout as new stations'),TR('Die App gibt Android jetzt eine dunkle Farbe für die untere Leiste vor. Das wirkt erst, wenn du die App entfernst und neu installierst, siehe Mehr › Darstellung','The app now gives Android a dark color for the bottom bar. This only takes effect when you remove the app and reinstall it, see More › Appearance'),TR('Der Startbildschirm fragt nicht mehr nach dem Vornamen. Eintragen kannst du ihn weiterhin unter Mehr › Einstellungen','The start screen no longer asks for your first name. You can still enter it under More › Settings')],'1.4':['Eigene Musik: Ordner oder einzelne Dateien vom Handy wählen und der Reihe nach oder zufällig abspielen. Geht auch als Hintergrundmusik für Routinen und Training','14 neue Radiosender, darunter ByteFM, drei Blues-Sender, Slow House, Reggae, Hip-Hop, Gregorianik, alte Musik, Barock und Meditation. Die Sender sind jetzt in Gruppen sortiert','Das Radio merkt sich die Adresse, die zuletzt lief, und verbindet dadurch schneller'],'1.3':['Darstellung unter „Mehr“: hell, dunkel oder wie das Handy, dazu fünf Farbwelten. Die Leiste oben nimmt die Farbe der App an','Eigene Routinen: Übungen filtern, auswählen und mit Zeit, Wiederholungen oder Sätzen samt Tagebuch zusammenstellen. Fertige Routinen lassen sich als Vorlage kopieren','Zwei neue Trainings nur mit Matte: Ausdauer-Zirkel (auf Wunsch ohne Springen) und Kraft ohne Geräte, mit Curl-up und Dead Bug statt Sit-ups','25 neue Übungen, darunter mehrere für den Schreibtisch. Alle Übungen haben jetzt Filter nach Art, Ort, Hilfsmittel und Körperbereich','Morgen, Abend, Couch und Büro wechseln täglich einzelne Übungen gegen gleichwertige. Abschaltbar','Gedanken-Shuffle mit über 1.100 Wörtern, die sich erst wiederholen, wenn alle dran waren','Anleitung für andere Stimmen in den Einstellungen und ein Knackschutz für die Ansagen'],'1.2.1':['Klänge besser hörbar: binaurale Beats auf 400 Hz angehoben, Klangflächen eine Oktave höher gelegt','Klänge und braunes Rauschen so laut eingestellt, wie Naturgeräusche klingen','Hinweis bei den Klängen: am besten mit Kopfhörern'],'1.2':['Neu unter „Mehr“: Wohlzeit teilen, per WhatsApp oder über das Teilen-Menü, oder den Link kopieren','Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1.1':['Behoben: Naturgeräusche, Rauschen und Klänge blieben stumm, wenn man sie bei laufender Musik eingeschaltet hat','Naturgeräusche lauter und untereinander gleich laut eingestellt'],'1.1':['Echte Naturgeräusche: Regen, Gewitter, Wellen, Bach, Wind, Kaminfeuer, Vögel, Grillen, Katzenschnurren, Café, Zug, Boot und Stadt','Sieben Rauschfarben mit Erklärung, wofür sie gedacht sind','Klänge (experimentell): binaurale Beats sowie 432- und 528-Hz-Klangflächen, mit Ampel zur Studienlage','Radio: Ambient Sleeping Pill und Radio Paradise Mellow Mix, SomaFM als Ersatz'],'1.0':['Neuer Name: Wohlzeit – Zeit für dich','Untere Leiste mit Heute, Training, Wohlfühlen, Musik und Mehr','„Heute“ schlägt passend zur Tageszeit etwas vor','Wohlfühlrezepte: Seelenfutter und Kraftfutter, mit Portionsrechner und Küchentimer','Klarere Buttons, Infos ohne Kapseln, eingerückte Unterpunkte','Daten sichern und wiederherstellen unter „Mehr“','Als App auf dem Startbildschirm installierbar']};
 let instPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();instPrompt=e;if(curView==='v-home')renderHome();else if(curView==='v-more')renderMore();});
 window.addEventListener('appinstalled',()=>{instPrompt=null;LS.set('rr.instHide',1);if(curView==='v-home')renderHome();});
@@ -7622,7 +7718,7 @@ function loop(now){
 requestAnimationFrame(loop);
 
 /* ================= Start ================= */
-if(window.__rrDebug)window.__gst=GST;window.__data=DATA;window.__day=DAY;window.__spr=SPR;window.CBS=CBS;window.IGC=IGC;window.PINC=PINC;window.__D={get LOC(){return LOC;},get MUS(){return MUS;},get Radio(){return Radio;},musicPlay,musicStop,renderMusic,get FAV(){return FAV;},LS,renderFavPage,get LIB(){return LIB;}};window.__lib=()=>LIB;window.__pods=PODS;window.__podp=PODP;window.__fav=()=>FAV;window.__pet=k=>{WCAT.force=k;if(WCAT.k)catEnd();clearTimeout(WCAT.tm);catStart();};window.__mus=MUS;window.__amb=AMB;window.__pers=PERS;window.__persScore=persScore;window.__holes=G_HOLES;window.__exx=EXX;window.__cat={start:catStart,W:WCAT};window.__rr={musOpts,LOC:()=>LOC,LOCP:()=>LOCP,RADIOS,RSTA,locApply,locFromFiles,locLoadHandle,musicPlay,musicStop,KA:()=>KA,EX,Fig,variantItems,customList,openEditor,openPicker,FLT:()=>FLT,tagsOf,ROUTINES,PL,stepsOf,goTo:j=>goTo(j),DATA,Voice,expandItems,DOC,AU,Music,AMB:()=>AMB,BR:()=>BR,TM,TMCFG,Radio,todo:()=>TODO,tmNow,tmBuild,musicFor,S,MUS,RECIPES,KT,openRecipe,openRecipes,show,fmtAmt,suggestion,backupObj};
+if(window.__rrDebug)window.__gst=GST;window.__data=DATA;window.__day=DAY;window.__spr=SPR;window.CBS=CBS;window.IGC=IGC;window.PINC=PINC;window.CUBEMV=CUBEMV;window.CM=CM;window.__D={get LOC(){return LOC;},get MUS(){return MUS;},get Radio(){return Radio;},musicPlay,musicStop,renderMusic,get FAV(){return FAV;},LS,renderFavPage,get LIB(){return LIB;}};window.__lib=()=>LIB;window.__pods=PODS;window.__podp=PODP;window.__fav=()=>FAV;window.__pet=k=>{WCAT.force=k;if(WCAT.k)catEnd();clearTimeout(WCAT.tm);catStart();};window.__mus=MUS;window.__amb=AMB;window.__pers=PERS;window.__persScore=persScore;window.__holes=G_HOLES;window.__exx=EXX;window.__cat={start:catStart,W:WCAT};window.__rr={musOpts,LOC:()=>LOC,LOCP:()=>LOCP,RADIOS,RSTA,locApply,locFromFiles,locLoadHandle,musicPlay,musicStop,KA:()=>KA,EX,Fig,variantItems,customList,openEditor,openPicker,FLT:()=>FLT,tagsOf,ROUTINES,PL,stepsOf,goTo:j=>goTo(j),DATA,Voice,expandItems,DOC,AU,Music,AMB:()=>AMB,BR:()=>BR,TM,TMCFG,Radio,todo:()=>TODO,tmNow,tmBuild,musicFor,S,MUS,RECIPES,KT,openRecipe,openRecipes,show,fmtAmt,suggestion,backupObj};
 show('v-home');
 startChecks();
 Voice.load();
