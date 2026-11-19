@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Datenschutzerklärung – Wohlzeit</title>
+<style>
+  :root{color-scheme:light dark;--bg:#E7ECEA;--ink:#0D1817;--muted:#4b5a58;--card:#fff;--brand:#13806F}
+  @media (prefers-color-scheme:dark){:root{--bg:#0D1817;--ink:#E7ECEA;--muted:#9fb0ad;--card:#16211F;--brand:#43C7B2}}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  main{max-width:720px;margin:0 auto;padding:24px 18px 60px}
+  h1{font-size:28px;margin:0 0 4px}h2{font-size:19px;margin:28px 0 6px}
+  .card{background:var(--card);border-radius:16px;padding:14px 16px;margin:12px 0}
+  a{color:var(--brand)}small,.muted{color:var(--muted)}
+  ul{padding-left:20px}li{margin:4px 0}
+</style>
+</head>
+<body>
+<main>
+<h1>Datenschutzerklärung</h1>
+<p class="muted">für die Web-App „Wohlzeit – Zeit für dich“ · Stand: 19. November 2026</p>
+
+<div class="card">
+<p><b>Kurz gesagt:</b> Wohlzeit hat kein Benutzerkonto, keine Werbung, keine Analyse- oder Tracking-Werkzeuge und keinen eigenen Server. Deine Einträge bleiben auf deinem Gerät. Nur wenn du die Synchronisation mit Google einschaltest, liegt zusätzlich eine Kopie in deinem eigenen Google Drive.</p>
+</div>
+
+<h2>1. Verantwortlicher</h2>
+<p>Florian Graf<br>E-Mail: <a href="mailto:wohlzeit.app@gmail.com">wohlzeit.app@gmail.com</a></p>
+<p>Wohlzeit ist ein privates, nicht kommerzielles Projekt.</p>
+
+<h2>2. Bereitstellung der App (GitHub Pages)</h2>
+<p>Die App wird über GitHub Pages ausgeliefert, einen Dienst der GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA. Beim Aufruf verarbeitet GitHub technisch notwendige Daten, insbesondere deine IP-Adresse, Zeitpunkt des Abrufs und Browserangaben, um die Seite auszuliefern und vor Missbrauch zu schützen. Darauf habe ich keinen Zugriff. Rechtsgrundlage ist das berechtigte Interesse an einer funktionierenden Bereitstellung (Art. 6 Abs. 1 lit. f DSGVO). Näheres: <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Datenschutzerklärung von GitHub</a>.</p>
+
+<h2>3. Daten auf deinem Gerät</h2>
+<p>Alles, was du in der App einträgst oder einstellst (zum Beispiel Trainingsverlauf, Tagebuch, Planer, eigene Routinen, Einstellungen, Spielstände), wird ausschließlich im Speicher deines Browsers auf deinem Gerät abgelegt (localStorage). Diese Daten werden nicht an mich übertragen. Du kannst sie jederzeit löschen, indem du die Website-Daten im Browser löschst oder die App deinstallierst. Unter „Mehr → Daten sichern“ kannst du sie selbst als Datei sichern.</p>
+<p>Ein sogenannter Service Worker speichert die App-Dateien auf deinem Gerät, damit sie auch offline funktioniert. Dabei werden keine persönlichen Daten übertragen.</p>
+
+<h2>4. Synchronisation mit Google Drive (freiwillig)</h2>
+<p>Wenn du unter „Einstellungen → Synchronisieren“ auf „Mit Google verbinden“ tippst, meldest du dich über Google Identity Services bei Google an. Die App erhält dabei nur die Berechtigung <b>„drive.appdata“</b>: Sie darf eine eigene Datei in einem versteckten App-Ordner deines Google Drive anlegen und lesen. Sie kann <b>keine</b> anderen Dateien in deinem Drive sehen, und sie erhält weder deine E-Mail-Adresse noch deinen Namen.</p>
+<ul>
+<li>In dieser Datei („wohlzeit-sync.json“) liegt eine Kopie deiner App-Daten aus Abschnitt 3, damit deine Geräte denselben Stand haben. Stimme, Lautstärke und Schriftgröße bleiben auf dem jeweiligen Gerät.</li>
+<li>Die Übertragung läuft direkt zwischen deinem Gerät und Google. Es gibt keinen Zwischenserver. Ich als Entwickler habe keinen Zugriff auf deine Datei.</li>
+<li>Der Speicherplatz zählt zu deinem eigenen Google-Konto.</li>
+<li>Das Zugriffs-Token wird für etwa eine Stunde auf deinem Gerät gespeichert.</li>
+<li>Beenden: In der App „Trennen“ tippen. Die Datei löschst du in Google Drive unter „Einstellungen → Apps verwalten → Wohlzeit → Versteckte App-Daten löschen“. Die Berechtigung entziehst du unter <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">myaccount.google.com/permissions</a>.</li>
+</ul>
+<p>Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die du jederzeit durch Trennen widerrufen kannst. Anbieter ist Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Google kann Daten auch in den USA verarbeiten; Google ist nach dem EU-US Data Privacy Framework zertifiziert. Näheres: <a href="https://policies.google.com/privacy?hl=de" target="_blank" rel="noopener">Datenschutzerklärung von Google</a>.</p>
+
+<h2>5. Inhalte von anderen Anbietern</h2>
+<p>Nur wenn du die jeweilige Funktion nutzt, lädt die App Inhalte direkt von anderen Servern. Dabei erhält der jeweilige Anbieter deine IP-Adresse und Browserangaben:</p>
+<ul>
+<li><b>Radio und Hintergrundklänge:</b> Audiostreams der jeweiligen Radiosender bzw. Streaming-Anbieter.</li>
+<li><b>Podcasts:</b> Die Suche nutzt die Podcast-Suche von Apple (itunes.apple.com), die Folgen kommen von den Servern der Podcast-Anbieter. Wenn ein Podcast-Feed nicht direkt geladen werden kann, kann die App ihn über einen öffentlichen Vermittlungsdienst (allorigins.win oder corsproxy.io) abrufen; das lässt sich in den Einstellungen unter „Podcast-Umweg“ abschalten.</li>
+<li><b>Links:</b> Quellen, Studien und Webseiten öffnen sich erst, wenn du sie antippst, im Browser.</li>
+</ul>
+<p>Sprachansagen erzeugt die Sprachausgabe deines Geräts.</p>
+
+<h2>6. Deine Rechte</h2>
+<p>Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch sowie das Recht, eine Einwilligung zu widerrufen. Da ich keine Daten von dir speichere, kannst du die meisten dieser Rechte direkt selbst auf deinem Gerät bzw. in deinem Google-Konto ausüben. Bei Fragen schreib an <a href="mailto:wohlzeit.app@gmail.com">wohlzeit.app@gmail.com</a>. Du kannst dich außerdem bei einer Datenschutz-Aufsichtsbehörde beschweren, in Deutschland bei der Datenschutzbehörde deines Bundeslandes.</p>
+
+<h2>7. Änderungen</h2>
+<p>Wenn sich die App ändert, passe ich diese Erklärung an. Es gilt die jeweils hier veröffentlichte Fassung.</p>
+
+<p style="margin-top:32px"><a href="./">Zurück zur App</a></p>
+</main>
+</body>
+</html>
